@@ -8,6 +8,7 @@ class AppTextFormField extends StatefulWidget {
 
   final bool isObscure;
   final bool readOnly;
+  final bool extendField;
 
   final String? hintText;
   final String? errorText;
@@ -32,6 +33,7 @@ class AppTextFormField extends StatefulWidget {
     this.textController,
     this.isObscure = false,
     this.readOnly = false,
+    this.extendField = true,
     this.hintText,
     this.errorText,
     this.borderRadius = 6,
@@ -114,13 +116,15 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
               )
             : widget.suffixIcon,
         prefixIcon: widget.prefixIcon,
-        helperText: '',
-        helperStyle: TextStyles.regularText.copyWith(fontSize: 12),
+        helperText: widget.extendField ? '' : null,
+        helperStyle: widget.extendField
+            ? TextStyles.regularText.copyWith(fontSize: 11)
+            : null,
         errorText: widget.errorText == '' || widget.errorText == null
             ? null
             : widget.errorText,
-        errorStyle:
-            TextStyles.regularText.copyWith(color: Colors.red, fontSize: 12),
+        errorStyle: TextStyles.regularText
+            .copyWith(color: Colors.red, fontSize: 11, height: 0),
       ),
     );
   }
