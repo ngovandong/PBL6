@@ -1,0 +1,17 @@
+{
+  "hello": "Xin chào",
+  "login": {
+    "username": "Tên đăng nhập",
+    "password": "Mật khẩu",
+    "login": "Đăng nhập"
+  },
+  "validate": {
+    "username": "Vui lòng nhập tên đăng nhập",
+    "password": "Vui lòng nhập mật khẩu",
+    "incorrect_email_password": "Sai tên đăng nhập hoặc mật khẩu"
+  },
+  "dialog": {
+    "no": "Không",
+    "yes": "Có"
+  }
+}
