@@ -12,12 +12,18 @@ class AppTranslation {
 class LocaleKeys {
   LocaleKeys._();
   static const hello = 'hello';
-  static const login_email = 'login_email';
-  static const login_password = 'login_password';
-  static const login_login = 'login_login';
-  static const login_forgot_password = 'login_forgot_password';
-  static const validate_username = 'validate_username';
+  static const auth_login = 'auth_login';
+  static const auth_sign_up = 'auth_sign_up';
+  static const auth_forgot_password = 'auth_forgot_password';
+  static const auth_name = 'auth_name';
+  static const auth_email = 'auth_email';
+  static const auth_password = 'auth_password';
+  static const auth_confirm_password = 'auth_confirm_password';
+  static const validate_name = 'validate_name';
+  static const validate_email = 'validate_email';
   static const validate_password = 'validate_password';
+  static const validate_confirm_password = 'validate_confirm_password';
+  static const validate_not_match_password = 'validate_not_match_password';
   static const validate_incorrect_email_password =
       'validate_incorrect_email_password';
   static const dialog_no = 'dialog_no';
@@ -30,12 +36,18 @@ class Locales {
   };
   static const vi_VN = {
     'hello': 'Xin chào',
-    'login_email': 'Email',
-    'login_password': 'Mật khẩu',
-    'login_login': 'Đăng nhập',
-    'login_forgot_password': 'Quên mật khẩu?',
-    'validate_username': 'Nhập địa chỉ email của bạn',
+    'auth_login': 'Đăng nhập',
+    'auth_sign_up': 'Đăng ký',
+    'auth_forgot_password': 'Quên mật khẩu?',
+    'auth_name': 'Tên người dùng',
+    'auth_email': 'Email',
+    'auth_password': 'Mật khẩu',
+    'auth_confirm_password': 'Xác nhận mật khẩu',
+    'validate_name': 'Nhập tên của bạn',
+    'validate_email': 'Nhập địa chỉ email của bạn',
     'validate_password': 'Nhập mật khẩu của bạn',
+    'validate_confirm_password': 'Xác nhận mật khẩu của bạn',
+    'validate_not_match_password': 'Mật khẩu không trùng khớp',
     'validate_incorrect_email_password': 'Sai email hoặc mật khẩu',
     'dialog_no': 'Không',
     'dialog_yes': 'Có',
