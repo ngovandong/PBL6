@@ -12,9 +12,10 @@ class AppTranslation {
 class LocaleKeys {
   LocaleKeys._();
   static const hello = 'hello';
-  static const login_username = 'login_username';
+  static const login_email = 'login_email';
   static const login_password = 'login_password';
   static const login_login = 'login_login';
+  static const login_forgot_password = 'login_forgot_password';
   static const validate_username = 'validate_username';
   static const validate_password = 'validate_password';
   static const validate_incorrect_email_password =
@@ -29,12 +30,13 @@ class Locales {
   };
   static const vi_VN = {
     'hello': 'Xin chào',
-    'login_username': 'Tên đăng nhập',
+    'login_email': 'Email',
     'login_password': 'Mật khẩu',
     'login_login': 'Đăng nhập',
-    'validate_username': 'Vui lòng nhập tên đăng nhập',
-    'validate_password': 'Vui lòng nhập mật khẩu',
-    'validate_incorrect_email_password': 'Sai tên đăng nhập hoặc mật khẩu',
+    'login_forgot_password': 'Quên mật khẩu?',
+    'validate_username': 'Nhập địa chỉ email của bạn',
+    'validate_password': 'Nhập mật khẩu của bạn',
+    'validate_incorrect_email_password': 'Sai email hoặc mật khẩu',
     'dialog_no': 'Không',
     'dialog_yes': 'Có',
   };

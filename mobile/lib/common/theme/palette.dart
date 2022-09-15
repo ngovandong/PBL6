@@ -34,7 +34,8 @@ class Palette {
   static const Color gray700 = Color(0xFF4D4D4D);
 
   static const Color zodiacBlue = Color(0xFF0F2D52);
-  static const Color lighterBlack = Color(0xFF657181);
   static const Color metallicViolet = Color(0xFF610094);
-  static const Color lavenderSilver = Color(0xFFFDEFEF);
+  static const Color background = Color(0xFFF9F9F9);
+  static const Color antiFlashWhite = Color(0xFFEFF4F7);
+  // static const Color lavenderSilver = Color(0xFFFDEFEF);
 }
