@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:mobile/common/constants/asset_paths.dart';
+import 'package:mobile/common/theme/palette.dart';
+import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/login/controllers/login.controller.dart';
 import 'package:mobile/modules/login/widgets/login_form.widget.dart';
 import 'package:mobile/modules/login/widgets/rounded_button.widget.dart';
+import 'package:mobile/modules/login/widgets/row_social_login.widget.dart';
 
 class LoginScreen extends GetView<LoginController> {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,23 +22,57 @@ class LoginScreen extends GetView<LoginController> {
       },
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Padding(
+          child: Container(
+            width: Get.width,
+            height: Get.height,
             padding: EdgeInsets.only(
-              left: 25,
-              right: 25,
+              left: 20,
+              right: 20,
               top: MediaQuery.of(context).padding.top + 10,
+              bottom: 20,
             ),
             child: Column(
               children: [
+                SvgPicture.asset(AssetPaths.appIcon),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 40.h),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Đăng nhập',
+                      style: TextStyles.boldText.copyWith(fontSize: 24.sp),
+                    ),
+                  ),
+                ),
                 const LoginForm(),
                 SizedBox(
                   height: 20.h,
                 ),
                 Obx(
                   () => RoundedButton(
-                    onPressed: controller.login,
+                    onPressed: () {},
                     content: LocaleKeys.login_login.tr,
                     isLoading: controller.isLoading.value,
+                    borderRadius: 50,
+                  ),
+                ),
+                Expanded(
+                  child: RowSocialLogin(),
+                ),
+                Text.rich(
+                  TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Chưa có tài khoản?',
+                        style: TextStyles.s17regularText
+                            .copyWith(color: Palette.gray300),
+                      ),
+                      TextSpan(
+                        text: ' Đăng ký',
+                        style: TextStyles.s17BoldText
+                            .copyWith(color: Palette.blue300),
+                      ),
+                    ],
                   ),
                 ),
               ],

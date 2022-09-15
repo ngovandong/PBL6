@@ -18,7 +18,6 @@ class LoginController extends GetxController {
 
   final RxString errorText = ''.obs;
   final RxBool isLoading = false.obs;
-  final RxBool showPassword = false.obs;
 
   String? validateUsername(String? value) {
     if (value == '') {
@@ -32,10 +31,6 @@ class LoginController extends GetxController {
       return LocaleKeys.validate_password.tr;
     }
     return null;
-  }
-
-  void changeShowPassword() {
-    showPassword.toggle();
   }
 
   Future<void> login() async {

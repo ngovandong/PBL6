@@ -8,4 +8,14 @@ abstract class AssetPaths {
   static const String helpIcon = 'assets/images/snackbar/help.svg';
   static const String successIcon = 'assets/images/snackbar/success.svg';
   static const String warningIcon = 'assets/images/snackbar/warning.svg';
+
+  //* Icons
+  // App
+  static const String appIcon = 'assets/icons/app/app_icon.svg';
+  // Auth
+  static const String appleIcon = 'assets/icons/auth/apple.svg';
+  static const String facebookIcon = 'assets/icons/auth/facebook.svg';
+  static const String googleIcon = 'assets/icons/auth/google.svg';
+  static const String lockIcon = 'assets/icons/auth/lock.svg';
+  static const String mailIcon = 'assets/icons/auth/mail.svg';
 }

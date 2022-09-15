@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'PBL6 Booking',
           getPages: RouteManager.pages,
-          initialRoute: RouteManager.login,
+          initialRoute: RouteManager.splash,
           initialBinding: BaseBinding(),
           translationsKeys: AppTranslation.translations,
           fallbackLocale: const Locale('vi', 'VN'),

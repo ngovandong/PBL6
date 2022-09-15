@@ -1,14 +1,15 @@
 {
   "hello": "Xin chào",
   "login": {
-    "username": "Tên đăng nhập",
+    "email": "Email",
     "password": "Mật khẩu",
-    "login": "Đăng nhập"
+    "login": "Đăng nhập",
+    "forgot_password": "Quên mật khẩu?"
   },
   "validate": {
-    "username": "Vui lòng nhập tên đăng nhập",
-    "password": "Vui lòng nhập mật khẩu",
-    "incorrect_email_password": "Sai tên đăng nhập hoặc mật khẩu"
+    "username": "Nhập địa chỉ email của bạn",
+    "password": "Nhập mật khẩu của bạn",
+    "incorrect_email_password": "Sai email hoặc mật khẩu"
   },
   "dialog": {
     "no": "Không",

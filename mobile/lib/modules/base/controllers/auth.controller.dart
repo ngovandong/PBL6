@@ -34,17 +34,24 @@ class AuthController extends GetxController {
   }
 
   Future<void> verifyUser() async {
-    final bool isNewUser = await authRepository.checkNewUser();
-    if (isNewUser) {
-      Get.offAllNamed(RouteManager.onboard);
+    // final bool isNewUser = await authRepository.checkNewUser();
+    // if (isNewUser) {
+    //   Get.offAllNamed(RouteManager.onboard);
+    // } else {
+    //   final UserModel? user = await authRepository.getUserProfile();
+    //   if (user == null) {
+    //     Get.offAllNamed(RouteManager.login);
+    //   } else {
+    //     _setLoggedUser(user);
+    //     Get.offAllNamed(RouteManager.home);
+    //   }
+    // }
+    final UserModel? user = await authRepository.getUserProfile();
+    if (user == null) {
+      Get.offAllNamed(RouteManager.login);
     } else {
-      final UserModel? user = await authRepository.getUserProfile();
-      if (user == null) {
-        Get.offAllNamed(RouteManager.login);
-      } else {
-        _setLoggedUser(user);
-        Get.offAllNamed(RouteManager.home);
-      }
+      _setLoggedUser(user);
+      Get.offAllNamed(RouteManager.home);
     }
   }
 }

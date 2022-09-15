@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 
-class AppTextFormField extends StatelessWidget {
+class AppTextFormField extends StatefulWidget {
   final TextEditingController? textController;
 
   final bool isObscure;
@@ -13,6 +14,7 @@ class AppTextFormField extends StatelessWidget {
 
   final double borderRadius;
 
+  final Color focusedBorderColor;
   final Color borderColor;
   final Color fillColor;
 
@@ -33,7 +35,8 @@ class AppTextFormField extends StatelessWidget {
     this.hintText,
     this.errorText,
     this.borderRadius = 6,
-    this.borderColor = Palette.blue400,
+    this.borderColor = Palette.gray100,
+    this.focusedBorderColor = Palette.blue400,
     this.fillColor = Colors.white,
     this.suffixIcon,
     this.prefixIcon,
@@ -44,55 +47,78 @@ class AppTextFormField extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<AppTextFormField> createState() => _AppTextFormFieldState();
+}
+
+class _AppTextFormFieldState extends State<AppTextFormField> {
+  bool _showPassword = false;
+
+  void _changeShowPassword() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // focusNode: focusNode,
-      controller: textController,
+      controller: widget.textController,
       textInputAction: TextInputAction.done,
-      onChanged: onChanged,
-      onTap: onTap,
-      validator: validator,
-      obscureText: isObscure,
-      readOnly: readOnly,
-      keyboardType: keyboardType,
-      style: TextStyles.s14regularText.copyWith(color: Palette.gray300),
+      onChanged: widget.onChanged,
+      onTap: widget.onTap,
+      validator: widget.validator,
+      obscureText: widget.isObscure ? (_showPassword ? false : true) : false,
+      readOnly: widget.readOnly,
+      keyboardType: widget.keyboardType,
+      style: TextStyles.s14regularText.copyWith(color: Palette.zodiacBlue),
       decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyles.s14regularText.copyWith(color: Palette.gray300),
+        hintText: widget.hintText,
+        hintStyle: TextStyles.s14regularText.copyWith(color: Palette.gray100),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(
-            color: borderColor,
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide: const BorderSide(
+            color: Palette.red600,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(widget.borderRadius),
           borderSide: BorderSide(
-            color: borderColor,
+            color: widget.focusedBorderColor,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(widget.borderRadius),
           borderSide: BorderSide(
-            color: borderColor,
+            color: widget.borderColor,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(widget.borderRadius),
           borderSide: const BorderSide(
             color: Palette.red600,
           ),
         ),
         isDense: true,
         // errorStyle: ,
-        fillColor: fillColor,
+        fillColor: widget.fillColor,
         filled: true,
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-        suffixIcon: suffixIcon,
-        prefixIcon: prefixIcon,
+        suffixIcon: widget.isObscure
+            ? GestureDetector(
+                onTap: _changeShowPassword,
+                child: Icon(
+                  _showPassword
+                      ? PhosphorIcons.eye_bold
+                      : PhosphorIcons.eye_slash_bold,
+                ),
+              )
+            : widget.suffixIcon,
+        prefixIcon: widget.prefixIcon,
         helperText: '',
         helperStyle: TextStyles.regularText.copyWith(fontSize: 12),
-        errorText: errorText == '' || errorText == null ? null : errorText,
+        errorText: widget.errorText == '' || widget.errorText == null
+            ? null
+            : widget.errorText,
         errorStyle:
             TextStyles.regularText.copyWith(color: Colors.red, fontSize: 12),
       ),
