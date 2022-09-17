@@ -32,26 +32,34 @@ function Login()
                     Email or password is incorrect!
                 </Alert>
             }
-            <div className="form">
-                <form onSubmit={handle_submit}>
-
-                    <h1>Log in</h1>
-
-                    <label>Email</label>
-                    <input onChange={(e) => setEmail(e.target.value)} name="email"
-                        placeholder="Enter your email address..."
-                        value={email} required /><br />
-
-                    <label>Password</label>
-                    <input type="password" onChange={(e) => setPassword(e.target.value)} name="password"
-                        placeholder="Enter your password..." value={password} required /><br />
-
-                    <input type="submit" value="Log in" />
-                    <div className="bottom-text">
-                        <p>Don't have an account?</p>
-                        <Link className="link" to='/signup'>Sign up</Link>
+            <div className='login-container'>
+                <div className="panel">
+                    <div className='title-container'>
+                        <h1>Đăng ký thành viên Luxstay - Tích điểm thưởng và nhận ưu đãi</h1>
+                        <p>Nhanh chóng, tiện lợi và an toàn. Đăng ký liền tay, rinh ngay quyền lợi.</p>
                     </div>
-                </form>
+                </div>
+                <div className="form">
+                    <form onSubmit={handle_submit}>
+
+                        <h1>LOG IN</h1>
+
+                        <label>Email</label>
+                        <input className='form-input' onChange={(e) => setEmail(e.target.value)} name="email"
+                            placeholder="Enter your email address..."
+                            value={email} required /><br />
+
+                        <label>Password</label>
+                        <input className='form-input' type="password" onChange={(e) => setPassword(e.target.value)} name="password"
+                            placeholder="Enter your password..." value={password} required /><br />
+
+                        <input type="submit" value="Log in" />
+                        <div className="bottom-text">
+                            <p>Don't have an account?</p>
+                            <Link className="link" to='/signup'>Sign up</Link>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );
