@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'PBL6 Booking',
+          title: 'TravelBooking',
           getPages: RouteManager.pages,
           initialRoute: RouteManager.splash,
           initialBinding: BaseBinding(),
