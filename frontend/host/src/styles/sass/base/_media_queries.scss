@@ -1,0 +1,238 @@
+@media (max-width: 725px) {
+
+    // Templates
+    .empty-page-text {
+        margin-right: 40px;
+    }
+
+    .templates-modal {
+        width: 80%;
+    }
+
+    // Menu
+    .menu {
+        max-width: none;
+        min-width: 0;
+        width: 100%;
+
+        .arrows {
+            opacity: 1;
+        }
+
+        .user-first-name {
+            flex: 0.99;
+        }
+
+        .quick-find-modal {
+            width: 90%;
+        }
+
+        .dropdown-content, .rename {
+            transform: translateX(-80%);
+        }
+
+        .page-options {
+            opacity: 1 !important;
+        }
+
+        .page, .search, .add-page, .logout {
+            p {
+                font-size: 1rem;
+            }
+        }
+
+        .user-first-name {
+            font-size: 1.1rem;
+        }
+
+        .page {
+            .page_name {
+                padding-top: 11px;
+                padding-bottom: 11px;
+            }
+
+            .page-options {
+                .fa-ellipsis-h, .fa-plus {
+                    font-size: 0.9rem;
+                }
+            }
+        }
+        
+        .logout {
+            width: 100%;
+
+            i {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    // Body General
+    .body-container {
+        overflow-x: hidden;
+    }
+
+    .body-content {
+        padding-left: 0;
+    }
+
+    .group {
+        display: block;
+    }
+
+    .element {
+        width: 100vw;
+        max-width: 100%;
+        overflow-x: scroll;
+    }
+
+    .add-element-drpdn {
+        transform: translateX(0%) !important;
+    }
+
+    .add_element {
+        opacity: 1 !important;
+    }
+
+    .element-options {
+        margin-left: 10px;
+
+        .dropdown {
+            position: static;
+
+            .dropdown-content {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) !important;
+            }
+
+            .dropdown_parent {
+
+                .add_element, .element-option-icon {
+                    opacity: 1 !important;
+                }
+            }
+        }
+    }
+
+    // Cover Photo
+    .photo-container {
+        position: relative;
+
+        .cover-buttons {
+            opacity: 1;
+            position: absolute;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            margin: 0;
+        }
+    }
+
+    .photo-dropdown {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) !important;
+        width: 90%
+    }
+
+    .grid {
+        grid-template-columns: auto auto;
+
+        .grid-photo {
+            width: auto;
+        }
+    }
+
+    .add-photo-container {
+        opacity: 1;
+        margin-left: 49px;
+
+        .add-photo {
+            margin: 0;
+        }
+    }
+
+    // Table
+    .Table {
+        padding-bottom: 250px;
+        margin-bottom: -250px;
+
+        .table {
+            margin-bottom: 30px;
+        }
+
+        .table-head {
+            .fa-ellipsis-h {
+                opacity: 1;
+            }
+        }
+    
+        .table-row {
+            .element-options {
+                opacity: 1 !important;
+                position: relative;
+            }
+        }
+
+        .dropdown-content {
+            transform: translate(0) !important;
+        }
+
+        .row-dropdown {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translate(-80%, -50%) !important;
+        }
+
+        .sub-menu {
+            margin-left: 0;
+        }
+
+        .multi-select-popup {
+            transform: translateX(0) !important;
+
+            .tag-options {
+
+                .tag-option-dropdown {
+                    right: 0;
+                }
+            }
+
+            .tag-option {
+                i {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    // Kanban
+    .Kanban {
+        padding-bottom: 250px;
+        margin-bottom: -250px;
+
+        .dropdown-content {
+            transform: translate(-88%, 0) !important
+        }
+    }
+
+    // Login and sign up 
+    .logo {
+        margin-left: 30px;
+    }
+
+}
+
+// Login and sign up -- below 330px
+@media (max-width: 330px) {
+    .form {
+        form {
+            width: 90%;
+        }
+    }
+}
