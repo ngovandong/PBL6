@@ -19,15 +19,16 @@
 .login-container {
     display: flex;
 
-    .panel{
+    .panel {
         width: 40%;
-        background-image: url(https://t4.ftcdn.net/jpg/02/55/28/25/360_F_255282596_dWrAHMaf4nU2EhctctQOyTG76rrgrkcL.jpg);
+        background-image: url(../../../../public/img/travel_background.jpg);
         background-size: cover;
         background-repeat: no-repeat;
 
-        .title-container{
+        .title-container {
             height: 30%;
             width: 100%;
+            padding: 0 60px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -36,6 +37,7 @@
             text-align: center;
         }
     }
+
     .form {
         display: flex;
         justify-content: center;
@@ -52,6 +54,7 @@
                 text-align: center;
                 padding-bottom: 25px;
             }
+
             label {
                 font-size: 1rem;
                 color: rgba($dark-gray, 0.8);
@@ -78,20 +81,6 @@
                     border: 2px solid #3083d2;
                 }
             }
-
-            // input:not([type=submit]) {
-            // @include notion_input;
-            //     padding: 8px;
-            //     width: 100%;
-            //     border-radius: 3px;
-            //     font-size: 0.95rem;
-            //     margin-bottom: 8px;
-            //     margin-top: 3px;
-
-            //     &::placeholder {
-            //         color: $medium-gray;
-            //     }
-            // }
 
             input[type=submit] {
                 width: 100%;

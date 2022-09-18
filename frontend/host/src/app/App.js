@@ -12,6 +12,9 @@ import SignUp from "../pages/signup";
 import NotFound from "../pages/notfound";
 import PrivateRoute from "../utils/PrivateRoute";
 import NavBar from "../components/NavBar";
+import Accommodation from "../pages/accomodation";
+import Message from "../pages/message";
+import Profile from "../pages/profile";
 
 
 function PrivateContainer()
@@ -25,7 +28,6 @@ function PrivateContainer()
 }
 
 
-
 function App()
 {
   return (
@@ -33,6 +35,9 @@ function App()
       <Routes>
         <Route path="/" element={<PrivateContainer />} >
           <Route path="" element={<Home />} />
+          <Route path="/accommodation" element={<Accommodation />} />
+          <Route path="/message" element={<Message />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />

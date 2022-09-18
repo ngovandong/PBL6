@@ -1,0 +1,16 @@
+.nav-item {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 20px 8px;
+    display: block;
+}
+
+.nav-item--active {
+    border-bottom: 4px solid #fff;
+}
+
+.nav-button {
+    text-decoration: none;
+    color: black;
+}

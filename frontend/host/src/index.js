@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./app/store";
 import App from './app/App';
 import 'react-phone-number-input/style.css'
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 // import './styles/css/index.css'
 import './styles/sass/index.scss'
 const root = ReactDOM.createRoot(document.getElementById('root'));

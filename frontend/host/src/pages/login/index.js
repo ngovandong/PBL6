@@ -25,6 +25,11 @@ function Login()
         }
     }, [token]);
 
+    useEffect(() =>
+    {
+        document.title = "Login"
+    }, [])
+
     return (
         <div className="login-page">
             {incorrectCredentail &&

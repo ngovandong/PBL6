@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import { MuiTelInput } from 'mui-tel-input'
@@ -21,7 +21,10 @@ function SignUp()
     const [incorrectCredentail, setIncorrectCredentail] = useState(false);
     const navigate = useNavigate()
 
-
+    useEffect(() =>
+    {
+        document.title = "Sign up"
+    }, [])
 
     const handle_submit = async (e) =>
     {
