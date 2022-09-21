@@ -1,0 +1,130 @@
+.logo {
+    display: flex;
+    align-items: center;
+    margin: 25px 0px 0px 88px;
+    color: $dark-gray;
+
+    .notionLogo {
+        height: 30px;
+        width: 30px;
+        fill: $dark-gray;
+    }
+
+    p {
+        margin-left: 10px;
+        font-family: "san-fran-med", $back-up-fonts;
+    }
+}
+
+.login-container {
+    display: flex;
+
+    .panel {
+        width: 40%;
+        background-image: url(../../../../public/img/travel_background.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+
+        .title-container {
+            height: 30%;
+            width: 100%;
+            padding: 0 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+    }
+
+    .form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 60%;
+        height: 100vh;
+
+        form {
+            width: 320px;
+
+            h1 {
+                font-family: (san-fran-bold, $back-up-fonts);
+                font-size: 3rem;
+                text-align: center;
+                padding-bottom: 25px;
+            }
+
+            label {
+                font-size: 1rem;
+                color: rgba($dark-gray, 0.8);
+            }
+
+            .form-input:not([type=submit]) {
+                padding: 8.5px;
+                width: 100%;
+                border-radius: 4px;
+                font-size: 0.95rem;
+                margin-bottom: 8px;
+                margin-top: 6px;
+                border: 0.5px solid $medium-gray;
+
+                &::placeholder {
+                    color: $medium-gray;
+                }
+
+                &:hover {
+                    border: 0.5px solid black;
+                }
+
+                &:focus {
+                    border: 2px solid #3083d2;
+                }
+            }
+
+            input[type=submit] {
+                width: 100%;
+                padding: 8px;
+                border-radius: 3px;
+                font-size: 0.95rem;
+                border: none;
+                color: $light-blue-2;
+                background: $light-blue-3;
+                box-shadow: rgba(15, 15, 15, 0.1) 0px 1px 2px, rgba(235, 87, 87, 0.3) 0px 0px 0px 1px inset;
+                cursor: pointer;
+                margin-top: 5px;
+            }
+
+            .bottom-text {
+                text-align: center;
+                margin-top: 30px;
+
+                p,
+                a {
+                    display: inline;
+                    margin-right: 5px;
+                    color: rgba($dark-gray, 0.6);
+                    font-size: 0.875rem;
+                }
+
+                a {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.MuiTelInput-TextField {
+    width: 100%;
+    margin-top: 6px !important;
+    margin-bottom: 8px !important;
+}
+
+.css-1o9s3wi-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 8px 0 !important;
+}
+
+.css-1q6at85-MuiInputBase-root-MuiOutlinedInput-root {
+    padding-left: 8px !important;
+}
