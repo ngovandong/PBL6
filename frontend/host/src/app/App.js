@@ -9,12 +9,13 @@ import
 import Home from "../pages/home";
 import Login from "../pages/login";
 import SignUp from "../pages/signup";
-import NotFound from "../pages/notfound";
+import NotFound from "../pages/Notfound";
 import PrivateRoute from "../utils/PrivateRoute";
 import NavBar from "../components/NavBar";
 import Accommodation from "../pages/accomodation";
 import Message from "../pages/message";
 import Profile from "../pages/profile";
+import Footer from "../components/Footer";
 
 
 function PrivateContainer()
@@ -23,6 +24,7 @@ function PrivateContainer()
     <PrivateRoute>
       <NavBar />
       <Outlet />
+      <Footer />
     </PrivateRoute>
   );
 }

@@ -51,7 +51,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static" style={{ backgroundColor: "#349b9f" }}>
+    <AppBar position="static" style={{ backgroundColor: "#1468a2" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <FlightTakeoffIcon
@@ -218,16 +218,10 @@ const NavBar = () => {
               onClose={handleCloseUserMenu}
             >
               <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Profile</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Account</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Dashboard</Typography>
+                <Typography textAlign="center">Hồ sơ</Typography>
               </MenuItem>
               <MenuItem onClick={handleLogout}>
-                <Typography textAlign="center">Logout</Typography>
+                <Typography textAlign="center">Đăng xuất</Typography>
               </MenuItem>
             </Menu>
           </Box>

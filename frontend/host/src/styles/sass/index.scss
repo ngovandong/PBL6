@@ -6,9 +6,10 @@
 
 // Components
 
-
 // Login and Register
 @import "components/_login-register";
 @import "components/_navbar";
+@import "components/_footer";
+@import "components/home/home";
 
 @import "base/media_queries";

@@ -88,9 +88,9 @@
                 border-radius: 3px;
                 font-size: 0.95rem;
                 border: none;
-                color: $light-blue-2;
-                background: $light-blue-3;
-                box-shadow: rgba(15, 15, 15, 0.1) 0px 1px 2px, rgba(235, 87, 87, 0.3) 0px 0px 0px 1px inset;
+                color: $outer-space;
+                background: $light-blue-2;
+                box-shadow: $outer-space 0px .5px .5px, $dark-blue 0px 0px 0px .5px inset;
                 cursor: pointer;
                 margin-top: 5px;
             }
@@ -109,6 +109,7 @@
 
                 a {
                     text-decoration: underline;
+                    color: $outer-space;
                 }
             }
         }

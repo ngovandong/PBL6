@@ -34,7 +34,7 @@ function Login()
         <div className="login-page">
             {incorrectCredentail &&
                 <Alert severity="error" onClose={() => setEmail(false)}>
-                    Email or password is incorrect!
+                    Sai email hoặc sai mật khẩu!
                 </Alert>
             }
             <div className='login-container'>
@@ -47,21 +47,21 @@ function Login()
                 <div className="form">
                     <form onSubmit={handle_submit}>
 
-                        <h1>LOG IN</h1>
+                        <h1>Đăng nhập</h1>
 
                         <label>Email</label>
                         <input className='form-input' onChange={(e) => setEmail(e.target.value)} name="email"
-                            placeholder="Enter your email address..."
+                            placeholder="Nhập địa chi của bạn..."
                             value={email} required /><br />
 
-                        <label>Password</label>
+                        <label>Mật khẩu</label>
                         <input className='form-input' type="password" onChange={(e) => setPassword(e.target.value)} name="password"
-                            placeholder="Enter your password..." value={password} required /><br />
+                            placeholder="Nhập mật khẩu của bạn..." value={password} required /><br />
 
-                        <input type="submit" value="Log in" />
+                        <input type="submit" value="Đăng nhập" />
                         <div className="bottom-text">
-                            <p>Don't have an account?</p>
-                            <Link className="link" to='/signup'>Sign up</Link>
+                            <p>Bạn chưa có tài khoản?</p>
+                            <Link className="link" to='/signup'>Đăng ký</Link>
                         </div>
                     </form>
                 </div>
