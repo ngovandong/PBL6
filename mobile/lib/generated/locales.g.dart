@@ -26,6 +26,9 @@ class LocaleKeys {
   static const validate_not_match_password = 'validate_not_match_password';
   static const validate_incorrect_email_password =
       'validate_incorrect_email_password';
+  static const find_hotel_choose_destination = 'find_hotel_choose_destination';
+  static const find_hotel_checkin_date = 'find_hotel_checkin_date';
+  static const find_hotel_checkout_date = 'find_hotel_checkout_date';
   static const dialog_no = 'dialog_no';
   static const dialog_yes = 'dialog_yes';
 }
@@ -35,7 +38,6 @@ class Locales {
     'hello': 'Hello world',
   };
   static const vi_VN = {
-    'hello': 'Xin chào',
     'auth_login': 'Đăng nhập',
     'auth_sign_up': 'Đăng ký',
     'auth_forgot_password': 'Quên mật khẩu?',
@@ -49,6 +51,9 @@ class Locales {
     'validate_confirm_password': 'Xác nhận mật khẩu của bạn',
     'validate_not_match_password': 'Mật khẩu không trùng khớp',
     'validate_incorrect_email_password': 'Sai email hoặc mật khẩu',
+    'find_hotel_choose_destination': 'Chọn điểm đến của bạn',
+    'find_hotel_checkin_date': 'Ngày nhận phòng',
+    'find_hotel_checkout_date': 'Ngày trả phòng',
     'dialog_no': 'Không',
     'dialog_yes': 'Có',
   };

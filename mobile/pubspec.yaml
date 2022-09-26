@@ -45,6 +45,13 @@ dependencies:
   json_annotation: ^4.6.0
   async: ^2.8.2
   flutter_phosphor_icons: ^0.0.1+6
+  modal_bottom_sheet: ^2.1.2
+  syncfusion_flutter_datepicker: ^20.2.49
+  google_sign_in: ^5.4.1
+  intl: ^0.17.0
+
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -101,5 +108,10 @@ flutter:
           weight: 500
         - asset: assets/fonts/Mulish-Bold.ttf
           weight: 700
+
+flutter_gen:
+  output: lib/generated/
+  integrations:
+    flutter_svg: true
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

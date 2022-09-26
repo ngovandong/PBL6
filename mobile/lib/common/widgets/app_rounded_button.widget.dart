@@ -4,7 +4,7 @@ import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/loading_dot.widget.dart';
 
-class RoundedButton extends StatelessWidget {
+class AppRoundedButton extends StatelessWidget {
   final void Function() onPressed;
   final double width;
   final double height;
@@ -18,9 +18,10 @@ class RoundedButton extends StatelessWidget {
   final String content;
 
   final bool isLoading;
+  final bool isDisable;
   final bool showShadow;
 
-  const RoundedButton({
+  const AppRoundedButton({
     Key? key,
     required this.onPressed,
     this.width = double.infinity,
@@ -31,6 +32,7 @@ class RoundedButton extends StatelessWidget {
     this.disableBackgroundColor = Palette.gray300,
     this.textColor = Colors.white,
     required this.content,
+    this.isDisable = false,
     this.isLoading = false,
     this.showShadow = true,
   }) : super(key: key);
@@ -38,7 +40,7 @@ class RoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: isLoading ? null : onPressed,
+      onPressed: (isLoading || isDisable) ? null : onPressed,
       style: ElevatedButton.styleFrom(
         fixedSize: Size(width, height),
         minimumSize: Size(width, height),
@@ -47,7 +49,8 @@ class RoundedButton extends StatelessWidget {
         ),
         shadowColor: showShadow ? Colors.black : null,
         elevation: showShadow ? 5 : null,
-        backgroundColor: backgroundColor,
+        backgroundColor: isDisable ? disableBackgroundColor : backgroundColor,
+        splashFactory: NoSplash.splashFactory,
       ),
       child: isLoading
           ? const LoadingDot()

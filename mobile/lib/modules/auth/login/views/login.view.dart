@@ -1,13 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:mobile/common/constants/asset_paths.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
-import 'package:mobile/common/widgets/rounded_button.widget.dart';
+import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/common/widgets/row_social_login.widget.dart';
+import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/auth/login/controllers/login.controller.dart';
 import 'package:mobile/modules/auth/login/widgets/login_form.widget.dart';
@@ -34,7 +33,7 @@ class LoginScreen extends GetView<LoginController> {
             ),
             child: Column(
               children: [
-                SvgPicture.asset(AssetPaths.appIcon),
+                Assets.icons.app.appIcon.svg(),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 40.h),
                   child: Align(
@@ -50,7 +49,7 @@ class LoginScreen extends GetView<LoginController> {
                   height: 20.h,
                 ),
                 Obx(
-                  () => RoundedButton(
+                  () => AppRoundedButton(
                     onPressed: controller.login,
                     content: LocaleKeys.auth_login.tr,
                     isLoading: controller.isLoading.value,

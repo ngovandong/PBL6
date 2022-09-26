@@ -1,5 +1,4 @@
 {
-  "hello": "Xin chào",
   "auth": {
     "login": "Đăng nhập",
     "sign_up": "Đăng ký",
@@ -16,6 +15,11 @@
     "confirm_password": "Xác nhận mật khẩu của bạn",
     "not_match_password": "Mật khẩu không trùng khớp",
     "incorrect_email_password": "Sai email hoặc mật khẩu"
+  },
+  "find_hotel": {
+    "choose_destination": "Chọn điểm đến của bạn",
+    "checkin_date": "Ngày nhận phòng",
+    "checkout_date": "Ngày trả phòng"
   },
   "dialog": {
     "no": "Không",

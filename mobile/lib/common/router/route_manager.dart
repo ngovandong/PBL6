@@ -3,8 +3,8 @@ import 'package:mobile/modules/auth/login/bindings/login.binding.dart';
 import 'package:mobile/modules/auth/login/views/login.view.dart';
 import 'package:mobile/modules/auth/sign_up/bindings/sign_up.binding.dart';
 import 'package:mobile/modules/auth/sign_up/views/sign_up.view.dart';
-import 'package:mobile/modules/home/bindings/home.binding.dart';
-import 'package:mobile/modules/home/views/home.view.dart';
+import 'package:mobile/modules/root/bindings/root.binding.dart';
+import 'package:mobile/modules/root/views/root.view.dart';
 import 'package:mobile/modules/welcome/bindings/welcome.binding.dart';
 import 'package:mobile/modules/welcome/views/splash.view.dart';
 
@@ -13,7 +13,7 @@ abstract class RouteManager {
   static const String onboard = '/onboard';
   static const String login = '/login';
   static const String signUp = '/signUp';
-  static const String home = '/home';
+  static const String root = '/root';
 
   static List<GetPage> pages = [
     GetPage(
@@ -32,9 +32,9 @@ abstract class RouteManager {
       binding: SignUpBinding(),
     ),
     GetPage(
-      name: home,
-      page: () => const HomeScreen(),
-      binding: HomeBinding(),
+      name: root,
+      page: () => const RootScreen(),
+      binding: RootBinding(),
     ),
   ];
 }

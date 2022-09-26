@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile/common/constants/asset_paths.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/generated/assets.gen.dart';
 
 abstract class SnackbarUtil {
   static void showSuccess(String message, BuildContext context) {
@@ -93,8 +92,7 @@ abstract class SnackbarUtil {
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                 ),
-                child: SvgPicture.asset(
-                  AssetPaths.bubblesImage,
+                child: Assets.images.snackbar.bubbles.svg(
                   height: 30,
                   width: 25,
                   color: Palette.red600,
@@ -107,16 +105,14 @@ abstract class SnackbarUtil {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  SvgPicture.asset(
-                    AssetPaths.backImage,
+                  Assets.images.snackbar.back.svg(
                     height: 40,
                     width: 40,
                     color: Palette.red600,
                   ),
                   Positioned(
                     top: 9,
-                    child: SvgPicture.asset(
-                      AssetPaths.failureIcon,
+                    child: Assets.images.snackbar.failure.svg(
                       height: 18,
                       color: Colors.white,
                     ),
