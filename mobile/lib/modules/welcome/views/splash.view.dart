@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:mobile/common/constants/asset_paths.dart';
+import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/modules/welcome/controllers/welcome.controller.dart';
 
 class SplashScreen extends GetView<WelcomeController> {
@@ -12,8 +11,7 @@ class SplashScreen extends GetView<WelcomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SvgPicture.asset(
-          AssetPaths.appIcon,
+        child: Assets.icons.app.appIcon.svg(
           width: 100.w,
           height: 100.h,
         ),

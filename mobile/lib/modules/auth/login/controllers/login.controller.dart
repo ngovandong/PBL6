@@ -34,12 +34,13 @@ class LoginController extends GetxController {
   Future<void> login() async {
     errorText.value = '';
 
-    if (isLoading.value) {
-      return;
-    }
-    if (!loginFormKey.currentState!.validate()) {
-      return;
-    }
+    Get.offAllNamed(RouteManager.root);
+    // if (isLoading.value) {
+    //   return;
+    // }
+    // if (!loginFormKey.currentState!.validate()) {
+    //   return;
+    // }
 
     // isLoading.value = true;
     // final Map<String, dynamic> formBody = {

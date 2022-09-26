@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:mobile/common/constants/asset_paths.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/app_text_form_field.widget.dart';
+import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/auth/login/controllers/login.controller.dart';
 
@@ -24,8 +23,7 @@ class LoginForm extends GetView<LoginController> {
               hintText: LocaleKeys.auth_email.tr,
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(18),
-                child: SvgPicture.asset(
-                  AssetPaths.mailIcon,
+                child: Assets.icons.auth.mail.svg(
                   fit: BoxFit.fill,
                 ),
               ),
@@ -39,7 +37,7 @@ class LoginForm extends GetView<LoginController> {
               hintText: LocaleKeys.auth_password.tr,
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: SvgPicture.asset(AssetPaths.lockIcon),
+                child: Assets.icons.auth.lock.svg(),
               ),
               validator: controller.validatePassword,
               isObscure: true,

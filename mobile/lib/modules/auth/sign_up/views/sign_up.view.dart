@@ -1,14 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:mobile/common/constants/asset_paths.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
-import 'package:mobile/common/widgets/rounded_button.widget.dart';
+import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/common/widgets/row_social_login.widget.dart';
+import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/auth/sign_up/controllers/sign_up.controller.dart';
 import 'package:mobile/modules/auth/sign_up/widgets/sign_up_form.widget.dart';
@@ -35,7 +34,7 @@ class SignUpScreen extends GetView<SignUpController> {
             ),
             child: Column(
               children: [
-                SvgPicture.asset(AssetPaths.appIcon),
+                Assets.icons.app.appIcon.svg(),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 40.h),
                   child: Align(
@@ -50,7 +49,7 @@ class SignUpScreen extends GetView<SignUpController> {
                 SizedBox(
                   height: 20.h,
                 ),
-                RoundedButton(
+                AppRoundedButton(
                   onPressed: controller.signUp,
                   content: LocaleKeys.auth_sign_up.tr,
                   borderRadius: 50,

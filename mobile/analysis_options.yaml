@@ -19,3 +19,4 @@ linter:
     unnecessary_string_interpolations: true
     # PREFER using const for instantiating constant constructors.
     prefer_const_constructors: true
+    unnecessary_null_checks: true

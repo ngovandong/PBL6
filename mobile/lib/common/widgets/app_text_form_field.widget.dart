@@ -9,6 +9,8 @@ class AppTextFormField extends StatefulWidget {
   final bool isObscure;
   final bool readOnly;
   final bool extendField;
+  final bool enabled;
+  final bool isCenterText;
 
   final String? hintText;
   final String? errorText;
@@ -34,6 +36,8 @@ class AppTextFormField extends StatefulWidget {
     this.isObscure = false,
     this.readOnly = false,
     this.extendField = true,
+    this.enabled = true,
+    this.isCenterText = false,
     this.hintText,
     this.errorText,
     this.borderRadius = 6,
@@ -71,8 +75,11 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       validator: widget.validator,
       obscureText: widget.isObscure ? (_showPassword ? false : true) : false,
       readOnly: widget.readOnly,
+      enableSuggestions: false,
+      enabled: widget.enabled,
       keyboardType: widget.keyboardType,
       style: TextStyles.s14regularText.copyWith(color: Palette.zodiacBlue),
+      textAlign: widget.isCenterText ? TextAlign.center : TextAlign.start,
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: TextStyles.s14regularText.copyWith(color: Palette.gray100),
@@ -94,16 +101,21 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
             color: widget.borderColor,
           ),
         ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide: BorderSide(
+            color: widget.borderColor,
+          ),
+        ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
           borderSide: const BorderSide(
             color: Palette.red600,
           ),
         ),
-        isDense: true,
-        // errorStyle: ,
-        fillColor: widget.fillColor,
+        // isDense: true,
         filled: true,
+        fillColor: widget.fillColor,
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
         suffixIcon: widget.isObscure
             ? GestureDetector(

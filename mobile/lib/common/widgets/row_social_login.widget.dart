@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile/common/constants/asset_paths.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/app_icon_button.widget.dart';
+import 'package:mobile/generated/assets.gen.dart';
+import 'package:mobile/modules/base/controllers/auth.controller.dart';
 
-class RowSocialLogin extends StatelessWidget {
+class RowSocialLogin extends GetView<AuthController> {
   RowSocialLogin({super.key});
 
   final List<String> iconPaths = [
-    AssetPaths.facebookIcon,
-    AssetPaths.googleIcon,
-    AssetPaths.appleIcon
+    Assets.icons.auth.facebook.path,
+    Assets.icons.auth.google.path,
+    Assets.icons.auth.apple.path
   ];
 
   @override
@@ -50,12 +52,11 @@ class RowSocialLogin extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(3, (index) {
               return AppIconButton(
-                icon: AppIconButton(
-                  icon: SvgPicture.asset(
-                    iconPaths[index],
-                    width: 22,
-                    height: 22,
-                  ),
+                onPressed: controller.loginWithGoolge,
+                icon: SvgPicture.asset(
+                  iconPaths[index],
+                  width: 22,
+                  height: 22,
                 ),
               );
             }),
