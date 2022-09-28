@@ -51,6 +51,7 @@ class AppRoundedButton extends StatelessWidget {
         elevation: showShadow ? 5 : null,
         backgroundColor: isDisable ? disableBackgroundColor : backgroundColor,
         splashFactory: NoSplash.splashFactory,
+        foregroundColor: isDisable ? disableBackgroundColor : backgroundColor,
       ),
       child: isLoading
           ? const LoadingDot()
