@@ -11,14 +11,18 @@ class AppDatePicker extends StatefulWidget {
   final DateTime? initStartDate;
   final DateTime? initEndDate;
   final DateTime? initDate;
+
+  final void Function(DateTime startDate, DateTime endDate)? onSubmitRange;
+
   final bool isPickRange;
 
   const AppDatePicker({
     super.key,
-    this.isPickRange = true,
     this.initStartDate,
     this.initEndDate,
     this.initDate,
+    this.onSubmitRange,
+    this.isPickRange = true,
   });
 
   @override
@@ -31,39 +35,6 @@ class _AppDatePickerState extends State<AppDatePicker> {
   final TextEditingController endDateTextController = TextEditingController();
 
   bool isValidate = true;
-
-  void setStartAndEndDate(DateTime startDate, DateTime? endDate) {
-    if (widget.isPickRange) {
-      startDateTextController.text = startDate.toShowUIDate();
-      if (endDate == null) {
-        endDateTextController.text = '';
-      } else {
-        endDateTextController.text = endDate.toShowUIDate();
-      }
-    } else {
-      startDateTextController.text = startDate.toShowUIDate();
-      endDateTextController.text = '';
-    }
-  }
-
-  void onSelectionChanged(
-    DateRangePickerSelectionChangedArgs dateRangePickerSelectionChangedArgs,
-  ) {
-    final dynamic dateRangeValue = dateRangePickerSelectionChangedArgs.value;
-
-    if (widget.isPickRange) {
-      setStartAndEndDate(
-        (dateRangeValue as PickerDateRange).startDate!,
-        dateRangeValue.endDate,
-      );
-
-      setState(() {
-        isValidate = dateRangeValue.endDate != null;
-      });
-    } else {
-      setStartAndEndDate((dateRangeValue as DateTime), null);
-    }
-  }
 
   @override
   void initState() {
@@ -98,6 +69,39 @@ class _AppDatePickerState extends State<AppDatePicker> {
     }
 
     super.initState();
+  }
+
+  void setStartAndEndDate(DateTime startDate, DateTime? endDate) {
+    if (widget.isPickRange) {
+      startDateTextController.text = startDate.toShowUIDate();
+      if (endDate == null) {
+        endDateTextController.text = '';
+      } else {
+        endDateTextController.text = endDate.toShowUIDate();
+      }
+    } else {
+      startDateTextController.text = startDate.toShowUIDate();
+      endDateTextController.text = '';
+    }
+  }
+
+  void onSelectionChanged(
+    DateRangePickerSelectionChangedArgs dateRangePickerSelectionChangedArgs,
+  ) {
+    final dynamic dateRangeValue = dateRangePickerSelectionChangedArgs.value;
+
+    if (widget.isPickRange) {
+      setStartAndEndDate(
+        (dateRangeValue as PickerDateRange).startDate!,
+        dateRangeValue.endDate,
+      );
+
+      setState(() {
+        isValidate = dateRangeValue.endDate != null;
+      });
+    } else {
+      setStartAndEndDate((dateRangeValue as DateTime), null);
+    }
   }
 
   @override
@@ -225,7 +229,18 @@ class _AppDatePickerState extends State<AppDatePicker> {
                       )
                     : const SizedBox(),
                 AppRoundedButton(
-                  onPressed: () => Get.back(),
+                  onPressed: () {
+                    if (widget.isPickRange) {
+                      final PickerDateRange selectedRange =
+                          dateController.selectedRange!;
+                      widget.onSubmitRange!(
+                        selectedRange.startDate!,
+                        selectedRange.endDate!,
+                      );
+                    }
+
+                    Get.back();
+                  },
                   content: 'Chọn ngày',
                   fontSize: 15,
                   showShadow: false,

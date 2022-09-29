@@ -3,6 +3,7 @@ import 'package:mobile/modules/auth/login/bindings/login.binding.dart';
 import 'package:mobile/modules/auth/login/views/login.view.dart';
 import 'package:mobile/modules/auth/sign_up/bindings/sign_up.binding.dart';
 import 'package:mobile/modules/auth/sign_up/views/sign_up.view.dart';
+import 'package:mobile/modules/home/bindings/home.binding.dart';
 import 'package:mobile/modules/root/bindings/root.binding.dart';
 import 'package:mobile/modules/root/views/root.view.dart';
 import 'package:mobile/modules/welcome/bindings/welcome.binding.dart';
@@ -34,7 +35,7 @@ abstract class RouteManager {
     GetPage(
       name: root,
       page: () => const RootScreen(),
-      binding: RootBinding(),
+      bindings: [RootBinding(), HomeBinding()],
     ),
   ];
 }
