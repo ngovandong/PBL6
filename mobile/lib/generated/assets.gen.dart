@@ -21,6 +21,8 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesBackgroundGen get background =>
+      const $AssetsImagesBackgroundGen();
   $AssetsImagesSnackbarGen get snackbar => const $AssetsImagesSnackbarGen();
 }
 
@@ -66,6 +68,14 @@ class $AssetsIconsAuthGen {
 
   /// File path: assets/icons/auth/mail.svg
   SvgGenImage get mail => const SvgGenImage('assets/icons/auth/mail.svg');
+}
+
+class $AssetsImagesBackgroundGen {
+  const $AssetsImagesBackgroundGen();
+
+  /// File path: assets/images/background/wave.svg
+  SvgGenImage get wave =>
+      const SvgGenImage('assets/images/background/wave.svg');
 }
 
 class $AssetsImagesSnackbarGen {

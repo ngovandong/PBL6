@@ -37,8 +37,10 @@ class HomeController extends GetxController {
     searchHotelsParams.refresh();
   }
 
-  void onChangeTenantAndRoom(
-      {required int numberOfRooms, required int numberOfTenants}) {
+  void onChangeTenantAndRoom({
+    required int numberOfRooms,
+    required int numberOfTenants,
+  }) {
     searchHotelsParams.value.numberOfRooms = numberOfRooms;
     searchHotelsParams.value.numberOfTenants = numberOfTenants;
     searchHotelsParams.refresh();
