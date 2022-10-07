@@ -85,6 +85,7 @@ flutter:
     - assets/icons/auth/
     - assets/images/
     - assets/images/snackbar/
+    - assets/images/background/
     - assets/locales/
     - assets/secure/
 
