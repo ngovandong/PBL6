@@ -1,14 +1,25 @@
 {
-  "hello": "Xin chào",
-  "login": {
-    "username": "Tên đăng nhập",
+  "auth": {
+    "login": "Đăng nhập",
+    "sign_up": "Đăng ký",
+    "forgot_password": "Quên mật khẩu?",
+    "name": "Tên người dùng",
+    "email": "Email",
     "password": "Mật khẩu",
-    "login": "Đăng nhập"
+    "confirm_password": "Xác nhận mật khẩu"
   },
   "validate": {
-    "username": "Vui lòng nhập tên đăng nhập",
-    "password": "Vui lòng nhập mật khẩu",
-    "incorrect_email_password": "Sai tên đăng nhập hoặc mật khẩu"
+    "name": "Nhập tên của bạn",
+    "email": "Nhập địa chỉ email của bạn",
+    "password": "Nhập mật khẩu của bạn",
+    "confirm_password": "Xác nhận mật khẩu của bạn",
+    "not_match_password": "Mật khẩu không trùng khớp",
+    "incorrect_email_password": "Sai email hoặc mật khẩu"
+  },
+  "find_hotel": {
+    "choose_destination": "Chọn điểm đến của bạn",
+    "checkin_date": "Ngày nhận phòng",
+    "checkout_date": "Ngày trả phòng"
   },
   "dialog": {
     "no": "Không",

@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/generated/locales.g.dart';
-import 'package:mobile/modules/login/widgets/rounded_button.widget.dart';
 
 abstract class DialogUtil {
   static void showConfirm({
@@ -83,7 +83,7 @@ abstract class DialogUtil {
         ),
         actions: [
           if (isConfirmDialog)
-            RoundedButton(
+            AppRoundedButton(
               width: 100.w,
               height: 40,
               borderRadius: 6,
@@ -97,7 +97,7 @@ abstract class DialogUtil {
               fontSize: 13.sp,
               backgroundColor: Palette.red400,
             ),
-          RoundedButton(
+          AppRoundedButton(
             width: 100.w,
             height: 40,
             borderRadius: 6,

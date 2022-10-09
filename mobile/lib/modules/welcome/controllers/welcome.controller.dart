@@ -13,7 +13,7 @@ class WelcomeController extends GetxController {
   }
 
   Future<void> initSplash() async {
-    await Future.delayed(const Duration(milliseconds: 400));
+    await Future.delayed(const Duration(milliseconds: 700));
     await authController.verifyUser();
   }
 }

@@ -1,0 +1,40 @@
+.nav-item {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 20px 8px;
+    display: block;
+}
+
+.nav-item--active {
+    border-bottom: 4px solid #fff;
+}
+
+.nav-button {
+    text-decoration: none;
+    color: black;
+}
+
+.accommodation-nabar {
+    display: flex;
+    justify-content: space-between;
+    .link-container {
+        border-bottom: 1px solid #d3d5d7;
+        .active {
+            color: $blue;
+            border-bottom: 3px solid $blue;
+        }
+
+        .link {
+            display: inline-block;
+            font-size: 16px;
+            line-height: 1;
+            text-decoration: none;
+            color: #2a2a2e;
+            margin-right: 32px;
+            font-weight: 1000;
+            height: 34px;
+
+        }
+    }
+}

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:mobile/common/router/route_manager.dart';
+import 'package:mobile/generated/fonts.gen.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/base/bindings/base.binding.dart';
 
@@ -16,14 +18,25 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
+          theme: ThemeData(
+            fontFamily: FontFamily.mulish,
+            splashFactory: NoSplash.splashFactory,
+          ),
           debugShowCheckedModeBanner: false,
-          title: 'PBL6 Booking',
+          title: 'TravelBooking',
           getPages: RouteManager.pages,
-          initialRoute: RouteManager.login,
+          initialRoute: RouteManager.splash,
           initialBinding: BaseBinding(),
+          defaultTransition: Transition.noTransition,
           translationsKeys: AppTranslation.translations,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          supportedLocales: const [Locale('vi', 'VN'), Locale('en', 'US')],
           fallbackLocale: const Locale('vi', 'VN'),
-          locale: Get.deviceLocale,
+          locale: const Locale('vi', 'VN'),
         );
       },
     );
