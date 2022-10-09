@@ -28,3 +28,23 @@
         outline: 0;
     }
 }
+
+.full-height-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.full-width {
+    width: 100%;
+    background-color: #f2f2f2;
+    flex-grow: 1;
+}
+
+.main-container {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1140px;
+    height: 100%;
+}

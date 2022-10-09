@@ -59,38 +59,38 @@ function SignUp()
                 <div className="form">
                     <form onSubmit={handle_submit}>
 
-                        <h1>SIGN UP</h1>
+                        <h1>Đăng ký</h1>
 
-                        <label>First name</label>
+                        <label>Tên</label>
                         <input className='form-input' type="text" onChange={(e) => setFirstName(e.target.value)} name="first_name"
-                            placeholder="Enter your first name..." value={firstName} required /><br />
+                            placeholder="Nhập tên..." value={firstName} required /><br />
 
-                        <label>Last name</label>
+                        <label>Họ</label>
                         <input className='form-input' type="text" onChange={(e) => setLastName(e.target.value)} name="last_name"
-                            placeholder="Enter your last name..." value={lastName} required /><br />
+                            placeholder="Nhập họ..." value={lastName} required /><br />
 
                         <label>Email</label>
                         <input className='form-input' type="email" onChange={(e) => setEmail(e.target.value)} name="email"
-                            placeholder="Enter your email address..."
+                            placeholder="Nhập địa chỉ email..."
                             value={email} required /><br />
-                        <label>Phone</label>
+                        <label>Số điện thoại</label>
                         <br />
                         <MuiTelInput style={{ border: " 0px" }} value={value} onChange={handleChange} />
                         <br />
 
-                        <label>Password</label>
+                        <label>Mật khẩu</label>
                         <input className='form-input' type="password" onChange={(e) => setPassword(e.target.value)} name="password"
-                            placeholder="Enter your password..." value={password} required /><br />
+                            placeholder="Nhập mật khẩu..." value={password} required /><br />
 
-                        <label>Confirm password</label>
+                        <label>Xác nhận mật khẩu</label>
                         <input className='form-input' type="password" onChange={(e) => setConfirmPassword(e.target.value)} name="confirm_password"
-                            placeholder="Confirm your password..." value={confirmPassword} required /><br />
+                            placeholder="Xác nhận mật khẩu..." value={confirmPassword} required /><br />
 
-                        <input type="submit" value="Sign up" />
+                        <input type="submit" value="Đăng ký" />
 
                         <div className="bottom-text">
-                            <p>Already have an account?</p>
-                            <Link className="link" to='/login'>Log In</Link>
+                            <p>Bạn đã có tài khỏan?</p>
+                            <Link className="link" to='/login'>Đăng nhập</Link>
                         </div>
                     </form>
                 </div>
