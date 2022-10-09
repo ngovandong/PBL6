@@ -5,7 +5,6 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
@@ -14,23 +13,11 @@ import Divider from "@mui/material/Divider";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import { useDispatch } from "react-redux";
 import { logout } from "../app/store/authSlice";
-import { NavLink, useNavigate } from "react-router-dom";
-const links = [
-  { link: "", name: "Tổng quan" },
-  { link: "accommodation", name: "Chỗ ở" },
-  { link: "message", name: "Tin Nhắn" },
-  { link: "profile", name: "Hồ sơ" },
-];
-const NavBar = () => {
+const EmptyNavBar = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [anchorElLanguage, setAnchorElLanguage] = useState(null);
   const [lan, setLan] = useState("vn");
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -38,9 +25,6 @@ const NavBar = () => {
     setAnchorElLanguage(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -51,7 +35,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ backgroundColor: "#1468a2" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <FlightTakeoffIcon
@@ -75,44 +59,6 @@ const NavBar = () => {
             ReadyBooking
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {links.map((link) => (
-                <MenuItem key={link.link} onClick={handleCloseNavMenu}>
-                  <NavLink className="nav-button" to={link.link}>
-                    {link.name}
-                  </NavLink>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
           <FlightTakeoffIcon
             sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
           />
@@ -135,17 +81,6 @@ const NavBar = () => {
             ReadyBooking
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {links.map((link) => (
-              <NavLink
-                key={link.link}
-                className={({ isActive }) =>
-                  isActive ? "nav-item nav-item--active " : "nav-item"
-                }
-                to={link.link}
-              >
-                {link.name}
-              </NavLink>
-            ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Language">
@@ -230,4 +165,4 @@ const NavBar = () => {
     </AppBar>
   );
 };
-export default NavBar;
+export default EmptyNavBar;

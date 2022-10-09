@@ -1,13 +1,11 @@
-import ActiveAccommodation from "./ActiveAccommodation";
-import InprogressAccommodation from "./InprogressAccommodation";
+import ActiveAccommodation from "../accomodation/ActiveAccommodation";
+import InprogressAccommodation from "../accomodation/InprogressAccommodation";
 
 function Home() {
   return (
-    <div className="full-width">
-      <div className="home-page">
-        <InprogressAccommodation />
-        <ActiveAccommodation />
-      </div>
+    <div>
+      <InprogressAccommodation />
+      <ActiveAccommodation />
     </div>
   );
 }

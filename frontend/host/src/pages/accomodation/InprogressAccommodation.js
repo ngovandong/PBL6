@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 function InprogressAccommodation() {
   return (
-    <div>
+    <div className="accommodation-container">
       <h2>Chỗ nghỉ đang trong quá trình đăng ký</h2>
       <div className="accommodation-table">
         <table>
