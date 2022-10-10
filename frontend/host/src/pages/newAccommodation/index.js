@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EmptyNavBar from "../../components/EmptyNavBar";
 import Footer from "../../components/Footer";
 import StepLeffPanel from "./StepLeffPanel";
@@ -37,7 +37,10 @@ function NewAccommodation() {
   const handleDone = () => {
     setActiveStep(0);
   };
-
+  useEffect(() =>
+    {
+        document.title = "Tạo chỗ ở"
+    }, [])
   return (
     <div>
       <EmptyNavBar />

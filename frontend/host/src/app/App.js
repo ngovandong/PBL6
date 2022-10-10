@@ -14,6 +14,8 @@ import DeactivatedPage from "../pages/accomodation/DeactivatedPage";
 import NewAccommodation from "../pages/newAccommodation";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./colorTheme";
+import VerifySignup from "../pages/signup/VerifySignup";
+import ConfirmSignup from "../pages/signup/ConfirmSignup";
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -32,6 +34,8 @@ function App() {
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
+          <Route path="verify" element={<VerifySignup />} />
+          <Route path="confirmSignup/:code" element={<ConfirmSignup />} />
           <Route path="newaccommodation" element={<NewAccommodation />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
