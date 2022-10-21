@@ -3,6 +3,7 @@ import { Box, Button } from '@mui/material'
 import SearchInput from '@components/atoms/SearchInput'
 import RangePicker, { IRangePickerRef } from '@components/atoms/RangePicker'
 import { useRef } from 'react'
+import DropdownForm from '@components/atoms/DropdownForm'
 
 interface IFormInputs {
   address: string
@@ -54,6 +55,7 @@ const MainFilter = () => {
         />
       </form>
       <RangePicker ref={dateRef} />
+      <DropdownForm />
       <Button
         variant='contained'
         sx={{
