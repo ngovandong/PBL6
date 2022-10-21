@@ -28,7 +28,7 @@ class AppTextFormField extends StatefulWidget {
 
   final String? Function(String?)? validator;
   final void Function()? onTap;
-  final void Function(String)? onChanged;
+  final Future<void> Function(String)? onChanged;
 
   const AppTextFormField({
     Key? key,

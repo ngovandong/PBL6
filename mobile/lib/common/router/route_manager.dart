@@ -4,6 +4,7 @@ import 'package:mobile/modules/auth/login/views/login.view.dart';
 import 'package:mobile/modules/auth/sign_up/bindings/sign_up.binding.dart';
 import 'package:mobile/modules/auth/sign_up/views/sign_up.view.dart';
 import 'package:mobile/modules/home/bindings/home.binding.dart';
+import 'package:mobile/modules/home/views/pick_destination.view.dart';
 import 'package:mobile/modules/home/views/search_hotels.view.dart';
 import 'package:mobile/modules/root/bindings/root.binding.dart';
 import 'package:mobile/modules/root/views/root.view.dart';
@@ -17,6 +18,7 @@ abstract class RouteManager {
   static const String signUp = '/signUp';
   static const String root = '/root';
   static const String searchHotel = '/searchHotel';
+  static const String pickDestination = '/pickDestination';
 
   static List<GetPage> pages = [
     GetPage(
@@ -43,5 +45,9 @@ abstract class RouteManager {
       name: searchHotel,
       page: () => const SearchHotelScreen(),
     ),
+    GetPage(
+      name: pickDestination,
+      page: () => const PickDestinationScreen(),
+    )
   ];
 }
