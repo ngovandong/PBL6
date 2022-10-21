@@ -12,7 +12,6 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.6",
-    "@mui/lab": "^5.0.0-alpha.100",
     "@mui/material": "^5.10.6",
     "@mui/system": "^5.10.5",
     "moment": "^2.29.4",
@@ -21,6 +20,7 @@
     "react-dates": "^21.8.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.36.1",
+    "react-material-ui-carousel": "^3.4.2",
     "sass": "^1.54.9"
   },
   "devDependencies": {

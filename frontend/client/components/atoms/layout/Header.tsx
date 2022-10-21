@@ -11,10 +11,8 @@ import {
   IconButton,
   Avatar,
 } from '@mui/material'
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import Link from 'next/link'
-
-const pages = ['Products', 'Pricing', 'Blog']
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
 export const Header = () => {
   return (
@@ -24,23 +22,33 @@ export const Header = () => {
           disableGutters
           sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
-          <Typography
-            variant='h6'
-            noWrap
-            component='a'
-            href='/'
+          <Box
             sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            LOGO
-          </Typography>
+            <FlightTakeoffIcon
+              sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
+            />
+            <Typography
+              variant='h6'
+              noWrap
+              component='a'
+              href='/'
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              ReadyBooking
+            </Typography>
+          </Box>
           <Box
             sx={{
               display: 'flex',
