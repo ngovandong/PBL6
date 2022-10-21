@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mobile/common/constants/env_keys.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/modules/base/data/models/user.model.dart';
 import 'package:mobile/modules/base/data/repositories/auth.repository.dart';
@@ -59,8 +61,7 @@ class AuthController extends GetxController {
   Future<void> loginWithGoolge() async {
     try {
       GoogleSignIn googleSignIn = GoogleSignIn(
-        clientId:
-            '260336785458-30q8avlobachemfi16kqs6329pm3rat4.apps.googleusercontent.com',
+        clientId: dotenv.env[EnvKeys.clientIdIos],
       );
 
       final GoogleSignInAccount? googleSignInAccount =

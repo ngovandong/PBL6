@@ -27,19 +27,22 @@ class HomeSearchBox extends GetView<HomeController> {
       margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child: Column(
+        child: Wrap(
           children: [
-            AppTextFormField(
-              hintText: LocaleKeys.find_hotel_choose_destination.tr,
-              prefixIcon: const Icon(
-                PhosphorIcons.magnifying_glass_bold,
-                color: Palette.blue400,
+            GestureDetector(
+              onTap: () => Get.toNamed(RouteManager.pickDestination),
+              child: AppTextFormField(
+                hintText: LocaleKeys.find_hotel_choose_destination.tr,
+                prefixIcon: const Icon(
+                  PhosphorIcons.magnifying_glass_bold,
+                  color: Palette.blue400,
+                ),
+                borderColor: Colors.white,
+                borderRadius: 0,
+                extendField: false,
+                readOnly: true,
+                enabled: false,
               ),
-              borderColor: Colors.white,
-              borderRadius: 0,
-              extendField: false,
-              readOnly: true,
-              enabled: false,
             ),
             const Divider(
               height: 0,

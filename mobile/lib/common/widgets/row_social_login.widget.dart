@@ -52,6 +52,7 @@ class RowSocialLogin extends GetView<AuthController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(3, (index) {
               return AppIconButton(
+                height: 40,
                 onPressed: controller.loginWithGoolge,
                 icon: SvgPicture.asset(
                   iconPaths[index],
