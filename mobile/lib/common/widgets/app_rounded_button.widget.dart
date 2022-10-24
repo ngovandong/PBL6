@@ -5,7 +5,7 @@ import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/loading_dot.widget.dart';
 
 class AppRoundedButton extends StatelessWidget {
-  final void Function() onPressed;
+  final VoidCallback onPressed;
   final double width;
   final double height;
   final double borderRadius;
@@ -20,6 +20,7 @@ class AppRoundedButton extends StatelessWidget {
   final bool isLoading;
   final bool isDisable;
   final bool showShadow;
+  final bool showBorder;
 
   const AppRoundedButton({
     Key? key,
@@ -35,6 +36,7 @@ class AppRoundedButton extends StatelessWidget {
     this.isDisable = false,
     this.isLoading = false,
     this.showShadow = true,
+    this.showBorder = false,
   }) : super(key: key);
 
   @override
@@ -46,9 +48,12 @@ class AppRoundedButton extends StatelessWidget {
         minimumSize: Size(width, height),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
+          side: showBorder
+              ? const BorderSide(color: Palette.gray200)
+              : BorderSide.none,
         ),
         shadowColor: showShadow ? Colors.black : null,
-        elevation: showShadow ? 5 : null,
+        elevation: showShadow ? 5 : 0,
         backgroundColor: isDisable ? disableBackgroundColor : backgroundColor,
         splashFactory: NoSplash.splashFactory,
         foregroundColor: isDisable ? disableBackgroundColor : backgroundColor,

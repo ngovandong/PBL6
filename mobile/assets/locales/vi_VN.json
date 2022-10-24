@@ -21,6 +21,9 @@
     "checkin_date": "Ngày nhận phòng",
     "checkout_date": "Ngày trả phòng"
   },
+  "hotel_detail": {
+    "position": "Vị trí"
+  },
   "dialog": {
     "no": "Không",
     "yes": "Có"

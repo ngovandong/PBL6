@@ -9,6 +9,7 @@ import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 class PickNumberTenantAndRoom extends StatefulWidget {
   final int initRoom;
   final int initTenant;
+  final bool hasShowTenant;
 
   final void Function({
     required int numberOfRooms,
@@ -20,6 +21,7 @@ class PickNumberTenantAndRoom extends StatefulWidget {
     required this.onChangeTenantAndRoom,
     this.initRoom = 1,
     this.initTenant = 2,
+    this.hasShowTenant = true,
   });
 
   @override
@@ -65,14 +67,13 @@ class _PickNumberTenantAndRoomState extends State<PickNumberTenantAndRoom> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
       width: Get.width,
       color: Colors.white,
       padding: const EdgeInsets.symmetric(
         vertical: 12,
         horizontal: 12,
       ),
-      child: Column(
+      child: Wrap(
         children: [
           RowPickTenantOrRoom(
             number: roomEditingControlller.text,
@@ -80,13 +81,13 @@ class _PickNumberTenantAndRoomState extends State<PickNumberTenantAndRoom> {
             onMinus: () => onMinus(false),
             onPlus: () => onPlus(false),
           ),
-          RowPickTenantOrRoom(
-            number: tenantEditingController.text,
-            title: 'Người',
-            onMinus: () => onMinus(true),
-            onPlus: () => onPlus(true),
-          ),
-          const Spacer(),
+          if (widget.hasShowTenant)
+            RowPickTenantOrRoom(
+              number: tenantEditingController.text,
+              title: 'Người',
+              onMinus: () => onMinus(true),
+              onPlus: () => onPlus(true),
+            ),
           AppRoundedButton(
             onPressed: () {
               widget.onChangeTenantAndRoom(

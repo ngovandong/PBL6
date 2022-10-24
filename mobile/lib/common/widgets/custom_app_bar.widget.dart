@@ -8,9 +8,12 @@ class CustomAppBar extends StatelessWidget {
   final bool hasBackIcon;
 
   final Color backgroundColor;
+  final Color leadingBackgroundColor;
+  final Color backIconColor;
 
   final double toolbarHeight;
   final double titleSpacing;
+  final double elevation;
 
   final Widget title;
   final List<Widget> actions;
@@ -20,8 +23,11 @@ class CustomAppBar extends StatelessWidget {
     this.isCenterTitle = true,
     this.hasBackIcon = false,
     this.backgroundColor = Palette.background,
+    this.leadingBackgroundColor = Palette.blue400,
+    this.backIconColor = Colors.white,
     this.toolbarHeight = 60,
     this.titleSpacing = 15,
+    this.elevation = 0,
     required this.title,
     this.actions = const [],
   });
@@ -33,7 +39,7 @@ class CustomAppBar extends StatelessWidget {
       leadingWidth: hasBackIcon ? 40 : 0,
       automaticallyImplyLeading: false,
       backgroundColor: backgroundColor,
-      elevation: 0,
+      elevation: elevation,
       toolbarHeight: toolbarHeight,
       titleSpacing: titleSpacing,
       title: title,
@@ -41,12 +47,12 @@ class CustomAppBar extends StatelessWidget {
       leading: hasBackIcon
           ? AppIconButton(
               onPressed: () => Get.back(),
-              icon: const Icon(
+              icon: Icon(
                 Icons.chevron_left_rounded,
                 size: 40,
-                color: Colors.white,
+                color: backIconColor,
               ),
-              backgroundColor: Palette.blue400,
+              backgroundColor: leadingBackgroundColor,
               hasBorder: false,
             )
           : null,
