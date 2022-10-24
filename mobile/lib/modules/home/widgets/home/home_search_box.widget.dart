@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
+import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/extensions/datetime.extension.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
@@ -24,7 +25,12 @@ class HomeSearchBox extends GetView<HomeController> {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Palette.blue400),
       ),
-      margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+      margin: const EdgeInsets.fromLTRB(
+        UIConfigs.horizontalPadding,
+        UIConfigs.horizontalPadding,
+        UIConfigs.horizontalPadding,
+        0,
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Wrap(

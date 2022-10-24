@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 
@@ -35,7 +36,7 @@ class TopDestinationItem extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    left: 15,
+                    left: UIConfigs.horizontalPadding,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
