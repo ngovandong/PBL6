@@ -64,7 +64,7 @@ class LoginScreen extends GetView<LoginController> {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Chưa có tài khoản?',
-                        style: TextStyles.s17regularText
+                        style: TextStyles.s17RegularText
                             .copyWith(color: Palette.gray300),
                       ),
                       TextSpan(

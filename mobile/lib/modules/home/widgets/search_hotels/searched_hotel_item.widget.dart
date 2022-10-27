@@ -58,7 +58,7 @@ class SearchedHotelItem extends StatelessWidget {
                 ),
                 Text(
                   'Hội An, Quảng Nam',
-                  style: TextStyles.s14regularText,
+                  style: TextStyles.s14RegularText,
                 )
               ],
             ),
@@ -77,7 +77,7 @@ class SearchedHotelItem extends StatelessWidget {
                   ),
                   Text(
                     ' - 1,127 đánh giá',
-                    style: TextStyles.s14regularText
+                    style: TextStyles.s14RegularText
                         .copyWith(color: Palette.gray300),
                   )
                 ],
@@ -107,7 +107,7 @@ class SearchedHotelItem extends StatelessWidget {
                           ),
                           const Text(
                             '2 phòng ngủ',
-                            style: TextStyles.s14regularText,
+                            style: TextStyles.s14RegularText,
                           )
                         ],
                       ),
@@ -124,7 +124,7 @@ class SearchedHotelItem extends StatelessWidget {
                           ),
                           const Text(
                             'View nhìn ra biển',
-                            style: TextStyles.s14regularText,
+                            style: TextStyles.s14RegularText,
                           )
                         ],
                       ),
@@ -141,7 +141,7 @@ class SearchedHotelItem extends StatelessWidget {
                           ),
                           const Text(
                             'Hồ bơi',
-                            style: TextStyles.s14regularText,
+                            style: TextStyles.s14RegularText,
                           )
                         ],
                       )
@@ -176,7 +176,7 @@ class SearchedHotelItem extends StatelessWidget {
                           child: Center(
                             child: Text(
                               '3 ngày, 2 người',
-                              style: TextStyles.s14regularText
+                              style: TextStyles.s14RegularText
                                   .copyWith(color: Colors.white),
                             ),
                           ),

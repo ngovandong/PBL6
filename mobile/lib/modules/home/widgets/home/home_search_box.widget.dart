@@ -91,14 +91,14 @@ class HomeSearchBox extends GetView<HomeController> {
                           children: [
                             TextSpan(
                               text: 'Ngày nhận phòng\n',
-                              style: TextStyles.s14regularText
+                              style: TextStyles.s14RegularText
                                   .copyWith(color: Palette.gray100),
                             ),
                             TextSpan(
                               text: controller
                                   .searchHotelsParams.value.checkinDate
                                   .toShowUIDate(),
-                              style: TextStyles.s14regularText,
+                              style: TextStyles.s14RegularText,
                             )
                           ],
                         ),
@@ -111,14 +111,14 @@ class HomeSearchBox extends GetView<HomeController> {
                           children: [
                             TextSpan(
                               text: 'Ngày trả phòng\n',
-                              style: TextStyles.s14regularText
+                              style: TextStyles.s14RegularText
                                   .copyWith(color: Palette.gray100),
                             ),
                             TextSpan(
                               text: controller
                                   .searchHotelsParams.value.checkoutDate
                                   .toShowUIDate(),
-                              style: TextStyles.s14regularText,
+                              style: TextStyles.s14RegularText,
                             )
                           ],
                         ),
@@ -168,7 +168,7 @@ class HomeSearchBox extends GetView<HomeController> {
                     Obx(
                       () => Text(
                         '${controller.searchHotelsParams.value.numberOfRooms} phòng - ${controller.searchHotelsParams.value.numberOfTenants} người',
-                        style: TextStyles.s14regularText,
+                        style: TextStyles.s14RegularText,
                       ),
                     )
                   ],

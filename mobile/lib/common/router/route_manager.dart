@@ -8,6 +8,8 @@ import 'package:mobile/modules/home/views/choose_rom.view.dart';
 import 'package:mobile/modules/home/views/hotel_detail.view.dart';
 import 'package:mobile/modules/home/views/pick_destination.view.dart';
 import 'package:mobile/modules/home/views/search_hotels.view.dart';
+import 'package:mobile/modules/profile/bindings/profile.binding.dart';
+import 'package:mobile/modules/profile/presentation/views/profile.view.dart';
 import 'package:mobile/modules/root/bindings/root.binding.dart';
 import 'package:mobile/modules/root/views/root.view.dart';
 import 'package:mobile/modules/welcome/bindings/welcome.binding.dart';
@@ -23,6 +25,7 @@ abstract class RouteManager {
   static const String pickDestination = '/pick_destination';
   static const String hotelDetail = '/hotel_detail';
   static const String chooseRoom = '/choose_room';
+  static const String profile = '/profile';
 
   static List<GetPage> pages = [
     GetPage(
@@ -43,7 +46,7 @@ abstract class RouteManager {
     GetPage(
       name: root,
       page: () => const RootScreen(),
-      bindings: [RootBinding(), HomeBinding()],
+      bindings: [RootBinding(), HomeBinding(), ProfileBinding()],
     ),
     GetPage(
       name: searchHotel,
@@ -60,6 +63,10 @@ abstract class RouteManager {
     GetPage(
       name: chooseRoom,
       page: () => const ChooseRoomScreen(),
+    ),
+    GetPage(
+      name: profile,
+      page: () => const ProfileScreen(),
     )
   ];
 }

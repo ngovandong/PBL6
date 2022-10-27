@@ -33,7 +33,7 @@ class RowSocialLogin extends GetView<AuthController> {
               child: Text(
                 'Đăng nhập với',
                 style:
-                    TextStyles.s14regularText.copyWith(color: Palette.gray200),
+                    TextStyles.s14RegularText.copyWith(color: Palette.gray200),
               ),
             ),
             const Expanded(
