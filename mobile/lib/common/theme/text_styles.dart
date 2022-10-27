@@ -9,19 +9,19 @@ abstract class TextStyles {
     color: Palette.zodiacBlue,
     fontWeight: FontWeight.w400,
   );
-  static const TextStyle s11regularText = TextStyle(
+  static const TextStyle s11RegularText = TextStyle(
     fontFamily: FontFamily.mulish,
     color: Palette.zodiacBlue,
     fontWeight: FontWeight.w400,
     fontSize: 11,
   );
-  static const TextStyle s14regularText = TextStyle(
+  static const TextStyle s14RegularText = TextStyle(
     fontFamily: FontFamily.mulish,
     color: Palette.zodiacBlue,
     fontWeight: FontWeight.w400,
     fontSize: 14,
   );
-  static const TextStyle s17regularText = TextStyle(
+  static const TextStyle s17RegularText = TextStyle(
     fontFamily: FontFamily.mulish,
     color: Palette.zodiacBlue,
     fontWeight: FontWeight.w400,

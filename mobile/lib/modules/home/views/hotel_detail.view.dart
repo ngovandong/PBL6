@@ -155,7 +155,7 @@ class HotelDetailScreen extends StatelessWidget {
                       ),
                       Text(
                         'Hội An, Quảng Nam',
-                        style: TextStyles.s14regularText,
+                        style: TextStyles.s14RegularText,
                       )
                     ],
                   ),
@@ -176,7 +176,7 @@ class HotelDetailScreen extends StatelessWidget {
                       ),
                       Text(
                         'xem tất cả',
-                        style: TextStyles.s14regularText.copyWith(
+                        style: TextStyles.s14RegularText.copyWith(
                           color: Palette.blue300,
                         ),
                       )
@@ -191,7 +191,7 @@ class HotelDetailScreen extends StatelessWidget {
                       ),
                       Text(
                         'xem tất cả',
-                        style: TextStyles.s14regularText.copyWith(
+                        style: TextStyles.s14RegularText.copyWith(
                           color: Palette.blue300,
                         ),
                       )
@@ -206,7 +206,7 @@ class HotelDetailScreen extends StatelessWidget {
                       ),
                       Text(
                         'xem tất cả',
-                        style: TextStyles.s14regularText.copyWith(
+                        style: TextStyles.s14RegularText.copyWith(
                           color: Palette.blue300,
                         ),
                       )

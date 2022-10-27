@@ -141,11 +141,11 @@ class _AppDatePickerState extends State<AppDatePicker> {
                 firstDayOfWeek: 1,
               ),
               yearCellStyle: const DateRangePickerYearCellStyle(
-                todayTextStyle: TextStyles.s14regularText,
+                todayTextStyle: TextStyles.s14RegularText,
               ),
               monthCellStyle: const DateRangePickerMonthCellStyle(
-                leadingDatesTextStyle: TextStyles.s14regularText,
-                trailingDatesTextStyle: TextStyles.s14regularText,
+                leadingDatesTextStyle: TextStyles.s14RegularText,
+                trailingDatesTextStyle: TextStyles.s14RegularText,
               ),
               todayHighlightColor: Palette.zodiacBlue,
               onSelectionChanged: onSelectionChanged,

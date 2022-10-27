@@ -32,6 +32,12 @@ class LocaleKeys {
   static const hotel_detail_position = 'hotel_detail_position';
   static const dialog_no = 'dialog_no';
   static const dialog_yes = 'dialog_yes';
+  static const profile_setting_account = 'profile_setting_account';
+  static const profile_language = 'profile_language';
+  static const profile_notication = 'profile_notication';
+  static const profile_help_center = 'profile_help_center';
+  static const profile_about_us = 'profile_about_us';
+  static const profile_login_signup = 'profile_login_signup';
 }
 
 class Locales {
@@ -58,5 +64,11 @@ class Locales {
     'hotel_detail_position': 'Vị trí',
     'dialog_no': 'Không',
     'dialog_yes': 'Có',
+    'profile_setting_account': 'Cài đặt tài khoản',
+    'profile_language': 'Ngôn ngữ',
+    'profile_notication': 'Thông báo',
+    'profile_help_center': 'Trung tâm trợ giúp',
+    'profile_about_us': 'Về chúng tôi',
+    'profile_login_signup': 'Đăng nhập/Đăng ký',
   };
 }

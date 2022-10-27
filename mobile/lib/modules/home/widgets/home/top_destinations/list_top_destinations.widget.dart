@@ -24,7 +24,7 @@ class ListTopDestinations extends StatelessWidget {
                 ),
                 Text(
                   'xem tất cả',
-                  style: TextStyles.s14regularText
+                  style: TextStyles.s14RegularText
                       .copyWith(color: Palette.blue400),
                 )
               ],

@@ -151,7 +151,7 @@ class ChooseRoomScreen extends StatelessWidget {
                       ),
                       TextSpan(
                         text: 'View nhìn ra biển',
-                        style: TextStyles.s14regularText,
+                        style: TextStyles.s14RegularText,
                       ),
                       WidgetSpan(
                         child: SizedBox(
@@ -172,7 +172,7 @@ class ChooseRoomScreen extends StatelessWidget {
                       ),
                       TextSpan(
                         text: 'View nhìn ra biển',
-                        style: TextStyles.s14regularText,
+                        style: TextStyles.s14RegularText,
                       ),
                     ],
                   ),

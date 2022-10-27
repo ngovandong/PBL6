@@ -27,5 +27,13 @@
   "dialog": {
     "no": "Không",
     "yes": "Có"
+  },
+  "profile": {
+    "setting_account": "Cài đặt tài khoản",
+    "language": "Ngôn ngữ",
+    "notication": "Thông báo",
+    "help_center": "Trung tâm trợ giúp",
+    "about_us": "Về chúng tôi",
+    "login_signup": "Đăng nhập/Đăng ký"
   }
 }

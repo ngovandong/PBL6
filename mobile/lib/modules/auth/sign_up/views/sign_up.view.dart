@@ -62,7 +62,7 @@ class SignUpScreen extends GetView<SignUpController> {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Đã có tài khoản?',
-                        style: TextStyles.s17regularText
+                        style: TextStyles.s17RegularText
                             .copyWith(color: Palette.gray300),
                       ),
                       TextSpan(
