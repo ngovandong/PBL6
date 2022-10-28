@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
+import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/extensions/datetime.extension.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
@@ -24,22 +25,30 @@ class HomeSearchBox extends GetView<HomeController> {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Palette.blue400),
       ),
-      margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+      margin: const EdgeInsets.fromLTRB(
+        UIConfigs.horizontalPadding,
+        UIConfigs.horizontalPadding,
+        UIConfigs.horizontalPadding,
+        0,
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child: Column(
+        child: Wrap(
           children: [
-            AppTextFormField(
-              hintText: LocaleKeys.find_hotel_choose_destination.tr,
-              prefixIcon: const Icon(
-                PhosphorIcons.magnifying_glass_bold,
-                color: Palette.blue400,
+            GestureDetector(
+              onTap: () => Get.toNamed(RouteManager.pickDestination),
+              child: AppTextFormField(
+                hintText: LocaleKeys.find_hotel_choose_destination.tr,
+                prefixIcon: const Icon(
+                  PhosphorIcons.magnifying_glass_bold,
+                  color: Palette.blue400,
+                ),
+                borderColor: Colors.white,
+                borderRadius: 0,
+                extendField: false,
+                readOnly: true,
+                enabled: false,
               ),
-              borderColor: Colors.white,
-              borderRadius: 0,
-              extendField: false,
-              readOnly: true,
-              enabled: false,
             ),
             const Divider(
               height: 0,
@@ -82,14 +91,14 @@ class HomeSearchBox extends GetView<HomeController> {
                           children: [
                             TextSpan(
                               text: 'Ngày nhận phòng\n',
-                              style: TextStyles.s14regularText
+                              style: TextStyles.s14RegularText
                                   .copyWith(color: Palette.gray100),
                             ),
                             TextSpan(
                               text: controller
                                   .searchHotelsParams.value.checkinDate
                                   .toShowUIDate(),
-                              style: TextStyles.s14regularText,
+                              style: TextStyles.s14RegularText,
                             )
                           ],
                         ),
@@ -102,14 +111,14 @@ class HomeSearchBox extends GetView<HomeController> {
                           children: [
                             TextSpan(
                               text: 'Ngày trả phòng\n',
-                              style: TextStyles.s14regularText
+                              style: TextStyles.s14RegularText
                                   .copyWith(color: Palette.gray100),
                             ),
                             TextSpan(
                               text: controller
                                   .searchHotelsParams.value.checkoutDate
                                   .toShowUIDate(),
-                              style: TextStyles.s14regularText,
+                              style: TextStyles.s14RegularText,
                             )
                           ],
                         ),
@@ -159,7 +168,7 @@ class HomeSearchBox extends GetView<HomeController> {
                     Obx(
                       () => Text(
                         '${controller.searchHotelsParams.value.numberOfRooms} phòng - ${controller.searchHotelsParams.value.numberOfTenants} người',
-                        style: TextStyles.s14regularText,
+                        style: TextStyles.s14RegularText,
                       ),
                     )
                   ],

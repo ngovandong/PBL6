@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
@@ -28,7 +29,12 @@ class HomeScreen extends GetView<HomeController> {
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(15, 15, 0, 15),
+                  padding: EdgeInsets.fromLTRB(
+                    UIConfigs.horizontalPadding,
+                    UIConfigs.horizontalPadding,
+                    0,
+                    UIConfigs.horizontalPadding,
+                  ),
                   child: Text(
                     'Khám phá thêm',
                     style: TextStyles.s17BoldText,

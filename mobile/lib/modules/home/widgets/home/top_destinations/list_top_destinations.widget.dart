@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/modules/home/widgets/home/top_destinations/top_destination_item.widget.dart';
@@ -23,7 +24,7 @@ class ListTopDestinations extends StatelessWidget {
                 ),
                 Text(
                   'xem tất cả',
-                  style: TextStyles.s14regularText
+                  style: TextStyles.s14RegularText
                       .copyWith(color: Palette.blue400),
                 )
               ],
@@ -33,11 +34,13 @@ class ListTopDestinations extends StatelessWidget {
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(
+            horizontal: UIConfigs.horizontalPadding,
+          ),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            mainAxisSpacing: 15,
-            crossAxisSpacing: 15,
+            mainAxisSpacing: UIConfigs.horizontalPadding,
+            crossAxisSpacing: UIConfigs.horizontalPadding,
             childAspectRatio: 1 / 1.1,
           ),
           itemCount: 6,

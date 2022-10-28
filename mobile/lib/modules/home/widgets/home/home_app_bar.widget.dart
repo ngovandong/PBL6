@@ -4,20 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/app_icon_button.widget.dart';
+import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      centerTitle: false,
-      leadingWidth: 0,
-      automaticallyImplyLeading: false,
-      backgroundColor: Palette.background,
-      elevation: 0,
-      toolbarHeight: 60,
-      titleSpacing: 15,
+    return CustomAppBar(
+      isCenterTitle: false,
       title: Row(
         children: [
           Container(

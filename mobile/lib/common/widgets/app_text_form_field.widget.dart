@@ -28,7 +28,7 @@ class AppTextFormField extends StatefulWidget {
 
   final String? Function(String?)? validator;
   final void Function()? onTap;
-  final void Function(String)? onChanged;
+  final Future<void> Function(String)? onChanged;
 
   const AppTextFormField({
     Key? key,
@@ -78,11 +78,11 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       enableSuggestions: false,
       enabled: widget.enabled,
       keyboardType: widget.keyboardType,
-      style: TextStyles.s14regularText.copyWith(color: Palette.zodiacBlue),
+      style: TextStyles.s14RegularText.copyWith(color: Palette.zodiacBlue),
       textAlign: widget.isCenterText ? TextAlign.center : TextAlign.start,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        hintStyle: TextStyles.s14regularText.copyWith(color: Palette.gray100),
+        hintStyle: TextStyles.s14RegularText.copyWith(color: Palette.gray100),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
           borderSide: const BorderSide(

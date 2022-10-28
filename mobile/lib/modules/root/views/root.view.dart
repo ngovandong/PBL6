@@ -5,7 +5,7 @@ import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/modules/booking_history/views/booking_history.view.dart';
 import 'package:mobile/modules/favorite/views/favorite.view.dart';
 import 'package:mobile/modules/home/views/home.view.dart';
-import 'package:mobile/modules/profile/views/profile.view.dart';
+import 'package:mobile/modules/profile/presentation/views/profile.view.dart';
 import 'package:mobile/modules/root/controllers/root.controller.dart';
 
 class RootScreen extends GetWidget<RootController> {
@@ -19,8 +19,8 @@ class RootScreen extends GetWidget<RootController> {
           index: controller.currentTabIndex.value,
           children: const [
             HomeScreen(),
-            FavoriteScreen(),
             BookingHistoryScreen(),
+            FavoriteScreen(),
             ProfileScreen(),
           ],
         ),

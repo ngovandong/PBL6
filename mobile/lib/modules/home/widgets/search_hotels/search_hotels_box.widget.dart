@@ -6,8 +6,9 @@ import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/app_icon_button.widget.dart';
 import 'package:mobile/generated/assets.gen.dart';
+import 'package:mobile/modules/home/controllers/search_hotel.controller.dart';
 
-class SearchHotelsBox extends StatelessWidget {
+class SearchHotelsBox extends GetView<SearchHotelController> {
   const SearchHotelsBox({super.key});
 
   @override
@@ -64,61 +65,64 @@ class SearchHotelsBox extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 70,
-                    child: Row(
-                      children: [
-                        const SizedBox.square(
-                          dimension: 70,
-                          child: Center(
-                            child: Icon(
-                              PhosphorIcons.magnifying_glass_bold,
-                              color: Palette.blue400,
+                  GestureDetector(
+                    onTap: controller.onTapSearchBox,
+                    child: SizedBox(
+                      height: 70,
+                      child: Row(
+                        children: [
+                          const SizedBox.square(
+                            dimension: 70,
+                            child: Center(
+                              child: Icon(
+                                PhosphorIcons.magnifying_glass_bold,
+                                color: Palette.blue400,
+                              ),
                             ),
                           ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Hội An, Quảng Nam',
-                              style: TextStyles.s17BoldText,
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '10/10/2022 - 12/10/2022',
-                                  style: TextStyles.regularText
-                                      .copyWith(fontSize: 13.sp),
-                                ),
-                                const SizedBox(
-                                  width: 6,
-                                ),
-                                Container(
-                                  width: 4,
-                                  height: 4,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Palette.zodiacBlue,
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Hội An, Quảng Nam',
+                                style: TextStyles.s17BoldText,
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '10/10/2022 - 12/10/2022',
+                                    style: TextStyles.regularText
+                                        .copyWith(fontSize: 13.sp),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 6,
-                                ),
-                                Text(
-                                  '2 khách',
-                                  style: TextStyles.regularText
-                                      .copyWith(fontSize: 13.sp),
-                                )
-                              ],
-                            )
-                          ],
-                        )
-                      ],
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  Container(
+                                    width: 4,
+                                    height: 4,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Palette.zodiacBlue,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  Text(
+                                    '2 khách',
+                                    style: TextStyles.regularText
+                                        .copyWith(fontSize: 13.sp),
+                                  )
+                                ],
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   const Divider(

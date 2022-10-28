@@ -33,7 +33,7 @@ class RowSocialLogin extends GetView<AuthController> {
               child: Text(
                 'Đăng nhập với',
                 style:
-                    TextStyles.s14regularText.copyWith(color: Palette.gray200),
+                    TextStyles.s14RegularText.copyWith(color: Palette.gray200),
               ),
             ),
             const Expanded(
@@ -52,6 +52,7 @@ class RowSocialLogin extends GetView<AuthController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(3, (index) {
               return AppIconButton(
+                height: 40,
                 onPressed: controller.loginWithGoolge,
                 icon: SvgPicture.asset(
                   iconPaths[index],

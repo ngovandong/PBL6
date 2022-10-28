@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mobile/common/constants/env_keys.dart';
 import 'package:mobile/common/utils/dio/dio_interceptor.dart';
 
 class HttpRequestResponse {
@@ -19,15 +20,17 @@ abstract class DioProvider {
   static final Dio _dio = Dio()..interceptors.add(DioInterceptor());
 
   static Future<HttpRequestResponse> get({
-    required String url,
+    required String endpoint,
     Map<String, dynamic>? queryParams,
   }) async {
-    final String endpoint = '${dotenv.env[EnvKeys.apiUrl]}$url';
+    // final String endpoint = '${dotenv.env[EnvKeys.apiUrl]}$url';
 
     final Response response = await _dio.get(
       endpoint,
       queryParameters: queryParams,
     );
+
+    log(response.requestOptions.path);
 
     return HttpRequestResponse(
       data: response.data,
