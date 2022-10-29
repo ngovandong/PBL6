@@ -20,6 +20,7 @@ class AppTextFormField extends StatefulWidget {
   final Color focusedBorderColor;
   final Color borderColor;
   final Color fillColor;
+  final Color hintColor;
 
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -44,6 +45,7 @@ class AppTextFormField extends StatefulWidget {
     this.borderColor = Palette.gray100,
     this.focusedBorderColor = Palette.blue400,
     this.fillColor = Colors.white,
+    this.hintColor = Palette.gray100,
     this.suffixIcon,
     this.prefixIcon,
     this.keyboardType,
@@ -82,7 +84,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       textAlign: widget.isCenterText ? TextAlign.center : TextAlign.start,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        hintStyle: TextStyles.s14RegularText.copyWith(color: Palette.gray100),
+        hintStyle: TextStyles.s14RegularText.copyWith(color: widget.hintColor),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
           borderSide: const BorderSide(
