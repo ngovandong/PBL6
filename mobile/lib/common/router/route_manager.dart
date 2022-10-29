@@ -3,6 +3,8 @@ import 'package:mobile/modules/auth/login/bindings/login.binding.dart';
 import 'package:mobile/modules/auth/login/views/login.view.dart';
 import 'package:mobile/modules/auth/sign_up/bindings/sign_up.binding.dart';
 import 'package:mobile/modules/auth/sign_up/views/sign_up.view.dart';
+import 'package:mobile/modules/booking_history/bindings/booking_history.binding.dart';
+import 'package:mobile/modules/booking_history/views/find_booking_history.view.dart';
 import 'package:mobile/modules/home/bindings/home.binding.dart';
 import 'package:mobile/modules/home/views/choose_rom.view.dart';
 import 'package:mobile/modules/home/views/hotel_detail.view.dart';
@@ -26,6 +28,7 @@ abstract class RouteManager {
   static const String hotelDetail = '/hotel_detail';
   static const String chooseRoom = '/choose_room';
   static const String profile = '/profile';
+  static const String findBookingHistory = '/find_booking_history';
 
   static List<GetPage> pages = [
     GetPage(
@@ -46,7 +49,16 @@ abstract class RouteManager {
     GetPage(
       name: root,
       page: () => const RootScreen(),
-      bindings: [RootBinding(), HomeBinding(), ProfileBinding()],
+      bindings: [
+        RootBinding(),
+        HomeBinding(),
+        BookingHistoryBinding(),
+        ProfileBinding()
+      ],
+    ),
+    GetPage(
+      name: findBookingHistory,
+      page: () => const FindBookingHistoryView(),
     ),
     GetPage(
       name: searchHotel,

@@ -12,6 +12,7 @@ class AppRoundedButton extends StatelessWidget {
   final double fontSize;
 
   final Color backgroundColor;
+  final Color borderColor;
   final Color disableBackgroundColor;
   final Color textColor;
 
@@ -30,6 +31,7 @@ class AppRoundedButton extends StatelessWidget {
     this.fontSize = 18,
     this.borderRadius = 10,
     this.backgroundColor = Palette.blue300,
+    this.borderColor = Palette.gray200,
     this.disableBackgroundColor = Palette.gray300,
     this.textColor = Colors.white,
     required this.content,
@@ -46,17 +48,17 @@ class AppRoundedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         fixedSize: Size(width, height),
         minimumSize: Size(width, height),
+        maximumSize: Size(width, height),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          side: showBorder
-              ? const BorderSide(color: Palette.gray200)
-              : BorderSide.none,
+          side: showBorder ? BorderSide(color: borderColor) : BorderSide.none,
         ),
         shadowColor: showShadow ? Colors.black : null,
         elevation: showShadow ? 5 : 0,
         backgroundColor: isDisable ? disableBackgroundColor : backgroundColor,
         splashFactory: NoSplash.splashFactory,
         foregroundColor: isDisable ? disableBackgroundColor : backgroundColor,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       child: isLoading
           ? const LoadingDot()

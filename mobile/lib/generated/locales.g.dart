@@ -38,6 +38,10 @@ class LocaleKeys {
   static const profile_help_center = 'profile_help_center';
   static const profile_about_us = 'profile_about_us';
   static const profile_login_signup = 'profile_login_signup';
+  static const booking_history_ordered = 'booking_history_ordered';
+  static const booking_history_cancel = 'booking_history_cancel';
+  static const booking_history_ongoing = 'booking_history_ongoing';
+  static const booking_history_title = 'booking_history_title';
 }
 
 class Locales {
@@ -70,5 +74,9 @@ class Locales {
     'profile_help_center': 'Trung tâm trợ giúp',
     'profile_about_us': 'Về chúng tôi',
     'profile_login_signup': 'Đăng nhập/Đăng ký',
+    'booking_history_ordered': 'Đã đặt',
+    'booking_history_cancel': 'Đã huỷ',
+    'booking_history_ongoing': 'Đang đợi',
+    'booking_history_title': 'Lịch sử đặt phòng',
   };
 }

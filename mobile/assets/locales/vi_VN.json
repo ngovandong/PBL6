@@ -35,5 +35,11 @@
     "help_center": "Trung tâm trợ giúp",
     "about_us": "Về chúng tôi",
     "login_signup": "Đăng nhập/Đăng ký"
+  },
+  "booking_history": {
+    "ordered": "Đã đặt",
+    "cancel": "Đã huỷ",
+    "ongoing": "Đang đợi",
+    "title": "Lịch sử đặt phòng"
   }
 }

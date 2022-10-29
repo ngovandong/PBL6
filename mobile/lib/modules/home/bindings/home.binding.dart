@@ -13,6 +13,7 @@ class HomeBinding implements Bindings {
     );
     Get.lazyPut(
       () => PickDestinationController(),
+      fenix: true,
     );
     Get.lazyPut(
       () => SearchHotelController(),

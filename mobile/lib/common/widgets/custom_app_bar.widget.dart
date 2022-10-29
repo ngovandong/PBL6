@@ -14,8 +14,10 @@ class CustomAppBar extends StatelessWidget {
   final double toolbarHeight;
   final double titleSpacing;
   final double elevation;
+  final double bottomSize;
 
   final Widget title;
+  final Widget? bottom;
   final List<Widget> actions;
 
   const CustomAppBar({
@@ -28,7 +30,9 @@ class CustomAppBar extends StatelessWidget {
     this.toolbarHeight = 60,
     this.titleSpacing = 15,
     this.elevation = 0,
+    this.bottomSize = 45,
     required this.title,
+    this.bottom,
     this.actions = const [],
   });
 
@@ -43,6 +47,12 @@ class CustomAppBar extends StatelessWidget {
       toolbarHeight: toolbarHeight,
       titleSpacing: titleSpacing,
       title: title,
+      bottom: bottom != null
+          ? PreferredSize(
+              preferredSize: Size.fromHeight(bottomSize),
+              child: bottom!,
+            )
+          : null,
       actions: actions,
       leading: hasBackIcon
           ? AppIconButton(
