@@ -1,4 +1,4 @@
-import { cities } from 'contansts/city'
+import { cities } from '@constants/city'
 import Carousel from 'react-material-ui-carousel'
 import { Box, Grid } from '@mui/material'
 import { CardCarousel } from '@components/atoms/Card'
