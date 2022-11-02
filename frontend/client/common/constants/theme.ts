@@ -5,12 +5,12 @@ const theme = createTheme({
     primary: {
       // Purple and green play nicely together.
       // main: '#1468a2',
-      main: '#ffffff'
+      main: '#fff',
     },
     background: {
-      default: "#f0f2f5",
-    }
+      default: '#fff',
+    },
   },
 })
 
-export default theme;
+export default theme
