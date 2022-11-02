@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile/common/utils/dio/dio_interceptor.dart';
+import 'package:mobile/flavors.dart';
 
 class HttpRequestResponse {
   final dynamic data;
@@ -44,7 +44,7 @@ abstract class DioProvider {
     Map<String, dynamic>? formBody,
     Map<String, dynamic>? queryParams,
   }) async {
-    final String endpoint = '${dotenv.env['API_URL']}$url';
+    final String endpoint = '${AppFlavor.apiUrl}$url';
 
     final Response response = await _dio.post(
       endpoint,
@@ -64,7 +64,7 @@ abstract class DioProvider {
     Map<String, dynamic>? formBody,
     Map<String, dynamic>? queryParams,
   }) async {
-    final String endpoint = '${dotenv.env['API_URL']}$url}';
+    final String endpoint = '${AppFlavor.apiUrl}$url';
     final Response response = await _dio.patch(endpoint, data: formBody);
     return response.data;
   }
