@@ -16,8 +16,8 @@ import Link from 'next/link'
 
 export const Header = () => {
   return (
-    <AppBar position='sticky'>
-      <Container maxWidth='xl'>
+    <AppBar position="sticky" style={{boxShadow: 'unset', borderBottom: '1px solid #F7F7F7'}} >
+      <Container maxWidth='lg'>
         <Toolbar
           disableGutters
           sx={{ display: 'flex', justifyContent: 'space-between' }}

@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <DefaultLayout>
-        <Box sx={{ margin: 'auto', padding: '50px 0' }}>
+        {/* <Box sx={{ margin: 'auto', padding: '50px 0' }}>
           <Title
             title='TÌM KHÁCH SẠN, KHU NGHỈ DƯỠNG VÀ HƠN THẾ NỮA'
             align='center'
@@ -35,18 +35,15 @@ const Home: NextPage = () => {
             align='center'
           />
           <SliderCards />
-        </Box>
-        <Box
-          sx={{ margin: 'auto', maxWidth: '1200px', marginBottom: '40px' }}
-          className='content'
-        >
+        </Box> */}
+        <Box>
           <Title
             title='Khám phá những chỗ nghỉ nổi bật khuyến nghị cho bạn'
             align='center'
           />
           <CardContainer />
         </Box>
-        <Box
+        {/* <Box
           sx={{ margin: 'auto', maxWidth: '1200px', marginBottom: '20px' }}
           className='content'
         >
@@ -59,7 +56,7 @@ const Home: NextPage = () => {
             Khuyến mãi, giảm giá và ưu đãi đặc biệt dành riêng cho bạn
           </Typography>
           <SliderCards />
-        </Box>
+        </Box> */}
       </DefaultLayout>
     </div>
   )
