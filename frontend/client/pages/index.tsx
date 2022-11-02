@@ -1,14 +1,14 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import DefaultLayout from '@components/layout/DefaultLayout'
+import DefaultLayout from 'common/components/layout/DefaultLayout'
 
-import styles from '@styles/Home.module.scss'
-import MainFilter from '@components/molecules/filter/MainFilter'
+import styles from 'public/styles/Home.module.scss'
+import MainFilter from 'common/components/molecules/filter/MainFilter'
 import { Box, Button, Grid, Slide, Typography } from '@mui/material'
-import SliderCards from '@components/molecules/silder'
-import CardContainer from '@components/molecules/card'
-import { Title } from '@components/atoms/Heading'
+import SliderCards from 'common/components/molecules/silder'
+import CardContainer from 'common/components/molecules/card'
+import { Title } from 'common/components/atoms/Heading'
 
 const Home: NextPage = () => {
   return (

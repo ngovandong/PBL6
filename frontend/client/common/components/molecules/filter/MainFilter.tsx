@@ -1,9 +1,9 @@
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { Box, Button } from '@mui/material'
-import SearchInput from '@components/atoms/SearchInput'
-import RangePicker, { IRangePickerRef } from '@components/atoms/RangePicker'
+import SearchInput from 'common/components/atoms/SearchInput'
+import RangePicker, { IRangePickerRef } from 'common/components/atoms/RangePicker'
 import { useRef } from 'react'
-import DropdownForm from '@components/atoms/DropdownForm'
+import DropdownForm from 'common/components/atoms/DropdownForm'
 
 interface IFormInputs {
   address: string

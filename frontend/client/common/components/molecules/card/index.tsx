@@ -1,4 +1,4 @@
-import { CardItem } from '@components/atoms/Card'
+import { CardItem } from 'common/components/atoms/Card'
 import { Paper, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import { Box, width } from '@mui/system'

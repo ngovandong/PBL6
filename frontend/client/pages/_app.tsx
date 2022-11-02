@@ -4,8 +4,8 @@ import { AppProps } from 'next/app';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import theme from '@constants/theme'
-import createEmotionCache from 'utils/createEmotionCache';
+import theme from 'common/constants/theme'
+import createEmotionCache from 'common/utils/createEmotionCache';
 
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'

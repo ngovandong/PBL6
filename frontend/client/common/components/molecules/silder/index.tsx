@@ -1,7 +1,7 @@
-import { cities } from '@constants/city'
+import { cities } from 'common/constants/city'
 import Carousel from 'react-material-ui-carousel'
 import { Box, Grid } from '@mui/material'
-import { CardCarousel } from '@components/atoms/Card'
+import { CardCarousel } from 'common/components/atoms/Card'
 
 const SliderCards = (props: any) => {
   const totalItems = props.length ? props.length : 6
