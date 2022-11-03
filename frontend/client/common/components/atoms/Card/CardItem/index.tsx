@@ -2,13 +2,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import styled from '@emotion/styled'
-import { borderRadius, boxShadow, padding } from '@constants/styles'
-import { Typography, Grid, Tooltip } from '@mui/material'
+import { Typography, Grid, Tooltip, IconButton } from '@mui/material'
 import { Box } from '@mui/system'
+import { borderRadius, boxShadow } from '@constants/styles'
 
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import PaidIcon from '@mui/icons-material/Paid'
-
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
+import { CSSProperties } from 'react'
 interface ICard {
   src: string
   title: string
@@ -18,7 +19,7 @@ const CardContainer = styled('div')`
   width: 300px;
   background-color: #fff;
   border-radius: ${borderRadius};
-  box-shadow: ${boxShadow};
+  position: relative;
 `
 
 const CardImage = styled(Image)`
@@ -39,6 +40,27 @@ const CardTitle = styled('p')`
   }
 `
 
+const FavoriteIcon = styled(FavoriteOutlinedIcon)(
+  (props: { favorited?: boolean }) => `
+  display: block;
+  stroke: #ffffff;
+  overflow: visible;
+  fill: ${props.favorited ? '#FF385C' : 'rgba(0, 0, 0, 0.5);'}
+`
+)
+
+const ButtonFavorite = styled(IconButton)`
+  border-width: 1px;
+  border-style: solid;
+  border: none;
+  transition: transform 0.25s ease;
+  position: absolute;
+  z-index: 10;
+  right: 8px;
+  top: 5px;
+  background: transparent;
+`
+
 const CardItem = ({ src, title }: ICard) => {
   return (
     <Grid item xs={3}>
@@ -46,6 +68,9 @@ const CardItem = ({ src, title }: ICard) => {
         <Link href={''}>
           <a>
             <div>
+              <ButtonFavorite>
+                <FavoriteIcon />
+              </ButtonFavorite>
               <CardImage src={src} alt={title} width={300} height={240} />
               <Box>
                 <Box>

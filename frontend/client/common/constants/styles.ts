@@ -1,4 +1,5 @@
-export const boxShadow = '1px 1px -1px rgba(0, 0, 0, 0.2)'
+export const boxShadow = '0px 4px 16px rgba(210, 212, 218, 0.75)'
 export const padding = '12px'
 export const borderRadius = '12px'
-export const primaryColor = '#495386'
+export const borderRadiusButton = '40px'
+export const primaryColor = '#131C38'
