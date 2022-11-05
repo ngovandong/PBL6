@@ -16,10 +16,10 @@
     "incremental": true,
     "baseUrl": "",
     "paths": {
-      "@components/*": ["components/*"],
-      "@styles/*": ["styles/*"],
-      "@constants/*": ["constants/*"],
-      "@utils/*": ["utils/*"]
+      "@components/*": ["common/components/*"],
+      "@styles/*": ["public/styles/*"],
+      "@constants/*": ["common/constants/*"],
+      "@utils/*": ["common/utils/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

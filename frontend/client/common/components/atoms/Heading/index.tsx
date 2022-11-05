@@ -14,7 +14,6 @@ export const Title = ({
       align={align || 'left'}
       fontSize='28px'
       fontWeight='700'
-      marginBottom='32px'
       sx={{ ...sx }}
     >
       {title}

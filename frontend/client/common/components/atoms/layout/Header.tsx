@@ -1,26 +1,21 @@
-import {
-  AppBar,
-  Container,
-  Toolbar,
-  Typography,
-  Box,
-  Button,
-  Tooltip,
-  Menu,
-  MenuItem,
-  IconButton,
-  Avatar,
-} from '@mui/material'
-import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import Link from 'next/link'
+import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
+import { DefaultButton } from '../Button/DefaultButton'
 
 export const Header = () => {
   return (
-    <AppBar position='sticky'>
-      <Container maxWidth='xl'>
+    <AppBar
+      position='sticky'
+      style={{ boxShadow: 'unset', borderBottom: '1px solid #F7F7F7' }}
+    >
+      <Container maxWidth='lg'>
         <Toolbar
           disableGutters
-          sx={{ display: 'flex', justifyContent: 'space-between' }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
         >
           <Box
             sx={{
@@ -56,21 +51,9 @@ export const Header = () => {
               minWidth: '400px',
             }}
           >
-            <Link href='/'>
-              <a>
-                <Typography>Đăng ký host</Typography>
-              </a>
-            </Link>
-            <Link href='/'>
-              <a>
-                <Typography>Đăng nhập</Typography>
-              </a>
-            </Link>
-            <Link href='/'>
-              <a>
-                <Typography>Tạo tài khoản</Typography>
-              </a>
-            </Link>
+            <DefaultButton color='primary'>Đăng chỗ nghỉ</DefaultButton>
+            <DefaultButton>Đăng ký</DefaultButton>
+            <DefaultButton>Đăng nhập</DefaultButton>
           </Box>
         </Toolbar>
       </Container>
