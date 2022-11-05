@@ -2,7 +2,7 @@ import { borderRadiusButton, boxShadow } from '@constants/styles'
 import { Button, ButtonProps, styled, Typography } from '@mui/material'
 
 const ButtonContainer = styled(Button)(({ color }) => ({
-  background: `${color === 'primary' ? ' #FE843D' : '#D7E3F5'}`,
+  background: `${color === 'primary' ? '#FE843D' : '#D7E3F5'}`,
   border: '1px solid #F7F7F7',
   borderRadius: `${borderRadiusButton}`,
   color: `${color === 'primary' ? '#FFFFFF' : '#131C38'}`,
@@ -26,7 +26,11 @@ const ButtonContainer = styled(Button)(({ color }) => ({
 
 export const DefaultButton = (props: ButtonProps) => {
   return (
-    <ButtonContainer color={props.color} sx={props.sx}>
+    <ButtonContainer
+      color={props.color}
+      sx={props.sx}
+      disabled={props.disabled}
+    >
       {props.children}
     </ButtonContainer>
   )

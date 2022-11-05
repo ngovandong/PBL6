@@ -2,7 +2,6 @@ import { Box } from '@mui/material'
 import { Footer } from 'common/components/atoms/layout/Footer'
 import { Header } from 'common/components/atoms/layout/Header'
 
-
 const DefaultLayout = ({ children }: any) => {
   return (
     <div>
