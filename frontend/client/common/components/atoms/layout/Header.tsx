@@ -1,9 +1,11 @@
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { DefaultButton } from '../Button/DefaultButton'
 
 export const Header = () => {
+  const router = useRouter()
+
   return (
     <AppBar
       position='sticky'
@@ -52,8 +54,12 @@ export const Header = () => {
             }}
           >
             <DefaultButton color='primary'>Đăng chỗ nghỉ</DefaultButton>
-            <DefaultButton>Đăng ký</DefaultButton>
-            <DefaultButton>Đăng nhập</DefaultButton>
+            <DefaultButton onClick={() => router.push('/sign-in')}>
+              Đăng ký
+            </DefaultButton>
+            <DefaultButton onClick={() => router.push('/sign-in')}>
+              Đăng nhập
+            </DefaultButton>
           </Box>
         </Toolbar>
       </Container>

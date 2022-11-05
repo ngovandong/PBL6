@@ -30,6 +30,7 @@ export const DefaultButton = (props: ButtonProps) => {
       color={props.color}
       sx={props.sx}
       disabled={props.disabled}
+      onClick={props.onClick}
     >
       {props.children}
     </ButtonContainer>
