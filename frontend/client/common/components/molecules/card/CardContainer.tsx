@@ -8,7 +8,12 @@ const dump = {
 
 const CardContainer = () => {
   return (
-    <Grid container spacing={3} width='100%' margin='auto'>
+    <Grid container rowSpacing={2} columnSpacing={1} width='100%' margin='auto'>
+      <CardItem src={dump.src} title={dump.title} />
+      <CardItem src={dump.src} title={dump.title} />
+      <CardItem src={dump.src} title={dump.title} />
+      <CardItem src={dump.src} title={dump.title} />
+      <CardItem src={dump.src} title={dump.title} />
       <CardItem src={dump.src} title={dump.title} />
       <CardItem src={dump.src} title={dump.title} />
       <CardItem src={dump.src} title={dump.title} />

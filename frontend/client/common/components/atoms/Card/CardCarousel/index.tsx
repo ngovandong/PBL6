@@ -1,3 +1,4 @@
+import { borderRadius } from '@constants/styles'
 import { Paper, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import { Box, width } from '@mui/system'
@@ -22,6 +23,7 @@ const CardCarousel = (props: IRoundCard) => {
             alt={title}
             width={props?.size || 300}
             height={props?.size || 300}
+            style={{ borderRadius: borderRadius }}
           />
           <Box>
             <Typography variant='h6'>{title}</Typography>

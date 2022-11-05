@@ -34,7 +34,8 @@ const ChipContainer = () => {
       alignItems='center'
       justifyContent='center'
       spacing={2}
-      mt={1}
+      mt={2}
+      mb={1}
     >
       {dump.map((item) => (
         <ChipItem

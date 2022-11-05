@@ -6,7 +6,7 @@ const DefaultLayout = ({ children }: any) => {
   return (
     <div>
       <Header></Header>
-      <Box sx={{ margin: 'auto', maxWidth: '1300px' }}>{children}</Box>
+      <Box sx={{ margin: '30px auto', maxWidth: '1300px' }}>{children}</Box>
       <Footer></Footer>
     </div>
   )

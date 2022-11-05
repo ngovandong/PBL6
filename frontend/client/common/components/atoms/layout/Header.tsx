@@ -12,7 +12,10 @@ export const Header = () => {
       <Container maxWidth='lg'>
         <Toolbar
           disableGutters
-          sx={{ display: 'flex', justifyContent: 'space-between' }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
         >
           <Box
             sx={{
