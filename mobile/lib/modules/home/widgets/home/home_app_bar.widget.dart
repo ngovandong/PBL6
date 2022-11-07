@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile/common/theme/palette.dart';
-import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/app_icon_button.widget.dart';
 import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 
@@ -12,26 +11,6 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      isCenterTitle: false,
-      title: Row(
-        children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(50),
-            ),
-          ),
-          const SizedBox(
-            width: 15,
-          ),
-          const Text(
-            'Minh Đức',
-            style: TextStyles.s17BoldText,
-          )
-        ],
-      ),
       actions: [
         AppIconButton(
           onPressed: () {},

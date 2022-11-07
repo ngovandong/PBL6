@@ -1,2 +1,2 @@
 export 'base.controller.dart';
-export 'auth.controller.dart';
+export 'verify_auth.controller.dart';

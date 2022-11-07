@@ -4,8 +4,8 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/modules/welcome/controllers/welcome.controller.dart';
 
-class SplashScreen extends GetView<WelcomeController> {
-  const SplashScreen({Key? key}) : super(key: key);
+class SplashView extends GetView<WelcomeController> {
+  const SplashView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

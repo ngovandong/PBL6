@@ -1,8 +1,7 @@
 import 'package:get/route_manager.dart';
-import 'package:mobile/modules/auth/login/bindings/login.binding.dart';
-import 'package:mobile/modules/auth/login/views/login.view.dart';
-import 'package:mobile/modules/auth/sign_up/bindings/sign_up.binding.dart';
-import 'package:mobile/modules/auth/sign_up/views/sign_up.view.dart';
+import 'package:mobile/modules/auth/bindings/auth.binding.dart';
+import 'package:mobile/modules/auth/views/auth.view.dart';
+import 'package:mobile/modules/auth/views/fill_email.view.dart';
 import 'package:mobile/modules/booking_history/bindings/booking_history.binding.dart';
 import 'package:mobile/modules/booking_history/views/find_booking_history.view.dart';
 import 'package:mobile/modules/home/bindings/home.binding.dart';
@@ -20,8 +19,8 @@ import 'package:mobile/modules/welcome/views/splash.view.dart';
 abstract class RouteManager {
   static const String splash = '/splash';
   static const String onboard = '/onboard';
-  static const String login = '/login';
-  static const String signUp = '/sign_up';
+  static const String auth = '/auth';
+  static const String fillEmailView = '/fill_email_view';
   static const String root = '/root';
   static const String searchHotel = '/search_hotel';
   static const String pickDestination = '/pick_destination';
@@ -33,18 +32,17 @@ abstract class RouteManager {
   static List<GetPage> pages = [
     GetPage(
       name: splash,
-      page: () => const SplashScreen(),
+      page: () => const SplashView(),
       binding: WelcomeBinding(),
     ),
     GetPage(
-      name: login,
-      page: () => const LoginScreen(),
-      binding: LoginBinding(),
+      name: auth,
+      page: () => const AuthView(),
+      binding: AuthBinding(),
     ),
     GetPage(
-      name: signUp,
-      page: () => const SignUpScreen(),
-      binding: SignUpBinding(),
+      name: fillEmailView,
+      page: () => const FillEmailView(),
     ),
     GetPage(
       name: root,
@@ -78,7 +76,7 @@ abstract class RouteManager {
     ),
     GetPage(
       name: profile,
-      page: () => const ProfileScreen(),
+      page: () => ProfileScreen(),
     )
   ];
 }
