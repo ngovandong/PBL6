@@ -11,7 +11,7 @@ git --version'''
 
     stage('Checkout code') {
       steps {
-        git(url: 'https://github.com/ngovandong/PBL6', branch: 'jenkinstest', credentialsId: 'fc608e6f-8abe-43ea-84ac-a0fd55f44cbf')
+        git(url: 'https://github.com/ngovandong/PBL6', branch: 'develop', credentialsId: 'fc608e6f-8abe-43ea-84ac-a0fd55f44cbf')
         sh '''cd ./frontend/host
 echo "REACT_APP_BASE_URL=$REACT_APP_BASE_URL
 REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY
