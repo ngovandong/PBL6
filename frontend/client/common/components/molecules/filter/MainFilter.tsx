@@ -1,10 +1,13 @@
+import { useState} from 'react'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
-import { Box, Button } from '@mui/material'
-import SearchInput from 'common/components/atoms/SearchInput'
-import RangePicker, { IRangePickerRef } from 'common/components/atoms/RangePicker'
-import { useRef } from 'react'
-import DropdownForm from 'common/components/atoms/DropdownForm'
 
+import { Box, Button, Input, styled } from '@mui/material';
+import { DateRangePickerComponent } from '@syncfusion/ej2-react-calendars';
+import TextField from '@mui/material/TextField';
+import ShareLocationOutlinedIcon from '@mui/icons-material/ShareLocationOutlined';
+
+import { borderRadius, boxShadow, secondaryColor } from '@constants/styles'
+import DropdownForm from '@components/atoms/DropdownForm';
 interface IFormInputs {
   address: string
   startDate: any
@@ -18,53 +21,40 @@ const MainFilter = () => {
     },
   })
 
-  const dateRef = useRef<IRangePickerRef>(null)
-
-  const onSubmit: SubmitHandler<IFormInputs> = (data: any) => {
-    console.log(data, dateRef.current?.startDate)
-  }
+  const minDate = new Date(new Date().getFullYear(), new Date().getMonth(), 7);
+  const maxDate = new Date(new Date().getFullYear(), new Date().getMonth(), 27);
+  const dateValue = new Date(new Date().setDate(14));
 
   return (
     <Box
       sx={{
-        maxWidth: 1200,
-        borderRadius: '16px',
-        background: '#f8f7f9',
-        boxShadow: 'rgb(0 0 0 / 20%) 0px 2px 8px 3px;',
+        maxWidth: 1300,
+        borderRadius: borderRadius,
+        background: secondaryColor,
+        // boxShadow: boxShadow,
         margin: 'auto',
-        padding: '32px',
-        display: 'flex',
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-        <Controller
-          name='address'
-          control={control}
-          render={({ field }) => (
-            <SearchInput
-              inputRef={field.ref}
-              placeholder='Nhập thành phố, địa điểm hoặc tên khách sạn'
-              {...field}
-              sx={{
-                minWidth: 400,
-                flex: 2,
-                height: 50,
-              }}
-            />
-          )}
-        />
+      <form>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <TextField id="address" placeholder='Nhập tên khách sạn hoặc địa điểm' 
+            autoComplete='false'
+            sx={{
+              "& fieldset": { border: 'none' },
+              flexGrow: 1,
+              // minWidth: 320
+            }}
+            
+            InputProps={{
+              startAdornment: <ShareLocationOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 , width: 32, height: 32 }} />, // <== adjusted this
+              disableUnderline: true, // <== added this
+            }}/>
+          <Box>
+            <DateRangePickerComponent id="daterangepicker" placeholder='Select a range' width="250px"/>
+          </Box>
+          <DropdownForm />
+        </Box>
       </form>
-      <RangePicker ref={dateRef} />
-      <DropdownForm />
-      <Button
-        variant='contained'
-        sx={{
-          width: 120,
-          height: 50,
-        }}
-      >
-        Tìm kiếm
-      </Button>
     </Box>
   )
 }

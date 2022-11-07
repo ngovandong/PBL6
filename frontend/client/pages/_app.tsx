@@ -6,11 +6,11 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import theme from 'common/constants/theme'
 import createEmotionCache from 'common/utils/createEmotionCache'
-
-import 'react-dates/initialize'
-import 'react-dates/lib/css/_datepicker.css'
+import { registerLicense } from '@syncfusion/ej2-base';
 
 import 'public/styles/globals.scss'
+
+registerLicense(process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE || '');
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()

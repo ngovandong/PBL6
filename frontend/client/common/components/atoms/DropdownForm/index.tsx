@@ -1,9 +1,12 @@
 import React from 'react'
-import { Menu, MenuItem, Typography, Box } from '@mui/material'
+import { Menu, MenuItem, Typography, Box, styled, IconButton } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
-import Input from '@mui/material/Input'
+
+const CustomMenuItem = styled('li')({
+  padding: '4px 10px',
+})
 
 const DropdownForm = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -30,10 +33,8 @@ const DropdownForm = () => {
             placeContent: 'center',
           }}
         >
-          <Box>1 người | 1 phòng</Box>
-          <Box>
-            <KeyboardArrowDownIcon />
-          </Box>
+          <Box minWidth={180} display="flex" alignItems='center'><p> 1 người</p><Box px={2}>|</Box><p>1 phòng</p></Box>
+          <KeyboardArrowDownIcon />
         </Box>
       </Box>
       <Menu
@@ -69,7 +70,7 @@ const DropdownForm = () => {
         transformOrigin={{ horizontal: 'left', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
       >
-        <MenuItem>
+        <CustomMenuItem>
           <Box
             sx={{
               display: 'flex',
@@ -79,28 +80,53 @@ const DropdownForm = () => {
               placeContent: 'center',
             }}
           >
-            <Typography>Số người</Typography>
+            <Box width={80}>
+              <Typography>Số người</Typography>
+            </Box>
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 textAlign: 'center',
                 flexDirection: 'row',
-                placeContent: 'center',
+                justifyContent: 'flex-end',
+                width: '120px'
               }}
             >
-              <RemoveIcon />
-              1
-              <AddIcon />
+              <IconButton><RemoveIcon /></IconButton>
+              <Box sx={{ width: 20}}>1</Box>
+              <IconButton><AddIcon /></IconButton>
             </Box>
           </Box>
-        </MenuItem>
-        <MenuItem>
-          <Box>
-            <Typography>Số phòng</Typography>
-            <Input type='number' />
+        </CustomMenuItem>
+        <CustomMenuItem>
+          <Box  
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              textAlign: 'center',
+              flexDirection: 'row',
+              placeContent: 'center',
+            }}>
+            <Box width={80}>
+              <Typography>Số phòng</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                textAlign: 'center',
+                flexDirection: 'row',
+                placeContent: 'flex-end',
+                width: '120px'
+              }}
+            >
+             <IconButton><RemoveIcon /></IconButton>
+              <Box sx={{ width: 20}}>1</Box>
+              <IconButton><AddIcon /></IconButton>
+            </Box>
           </Box>
-        </MenuItem>
+        </CustomMenuItem>
       </Menu>
     </React.Fragment>
   )

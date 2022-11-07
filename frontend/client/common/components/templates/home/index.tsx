@@ -6,15 +6,19 @@ import CardContainer from '@components/molecules/card/CardContainer'
 import ChipContainer from '@components/molecules/chips/ChipContainer'
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import SliderCards from '@components/molecules/silder'
+import MainFilter from '@components/molecules/filter/MainFilter'
 
 const ButtonWrapper = styled('div')(() => ({
   width: 'fit-content',
   margin: '20px auto',
 }))
-
 const HomeTemplate = () => {
   return (
     <>
+    
+      <Box>
+        <MainFilter />
+      </Box>
       <Box mt={4}>
         <Title
           title='Top những điểm du lịch nổi bật nhất'
