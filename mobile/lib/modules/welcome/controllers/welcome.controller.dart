@@ -1,11 +1,7 @@
 import 'package:get/get.dart';
-import 'package:mobile/modules/base/controllers/auth.controller.dart';
+import 'package:mobile/common/router/route_manager.dart';
 
 class WelcomeController extends GetxController {
-  final AuthController authController;
-
-  WelcomeController({required this.authController});
-
   @override
   Future<void> onInit() async {
     await initSplash();
@@ -14,6 +10,6 @@ class WelcomeController extends GetxController {
 
   Future<void> initSplash() async {
     await Future.delayed(const Duration(milliseconds: 700));
-    await authController.verifyUser();
+    Get.offAllNamed(RouteManager.root);
   }
 }

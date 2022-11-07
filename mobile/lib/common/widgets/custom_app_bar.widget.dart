@@ -16,7 +16,7 @@ class CustomAppBar extends StatelessWidget {
   final double elevation;
   final double bottomSize;
 
-  final Widget title;
+  final Widget? title;
   final Widget? bottom;
   final List<Widget> actions;
 
@@ -31,7 +31,7 @@ class CustomAppBar extends StatelessWidget {
     this.titleSpacing = 15,
     this.elevation = 0,
     this.bottomSize = 45,
-    required this.title,
+    this.title,
     this.bottom,
     this.actions = const [],
   });

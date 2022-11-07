@@ -132,13 +132,13 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         prefixIcon: widget.prefixIcon,
         helperText: widget.extendField ? '' : null,
         helperStyle: widget.extendField
-            ? TextStyles.regularText.copyWith(fontSize: 11)
+            ? TextStyles.regularText.copyWith(fontSize: 13)
             : null,
         errorText: widget.errorText == '' || widget.errorText == null
             ? null
             : widget.errorText,
         errorStyle: TextStyles.regularText
-            .copyWith(color: Colors.red, fontSize: 11, height: 0),
+            .copyWith(color: Colors.red, fontSize: 13, height: 0),
       ),
     );
   }

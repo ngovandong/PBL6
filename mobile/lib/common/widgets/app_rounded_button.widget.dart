@@ -23,6 +23,8 @@ class AppRoundedButton extends StatelessWidget {
   final bool showShadow;
   final bool showBorder;
 
+  final Widget? icon;
+
   const AppRoundedButton({
     Key? key,
     required this.onPressed,
@@ -39,6 +41,7 @@ class AppRoundedButton extends StatelessWidget {
     this.isLoading = false,
     this.showShadow = true,
     this.showBorder = false,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -59,13 +62,25 @@ class AppRoundedButton extends StatelessWidget {
         splashFactory: NoSplash.splashFactory,
         foregroundColor: isDisable ? disableBackgroundColor : backgroundColor,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        disabledBackgroundColor: backgroundColor,
+        disabledForegroundColor: backgroundColor,
       ),
       child: isLoading
           ? const LoadingDot()
-          : Text(
-              content,
-              style: TextStyles.boldText
-                  .copyWith(fontSize: fontSize.sp, color: textColor),
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) icon!,
+                if (icon != null)
+                  const SizedBox(
+                    width: 15,
+                  ),
+                Text(
+                  content,
+                  style: TextStyles.boldText
+                      .copyWith(fontSize: fontSize.sp, color: textColor),
+                ),
+              ],
             ),
     );
   }

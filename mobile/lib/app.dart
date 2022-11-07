@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -5,16 +7,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile/common/router/route_manager.dart';
+import 'package:mobile/common/utils/dio/my_http_override.dart';
+import 'package:mobile/di/di.dart';
 import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/generated/fonts.gen.dart';
 import 'package:mobile/generated/locales.g.dart';
-import 'package:mobile/injector.dart';
 import 'package:mobile/modules/base/bindings/base.binding.dart';
 
 Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
   await Hive.initFlutter();
-  initDependencies();
+  configureDependencies();
   await dotenv.load(fileName: Assets.secure.env);
 }
 

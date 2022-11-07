@@ -50,6 +50,8 @@ dependencies:
   google_sign_in: ^5.4.1
   intl: ^0.17.0
   google_place: ^0.4.7
+  injectable: ^1.5.4
+  event_bus: ^2.0.0
 
   flutter_localizations:
     sdk: flutter
@@ -57,6 +59,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  injectable_generator:
   build_runner: ^2.2.0
   json_serializable: ^6.3.1
   flutter_flavorizr: ^2.1.5

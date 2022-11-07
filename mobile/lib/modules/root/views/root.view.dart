@@ -18,10 +18,10 @@ class RootScreen extends GetWidget<RootController> {
       body: Obx(
         () => LazyIndexedStack(
           index: controller.currentTabIndex.value,
-          children: const [
-            HomeScreen(),
-            BookingHistoryView(),
-            FavoriteScreen(),
+          children: [
+            const HomeScreen(),
+            const BookingHistoryView(),
+            const FavoriteScreen(),
             ProfileScreen(),
           ],
         ),
