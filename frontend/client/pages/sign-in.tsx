@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
-import { useState } from 'react'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useState, useEffect } from 'react'
+import { useSession, signIn } from 'next-auth/react'
 import {
   AppBar,
   Container,
@@ -22,6 +22,7 @@ import { api, authApi } from '@utils/api'
 import { Session } from 'next-auth'
 import { LOCAL_STORAGE } from '@constants/constant'
 import { useRouter } from 'next/router'
+import { useUserContext } from 'common/context'
 
 const StraightLine = styled('p')({
   width: '90px',
@@ -61,60 +62,115 @@ const SquareIcon = styled(Box)(({ theme }) => ({
 const SignIn: NextPage = () => {
   const [step, setStep] = useState(1)
   const { data: session } = useSession()
+  const { user, setUser } = useUserContext()
   const router = useRouter()
-  if (session && session?.idToken) {
-    authApi
-      .loginGoogle({
-        idToken: session.idToken || '',
-      })
-      .then((res) => {
-        if (res.data?.accessToken) {
-          localStorage.setItem(LOCAL_STORAGE.accessToken, res.data?.accessToken)
-          router.push('/')
-        }
-      })
-  }
-  return (
-    <div>
-      <AppBar
-        position='sticky'
-        style={{ boxShadow: 'unset', borderBottom: '1px solid #F7F7F7' }}
-      >
-        <Container maxWidth='lg'>
-          <Toolbar disableGutters>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                margin: 'auto',
-              }}
-            >
-              <FlightTakeoffIcon
-                sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
-              />
-              <Typography
-                variant='h6'
-                noWrap
-                component='a'
-                href='/'
+
+  useEffect(() => {
+    if (!user) {
+      if (session && session?.idToken) {
+        authApi
+          .loginGoogle({
+            idToken: session.idToken || '',
+          })
+          .then((res) => {
+            if (res.data?.accessToken) {
+              localStorage.setItem(
+                LOCAL_STORAGE.accessToken,
+                res.data?.accessToken
+              )
+              localStorage.setItem(LOCAL_STORAGE.user, JSON.stringify(res.data))
+              router.push('/')
+            }
+          })
+      }
+    } else {
+      router.push('/')
+    }
+  }, [session])
+
+  if (!user)
+    return (
+      <div>
+        <AppBar
+          position='sticky'
+          style={{ boxShadow: 'unset', borderBottom: '1px solid #F7F7F7' }}
+        >
+          <Container maxWidth='lg'>
+            <Toolbar disableGutters>
+              <Box
                 sx={{
-                  display: { xs: 'none', md: 'flex' },
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.3rem',
-                  color: 'inherit',
-                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  margin: 'auto',
                 }}
               >
-                ReadyBooking
-              </Typography>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
-      <Box sx={{ margin: '30px auto', maxWidth: '450px' }}>
-        {step === 1 && (
-          <>
+                <FlightTakeoffIcon
+                  sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
+                />
+                <Typography
+                  variant='h6'
+                  noWrap
+                  component='a'
+                  href='/'
+                  sx={{
+                    display: { xs: 'none', md: 'flex' },
+                    fontFamily: 'monospace',
+                    fontWeight: 700,
+                    letterSpacing: '.3rem',
+                    color: 'inherit',
+                    textDecoration: 'none',
+                  }}
+                >
+                  ReadyBooking
+                </Typography>
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
+        <Box sx={{ margin: '30px auto', maxWidth: '450px' }}>
+          {step === 1 && (
+            <>
+              <Box
+                display='flex'
+                component='form'
+                autoComplete='off'
+                flexDirection='column'
+                gap={2}
+              >
+                <Title
+                  title='Đăng nhập hoặc tạo tài khoản'
+                  sx={{ fontSize: '24px', textAlign: 'center' }}
+                />
+                <FormGroup>
+                  <InputLabel htmlFor='email' color='primary'>
+                    Email
+                  </InputLabel>
+                  <InputField id='email' />
+                </FormGroup>
+                <DefaultButton
+                  color='primary'
+                  onClick={() => setStep(2)}
+                  sx={{ flexFlow: 1 }}
+                >
+                  Tiếp tục với email
+                </DefaultButton>
+              </Box>
+              <Box
+                display='flex'
+                flexDirection='row'
+                alignItems='center'
+                textAlign='center'
+              >
+                <StraightLine />
+                <p style={{ flexGrow: '1' }}>hoặc đăng nhập bằng Google</p>
+                <StraightLine />
+              </Box>
+              <SquareIcon onClick={() => signIn('google')}>
+                <Image src='/icons/google.svg' width='32px' height='32px' />
+              </SquareIcon>
+            </>
+          )}
+          {step === 2 && (
             <Box
               display='flex'
               component='form'
@@ -123,113 +179,72 @@ const SignIn: NextPage = () => {
               gap={2}
             >
               <Title
-                title='Đăng nhập hoặc tạo tài khoản'
+                title='Nhập mật khẩu của bạn'
                 sx={{ fontSize: '24px', textAlign: 'center' }}
               />
               <FormGroup>
-                <InputLabel htmlFor='email' color='primary'>
-                  Email
+                <InputLabel htmlFor='password' color='primary'>
+                  Mật khẩu
                 </InputLabel>
-                <InputField id='email' />
+                <InputField id='password' type='password' />
               </FormGroup>
-              <DefaultButton
-                color='primary'
-                onClick={() => setStep(2)}
-                sx={{ flexFlow: 1 }}
-              >
-                Tiếp tục với email
-              </DefaultButton>
+              <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
+                <DefaultButton
+                  sx={{ flexGrow: 1 }}
+                  onClick={() => setStep(step - 1)}
+                >
+                  Quay lại
+                </DefaultButton>
+                <DefaultButton
+                  color='primary'
+                  sx={{ flexGrow: 1 }}
+                  onClick={() => setStep(step + 1)}
+                >
+                  Đăng nhập
+                </DefaultButton>
+              </Box>
             </Box>
+          )}
+          {step === 3 && (
             <Box
               display='flex'
-              flexDirection='row'
-              alignItems='center'
-              textAlign='center'
+              component='form'
+              autoComplete='off'
+              flexDirection='column'
+              gap={2}
             >
-              <StraightLine />
-              <p style={{ flexGrow: '1' }}>hoặc đăng nhập bằng Google</p>
-              <StraightLine />
+              <Title
+                title='Nhập mật khẩu'
+                sx={{ fontSize: '24px', textAlign: 'center' }}
+              />
+              <FormGroup>
+                <InputLabel htmlFor='password' color='primary'>
+                  Mật khẩu
+                </InputLabel>
+                <InputField id='password' />
+              </FormGroup>
+              <FormGroup>
+                <InputLabel htmlFor='confirmPassword' color='primary'>
+                  Xác nhận mật khẩu
+                </InputLabel>
+                <InputField id='confirmPassword' />
+              </FormGroup>
+              <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
+                <DefaultButton
+                  sx={{ flexGrow: 1 }}
+                  onClick={() => setStep(step - 1)}
+                >
+                  Quay lại
+                </DefaultButton>
+                <DefaultButton color='primary' sx={{ flexGrow: 1 }}>
+                  Tạo tài khoản
+                </DefaultButton>
+              </Box>
             </Box>
-            <SquareIcon onClick={() => signIn('google')}>
-              <Image src='/icons/google.svg' width='32px' height='32px' />
-            </SquareIcon>
-          </>
-        )}
-        {step === 2 && (
-          <Box
-            display='flex'
-            component='form'
-            autoComplete='off'
-            flexDirection='column'
-            gap={2}
-          >
-            <Title
-              title='Nhập mật khẩu của bạn'
-              sx={{ fontSize: '24px', textAlign: 'center' }}
-            />
-            <FormGroup>
-              <InputLabel htmlFor='password' color='primary'>
-                Mật khẩu
-              </InputLabel>
-              <InputField id='password' type='password' />
-            </FormGroup>
-            <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
-              <DefaultButton
-                sx={{ flexGrow: 1 }}
-                onClick={() => setStep(step - 1)}
-              >
-                Quay lại
-              </DefaultButton>
-              <DefaultButton
-                color='primary'
-                sx={{ flexGrow: 1 }}
-                onClick={() => setStep(step + 1)}
-              >
-                Đăng nhập
-              </DefaultButton>
-            </Box>
-          </Box>
-        )}
-        {step === 3 && (
-          <Box
-            display='flex'
-            component='form'
-            autoComplete='off'
-            flexDirection='column'
-            gap={2}
-          >
-            <Title
-              title='Nhập mật khẩu'
-              sx={{ fontSize: '24px', textAlign: 'center' }}
-            />
-            <FormGroup>
-              <InputLabel htmlFor='password' color='primary'>
-                Mật khẩu
-              </InputLabel>
-              <InputField id='password' />
-            </FormGroup>
-            <FormGroup>
-              <InputLabel htmlFor='confirmPassword' color='primary'>
-                Xác nhận mật khẩu
-              </InputLabel>
-              <InputField id='confirmPassword' />
-            </FormGroup>
-            <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
-              <DefaultButton
-                sx={{ flexGrow: 1 }}
-                onClick={() => setStep(step - 1)}
-              >
-                Quay lại
-              </DefaultButton>
-              <DefaultButton color='primary' sx={{ flexGrow: 1 }}>
-                Tạo tài khoản
-              </DefaultButton>
-            </Box>
-          </Box>
-        )}
-      </Box>
-    </div>
-  )
+          )}
+        </Box>
+      </div>
+    )
 }
 
 export default SignIn
