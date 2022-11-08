@@ -18,6 +18,10 @@ import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { InputField } from '@components/atoms/Input/InputField'
 import Image from 'next/image'
 import { boxShadow, primaryColor } from '@constants/styles'
+import { api, authApi } from '@utils/api'
+import { Session } from 'next-auth'
+import { LOCAL_STORAGE } from '@constants/constant'
+import { useRouter } from 'next/router'
 
 const StraightLine = styled('p')({
   width: '90px',
@@ -25,6 +29,10 @@ const StraightLine = styled('p')({
   background: '#ced4da',
   margin: '0 5px',
 })
+
+interface ISession extends Session {
+  idToken: string
+}
 
 const SquareIcon = styled(Box)(({ theme }) => ({
   width: '60px',
@@ -53,8 +61,18 @@ const SquareIcon = styled(Box)(({ theme }) => ({
 const SignIn: NextPage = () => {
   const [step, setStep] = useState(1)
   const { data: session } = useSession()
-  if (session) {
-    console.log(session)
+  const router = useRouter()
+  if (session && session?.idToken) {
+    authApi
+      .loginGoogle({
+        idToken: session.idToken || '',
+      })
+      .then((res) => {
+        if (res.data?.accessToken) {
+          localStorage.setItem(LOCAL_STORAGE.accessToken, res.data?.accessToken)
+          router.push('/')
+        }
+      })
   }
   return (
     <div>
@@ -132,7 +150,7 @@ const SignIn: NextPage = () => {
               <p style={{ flexGrow: '1' }}>hoặc đăng nhập bằng Google</p>
               <StraightLine />
             </Box>
-            <SquareIcon onClick={() => signIn()}>
+            <SquareIcon onClick={() => signIn('google')}>
               <Image src='/icons/google.svg' width='32px' height='32px' />
             </SquareIcon>
           </>

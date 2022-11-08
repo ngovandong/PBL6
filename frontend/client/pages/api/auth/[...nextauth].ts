@@ -1,11 +1,5 @@
-import { url } from 'inspector'
-import NextAuth, { Account, Session, User } from 'next-auth'
-import { JWT } from 'next-auth/jwt'
+import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-
-interface ISession extends Session {
-  accessToken: string
-}
 
 export default NextAuth({
   providers: [
@@ -14,7 +8,8 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     }),
   ],
-  secret: process.env.JWT_SECRET || '',
+  secret: process.env!.JWT_SECRET,
+
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       return true
@@ -23,17 +18,14 @@ export default NextAuth({
     //   return baseUrl
     // },
     async session({ session, token, user }) {
-      if (token?.accessToken) {
-        session.accessToken = token?.accessToken
-        session.provider = token?.provider
+      if (token?.idToken) {
+        session.idToken = token?.idToken
       }
-      session.user = user
       return session
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (account?.access_token) {
-        token.accessToken = account?.id_token
-        token.provider = account?.provider
+        token.idToken = account?.id_token
       }
       return token
     },
