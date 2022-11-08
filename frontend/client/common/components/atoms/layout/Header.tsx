@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { DefaultButton } from '../Button/DefaultButton'
+import { borderRadiusLarge } from '@constants/styles'
 
 export const Header = () => {
   const router = useRouter()
@@ -53,11 +54,22 @@ export const Header = () => {
               minWidth: '400px',
             }}
           >
-            <DefaultButton color='primary'>Đăng chỗ nghỉ</DefaultButton>
-            <DefaultButton onClick={() => router.push('/sign-in')}>
+            <DefaultButton
+              color='primary'
+              sx={{ borderRadius: borderRadiusLarge }}
+            >
+              Đăng chỗ nghỉ
+            </DefaultButton>
+            <DefaultButton
+              onClick={() => router.push('/sign-in')}
+              sx={{ borderRadius: borderRadiusLarge }}
+            >
               Đăng ký
             </DefaultButton>
-            <DefaultButton onClick={() => router.push('/sign-in')}>
+            <DefaultButton
+              onClick={() => router.push('/sign-in')}
+              sx={{ borderRadius: borderRadiusLarge }}
+            >
               Đăng nhập
             </DefaultButton>
           </Box>

@@ -1,9 +1,24 @@
-import { borderRadiusButton, boxShadow } from '@constants/styles'
-import { Button, ButtonProps, styled, Typography } from '@mui/material'
+import {
+  borderRadiusButton,
+  boxShadow,
+  primaryColor,
+  secondaryColor,
+  lightColor,
+} from '@constants/styles'
+import { Button, ButtonProps, styled } from '@mui/material'
 
 const ButtonContainer = styled(Button)(({ color }) => ({
-  background: `${color === 'primary' ? '#FE843D' : '#D7E3F5'}`,
-  border: '1px solid #F7F7F7',
+  backgroundColor: `${
+    color === 'primary'
+      ? primaryColor
+      : color === 'secondary'
+      ? secondaryColor
+      : lightColor
+  }`,
+  borderTop: '1.6px solid rgba(0,0,0,0.8)',
+  borderBottom: '1.6px solid rgba(0,0,0,0.8)',
+  borderLeft: '1.6px solid rgba(0,0,0,0.8)',
+  borderRight: '1.6px solid rgba(0,0,0,0.8)',
   borderRadius: `${borderRadiusButton}`,
   color: `${color === 'primary' ? '#FFFFFF' : '#131C38'}`,
   textDecoration: 'none',
@@ -14,12 +29,24 @@ const ButtonContainer = styled(Button)(({ color }) => ({
   lineHeight: 0,
 
   '&:hover': {
-    background: `${color === 'primary' ? ' #FE843D' : '#D7E3F5'}`,
+    backgroundColor: `${
+      color === 'primary'
+        ? primaryColor
+        : color === 'secondary'
+        ? secondaryColor
+        : lightColor
+    }`,
     boxShadow: `${boxShadow}`,
   },
 
   '&:disabled': {
-    background: `${color === 'primary' ? ' #FE843D' : '#D7E3F5'}`,
+    backgroundColor: `${
+      color === 'primary'
+        ? primaryColor
+        : color === 'secondary'
+        ? secondaryColor
+        : lightColor
+    }`,
     opacity: 0.5,
   },
 }))

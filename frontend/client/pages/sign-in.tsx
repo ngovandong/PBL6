@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import { useState } from 'react'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import {
   AppBar,
   Container,
@@ -7,15 +8,54 @@ import {
   Typography,
   Box,
   InputLabel,
+  FormGroup,
+  styled,
+  alpha,
 } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { Title } from '@components/atoms/Heading'
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { InputField } from '@components/atoms/Input/InputField'
+import Image from 'next/image'
+import { boxShadow, primaryColor } from '@constants/styles'
+
+const StraightLine = styled('p')({
+  width: '90px',
+  height: '1px',
+  background: '#ced4da',
+  margin: '0 5px',
+})
+
+const SquareIcon = styled(Box)(({ theme }) => ({
+  width: '60px',
+  height: '60px',
+  border: '1px solid #ced4da',
+  borderRadius: '8px',
+  display: 'flex',
+  placeItems: 'center',
+  placeContent: 'center',
+  cursor: 'pointer',
+  margin: 'auto',
+  transition: theme.transitions.create([
+    'border-color',
+    'background-color',
+    'box-shadow',
+  ]),
+
+  '&:hover': {
+    boxShadow: `${alpha(primaryColor, 0.8)} 0 0 0 0.05rem`,
+  },
+  '&:focus': {
+    boxShadow: `${alpha(primaryColor, 0.8)} 0 0 0 0.05rem`,
+  },
+}))
 
 const SignIn: NextPage = () => {
   const [step, setStep] = useState(1)
-
+  const { data: session } = useSession()
+  if (session) {
+    console.log(session)
+  }
   return (
     <div>
       <AppBar
@@ -56,31 +96,48 @@ const SignIn: NextPage = () => {
       </AppBar>
       <Box sx={{ margin: '30px auto', maxWidth: '450px' }}>
         {step === 1 && (
-          <Box
-            display='flex'
-            component='form'
-            autoComplete='off'
-            flexDirection='column'
-            gap={2}
-          >
-            <Title
-              title='Đăng nhập hoặc tạo tài khoản'
-              sx={{ fontSize: '24px', textAlign: 'center' }}
-            />
-            <InputLabel htmlFor='email' color='primary'>
-              Email
-            </InputLabel>
-            <InputField id='email' />
-            <DefaultButton
-              color='primary'
-              sx={{ borderRadius: '4px' }}
-              onClick={() => setStep(2)}
+          <>
+            <Box
+              display='flex'
+              component='form'
+              autoComplete='off'
+              flexDirection='column'
+              gap={2}
             >
-              Tiếp tục với email
-            </DefaultButton>
-          </Box>
+              <Title
+                title='Đăng nhập hoặc tạo tài khoản'
+                sx={{ fontSize: '24px', textAlign: 'center' }}
+              />
+              <FormGroup>
+                <InputLabel htmlFor='email' color='primary'>
+                  Email
+                </InputLabel>
+                <InputField id='email' />
+              </FormGroup>
+              <DefaultButton
+                color='primary'
+                onClick={() => setStep(2)}
+                sx={{ flexFlow: 1 }}
+              >
+                Tiếp tục với email
+              </DefaultButton>
+            </Box>
+            <Box
+              display='flex'
+              flexDirection='row'
+              alignItems='center'
+              textAlign='center'
+            >
+              <StraightLine />
+              <p style={{ flexGrow: '1' }}>hoặc đăng nhập bằng Google</p>
+              <StraightLine />
+            </Box>
+            <SquareIcon onClick={() => signIn()}>
+              <Image src='/icons/google.svg' width='32px' height='32px' />
+            </SquareIcon>
+          </>
         )}
-        {step > 1 && (
+        {step === 2 && (
           <Box
             display='flex'
             component='form'
@@ -92,39 +149,66 @@ const SignIn: NextPage = () => {
               title='Nhập mật khẩu của bạn'
               sx={{ fontSize: '24px', textAlign: 'center' }}
             />
-            <InputLabel htmlFor='password' color='primary'>
-              Mật khẩu
-            </InputLabel>
-            <InputField id='password' type='password' />
-            <DefaultButton color='primary' sx={{ borderRadius: '4px' }}>
-              Đăng nhập
-            </DefaultButton>
+            <FormGroup>
+              <InputLabel htmlFor='password' color='primary'>
+                Mật khẩu
+              </InputLabel>
+              <InputField id='password' type='password' />
+            </FormGroup>
+            <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
+              <DefaultButton
+                sx={{ flexGrow: 1 }}
+                onClick={() => setStep(step - 1)}
+              >
+                Quay lại
+              </DefaultButton>
+              <DefaultButton
+                color='primary'
+                sx={{ flexGrow: 1 }}
+                onClick={() => setStep(step + 1)}
+              >
+                Đăng nhập
+              </DefaultButton>
+            </Box>
           </Box>
         )}
-        <Box
-          display='flex'
-          flexDirection='row'
-          alignItems='center'
-          textAlign='center'
-        >
-          <p
-            style={{
-              width: '90px',
-              height: '1px',
-              background: 'rgba(0,0,0,0.1)',
-              margin: '0 5px',
-            }}
-          ></p>
-          <p style={{ flexGrow: '1' }}>hoặc đăng nhập bằng Google</p>
-          <p
-            style={{
-              width: '90px',
-              height: '1px',
-              background: 'rgba(0,0,0,0.1)',
-              margin: '0 5px',
-            }}
-          ></p>
-        </Box>
+        {step === 3 && (
+          <Box
+            display='flex'
+            component='form'
+            autoComplete='off'
+            flexDirection='column'
+            gap={2}
+          >
+            <Title
+              title='Nhập mật khẩu'
+              sx={{ fontSize: '24px', textAlign: 'center' }}
+            />
+            <FormGroup>
+              <InputLabel htmlFor='password' color='primary'>
+                Mật khẩu
+              </InputLabel>
+              <InputField id='password' />
+            </FormGroup>
+            <FormGroup>
+              <InputLabel htmlFor='confirmPassword' color='primary'>
+                Xác nhận mật khẩu
+              </InputLabel>
+              <InputField id='confirmPassword' />
+            </FormGroup>
+            <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
+              <DefaultButton
+                sx={{ flexGrow: 1 }}
+                onClick={() => setStep(step - 1)}
+              >
+                Quay lại
+              </DefaultButton>
+              <DefaultButton color='primary' sx={{ flexGrow: 1 }}>
+                Tạo tài khoản
+              </DefaultButton>
+            </Box>
+          </Box>
+        )}
       </Box>
     </div>
   )

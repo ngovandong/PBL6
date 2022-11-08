@@ -1,4 +1,4 @@
-import { secondaryColor, textColor } from '@constants/styles'
+import { primaryColor } from '@constants/styles'
 import { Box, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import Link from 'next/link'
@@ -17,7 +17,7 @@ const IconRound = styled('i')({
 
 export const Footer = () => {
   return (
-    <Box sx={{ backgroundColor: textColor }}>
+    <Box sx={{ backgroundColor: primaryColor }}>
       <Box
         sx={{
           padding: '20px 0',
@@ -42,7 +42,6 @@ export const Footer = () => {
         sx={{
           textAlign: 'center',
           color: '#ffffff',
-          // backgroundColor: 'rgba(0,0,0, 0.9)',
           fontSize: '14px',
         }}
       >
