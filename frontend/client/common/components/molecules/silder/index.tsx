@@ -2,7 +2,7 @@ import { Grid } from '@mui/material'
 import Carousel from 'react-material-ui-carousel'
 import { CardCarousel } from 'common/components/atoms/Card'
 import { transparentColor } from '@constants/styles'
-import { cities } from 'common/constants/city'
+import { cities } from '@constants/data/city'
 
 const SliderCards = (props: any) => {
   const totalItems = props.length ? props.length : 6

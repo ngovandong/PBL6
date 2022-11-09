@@ -1,10 +1,17 @@
 import { useRouter } from 'next/router'
+import { isEmpty } from 'lodash'
+
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { DefaultButton } from '../Button/DefaultButton'
+import { borderRadiusLarge } from '@constants/styles'
+
+import UserMenu from '../UserMenu'
+import { useUserContext } from 'common/context'
 
 export const Header = () => {
   const router = useRouter()
+  const { user } = useUserContext()
 
   return (
     <AppBar
@@ -50,16 +57,36 @@ export const Header = () => {
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              minWidth: '400px',
+              // minWidth: '400px',
             }}
           >
-            <DefaultButton color='primary'>Đăng chỗ nghỉ</DefaultButton>
-            <DefaultButton onClick={() => router.push('/sign-in')}>
-              Đăng ký
+            <DefaultButton
+              color='primary'
+              sx={{ borderRadius: borderRadiusLarge }}
+            >
+              Đăng chỗ nghỉ
             </DefaultButton>
-            <DefaultButton onClick={() => router.push('/sign-in')}>
-              Đăng nhập
-            </DefaultButton>
+            {!isEmpty(user) ? (
+              <UserMenu
+                userName={user?.givenName || ''}
+                src={user?.avatarImageUrl || ''}
+              />
+            ) : (
+              <>
+                <DefaultButton
+                  onClick={() => router.push('/sign-in')}
+                  sx={{ borderRadius: borderRadiusLarge, ml: 3 }}
+                >
+                  Đăng ký
+                </DefaultButton>
+                <DefaultButton
+                  onClick={() => router.push('/sign-in')}
+                  sx={{ borderRadius: borderRadiusLarge, ml: 3 }}
+                >
+                  Đăng nhập
+                </DefaultButton>
+              </>
+            )}
           </Box>
         </Toolbar>
       </Container>
