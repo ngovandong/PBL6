@@ -17,15 +17,14 @@ import { Title } from '@components/atoms/Heading'
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { InputField } from '@components/atoms/Input/InputField'
 import Image from 'next/image'
-import { boxShadow, primaryColor } from '@constants/styles'
-import { api, authApi } from '@utils/api'
+import { primaryColor } from '@constants/styles'
+import { authApi } from '@utils/api'
 import { Session } from 'next-auth'
 import { LOCAL_STORAGE } from '@constants/constant'
 import { useRouter } from 'next/router'
 import { useUserContext } from 'common/context'
 import { isEmpty } from 'lodash'
 import { toastError } from '@utils/notifications'
-import { toast } from 'react-toastify'
 
 const StraightLine = styled('p')({
   width: '90px',
@@ -114,18 +113,10 @@ const SignIn = () => {
           }
         })
         .catch((error) => {
-          if (error.response.status === 401) {
-            // toastError('Mật khẩu không chính xác!')
-            toast.error('Mật khẩu không chính xác!', {
-              position: 'top-right',
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'light',
-            })
+          if (error?.response?.status === 401) {
+            toastError('Mật khẩu không chính xác!')
+          } else {
+            toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
           }
         })
     }

@@ -2,6 +2,7 @@
   "auth": {
     "login": "Đăng nhập",
     "sign_up": "Đăng ký",
+    "continue": "Tiếp tục",
     "forgot_password": "Quên mật khẩu?",
     "name": "Tên người dùng",
     "email": "Email",
@@ -9,12 +10,11 @@
     "confirm_password": "Xác nhận mật khẩu"
   },
   "validate": {
-    "name": "Nhập tên của bạn",
-    "email": "Nhập địa chỉ email của bạn",
-    "password": "Nhập mật khẩu của bạn",
-    "confirm_password": "Xác nhận mật khẩu của bạn",
-    "not_match_password": "Mật khẩu không trùng khớp",
-    "incorrect_email_password": "Sai email hoặc mật khẩu"
+    "email": "Nhập địa chỉ email",
+    "password": "Nhập mật khẩu",
+    "incorrect_password": "Mật khẩu đăng nhập không đúng",
+    "invalid_email": "Địa chỉ email này không hợp lệ. Vui lòng thử lại",
+    "login_email": "Email này đã được đăng ký tài khoản, bạn có thể tiếp tục bằng cách đăng nhập"
   },
   "find_hotel": {
     "choose_destination": "Chọn điểm đến của bạn",
@@ -34,12 +34,17 @@
     "notication": "Thông báo",
     "help_center": "Trung tâm trợ giúp",
     "about_us": "Về chúng tôi",
-    "login_signup": "Đăng nhập/Đăng ký"
+    "login_signup": "Đăng nhập/Đăng ký",
+    "sign_out": "Đăng xuất"
   },
   "booking_history": {
     "ordered": "Đã đặt",
     "cancel": "Đã huỷ",
     "ongoing": "Đang đợi",
     "title": "Lịch sử đặt phòng"
+  },
+  "share": {
+    "error_message": "Đã có lỗi xảy ra. Vui lòng thử lại sau",
+    "success_message": "Thành công"
   }
 }

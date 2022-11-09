@@ -6,6 +6,7 @@ class SettingItemViewModel {
   final IconData suffixIcon;
   Color? backgroundColor;
   Color? textColor;
+  final void Function()? onPressed;
 
   SettingItemViewModel({
     required this.prefixIcon,
@@ -13,5 +14,6 @@ class SettingItemViewModel {
     this.suffixIcon = Icons.chevron_right_rounded,
     this.backgroundColor,
     this.textColor,
+    this.onPressed,
   });
 }

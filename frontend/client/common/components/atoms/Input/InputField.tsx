@@ -3,12 +3,13 @@ import { styled, InputBase, InputBaseProps } from '@mui/material'
 import { alpha } from '@mui/system'
 
 const Input = styled(InputBase)(({ theme }) => ({
+  marginTop: '5px',
   '& .MuiInputBase-input': {
     borderRadius: 8,
     position: 'relative',
     backgroundColor: theme.palette.mode === 'light' ? '#fcfcfb' : '#2b2b2b',
     border: '1px solid #ced4da',
-    fontSize: 14,
+    fontSize: 16,
     width: '100%',
     padding: '10px 12px',
     marginTop: 0,
