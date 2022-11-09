@@ -21,4 +21,8 @@ const Home: NextPage = () => {
   )
 }
 
+Home.getInitialProps = async () => {
+  return { page: {} }
+}
+
 export default Home

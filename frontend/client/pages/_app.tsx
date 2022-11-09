@@ -11,10 +11,12 @@ import { SessionProvider } from 'next-auth/react'
 
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 import 'public/styles/globals.scss'
 import UserContext, { UserProvider } from 'common/context'
 import { LOCAL_STORAGE } from '@constants/constant'
+import { ToastContainer } from 'react-toastify'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -28,9 +30,10 @@ export default function MyApp(props: MyAppProps) {
   const [user, setUser] = useState({})
   const value = useMemo(() => ({ user, setUser }), [user])
   useEffect(() => {
-    const username =
-      JSON.parse(localStorage.getItem(LOCAL_STORAGE.user) || '') || {}
-    setUser(username)
+    const username = JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE.user) || '{}'
+    )
+    if (username) setUser(username)
   }, [])
   return (
     <SessionProvider session={pageProps.session}>
@@ -43,6 +46,16 @@ export default function MyApp(props: MyAppProps) {
           <CssBaseline />
           <UserProvider value={value}>
             <Component {...pageProps} />
+            <ToastContainer
+              position='top-right'
+              autoClose={8000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              draggable={false}
+              pauseOnVisibilityChange
+              closeOnClick
+              pauseOnHover
+            />
           </UserProvider>
         </ThemeProvider>
       </CacheProvider>

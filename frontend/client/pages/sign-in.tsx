@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSession, signIn } from 'next-auth/react'
 import {
   AppBar,
@@ -23,6 +23,9 @@ import { Session } from 'next-auth'
 import { LOCAL_STORAGE } from '@constants/constant'
 import { useRouter } from 'next/router'
 import { useUserContext } from 'common/context'
+import { isEmpty } from 'lodash'
+import { toastError } from '@utils/notifications'
+import { toast } from 'react-toastify'
 
 const StraightLine = styled('p')({
   width: '90px',
@@ -59,14 +62,17 @@ const SquareIcon = styled(Box)(({ theme }) => ({
   },
 }))
 
-const SignIn: NextPage = () => {
+const SignIn = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState('')
   const [step, setStep] = useState(1)
   const { data: session } = useSession()
   const { user, setUser } = useUserContext()
   const router = useRouter()
 
   useEffect(() => {
-    if (!user) {
+    if (isEmpty(user)) {
       if (session && session?.idToken) {
         authApi
           .loginGoogle({
@@ -79,16 +85,53 @@ const SignIn: NextPage = () => {
                 res.data?.accessToken
               )
               localStorage.setItem(LOCAL_STORAGE.user, JSON.stringify(res.data))
-              router.push('/')
+              setUser(res.data)
+              router.replace('/')
             }
+          })
+          .catch((error) => {
+            toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
           })
       }
     } else {
-      router.push('/')
+      router.replace('/')
     }
   }, [session])
 
-  if (!user)
+  const handleSubmit = () => {
+    if (email && password) {
+      authApi
+        .loginEmail({ email: email, password: password })
+        .then((res) => {
+          if (res.data?.accessToken) {
+            localStorage.setItem(
+              LOCAL_STORAGE.accessToken,
+              res.data?.accessToken
+            )
+            localStorage.setItem(LOCAL_STORAGE.user, JSON.stringify(res.data))
+            setUser(res.data)
+            router.replace('/')
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            // toastError('Mật khẩu không chính xác!')
+            toast.error('Mật khẩu không chính xác!', {
+              position: 'top-right',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'light',
+            })
+          }
+        })
+    }
+  }
+
+  if (isEmpty(user))
     return (
       <div>
         <AppBar
@@ -127,16 +170,14 @@ const SignIn: NextPage = () => {
             </Toolbar>
           </Container>
         </AppBar>
-        <Box sx={{ margin: '30px auto', maxWidth: '450px' }}>
+        <Box
+          sx={{ margin: '30px auto', maxWidth: '450px' }}
+          component='form'
+          autoComplete='false'
+        >
           {step === 1 && (
             <>
-              <Box
-                display='flex'
-                component='form'
-                autoComplete='off'
-                flexDirection='column'
-                gap={2}
-              >
+              <Box display='flex' flexDirection='column' gap={2}>
                 <Title
                   title='Đăng nhập hoặc tạo tài khoản'
                   sx={{ fontSize: '24px', textAlign: 'center' }}
@@ -145,7 +186,16 @@ const SignIn: NextPage = () => {
                   <InputLabel htmlFor='email' color='primary'>
                     Email
                   </InputLabel>
-                  <InputField id='email' />
+                  <InputField
+                    id='email'
+                    type='email'
+                    value={email}
+                    onChange={(
+                      event: React.ChangeEvent<
+                        HTMLTextAreaElement | HTMLInputElement
+                      >
+                    ) => setEmail(event.currentTarget.value)}
+                  />
                 </FormGroup>
                 <DefaultButton
                   color='primary'
@@ -171,23 +221,41 @@ const SignIn: NextPage = () => {
             </>
           )}
           {step === 2 && (
-            <Box
-              display='flex'
-              component='form'
-              autoComplete='off'
-              flexDirection='column'
-              gap={2}
-            >
+            <Box display='flex' flexDirection='column' gap={2}>
               <Title
                 title='Nhập mật khẩu của bạn'
                 sx={{ fontSize: '24px', textAlign: 'center' }}
               />
               <FormGroup>
-                <InputLabel htmlFor='password' color='primary'>
+                <InputLabel htmlFor='password' color='primary' disabled>
                   Mật khẩu
                 </InputLabel>
-                <InputField id='password' type='password' />
+                <InputField
+                  id='password'
+                  type='password'
+                  value={password}
+                  onChange={(
+                    event: React.ChangeEvent<
+                      HTMLTextAreaElement | HTMLInputElement
+                    >
+                  ) => {
+                    const value = event.currentTarget.value.trim() || ''
+                    if (
+                      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g.test(
+                        value
+                      )
+                    ) {
+                      setErrors(
+                        'Một mật khẩu có chứa ít nhất tám ký tự, trong đó có ít nhất một số và bao gồm cả chữ hoa và chữ thường.'
+                      )
+                    } else {
+                      setErrors('')
+                    }
+                    setPassword(event.currentTarget.value)
+                  }}
+                />
               </FormGroup>
+              <Typography textAlign={'justify'}>{errors}</Typography>
               <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
                 <DefaultButton
                   sx={{ flexGrow: 1 }}
@@ -198,14 +266,18 @@ const SignIn: NextPage = () => {
                 <DefaultButton
                   color='primary'
                   sx={{ flexGrow: 1 }}
-                  onClick={() => setStep(step + 1)}
+                  onClick={() => {
+                    if (errors.length <= 0) {
+                      handleSubmit()
+                    }
+                  }}
                 >
                   Đăng nhập
                 </DefaultButton>
               </Box>
             </Box>
           )}
-          {step === 3 && (
+          {/* {step === 3 && (
             <Box
               display='flex'
               component='form'
@@ -241,10 +313,14 @@ const SignIn: NextPage = () => {
                 </DefaultButton>
               </Box>
             </Box>
-          )}
+          )} */}
         </Box>
       </div>
     )
+}
+
+SignIn.getInitialProps = async () => {
+  return { page: {} }
 }
 
 export default SignIn

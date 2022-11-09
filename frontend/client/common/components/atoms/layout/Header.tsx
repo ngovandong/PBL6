@@ -1,15 +1,18 @@
 import { useRouter } from 'next/router'
+import { isEmpty } from 'lodash'
+
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { DefaultButton } from '../Button/DefaultButton'
 import { borderRadiusLarge } from '@constants/styles'
-import { useSession } from 'next-auth/react'
+
 import UserMenu from '../UserMenu'
 import { useUserContext } from 'common/context'
 
 export const Header = () => {
   const router = useRouter()
   const { user } = useUserContext()
+
   return (
     <AppBar
       position='sticky'
@@ -63,7 +66,7 @@ export const Header = () => {
             >
               Đăng chỗ nghỉ
             </DefaultButton>
-            {user ? (
+            {!isEmpty(user) ? (
               <UserMenu
                 userName={user?.givenName || ''}
                 src={user?.avatarImageUrl || ''}
@@ -72,13 +75,13 @@ export const Header = () => {
               <>
                 <DefaultButton
                   onClick={() => router.push('/sign-in')}
-                  sx={{ borderRadius: borderRadiusLarge }}
+                  sx={{ borderRadius: borderRadiusLarge, ml: 3 }}
                 >
                   Đăng ký
                 </DefaultButton>
                 <DefaultButton
                   onClick={() => router.push('/sign-in')}
-                  sx={{ borderRadius: borderRadiusLarge }}
+                  sx={{ borderRadius: borderRadiusLarge, ml: 3 }}
                 >
                   Đăng nhập
                 </DefaultButton>

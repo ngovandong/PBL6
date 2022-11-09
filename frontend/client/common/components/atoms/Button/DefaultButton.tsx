@@ -58,6 +58,7 @@ export const DefaultButton = (props: ButtonProps) => {
       sx={props.sx}
       disabled={props.disabled}
       onClick={props.onClick}
+      type={props.type}
     >
       {props.children}
     </ButtonContainer>
