@@ -55,7 +55,34 @@
                 justify-content: center;
             }
 
+            .add-img-bt {
+                @include img;
+                background-color: $grey-background;
+                border: none;
 
+                &:hover {
+                    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+                    background-color: $grey-background-hover;
+                }
+
+                i {
+                    font-size: 60px;
+                    color: grey;
+                }
+
+                input {
+                    display: none;
+                }
+            }
+
+            .upload-img {
+                @include img;
+            }
+
+            .loading-img {
+                @include img;
+                background-color: $grey-background;
+            }
 
             .image-upload-container {
                 display: flex;
@@ -63,34 +90,16 @@
                 row-gap: 20px;
                 flex-wrap: wrap;
 
-                .loading-img {
-                    @include img;
-                    background-color: $grey-background;
-                }
 
-                .upload-img {
-                    @include img;
-                }
 
-                .add-img-bt {
-                    @include img;
-                    background-color: $grey-background;
-                    border: none;
+            }
 
-                    &:hover {
-                        box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
-                        background-color: $grey-background-hover;
-                    }
-
-                    i {
-                        font-size: 60px;
-                        color: grey;
-                    }
-
-                    input {
-                        display: none;
-                    }
-                }
+            .service-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 30px;
+                height: 80px;
             }
 
 

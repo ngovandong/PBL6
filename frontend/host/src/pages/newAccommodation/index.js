@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
-import EmptyNavBar from "../../components/EmptyNavBar";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getAddingHost, selectAddingHost } from "../../app/store/hostSlice";
 import Footer from "../../components/Footer";
+import NavBar from "../../components/NavBar";
+import PrivateRoute from "../../utils/PrivateRoute";
 import StepLeffPanel from "./StepLeffPanel";
 import StepRightPanel from "./StepRightPanel";
 
@@ -24,46 +28,36 @@ const steps = [
 ];
 
 function NewAccommodation() {
-  const [activeStep, setActiveStep] = useState(0);
+  const dispatch = useDispatch();
+  let { id } = useParams();
+  const addingHost = useSelector(selectAddingHost);
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+  useEffect(() => {
+    document.title = "Tạo chỗ ở";
+  }, []);
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleDone = () => {
-    setActiveStep(0);
-  };
-  useEffect(() =>
-    {
-        document.title = "Tạo chỗ ở"
-    }, [])
-  return (
-    <div>
-      <EmptyNavBar />
+  useEffect(() => {
+    dispatch(getAddingHost(id));
+  }, []);
+  return addingHost ? (
+    <PrivateRoute>
+      <NavBar showLinks={false} />
       <div className="full-height-container">
         <div className="full-width">
           <div className="add-new-container">
             <div className="stepper-left">
-              <StepLeffPanel
-                steps={steps}
-                activeStep={activeStep}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                handleDone={handleDone}
-              />
+              <StepLeffPanel steps={steps} />
             </div>
             <div className="step-right">
-              <StepRightPanel activeStep={activeStep} />
+              <StepRightPanel />
             </div>
           </div>
         </div>
         <Footer />
       </div>
-    </div>
+    </PrivateRoute>
+  ) : (
+    <div></div>
   );
 }
 

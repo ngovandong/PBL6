@@ -1,10 +1,15 @@
 import useLocationForm from "./useLocation";
 import CountrySelect from "../CountrySelect";
-import { useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
+import { useEffect } from "react";
+import {
+  handleUpdateAddingHost,
+  selectAddingHost,
+} from "../../app/store/hostSlice";
+import { useSelector } from "react-redux";
 
 function LocationForm() {
-  const { state, onCitySelect, onDistrictSelect, onWardSelect, onSubmit } =
+  const { state, onCitySelect, onDistrictSelect, onWardSelect } =
     useLocationForm(false);
   const {
     cityOptions,
@@ -14,6 +19,9 @@ function LocationForm() {
     selectedDistrict,
     selectedWard,
   } = state;
+
+  const addingHost = useSelector(selectAddingHost);
+  useEffect(() => handleUpdateAddingHost("country", "Vietnam"), []);
   return (
     <div className="location-container">
       <CountrySelect />
@@ -24,10 +32,11 @@ function LocationForm() {
         renderInput={(params) => <TextField {...params} label="Tỉnh/Thành" />}
         onChange={(_, value) => {
           onCitySelect(value);
+          handleUpdateAddingHost("province", value.label);
         }}
-        value={selectedCity}
+        value={addingHost.province}
       />
-      <Autocomplete
+      {/* <Autocomplete
         disablePortal
         disabled={districtOptions.length === 0}
         options={districtOptions}
@@ -44,9 +53,20 @@ function LocationForm() {
         renderInput={(params) => <TextField {...params} label="Xã/Phường" />}
         onChange={(_, value) => onWardSelect(value)}
         value={selectedWard}
+      /> */}
+      <TextField
+        label="Post code"
+        sx={{ width: "45%" }}
+        type="text"
+        onChange={(e) => handleUpdateAddingHost("postalCode", e.target.value)}
+        defaultValue={addingHost.postalCode}
       />
-      <TextField label="Tên đường" sx={{ width: "45%" }} />
-      <TextField label="Địa chỉ" sx={{ width: "45%" }} />
+      <TextField
+        label="Địa chỉ"
+        sx={{ width: "45%" }}
+        onChange={(e) => handleUpdateAddingHost("address", e.target.value)}
+        defaultValue={addingHost.address}
+      />
     </div>
   );
 }

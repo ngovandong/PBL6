@@ -1,11 +1,16 @@
 import { request } from "./httpRequest";
 
-const login = async (username, password) => {
-  const res = await request.post("api/token", {
-    username,
+const signup = async (account) => {
+  const res = await request.post("partner/auth/register", account);
+  return res;
+};
+
+const login = async (email, password) => {
+  const res = await request.post("partner/auth/login", {
+    email,
     password,
   });
-  return res.data;
+  return res;
 };
 
 const getUser = async () => {
@@ -13,11 +18,13 @@ const getUser = async () => {
   return res.data;
 };
 
-const verifyEmail = async (code) => {
-  const res = await request.get("verify_email", { params: { code } });
+const verifyEmail = async (token) => {
+  const res = await request.get("partner/auth/verify-host-email", {
+    params: { token },
+  });
   return res.data;
 };
 
-const authService = { login, getUser, verifyEmail };
+const authService = { signup, login, getUser, verifyEmail };
 
 export default authService;

@@ -1,12 +1,12 @@
 import { Backdrop, CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectToken, verifyEmail } from "../../app/store/authSlice";
+import { selectAccount, verifyEmail } from "../../app/store/authSlice";
 
 function ConfirmSignup() {
   const dispatch = useDispatch();
-  const token = useSelector(selectToken);
+  const account = useSelector(selectAccount);
   const { code } = useParams();
   const navigate = useNavigate();
 
@@ -15,10 +15,10 @@ function ConfirmSignup() {
   }, []);
 
   useEffect(() => {
-    if (token) {
+    if (account) {
       navigate("/");
     }
-  }, [token]);
+  }, [account]);
   return (
     <div>
       <Backdrop
