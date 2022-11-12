@@ -18,8 +18,10 @@
 .accommodation-nabar {
     display: flex;
     justify-content: space-between;
+
     .link-container {
         border-bottom: 1px solid #d3d5d7;
+
         .active {
             color: $blue;
             border-bottom: 3px solid $blue;
@@ -36,5 +38,13 @@
             height: 34px;
 
         }
+    }
+}
+
+.notification-menu {
+    padding: 20px;
+
+    &:hover {
+        background-color: $grey-background-hover;
     }
 }

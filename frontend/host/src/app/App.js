@@ -5,7 +5,6 @@ import Login from "../pages/login";
 import SignUp from "../pages/signup";
 import NotFound from "../pages/Notfound";
 import Accommodation from "../pages/accomodation";
-import Message from "../pages/message";
 import Profile from "../pages/profile";
 import PrivateContainer from "../components/PrivateContainer";
 import UnfinishedPage from "../pages/accomodation/UnfinishedPage";
@@ -14,6 +13,10 @@ import DeactivatedPage from "../pages/accomodation/DeactivatedPage";
 import NewAccommodation from "../pages/newAccommodation";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./colorTheme";
+import VerifySignup from "../pages/signup/VerifySignup";
+import ConfirmSignup from "../pages/signup/ConfirmSignup";
+import Notification from "../pages/notification";
+import Detail from "../pages/Detail";
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -27,12 +30,15 @@ function App() {
               <Route path="active" element={<ActivePage />} />
               <Route path="deactivated" element={<DeactivatedPage />} />
             </Route>
-            <Route path="message" element={<Message />} />
+            <Route path="notification" element={<Notification />} />
             <Route path="profile" element={<Profile />} />
           </Route>
+          <Route path="newaccommodation/:id" element={<NewAccommodation />} />
+          <Route path="detail/:id" element={<Detail />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
-          <Route path="newaccommodation" element={<NewAccommodation />} />
+          <Route path="verify" element={<VerifySignup />} />
+          <Route path="confirmSignup/:code" element={<ConfirmSignup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

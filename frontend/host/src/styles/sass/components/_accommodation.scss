@@ -1,28 +1,41 @@
-.accommodation-container{
+.accommodation-container {
     margin-top: 20px;
+
     .accommodation-table {
         width: 100%;
         background-color: white;
         margin: 20px 0 40px;
-    
+
+        .btn-link {
+            text-decoration: none;
+            color: $blue;
+            cursor: pointer;
+
+            &:visited {
+                color: $blue;
+            }
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-    
-            th, td {
+
+            th,
+            td {
                 text-align: left;
                 padding-left: 16px;
             }
-            tr{
+
+            tr {
                 height: 60px;
                 border-bottom: 0.5px solid #e7e7e7;
             }
-    
+
             tbody tr {
                 border-bottom: 0.5px solid #e7e7e7;
                 height: 52px;
             }
-    
+
         }
     }
 }

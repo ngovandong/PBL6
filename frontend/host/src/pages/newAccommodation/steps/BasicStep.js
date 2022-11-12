@@ -1,24 +1,35 @@
 import {
   InputAdornment,
-  MenuItem,
   OutlinedInput,
   Rating,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
-
+import { useSelector } from "react-redux";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import {
+  handleUpdateAddingHost,
+  selectAddingHost,
+} from "../../../app/store/hostSlice";
+import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
+import moment from "moment";
 const listBT = [
   { icon: "building", name: "Khách sạn" },
   { icon: "house", name: "Resort" },
   { icon: "house-crack", name: "Homestay" },
 ];
+
 function BasicStep() {
-  const [selectedAccommodationType, setselectedAccommodationType] =
-    useState("Khách sạn");
+  const addingHost = useSelector(selectAddingHost);
   return (
+    
     <div className="tab-container">
       <p className="section-tile">Tên chỗ nghỉ</p>
-      <TextField placeholder="Nhập tên chỗ nghỉ" fullWidth />
+      <TextField
+        placeholder="Nhập tên chỗ nghỉ"
+        fullWidth
+        onChange={(e) => handleUpdateAddingHost("name", e.target.value)}
+        defaultValue={addingHost.name}
+      />
       <p className="section-tile">Chọn loại chỗ nghỉ</p>
       <div className="house-type-container">
         {listBT.map((bt) => (
@@ -26,8 +37,8 @@ function BasicStep() {
             key={bt.name}
             name={bt.name}
             icon={bt.icon}
-            onClick={() => setselectedAccommodationType(bt.name)}
-            isActive={selectedAccommodationType === bt.name}
+            onClick={() => handleUpdateAddingHost("hostType", bt.name)}
+            isActive={addingHost.hostType === bt.name}
           />
         ))}
       </div>
@@ -37,14 +48,62 @@ function BasicStep() {
         inputProps={{
           "aria-label": "weight",
           placeholder: "Diện tích",
-          min: "0"
+          min: "0",
         }}
         type="number"
+        onChange={(e) => handleUpdateAddingHost("area", Number(e.target.value))}
+        defaultValue={addingHost.area ? addingHost.area : 0}
       />
       <p className="section-tile">Xếp hạng sao</p>
-      <Rating />
+      <Rating
+        onChange={(event, newValue) => {
+          handleUpdateAddingHost("ratingStar", newValue);
+        }}
+        value={addingHost.ratingStar}
+      />
+      {/* <LocalizationProvider dateAdapter={AdapterMoment}>
+        <p className="section-tile">Giờ check in, check out</p>
+        <TimePicker
+          label="Giờ check in"
+          value={addingHost.timeCheckin}
+          onChange={(newValue) => {
+            handleUpdateAddingHost("timeCheckin", newValue);
+          }}
+          renderInput={(params) => (
+            <TextField
+              style={{ width: "45%", marginRight: "5%" }}
+              {...params}
+            />
+          )}
+        />
+        <TimePicker
+          label="Giờ checkout"
+          onChange={(newValue) => {
+            let parseTime = newValue._d.toTimeString().slice(0, 5);
+            handleUpdateAddingHost("timeCheckout", parseTime);
+          }}
+          renderInput={(params) => {
+            console.log(params);
+            return (
+              <TextField
+                style={{ width: "45%", marginRight: "5%" }}
+                defaultValue={addingHost.timeCheckout}
+                value={addingHost.timeCheckout}
+                {...params}
+              />
+            );
+          }}
+        />
+      </LocalizationProvider> */}
       <p className="section-tile">Mô tả chỗ ở</p>
-      <TextField placeholder="Mô tả về chỗ ở" multiline rows={4} fullWidth />
+      <TextField
+        placeholder="Mô tả về chỗ ở"
+        onChange={(e) => handleUpdateAddingHost("description", e.target.value)}
+        multiline
+        rows={4}
+        fullWidth
+        defaultValue={addingHost.description}
+      />
     </div>
   );
 }
