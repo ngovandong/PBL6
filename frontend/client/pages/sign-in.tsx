@@ -22,7 +22,7 @@ import { authApi } from '@utils/api'
 import { Session } from 'next-auth'
 import { LOCAL_STORAGE } from '@constants/constant'
 import { useRouter } from 'next/router'
-import { useUserContext } from 'common/context'
+import { useUser } from 'common/context'
 import { isEmpty } from 'lodash'
 import { toastError } from '@utils/notifications'
 
@@ -67,12 +67,14 @@ const SignIn = () => {
   const [errors, setErrors] = useState('')
   const [step, setStep] = useState(1)
   const { data: session } = useSession()
-  const { user, setUser } = useUserContext()
+  const [user, setUser] = useUser()
   const router = useRouter()
 
   useEffect(() => {
-    if (isEmpty(user)) {
-      if (session && session?.idToken) {
+    if (!isEmpty(user)) {
+      router.replace('/')
+    } else {
+      if (session) {
         authApi
           .loginGoogle({
             idToken: session.idToken || '',
@@ -83,19 +85,14 @@ const SignIn = () => {
                 LOCAL_STORAGE.accessToken,
                 res.data?.accessToken
               )
-              localStorage.setItem(LOCAL_STORAGE.user, JSON.stringify(res.data))
+              localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
               setUser(res.data)
-              router.replace('/')
             }
           })
-          .catch((error) => {
-            toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
-          })
+          .catch((error) => {})
       }
-    } else {
-      router.replace('/')
     }
-  }, [session])
+  }, [session, user])
 
   const handleSubmit = () => {
     if (email && password) {
@@ -107,9 +104,8 @@ const SignIn = () => {
               LOCAL_STORAGE.accessToken,
               res.data?.accessToken
             )
-            localStorage.setItem(LOCAL_STORAGE.user, JSON.stringify(res.data))
+            localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
             setUser(res.data)
-            router.replace('/')
           }
         })
         .catch((error) => {
@@ -122,153 +118,113 @@ const SignIn = () => {
     }
   }
 
-  if (isEmpty(user))
-    return (
-      <div>
-        <AppBar
-          position='sticky'
-          style={{ boxShadow: 'unset', borderBottom: '1px solid #F7F7F7' }}
-        >
-          <Container maxWidth='lg'>
-            <Toolbar disableGutters>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  margin: 'auto',
-                }}
-              >
-                <FlightTakeoffIcon
-                  sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
-                />
-                <Typography
-                  variant='h6'
-                  noWrap
-                  component='a'
-                  href='/'
-                  sx={{
-                    display: { xs: 'none', md: 'flex' },
-                    fontFamily: 'monospace',
-                    fontWeight: 700,
-                    letterSpacing: '.3rem',
-                    color: 'inherit',
-                    textDecoration: 'none',
-                  }}
-                >
-                  ReadyBooking
-                </Typography>
-              </Box>
-            </Toolbar>
-          </Container>
-        </AppBar>
-        <Box
-          sx={{ margin: '30px auto', maxWidth: '450px' }}
-          component='form'
-          autoComplete='false'
-        >
-          {step === 1 && (
-            <>
-              <Box display='flex' flexDirection='column' gap={2}>
-                <Title
-                  title='Đăng nhập hoặc tạo tài khoản'
-                  sx={{ fontSize: '24px', textAlign: 'center' }}
-                />
-                <FormGroup>
-                  <InputLabel htmlFor='email' color='primary'>
-                    Email
-                  </InputLabel>
-                  <InputField
-                    id='email'
-                    type='email'
-                    value={email}
-                    onChange={(
-                      event: React.ChangeEvent<
-                        HTMLTextAreaElement | HTMLInputElement
-                      >
-                    ) => setEmail(event.currentTarget.value)}
-                  />
-                </FormGroup>
-                <DefaultButton
-                  color='primary'
-                  onClick={() => setStep(2)}
-                  sx={{ flexFlow: 1 }}
-                >
-                  Tiếp tục với email
-                </DefaultButton>
-              </Box>
-              <Box
-                display='flex'
-                flexDirection='row'
-                alignItems='center'
-                textAlign='center'
-              >
-                <StraightLine />
-                <p style={{ flexGrow: '1' }}>hoặc đăng nhập bằng Google</p>
-                <StraightLine />
-              </Box>
-              <SquareIcon onClick={() => signIn('google')}>
-                <Image src='/icons/google.svg' width='32px' height='32px' />
-              </SquareIcon>
-            </>
-          )}
-          {step === 2 && (
-            <Box display='flex' flexDirection='column' gap={2}>
-              <Title
-                title='Nhập mật khẩu của bạn'
-                sx={{ fontSize: '24px', textAlign: 'center' }}
+  return (
+    <Box
+      sx={{ margin: '30px auto', maxWidth: '450px' }}
+      component='form'
+      autoComplete='false'
+    >
+      {step === 1 && (
+        <>
+          <Box display='flex' flexDirection='column' gap={2}>
+            <Title
+              title='Đăng nhập hoặc tạo tài khoản'
+              sx={{ fontSize: '24px', textAlign: 'center' }}
+            />
+            <FormGroup>
+              <InputLabel htmlFor='email' color='primary'>
+                Email
+              </InputLabel>
+              <InputField
+                id='email'
+                type='email'
+                value={email}
+                onChange={(
+                  event: React.ChangeEvent<
+                    HTMLTextAreaElement | HTMLInputElement
+                  >
+                ) => setEmail(event.currentTarget.value)}
               />
-              <FormGroup>
-                <InputLabel htmlFor='password' color='primary' disabled>
-                  Mật khẩu
-                </InputLabel>
-                <InputField
-                  id='password'
-                  type='password'
-                  value={password}
-                  onChange={(
-                    event: React.ChangeEvent<
-                      HTMLTextAreaElement | HTMLInputElement
-                    >
-                  ) => {
-                    const value = event.currentTarget.value.trim() || ''
-                    if (
-                      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g.test(
-                        value
-                      )
-                    ) {
-                      setErrors(
-                        'Một mật khẩu có chứa ít nhất tám ký tự, trong đó có ít nhất một số và bao gồm cả chữ hoa và chữ thường.'
-                      )
-                    } else {
-                      setErrors('')
-                    }
-                    setPassword(event.currentTarget.value)
-                  }}
-                />
-              </FormGroup>
-              <Typography textAlign={'justify'}>{errors}</Typography>
-              <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
-                <DefaultButton
-                  sx={{ flexGrow: 1 }}
-                  onClick={() => setStep(step - 1)}
-                >
-                  Quay lại
-                </DefaultButton>
-                <DefaultButton
-                  color='primary'
-                  sx={{ flexGrow: 1 }}
-                  onClick={() => {
-                    if (errors.length <= 0) {
-                      handleSubmit()
-                    }
-                  }}
-                >
-                  Đăng nhập
-                </DefaultButton>
-              </Box>
-            </Box>
-          )}
-          {/* {step === 3 && (
+            </FormGroup>
+            <DefaultButton
+              color='primary'
+              onClick={() => setStep(2)}
+              sx={{ flexFlow: 1 }}
+            >
+              Tiếp tục với email
+            </DefaultButton>
+          </Box>
+          <Box
+            display='flex'
+            flexDirection='row'
+            alignItems='center'
+            textAlign='center'
+          >
+            <StraightLine />
+            <p style={{ flexGrow: '1' }}>hoặc đăng nhập bằng Google</p>
+            <StraightLine />
+          </Box>
+          <SquareIcon onClick={() => signIn('google')}>
+            <Image src='/icons/google.svg' width='32px' height='32px' />
+          </SquareIcon>
+        </>
+      )}
+      {step === 2 && (
+        <Box display='flex' flexDirection='column' gap={2}>
+          <Title
+            title='Nhập mật khẩu của bạn'
+            sx={{ fontSize: '24px', textAlign: 'center' }}
+          />
+          <FormGroup>
+            <InputLabel htmlFor='password' color='primary' disabled>
+              Mật khẩu
+            </InputLabel>
+            <InputField
+              id='password'
+              type='password'
+              value={password}
+              onChange={(
+                event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+              ) => {
+                const value = event.currentTarget.value.trim() || ''
+                if (
+                  !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g.test(
+                    value
+                  )
+                ) {
+                  setErrors(
+                    'Một mật khẩu có chứa ít nhất tám ký tự, trong đó có ít nhất một số và bao gồm cả chữ hoa và chữ thường.'
+                  )
+                } else {
+                  setErrors('')
+                }
+                setPassword(event.currentTarget.value)
+              }}
+            />
+          </FormGroup>
+          <Typography textAlign={'justify'}>{errors}</Typography>
+          <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
+            <DefaultButton
+              sx={{ flexGrow: 1 }}
+              onClick={() => setStep(step - 1)}
+            >
+              Quay lại
+            </DefaultButton>
+            <DefaultButton
+              color='primary'
+              sx={{ flexGrow: 1 }}
+              onClick={() => {
+                if (errors.length <= 0) {
+                  handleSubmit()
+                }
+              }}
+            >
+              Đăng nhập
+            </DefaultButton>
+          </Box>
+        </Box>
+      )}
+      {/* {step === 3 && (
             <Box
               display='flex'
               component='form'
@@ -305,9 +261,8 @@ const SignIn = () => {
               </Box>
             </Box>
           )} */}
-        </Box>
-      </div>
-    )
+    </Box>
+  )
 }
 
 SignIn.getInitialProps = async () => {

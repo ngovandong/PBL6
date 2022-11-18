@@ -14,9 +14,8 @@ const Home: NextPage = () => {
         <meta name='description' content='Travel World' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <DefaultLayout>
-        <HomeTemplate />
-      </DefaultLayout>
+
+      <HomeTemplate />
     </div>
   )
 }

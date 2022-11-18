@@ -1,35 +1,29 @@
 import { useRouter } from 'next/router'
-import { isEmpty } from 'lodash'
 
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { DefaultButton } from '../Button/DefaultButton'
 import { borderRadiusLarge } from '@constants/styles'
 
-import UserMenu from '../UserMenu'
-import { useUser } from 'common/context'
-import { memo, useEffect } from 'react'
-import { NotAuthHeader } from './NotAuthHeader'
-import AuthHeader from './AuthHeader'
-
-export const Header = () => {
+export const NotAuthHeader = () => {
   const router = useRouter()
-  const [user, setUser] = useUser()
-
-  if (router.pathname !== '/sign-in')
-    return isEmpty(user) ? <NotAuthHeader /> : <AuthHeader user={user} />
   return (
     <AppBar
       position='sticky'
       style={{ boxShadow: 'unset', borderBottom: '1px solid #F7F7F7' }}
     >
       <Container maxWidth='lg'>
-        <Toolbar disableGutters>
+        <Toolbar
+          disableGutters
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
-              margin: 'auto',
             }}
           >
             <FlightTakeoffIcon
@@ -41,6 +35,7 @@ export const Header = () => {
               component='a'
               href='/'
               sx={{
+                mr: 2,
                 display: { xs: 'none', md: 'flex' },
                 fontFamily: 'monospace',
                 fontWeight: 700,
@@ -52,10 +47,34 @@ export const Header = () => {
               ReadyBooking
             </Typography>
           </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              // minWidth: '400px',
+            }}
+          >
+            <DefaultButton
+              color='primary'
+              sx={{ borderRadius: borderRadiusLarge }}
+            >
+              Đăng chỗ nghỉ
+            </DefaultButton>
+            <DefaultButton
+              onClick={() => router.push('/sign-in')}
+              sx={{ borderRadius: borderRadiusLarge, ml: 3 }}
+            >
+              Đăng ký
+            </DefaultButton>
+            <DefaultButton
+              onClick={() => router.push('/sign-in')}
+              sx={{ borderRadius: borderRadiusLarge, ml: 3 }}
+            >
+              Đăng nhập
+            </DefaultButton>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
   )
 }
-
-export default memo(Header)

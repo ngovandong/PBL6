@@ -1,5 +1,8 @@
+import { CircularProgress } from '@mui/material'
 import { LOCAL_STORAGE } from '@constants/constant'
-import { authApi } from '@utils/api'
+import { getUserInfor } from '@utils/api/user'
+import { toastError } from '@utils/notifications'
+
 import {
   createContext,
   useState,
@@ -11,7 +14,8 @@ import {
 } from 'react'
 
 interface IMainState {
-  user: {}
+  user: any
+  isLoadingInit: boolean
 }
 
 interface IMainContext {
@@ -20,29 +24,53 @@ interface IMainContext {
 }
 
 export const MainContext = createContext<IMainContext>({
-  state: {user: {}},
-  setState: () => void
+  state: {
+    user: {},
+    isLoadingInit: true,
+  },
+  setState: (value: any) => {},
 })
 
-const useUser = () => {
+export const useUser = () => {
+  const { state, setState } = useContext(MainContext)
 
+  const setUser = useCallback(
+    (user: any) => {
+      setState({ ...user })
+    },
+    [setState]
+  )
+
+  return [state.user, setUser]
 }
 
 const MainProvider = ({ children }: any) => {
   const [state, setState] = useReducer(
     (prev: IMainState, current: IMainState) => ({ ...prev, ...current }),
-    { user: {} }
+    { user: {}, isLoadingInit: false }
   )
 
   useEffect(() => {
-    if (localStorage.getItem(LOCAL_STORAGE.user)) {
-      const accessToken = localStorage.getItem(LOCAL_STORAGE.user);
-      const user = authApi.
+    const idUser = localStorage.getItem(LOCAL_STORAGE.idUser)
+    if (idUser) {
+      getUserInfor(idUser)
+        .then((response) => {
+          if (response.data?.email) {
+            setState({ user: response.data, isLoadingInit: false })
+          }
+        })
+        .catch(() => {
+          setState({ user: {}, isLoadingInit: false })
+          toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
+        })
     }
-    
   }, [])
 
-  return <MainContext.Provider value={{state, setState}}>{children}</MainContext.Provider>
+  return (
+    <MainContext.Provider value={{ state, setState }}>
+      {state.isLoadingInit ? <CircularProgress /> : children}
+    </MainContext.Provider>
+  )
 }
 
 export const MainConsumer = MainContext.Consumer

@@ -12,9 +12,7 @@ import {
 import Logout from '@mui/icons-material/Logout'
 import { borderRadiusLarge } from '@constants/styles'
 import { signOut, useSession } from 'next-auth/react'
-import { useUserContext } from 'common/context'
-import { LOCAL_STORAGE } from '@constants/constant'
-import Router from 'next/router'
+import { useUser } from 'common/context'
 
 const MenuContainer = ({ anchorEl, open, handleClose, signOut }) => (
   <Menu
@@ -70,7 +68,7 @@ const MenuContainer = ({ anchorEl, open, handleClose, signOut }) => (
 
 const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
   const { status } = useSession()
-  const { setUser } = useUserContext()
+  const [user, setUser] = useUser()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -84,8 +82,7 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
     setUser({})
     localStorage.clear()
     if (status === 'authenticated') {
-      console.log('OK')
-      signOut({ callbackUrl: window.location.href })
+      signOut()
     }
   }
 
@@ -103,10 +100,7 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
       }}
     >
       <Box onClick={handleClick} display='flex'>
-        <Avatar sx={{ width: 32, height: 32 }}></Avatar>
-        <Box m={1}>
-          <Typography fontSize={14}>{userName}</Typography>
-        </Box>
+        <Avatar sx={{ width: 32, height: 32, mt: '-5px' }} src={src}></Avatar>
       </Box>
       <MenuContainer
         anchorEl={anchorEl}

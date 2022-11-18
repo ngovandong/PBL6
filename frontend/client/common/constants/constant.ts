@@ -1,4 +1,4 @@
 export const LOCAL_STORAGE = {
-  user: 'user',
+  idUser: 'idUser',
   accessToken: 'accessToken',
 }
