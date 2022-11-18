@@ -64,7 +64,7 @@ const MainProvider = ({ children }: any) => {
           toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
         })
     }
-  }, [])
+  }, [state.user])
 
   return (
     <MainContext.Provider value={{ state, setState }}>
