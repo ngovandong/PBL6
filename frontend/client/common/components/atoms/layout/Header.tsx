@@ -7,17 +7,17 @@ import { DefaultButton } from '../Button/DefaultButton'
 import { borderRadiusLarge } from '@constants/styles'
 
 import UserMenu from '../UserMenu'
-import { useUser } from 'common/context'
-import { memo, useEffect } from 'react'
+import { MainContext, useUser } from 'common/context'
+import { memo, useContext, useEffect } from 'react'
 import { NotAuthHeader } from './NotAuthHeader'
 import AuthHeader from './AuthHeader'
+import { useSession } from 'next-auth/react'
 
-export const Header = () => {
+export const Header = ({ user }: any) => {
   const router = useRouter()
-  const [user, setUser] = useUser()
-
+  const { state } = useContext(MainContext)
   if (router.pathname !== '/sign-in')
-    return isEmpty(user) ? <NotAuthHeader /> : <AuthHeader user={user} />
+    return user ? <AuthHeader user={state.user} /> : <NotAuthHeader />
   return (
     <AppBar
       position='sticky'

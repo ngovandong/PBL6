@@ -1,10 +1,7 @@
-import { NextPage } from 'next'
-import React, { useState, useEffect } from 'react'
-import { useSession, signIn } from 'next-auth/react'
+import { NextPage, NextPageContext } from 'next'
+import React, { useState, useEffect, useContext, memo } from 'react'
+import { useSession, signIn, getCsrfToken, getSession } from 'next-auth/react'
 import {
-  AppBar,
-  Container,
-  Toolbar,
   Typography,
   Box,
   InputLabel,
@@ -22,8 +19,7 @@ import { authApi } from '@utils/api'
 import { Session } from 'next-auth'
 import { LOCAL_STORAGE } from '@constants/constant'
 import { useRouter } from 'next/router'
-import { useUser } from 'common/context'
-import { isEmpty } from 'lodash'
+import { MainContext, useUser } from 'common/context'
 import { toastError } from '@utils/notifications'
 
 const StraightLine = styled('p')({
@@ -67,14 +63,14 @@ const SignIn = () => {
   const [errors, setErrors] = useState('')
   const [step, setStep] = useState(1)
   const { data: session } = useSession()
-  const [user, setUser] = useUser()
+  const { state, setState } = useContext(MainContext)
   const router = useRouter()
 
   useEffect(() => {
-    if (!isEmpty(user)) {
+    if (state.isLogged) {
       router.replace('/')
     } else {
-      if (session) {
+      if (session?.idToken) {
         authApi
           .loginGoogle({
             idToken: session.idToken || '',
@@ -86,37 +82,30 @@ const SignIn = () => {
                 res.data?.accessToken
               )
               localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
-              setUser(res.data)
+              setState({ ...state, isLogged: true, user: res.data })
             }
           })
           .catch((error) => {
             console.log(error)
           })
+      } else {
+        const user: any = session
+        localStorage.setItem(LOCAL_STORAGE.idUser, user?.id || '')
+        setState({ ...state, isLogged: true, user: user })
       }
     }
-  }, [session, user])
+  }, [session])
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (email && password) {
-      authApi
-        .loginEmail({ email: email, password: password })
-        .then((res) => {
-          if (res.data?.accessToken) {
-            localStorage.setItem(
-              LOCAL_STORAGE.accessToken,
-              res.data?.accessToken
-            )
-            localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
-            setUser(res.data)
-          }
-        })
-        .catch((error) => {
-          if (error?.response?.status === 401) {
-            toastError('Mật khẩu không chính xác!')
-          } else {
-            toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
-          }
-        })
+      const res = await signIn('credentials', {
+        email: email,
+        password: password,
+        redirect: false,
+      })
+      if (!session?.user) {
+        toastError('Mật khẩu không chính xác!')
+      }
     }
   }
 
@@ -134,6 +123,7 @@ const SignIn = () => {
               sx={{ fontSize: '24px', textAlign: 'center' }}
             />
             <FormGroup>
+              {/* <input name='csrfToken' type='hidden' defaultValue={csrfToken} /> */}
               <InputLabel htmlFor='email' color='primary'>
                 Email
               </InputLabel>
@@ -167,7 +157,12 @@ const SignIn = () => {
             <StraightLine />
           </Box>
           <SquareIcon onClick={() => signIn('google')}>
-            <Image src='/icons/google.svg' width='32px' height='32px' alt="Login with google" />
+            <Image
+              src='/icons/google.svg'
+              width='32px'
+              height='32px'
+              alt='Login with google'
+            />
           </SquareIcon>
         </>
       )}
@@ -226,49 +221,16 @@ const SignIn = () => {
           </Box>
         </Box>
       )}
-      {/* {step === 3 && (
-            <Box
-              display='flex'
-              component='form'
-              autoComplete='off'
-              flexDirection='column'
-              gap={2}
-            >
-              <Title
-                title='Nhập mật khẩu'
-                sx={{ fontSize: '24px', textAlign: 'center' }}
-              />
-              <FormGroup>
-                <InputLabel htmlFor='password' color='primary'>
-                  Mật khẩu
-                </InputLabel>
-                <InputField id='password' />
-              </FormGroup>
-              <FormGroup>
-                <InputLabel htmlFor='confirmPassword' color='primary'>
-                  Xác nhận mật khẩu
-                </InputLabel>
-                <InputField id='confirmPassword' />
-              </FormGroup>
-              <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
-                <DefaultButton
-                  sx={{ flexGrow: 1 }}
-                  onClick={() => setStep(step - 1)}
-                >
-                  Quay lại
-                </DefaultButton>
-                <DefaultButton color='primary' sx={{ flexGrow: 1 }}>
-                  Tạo tài khoản
-                </DefaultButton>
-              </Box>
-            </Box>
-          )} */}
     </Box>
   )
 }
 
-SignIn.getInitialProps = async () => {
-  return { page: {} }
+export async function getServerSideProps(context: NextPageContext) {
+  return {
+    props: {
+      csrfToken: await getCsrfToken(context),
+    },
+  }
 }
 
-export default SignIn
+export default memo(SignIn)

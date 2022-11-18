@@ -5,7 +5,6 @@ import { toastError } from '@utils/notifications'
 
 import {
   createContext,
-  useState,
   useContext,
   useCallback,
   useEffect,
@@ -16,6 +15,7 @@ import {
 interface IMainState {
   user: any
   isLoadingInit: boolean
+  isLogged: boolean
 }
 
 interface IMainContext {
@@ -27,6 +27,7 @@ export const MainContext = createContext<IMainContext>({
   state: {
     user: {},
     isLoadingInit: true,
+    isLogged: false,
   },
   setState: (value: any) => {},
 })
@@ -36,7 +37,7 @@ export const useUser = () => {
 
   const setUser = useCallback(
     (user: any) => {
-      setState({ ...user })
+      setState({ ...state, user: user })
     },
     [setState]
   )
@@ -47,7 +48,7 @@ export const useUser = () => {
 const MainProvider = ({ children }: any) => {
   const [state, setState] = useReducer(
     (prev: IMainState, current: IMainState) => ({ ...prev, ...current }),
-    { user: {}, isLoadingInit: false }
+    { user: {}, isLoadingInit: true, isLogged: false }
   )
 
   useEffect(() => {
@@ -56,19 +57,24 @@ const MainProvider = ({ children }: any) => {
       getUserInfor(idUser)
         .then((response) => {
           if (response.data?.email) {
-            setState({ user: response.data, isLoadingInit: false })
+            setState({
+              user: response.data,
+              isLoadingInit: false,
+              isLogged: true,
+            })
           }
         })
         .catch(() => {
-          setState({ user: {}, isLoadingInit: false })
+          setState({ user: {}, isLoadingInit: false, isLogged: false })
           toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
         })
     }
-  }, [state.user])
+  }, [])
 
   return (
     <MainContext.Provider value={{ state, setState }}>
-      {state.isLoadingInit ? <CircularProgress /> : children}
+      {/* {state.isLoadingInit ? <CircularProgress /> : children} */}
+      {children}
     </MainContext.Provider>
   )
 }

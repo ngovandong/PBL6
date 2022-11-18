@@ -6,8 +6,8 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import theme from 'common/constants/theme'
 import createEmotionCache from 'common/utils/createEmotionCache'
-import { Session } from 'next-auth'
-import { SessionProvider, getSession } from 'next-auth/react'
+import { Session, unstable_getServerSession } from 'next-auth'
+import { getSession, SessionProvider } from 'next-auth/react'
 
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
@@ -20,20 +20,30 @@ import 'public/styles/globals.scss'
 import DefaultLayout from '@components/templates/layout/DefaultLayout'
 import { isEmpty } from 'lodash'
 import { LOCAL_STORAGE } from '@constants/constant'
+import { NextPageContext } from 'next'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
 
 interface MyAppProps extends AppProps<{ session: Session }> {
   emotionCache?: EmotionCache
+  session: Session
 }
 
 export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
-  const { state } = useContext(MainContext)
+  const {
+    Component,
+    emotionCache = clientSideEmotionCache,
+    pageProps,
+    session,
+  } = props
 
   return (
-    <SessionProvider session={pageProps.session}>
+    <SessionProvider
+      session={session}
+      refetchInterval={0}
+      refetchOnWindowFocus={false}
+    >
       <CacheProvider value={emotionCache}>
         <Head>
           <meta name='viewport' content='initial-scale=1, width=device-width' />
@@ -42,7 +52,7 @@ export default function MyApp(props: MyAppProps) {
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <MainProvider>
-            <DefaultLayout>
+            <DefaultLayout user={session?.user}>
               <Component {...pageProps} />
             </DefaultLayout>
             <ToastContainer
@@ -61,8 +71,12 @@ export default function MyApp(props: MyAppProps) {
   )
 }
 
-// MyApp.getInitialProps = async (context: AppContext) => {
-//   const ctx = App.getInitialProps(context)
-//   const session = await getSession(context.ctx)
-//   return { ...ctx, session }
-// }
+MyApp.getInitialProps = async (context: AppContext) => {
+  const appProps = await App.getInitialProps(context)
+  const session = await getSession(context.ctx)
+
+  return {
+    ...appProps,
+    session,
+  }
+}

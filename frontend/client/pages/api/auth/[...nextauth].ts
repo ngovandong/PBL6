@@ -1,5 +1,9 @@
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
+import CreadentialProvider from 'next-auth/providers/credentials'
+import axios from 'axios'
+import https from 'https'
+import { toastError } from '@utils/notifications'
 
 export default NextAuth({
   providers: [
@@ -7,27 +11,68 @@ export default NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     }),
+    CreadentialProvider({
+      type: 'credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials, req) {
+        const { email, password } = credentials as {
+          email: string
+          password: string
+        }
+        try {
+          const user = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/login-with-email`,
+            {
+              email: email,
+              password: password,
+            },
+            {
+              httpsAgent: new https.Agent({
+                rejectUnauthorized: false,
+              }),
+            }
+          )
+          return user.data
+        } catch (error: any) {
+          if (error?.response?.status === 401) {
+            toastError('Mật khẩu không chính xác!')
+          } else {
+            toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
+          }
+          throw new Error('Mật khẩu không chính xác!')
+        }
+      },
+    }),
   ],
   secret: process.env!.JWT_SECRET,
 
+  // pages: {
+  //   signIn: '/auth/signin',
+  // },
+
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      return true
+      return Promise.resolve(true)
     },
-    // async redirect({ url, baseUrl }) {
-    //   return baseUrl
-    // },
-    async session({ session, token, user }) {
-      if (token?.idToken) {
-        session.idToken = token?.idToken
-      }
-      return session
+    async redirect({ url, baseUrl }) {
+      return url
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (account?.access_token) {
         token.idToken = account?.id_token
       }
+      user && (token.user = user)
       return token
+    },
+    async session({ session, token, user }) {
+      if (token?.idToken) {
+        session.idToken = token?.idToken
+      }
+      session.user = token.user
+      return session
     },
   },
 })

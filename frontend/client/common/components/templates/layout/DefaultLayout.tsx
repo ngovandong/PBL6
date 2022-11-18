@@ -4,11 +4,11 @@ import { Header } from 'common/components/atoms/layout/Header'
 
 import { useRouter } from 'next/router'
 
-const DefaultLayout = ({ children }: any) => {
+const DefaultLayout = ({ user, children }: any) => {
   const route = useRouter()
   return (
     <div>
-      <Header></Header>
+      <Header user={user} />
       <Box sx={{ margin: '30px auto', maxWidth: '1300px' }}>{children}</Box>
       {route.pathname !== '/sign-in' && <Footer />}
     </div>

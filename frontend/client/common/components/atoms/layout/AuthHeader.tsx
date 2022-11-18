@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useRouter } from 'next/router'
 import { isEmpty } from 'lodash'
 
@@ -7,8 +8,6 @@ import { DefaultButton } from '../Button/DefaultButton'
 import { borderRadiusLarge } from '@constants/styles'
 
 import UserMenu from '../UserMenu'
-import { useUser } from 'common/context'
-import { memo, useEffect } from 'react'
 
 export const AuthHeader = ({ user }: any) => {
   const router = useRouter()
@@ -70,7 +69,7 @@ export const AuthHeader = ({ user }: any) => {
               {user && (
                 <UserMenu
                   userName={user?.givenName || ''}
-                  src={user?.avatarImageUrl || ''}
+                  src={user?.avatarImageUrl}
                 />
               )}
             </Box>

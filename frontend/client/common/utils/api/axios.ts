@@ -12,10 +12,13 @@ const api = axios.create({
 api.interceptors.request.use(
   async function (config) {
     // Do something before request is sent
-    const accessToken = window.localStorage.getItem(LOCAL_STORAGE.accessToken)
-    if (accessToken) {
-      config.headers!.Authorization = `Bearer ${accessToken}`
+    if (typeof window !== 'undefined') {
+      const accessToken = window.localStorage.getItem(LOCAL_STORAGE.accessToken)
+      if (accessToken) {
+        config.headers!.Authorization = `Bearer ${accessToken}`
+      }
     }
+
     return config
   },
   async function (error) {
