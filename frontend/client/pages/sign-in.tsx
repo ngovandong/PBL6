@@ -89,7 +89,9 @@ const SignIn = () => {
               setUser(res.data)
             }
           })
-          .catch((error) => {})
+          .catch((error) => {
+            console.log(error)
+          })
       }
     }
   }, [session, user])
@@ -165,7 +167,7 @@ const SignIn = () => {
             <StraightLine />
           </Box>
           <SquareIcon onClick={() => signIn('google')}>
-            <Image src='/icons/google.svg' width='32px' height='32px' />
+            <Image src='/icons/google.svg' width='32px' height='32px' alt="Login with google" />
           </SquareIcon>
         </>
       )}
