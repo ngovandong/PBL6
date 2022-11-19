@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import DefaultLayout from '@components/templates/layout/DefaultLayout'
-
 import styles from 'public/styles/Home.module.scss'
 import HomeTemplate from '@components/templates/home'
+import { useContext } from 'react'
+import { MainContext } from 'common/context'
 
 const Home: NextPage = () => {
   return (
@@ -14,15 +14,9 @@ const Home: NextPage = () => {
         <meta name='description' content='Travel World' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <DefaultLayout>
-        <HomeTemplate />
-      </DefaultLayout>
+      <HomeTemplate />
     </div>
   )
-}
-
-Home.getInitialProps = async () => {
-  return { page: {} }
 }
 
 export default Home

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import {
   IconButton,
   Avatar,
@@ -12,11 +12,9 @@ import {
 import Logout from '@mui/icons-material/Logout'
 import { borderRadiusLarge } from '@constants/styles'
 import { signOut, useSession } from 'next-auth/react'
-import { useUserContext } from 'common/context'
-import { LOCAL_STORAGE } from '@constants/constant'
-import Router from 'next/router'
+import { MainContext, useUser } from 'common/context'
 
-const MenuContainer = ({ anchorEl, open, handleClose, signOut }) => (
+const MenuContainer = ({ anchorEl, open, handleClose, signOut }: any) => (
   <Menu
     anchorEl={anchorEl}
     id='account-menu'
@@ -70,7 +68,7 @@ const MenuContainer = ({ anchorEl, open, handleClose, signOut }) => (
 
 const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
   const { status } = useSession()
-  const { setUser } = useUserContext()
+  const { state, setState } = useContext(MainContext)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -81,12 +79,9 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
   }
 
   const handleSignOut = () => {
-    setUser({})
+    setState({ ...state, user: {} })
     localStorage.clear()
-    if (status === 'authenticated') {
-      console.log('OK')
-      signOut({ callbackUrl: window.location.href })
-    }
+    signOut()
   }
 
   return (
@@ -103,10 +98,8 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
       }}
     >
       <Box onClick={handleClick} display='flex'>
-        <Avatar sx={{ width: 32, height: 32 }}></Avatar>
-        <Box m={1}>
-          <Typography fontSize={14}>{userName}</Typography>
-        </Box>
+        <Avatar sx={{ width: 32, height: 32, mt: '-5px' }} src={src}></Avatar>
+        <Typography mx={1}>{userName}</Typography>
       </Box>
       <MenuContainer
         anchorEl={anchorEl}
