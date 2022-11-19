@@ -21,6 +21,7 @@ import { LOCAL_STORAGE } from '@constants/constant'
 import { useRouter } from 'next/router'
 import { MainContext, useUser } from 'common/context'
 import { toastError } from '@utils/notifications'
+import { isEmpty } from 'lodash'
 
 const StraightLine = styled('p')({
   width: '90px',
@@ -67,32 +68,34 @@ const SignIn = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (state.isLogged) {
-      router.replace('/')
+    if (session?.idToken) {
+      authApi
+        .loginGoogle({
+          idToken: session.idToken || '',
+        })
+        .then((res) => {
+          if (res.data?.accessToken) {
+            localStorage.setItem(
+              LOCAL_STORAGE.accessToken,
+              res.data?.accessToken
+            )
+            localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
+            setState({ ...state, isLogged: true, user: res.data })
+            router.replace('/')
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     } else {
-      if (session?.idToken) {
-        authApi
-          .loginGoogle({
-            idToken: session.idToken || '',
-          })
-          .then((res) => {
-            if (res.data?.accessToken) {
-              localStorage.setItem(
-                LOCAL_STORAGE.accessToken,
-                res.data?.accessToken
-              )
-              localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
-              setState({ ...state, isLogged: true, user: res.data })
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      } else {
-        const user: any = session
-        localStorage.setItem(LOCAL_STORAGE.idUser, user?.id || '')
-        setState({ ...state, isLogged: true, user: user })
-      }
+      const user: any = session?.user
+      user?.id && localStorage.setItem(LOCAL_STORAGE.idUser, user?.id)
+      user?.accessToken &&
+        localStorage.setItem(LOCAL_STORAGE.accessToken, user?.accessToken || '')
+      setState({ ...state, isLogged: true, user: user })
+    }
+    if (session) {
+      router.replace('/')
     }
   }, [session])
 
@@ -103,9 +106,6 @@ const SignIn = () => {
         password: password,
         redirect: false,
       })
-      if (!session?.user) {
-        toastError('Mật khẩu không chính xác!')
-      }
     }
   }
 

@@ -11,7 +11,6 @@ import { MainContext, useUser } from 'common/context'
 import { memo, useContext, useEffect } from 'react'
 import { NotAuthHeader } from './NotAuthHeader'
 import AuthHeader from './AuthHeader'
-import { useSession } from 'next-auth/react'
 
 export const Header = ({ user }: any) => {
   const router = useRouter()

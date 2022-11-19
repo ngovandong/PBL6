@@ -11,6 +11,7 @@ import {
   useReducer,
   memo,
 } from 'react'
+import { getSession } from 'next-auth/react'
 
 interface IMainState {
   user: any

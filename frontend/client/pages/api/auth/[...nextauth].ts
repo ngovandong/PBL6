@@ -42,7 +42,7 @@ export default NextAuth({
           } else {
             toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
           }
-          throw new Error('Mật khẩu không chính xác!')
+          return null
         }
       },
     }),
