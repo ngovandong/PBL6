@@ -68,8 +68,8 @@ export const AuthHeader = ({ user }: any) => {
               </DefaultButton>
               {user && (
                 <UserMenu
-                  userName={user?.givenName || ''}
-                  src={user?.avatarImageUrl}
+                  userName={user?.givenName || user?.email || ''}
+                  src={user?.avatarImageUrl || ''}
                 />
               )}
             </Box>

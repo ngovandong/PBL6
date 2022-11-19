@@ -10,6 +10,14 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        },
+      },
+      idToken: true,
     }),
     CreadentialProvider({
       type: 'credentials',
@@ -64,7 +72,26 @@ export default NextAuth({
       if (account?.access_token) {
         token.idToken = account?.id_token
       }
-      user && (token.user = user)
+      if (account?.provider === 'google') {
+        try {
+          const res = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/login-with-google`,
+            {
+              idToken: account?.id_token,
+            },
+            {
+              httpsAgent: new https.Agent({
+                rejectUnauthorized: false,
+              }),
+            }
+          )
+          token.user = res.data
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        user && (token.user = user)
+      }
       return token
     },
     async session({ session, token, user }) {

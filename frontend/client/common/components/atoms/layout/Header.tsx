@@ -12,11 +12,15 @@ import { memo, useContext, useEffect } from 'react'
 import { NotAuthHeader } from './NotAuthHeader'
 import AuthHeader from './AuthHeader'
 
-export const Header = ({ user }: any) => {
+export const Header = () => {
   const router = useRouter()
   const { state } = useContext(MainContext)
   if (router.pathname !== '/sign-in')
-    return user ? <AuthHeader user={state.user} /> : <NotAuthHeader />
+    return !isEmpty(state.user) ? (
+      <AuthHeader user={state.user} />
+    ) : (
+      <NotAuthHeader />
+    )
   return (
     <AppBar
       position='sticky'
@@ -40,7 +44,7 @@ export const Header = ({ user }: any) => {
               component='a'
               href='/'
               sx={{
-                display: { xs: 'none', md: 'flex' },
+                display: { md: 'flex' },
                 fontFamily: 'monospace',
                 fontWeight: 700,
                 letterSpacing: '.3rem',

@@ -6,21 +6,18 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import theme from 'common/constants/theme'
 import createEmotionCache from 'common/utils/createEmotionCache'
-import { Session, unstable_getServerSession } from 'next-auth'
+import { Session } from 'next-auth'
 import { getSession, SessionProvider } from 'next-auth/react'
 
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
 import 'react-toastify/dist/ReactToastify.css'
 
-import MainProvider, { MainContext } from 'common/context'
+import MainProvider from 'common/context'
 import { ToastContainer } from 'react-toastify'
 
-import 'public/styles/globals.scss'
 import DefaultLayout from '@components/templates/layout/DefaultLayout'
-import { isEmpty } from 'lodash'
-import { LOCAL_STORAGE } from '@constants/constant'
-import { NextPageContext } from 'next'
+import 'public/styles/globals.scss'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -37,7 +34,6 @@ export default function MyApp(props: MyAppProps) {
     pageProps,
     session,
   } = props
-
   return (
     <SessionProvider
       session={session}
@@ -51,8 +47,8 @@ export default function MyApp(props: MyAppProps) {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <MainProvider>
-            <DefaultLayout user={session?.user}>
+          <MainProvider session={session}>
+            <DefaultLayout>
               <Component {...pageProps} />
             </DefaultLayout>
             <ToastContainer

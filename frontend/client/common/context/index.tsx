@@ -1,22 +1,8 @@
-import { CircularProgress } from '@mui/material'
-import { LOCAL_STORAGE } from '@constants/constant'
-import { getUserInfor } from '@utils/api/user'
-import { toastError } from '@utils/notifications'
-
-import {
-  createContext,
-  useContext,
-  useCallback,
-  useEffect,
-  useReducer,
-  memo,
-} from 'react'
-import { getSession } from 'next-auth/react'
+import { createContext, useContext, useCallback, useReducer, memo } from 'react'
+import { Session } from 'next-auth'
 
 interface IMainState {
   user: any
-  isLoadingInit: boolean
-  isLogged: boolean
 }
 
 interface IMainContext {
@@ -27,8 +13,6 @@ interface IMainContext {
 export const MainContext = createContext<IMainContext>({
   state: {
     user: {},
-    isLoadingInit: true,
-    isLogged: false,
   },
   setState: (value: any) => {},
 })
@@ -46,35 +30,41 @@ export const useUser = () => {
   return [state.user, setUser]
 }
 
-const MainProvider = ({ children }: any) => {
+const MainProvider = ({
+  children,
+  session,
+}: {
+  children: any
+  session: Session
+}) => {
   const [state, setState] = useReducer(
     (prev: IMainState, current: IMainState) => ({ ...prev, ...current }),
-    { user: {}, isLoadingInit: true, isLogged: false }
-  )
-
-  useEffect(() => {
-    const idUser = localStorage.getItem(LOCAL_STORAGE.idUser)
-    if (idUser) {
-      getUserInfor(idUser)
-        .then((response) => {
-          if (response.data?.email) {
-            setState({
-              user: response.data,
-              isLoadingInit: false,
-              isLogged: true,
-            })
-          }
-        })
-        .catch(() => {
-          setState({ user: {}, isLoadingInit: false, isLogged: false })
-          toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
-        })
+    {
+      user: session?.user || {},
     }
-  }, [])
+  )
+  // useEffect(() => {
+  //   const idUser = localStorage.getItem(LOCAL_STORAGE.idUser)
+  //   if (idUser) {
+  //     getUserInfor(idUser)
+  //       .then((response) => {
+  //         if (response.data?.email) {
+  //           setState({
+  //             user: response.data,
+  //             isLoadingInit: false,
+  //             isLogged: true,
+  //           })
+  //         }
+  //       })
+  //       .catch(() => {
+  //         setState({ user: {}, isLoadingInit: false, isLogged: false })
+  //         toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
+  //       })
+  //   }
+  // }, [])
 
   return (
     <MainContext.Provider value={{ state, setState }}>
-      {/* {state.isLoadingInit ? <CircularProgress /> : children} */}
       {children}
     </MainContext.Provider>
   )

@@ -22,6 +22,7 @@ import { useRouter } from 'next/router'
 import { MainContext, useUser } from 'common/context'
 import { toastError } from '@utils/notifications'
 import { isEmpty } from 'lodash'
+import { validateEmail, validatePassword } from '@utils/helpers'
 
 const StraightLine = styled('p')({
   width: '90px',
@@ -68,44 +69,57 @@ const SignIn = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (session?.idToken) {
-      authApi
-        .loginGoogle({
-          idToken: session.idToken || '',
-        })
-        .then((res) => {
-          if (res.data?.accessToken) {
-            localStorage.setItem(
-              LOCAL_STORAGE.accessToken,
-              res.data?.accessToken
-            )
-            localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
-            setState({ ...state, isLogged: true, user: res.data })
-            router.replace('/')
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    } else {
-      const user: any = session?.user
-      user?.id && localStorage.setItem(LOCAL_STORAGE.idUser, user?.id)
-      user?.accessToken &&
-        localStorage.setItem(LOCAL_STORAGE.accessToken, user?.accessToken || '')
-      setState({ ...state, isLogged: true, user: user })
-    }
     if (session) {
-      router.replace('/')
+      if (session?.idToken) {
+        authApi
+          .loginGoogle({
+            idToken: session.idToken || '',
+          })
+          .then((res) => {
+            if (res.data?.accessToken) {
+              localStorage.setItem(
+                LOCAL_STORAGE.accessToken,
+                res.data?.accessToken
+              )
+              localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
+              setState({ user: user })
+              router.replace('/')
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      } else {
+        const user: any = session?.user
+        user?.id && localStorage.setItem(LOCAL_STORAGE.idUser, user?.id)
+        user?.accessToken &&
+          localStorage.setItem(
+            LOCAL_STORAGE.accessToken,
+            user?.accessToken || ''
+          )
+        setState({ user: user })
+        router.replace('/')
+      }
     }
   }, [session])
 
   const handleSubmit = async () => {
-    if (email && password) {
+    if (!validatePassword(password)) {
+      setErrors(
+        'Mật khẩu có chứa ít nhất tám ký tự, trong đó có ít nhất một số và bao gồm cả chữ hoa và chữ thường.'
+      )
+    } else {
+      setErrors('')
+    }
+    if (!errors) {
       const res = await signIn('credentials', {
         email: email,
         password: password,
         redirect: false,
       })
+      if (res?.status === 401) {
+        toastError('Mật khẩu không chính xác.')
+      }
     }
   }
 
@@ -135,12 +149,25 @@ const SignIn = () => {
                   event: React.ChangeEvent<
                     HTMLTextAreaElement | HTMLInputElement
                   >
-                ) => setEmail(event.currentTarget.value)}
+                ) => {
+                  const value = event.currentTarget.value
+                  if (validateEmail(value)) {
+                    setErrors('')
+                  } else {
+                    setErrors('Email không hợp lệ.')
+                  }
+                  setEmail(value)
+                }}
               />
             </FormGroup>
+            <Typography textAlign={'justify'}>{errors}</Typography>
             <DefaultButton
               color='primary'
-              onClick={() => setStep(2)}
+              onClick={() => {
+                if (email.trim()) {
+                  setStep(2)
+                }
+              }}
               sx={{ flexFlow: 1 }}
             >
               Tiếp tục với email
@@ -184,13 +211,9 @@ const SignIn = () => {
                 event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
               ) => {
                 const value = event.currentTarget.value.trim() || ''
-                if (
-                  !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g.test(
-                    value
-                  )
-                ) {
+                if (!validatePassword(value)) {
                   setErrors(
-                    'Một mật khẩu có chứa ít nhất tám ký tự, trong đó có ít nhất một số và bao gồm cả chữ hoa và chữ thường.'
+                    'Mật khẩu có chứa ít nhất tám ký tự, trong đó có ít nhất một số và bao gồm cả chữ hoa và chữ thường.'
                   )
                 } else {
                   setErrors('')
@@ -203,7 +226,10 @@ const SignIn = () => {
           <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
             <DefaultButton
               sx={{ flexGrow: 1 }}
-              onClick={() => setStep(step - 1)}
+              onClick={() => {
+                setErrors('')
+                setStep(step - 1)
+              }}
             >
               Quay lại
             </DefaultButton>
