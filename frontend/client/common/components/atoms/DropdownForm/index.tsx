@@ -1,13 +1,26 @@
-import React from 'react'
-import { Menu, MenuItem, Typography, Box } from '@mui/material'
+import React, { forwardRef } from 'react'
+import {
+  Menu,
+  MenuItem,
+  Typography,
+  Box,
+  styled,
+  IconButton,
+} from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
-import Input from '@mui/material/Input'
 
-const DropdownForm = () => {
+const CustomMenuItem = styled('li')({
+  padding: '4px 10px',
+})
+
+const DropdownForm = forwardRef<any, any>((props, ref) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-
+  const [formValue, setFormValue] = React.useState<number[]>([
+    props?.value[0] || 1,
+    props?.value[1] || 1,
+  ])
   const open = Boolean(anchorEl)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -22,17 +35,19 @@ const DropdownForm = () => {
       <Box onClick={handleClick}>
         <Box
           sx={{
-            m: 2,
             display: 'flex',
             alignItems: 'center',
             textAlign: 'center',
             flexDirection: 'row',
             placeContent: 'center',
+            ml: 1,
+            mr: 2,
           }}
         >
-          <Box>1 người | 1 phòng</Box>
-          <Box>
-            <KeyboardArrowDownIcon />
+          <Box minWidth='fit-content' display='flex' alignItems='center'>
+            <p>{formValue[0]} người</p>
+            <Box px={1}>-</Box>
+            <p>{formValue[1]} phòng</p>
           </Box>
         </Box>
       </Box>
@@ -40,13 +55,14 @@ const DropdownForm = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        // onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
             overflow: 'visible',
+            pt: 0,
+            borderRadius: 2,
+            marginTop: '5px',
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
             '& .MuiAvatar-root': {
               width: 32,
               height: 32,
@@ -69,7 +85,7 @@ const DropdownForm = () => {
         transformOrigin={{ horizontal: 'left', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
       >
-        <MenuItem>
+        <CustomMenuItem>
           <Box
             sx={{
               display: 'flex',
@@ -79,31 +95,89 @@ const DropdownForm = () => {
               placeContent: 'center',
             }}
           >
-            <Typography>Số người</Typography>
+            <Box width={80}>
+              <Typography>Số người</Typography>
+            </Box>
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 textAlign: 'center',
                 flexDirection: 'row',
-                placeContent: 'center',
+                justifyContent: 'flex-end',
+                width: '120px',
               }}
             >
-              <RemoveIcon />
-              1
-              <AddIcon />
+              <IconButton
+                sx={{ p: '4px' }}
+                onClick={() => {
+                  props.onChange([formValue[0] - 1 || 1, formValue[1]])
+                  setFormValue([formValue[0] - 1 || 1, formValue[1]])
+                }}
+              >
+                <RemoveIcon />
+              </IconButton>
+              <Box sx={{ width: 20 }}>{formValue[0]}</Box>
+              <IconButton
+                sx={{ p: '4px' }}
+                onClick={() => {
+                  props.onChange([formValue[0] + 1, formValue[1]])
+                  setFormValue([formValue[0] + 1 || 1, formValue[1]])
+                }}
+              >
+                <AddIcon />
+              </IconButton>
             </Box>
           </Box>
-        </MenuItem>
-        <MenuItem>
-          <Box>
-            <Typography>Số phòng</Typography>
-            <Input type='number' />
+        </CustomMenuItem>
+        <CustomMenuItem>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              textAlign: 'center',
+              flexDirection: 'row',
+              placeContent: 'center',
+            }}
+          >
+            <Box width={80}>
+              <Typography>Số phòng</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                textAlign: 'center',
+                flexDirection: 'row',
+                placeContent: 'flex-end',
+                width: '120px',
+              }}
+            >
+              <IconButton
+                sx={{ p: '4px' }}
+                onClick={() => {
+                  props.onChange([formValue[0], formValue[1] - 1 || 1])
+                  setFormValue([formValue[0], formValue[1] - 1 || 1])
+                }}
+              >
+                <RemoveIcon />
+              </IconButton>
+              <Box sx={{ width: 20 }}>{formValue[1]}</Box>
+              <IconButton
+                sx={{ p: '4px' }}
+                onClick={() => {
+                  props.onChange([formValue[0], formValue[1] + 1])
+                  setFormValue([formValue[0], formValue[1] + 1])
+                }}
+              >
+                <AddIcon />
+              </IconButton>
+            </Box>
           </Box>
-        </MenuItem>
+        </CustomMenuItem>
       </Menu>
     </React.Fragment>
   )
-}
+})
 
 export default DropdownForm

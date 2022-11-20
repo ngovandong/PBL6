@@ -19,7 +19,7 @@ const CardCarousel = (props: IRoundCard) => {
       <Link href={''}>
         <a>
           <Image
-            src={src}
+            src={src || ''}
             alt={title}
             width={props?.size || 300}
             height={props?.size || 300}

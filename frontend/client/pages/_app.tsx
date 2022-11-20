@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Head from 'next/head'
 import App, { AppContext, AppProps } from 'next/app'
 import { ThemeProvider } from '@mui/material/styles'
@@ -9,15 +9,15 @@ import createEmotionCache from 'common/utils/createEmotionCache'
 import { Session } from 'next-auth'
 import { getSession, SessionProvider } from 'next-auth/react'
 
-import 'react-dates/initialize'
-import 'react-dates/lib/css/_datepicker.css'
-import 'react-toastify/dist/ReactToastify.css'
-
 import MainProvider from 'common/context'
 import { ToastContainer } from 'react-toastify'
+import { registerLicense } from '@syncfusion/ej2-base'
 
 import DefaultLayout from '@components/templates/layout/DefaultLayout'
+
 import 'public/styles/globals.scss'
+
+registerLicense(process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE || '')
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()

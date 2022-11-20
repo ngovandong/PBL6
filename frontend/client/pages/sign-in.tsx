@@ -1,5 +1,6 @@
 import { NextPage, NextPageContext } from 'next'
 import React, { useState, useEffect, useContext, memo } from 'react'
+import Image from 'next/image'
 import { useSession, signIn, getCsrfToken, getSession } from 'next-auth/react'
 import {
   Typography,
@@ -9,11 +10,9 @@ import {
   styled,
   alpha,
 } from '@mui/material'
-import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { Title } from '@components/atoms/Heading'
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { InputField } from '@components/atoms/Input/InputField'
-import Image from 'next/image'
 import { primaryColor } from '@constants/styles'
 import { authApi } from '@utils/api'
 import { Session } from 'next-auth'
@@ -21,7 +20,6 @@ import { LOCAL_STORAGE } from '@constants/constant'
 import { useRouter } from 'next/router'
 import { MainContext, useUser } from 'common/context'
 import { toastError } from '@utils/notifications'
-import { isEmpty } from 'lodash'
 import { validateEmail, validatePassword } from '@utils/helpers'
 
 const StraightLine = styled('p')({
@@ -82,7 +80,7 @@ const SignIn = () => {
                 res.data?.accessToken
               )
               localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
-              setState({ user: user })
+              setState({ user: res.data })
               router.replace('/')
             }
           })

@@ -4,12 +4,12 @@ import Link from 'next/link'
 import styled from '@emotion/styled'
 import { Typography, Grid, Tooltip, IconButton } from '@mui/material'
 import { Box } from '@mui/system'
-import { borderRadius, boxShadow } from '@constants/styles'
+import { borderRadius } from '@constants/styles'
 
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import PaidIcon from '@mui/icons-material/Paid'
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
-import { CSSProperties } from 'react'
+
 interface ICard {
   src: string
   title: string
