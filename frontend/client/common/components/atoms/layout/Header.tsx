@@ -3,24 +3,15 @@ import { isEmpty } from 'lodash'
 
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
-import { DefaultButton } from '../Button/DefaultButton'
-import { borderRadiusLarge } from '@constants/styles'
 
-import UserMenu from '../UserMenu'
 import { MainContext, useUser } from 'common/context'
 import { memo, useContext, useEffect } from 'react'
-import { NotAuthHeader } from './NotAuthHeader'
 import AuthHeader from './AuthHeader'
 
 export const Header = () => {
   const router = useRouter()
   const { state } = useContext(MainContext)
-  if (router.pathname !== '/sign-in')
-    return !isEmpty(state.user) ? (
-      <AuthHeader user={state.user} />
-    ) : (
-      <NotAuthHeader />
-    )
+  if (router.pathname !== '/sign-in') return <AuthHeader user={state.user} />
   return (
     <AppBar
       position='sticky'

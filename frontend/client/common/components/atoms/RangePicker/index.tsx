@@ -1,10 +1,22 @@
-import React, { useState, useRef, useImperativeHandle, useEffect } from 'react'
+import {
+  useState,
+  useRef,
+  useImperativeHandle,
+  useEffect,
+  forwardRef,
+  PointerEventHandler,
+} from 'react'
 import { Box, TextField } from '@mui/material'
-import { DateRangePicker } from 'react-dates'
 import { MomentInput } from 'moment'
-import moment from 'moment'
 import 'moment/locale/vi'
-
+import { DateRangePickerComponent } from '@syncfusion/ej2-react-calendars'
+import { loadCldr, L10n } from '@syncfusion/ej2-base'
+import * as gregorian from 'cldr-data/main/vi/ca-gregorian.json'
+import * as numbers from 'cldr-data/main/vi/numbers.json'
+import * as timeZoneNames from 'cldr-data/main/vi/timeZoneNames.json'
+import * as numberingSystems from 'cldr-data/supplemental/numberingSystems.json'
+import * as weekData from 'cldr-data/supplemental/weekData.json' //
+loadCldr(numberingSystems, gregorian, numbers, timeZoneNames, weekData)
 // export interface IRangePickerProps {}
 
 export interface IRangePickerRef {
@@ -12,40 +24,36 @@ export interface IRangePickerRef {
   endDate: MomentInput
 }
 
-const RangePicker = React.forwardRef<any, IRangePickerRef>((props, ref) => {
-  const [date, setDate] = useState({
-    startDate: moment(),
-    endDate: moment().add(1, 'days'),
-  })
-  const [focusedDate, setFocusDate] = useState(null)
-  const inputRef = useRef<any>(null)
+L10n.load({
+  vi: {
+    daterangepicker: {
+      applyText: 'Áp dụng',
+      cancelText: 'Bỏ chọn',
+      customRange: 'Tùy chỉnh ngày bắt đầu và ngày kết thúc',
+      days: 'ngày',
+      endLabel: 'Ngày kết thúc',
+      placeholder: 'Chọn ngày',
+      selectedDays: 'Số ngày đã chọn',
+      startLabel: 'Ngày bắt đầu',
+    },
+  },
+})
 
-  useEffect(() => {
-    moment.locale('vi')
-  }, [])
-
-  useImperativeHandle(ref, () => ({
-    startDate: inputRef.current.props.startDate,
-    endDate: inputRef.current.props.endDate,
-  }))
+const RangePicker = forwardRef<any, any>((props, ref) => {
   return (
     <Box>
-      <DateRangePicker
-        ref={inputRef}
-        startDateId='startDate'
-        endDateId='endDate'
-        startDate={date.startDate}
-        endDate={date.endDate}
-        onDatesChange={(value: any) => {
-          setDate({ startDate: value.startDate, endDate: value.endDate })
-          console.log(inputRef.current)
+      <DateRangePickerComponent
+        id='daterangepicker'
+        placeholder='Chọn ngày trả nhận phòng'
+        startDate={props.value[0] || null}
+        endDate={props.value[1] || null}
+        min={new Date()}
+        locale='vi'
+        onChange={(event: any) => {
+          if (event?.value) {
+            props.onChange(event?.value)
+          }
         }}
-        focusedInput={focusedDate}
-        onFocusChange={(focusedInput: any) => {
-          setFocusDate(focusedInput)
-        }}
-        startDatePlaceholderText='Nhận phòng'
-        endDatePlaceholderText='Trả phòng'
       />
     </Box>
   )
