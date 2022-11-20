@@ -15,14 +15,17 @@ export const AuthHeader = ({ user }: any) => {
   return (
     <AppBar
       position='sticky'
-      style={{ boxShadow: 'unset', borderBottom: '1px solid #F7F7F7', px: 0 }}
+      style={{
+        boxShadow: 'unset',
+        borderBottom: '1px solid #F7F7F7',
+        padding: '0',
+      }}
     >
-      <Container sx={{ minWidth: '1300px' }}>
+      <Container sx={{ minWidth: '1380px', px: 0 }}>
         <Toolbar
           disableGutters
           sx={{
             display: 'flex',
-            // justifyContent: 'space-between',
           }}
         >
           <Box
@@ -74,7 +77,7 @@ export const AuthHeader = ({ user }: any) => {
                 src={user?.avatarImageUrl || ''}
               />
             ) : (
-              <Box>
+              <>
                 <DefaultButton
                   onClick={() => router.push('/sign-in')}
                   sx={{ borderRadius: borderRadiusLarge, ml: 3 }}
@@ -87,7 +90,7 @@ export const AuthHeader = ({ user }: any) => {
                 >
                   Đăng nhập
                 </DefaultButton>
-              </Box>
+              </>
             )}
           </Box>
         </Toolbar>
