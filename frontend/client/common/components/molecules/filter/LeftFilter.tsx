@@ -1,12 +1,9 @@
-import {
-  activeLinkColor,
-  primaryColor,
-  secondaryColor,
-} from '@constants/styles'
+import { activeLinkColor } from '@constants/styles'
 import { Box, Divider, FormControlLabel, Typography } from '@mui/material'
 import styled from '@emotion/styled'
 import RangeSlider from '@components/atoms/Slider'
 import CheckBoxGroup from '../checkboxGroup'
+import { policyFilter, scoreFilter, startFilter } from '@constants/data'
 
 const Title = styled(Typography)`
   font-size: 18px;
@@ -34,26 +31,30 @@ const LeftFilter = (props: any) => {
         <Title>Bộ lọc</Title>
         <ButtonDelete ml='auto'>Áp dụng</ButtonDelete>
       </Box>
-      <Divider sx={{ mt: 1 }} />
+      <Divider sx={{ my: 1 }} />
       <Box mt={1}>
         <TitleFilter>Mức giá</TitleFilter>
         <RangeSlider />
       </Box>
+      <Divider sx={{ my: 1 }} />
       <Box>
         <TitleFilter>Xếp hạng sao</TitleFilter>
-        <CheckBoxGroup />
+        <CheckBoxGroup options={startFilter} />
       </Box>
+      <Divider sx={{ mt: 1 }} />
       <Box>
         <TitleFilter>Đánh giá</TitleFilter>
-        <CheckBoxGroup />
+        <CheckBoxGroup options={scoreFilter} />
       </Box>
+      <Divider sx={{ my: 1 }} />
       <Box>
         <TitleFilter>Chính sách hủy đặt phòng</TitleFilter>
-        <CheckBoxGroup />
+        <CheckBoxGroup options={policyFilter} />
       </Box>
+      <Divider sx={{ my: 1 }} />
       <Box>
         <TitleFilter>Tiện ích, tiện nghi</TitleFilter>
-        <CheckBoxGroup />
+        <CheckBoxGroup options={policyFilter} />
       </Box>
     </Box>
   )
