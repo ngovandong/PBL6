@@ -12,18 +12,15 @@ class PickDestinationScreen extends GetView<PickDestinationController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50),
-        child: CustomAppBar(
-          title: Text(
-            'Chọn điểm đến',
-            style: TextStyles.regularText
-                .copyWith(fontSize: 20, color: Colors.white),
-          ),
-          backgroundColor: Palette.blue400,
-          toolbarHeight: 50,
-          hasBackIcon: true,
+      appBar: CustomAppBar(
+        title: Text(
+          'Chọn điểm đến',
+          style: TextStyles.regularText
+              .copyWith(fontSize: 20, color: Colors.white),
         ),
+        backgroundColor: Palette.blue400,
+        toolbarHeight: 50,
+        hasBackIcon: true,
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10, left: 12, right: 12),

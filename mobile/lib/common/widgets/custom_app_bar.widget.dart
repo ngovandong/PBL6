@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/widgets/app_icon_button.widget.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isCenterTitle;
   final bool hasBackIcon;
 
@@ -68,4 +68,7 @@ class CustomAppBar extends StatelessWidget {
           : null,
     );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(toolbarHeight);
 }

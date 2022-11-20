@@ -8,7 +8,8 @@ import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
-import 'package:mobile/modules/profile/presentation/view_model/setting_item.viewmodel.dart';
+import 'package:mobile/modules/profile/presentation/ui_items/setting_item.ui.dart';
+import 'package:mobile/modules/profile/profile.enum.dart';
 import 'package:mobile/modules/profile/profile.eventbus.dart';
 
 class ProfileController extends GetxController {
@@ -32,13 +33,13 @@ class ProfileController extends GetxController {
     _closeProfileEventBus();
   }
 
-  late RxList<List<SettingItemViewModel>> settingItems;
+  late RxList<List<SettingItemUI>> settingItems;
 
   void _setSettingItems() {
     settingItems = [
       [
         verifyAuthController.currentUser == null
-            ? SettingItemViewModel(
+            ? SettingItemUI(
                 prefixIcon: PhosphorIcons.user_circle_plus_bold,
                 title: LocaleKeys.profile_login_signup.tr,
                 backgroundColor: Palette.blue400,
@@ -47,27 +48,27 @@ class ProfileController extends GetxController {
                   await Get.toNamed(RouteManager.auth);
                 },
               )
-            : SettingItemViewModel(
+            : SettingItemUI(
                 prefixIcon: Icons.manage_accounts_rounded,
                 title: LocaleKeys.profile_setting_account.tr,
               )
       ],
       [
-        SettingItemViewModel(
+        SettingItemUI(
           prefixIcon: PhosphorIcons.globe_bold,
           title: LocaleKeys.profile_language.tr,
         ),
-        SettingItemViewModel(
+        SettingItemUI(
           prefixIcon: PhosphorIcons.bell_ringing_bold,
           title: LocaleKeys.profile_notication.tr,
         )
       ],
       [
-        SettingItemViewModel(
+        SettingItemUI(
           prefixIcon: PhosphorIcons.info_bold,
           title: LocaleKeys.profile_help_center.tr,
         ),
-        SettingItemViewModel(
+        SettingItemUI(
           prefixIcon: PhosphorIcons.users_four_bold,
           title: LocaleKeys.profile_about_us.tr,
         )
@@ -78,7 +79,7 @@ class ProfileController extends GetxController {
   void _updateSettingItems() {
     settingItems[0] = [
       verifyAuthController.currentUser == null
-          ? SettingItemViewModel(
+          ? SettingItemUI(
               prefixIcon: PhosphorIcons.user_circle_plus_bold,
               title: LocaleKeys.profile_login_signup.tr,
               backgroundColor: Palette.blue400,
@@ -88,12 +89,12 @@ class ProfileController extends GetxController {
                 _updateSettingItems();
               },
             )
-          : SettingItemViewModel(
+          : SettingItemUI(
               prefixIcon: Icons.manage_accounts_rounded,
               title: LocaleKeys.profile_setting_account.tr,
             )
     ];
-    update(['update_profile']);
+    update([ProfileGetBuilderEnum.updateProfile]);
   }
 
   void _openProfileEventBus() {

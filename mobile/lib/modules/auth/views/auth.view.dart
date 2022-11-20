@@ -19,14 +19,11 @@ class AuthView extends GetView<AuthController> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(60),
-          child: CustomAppBar(
-            hasBackIcon: true,
-            leadingBackgroundColor: Colors.white,
-            backgroundColor: Colors.white,
-            backIconColor: Palette.blue400,
-          ),
+        appBar: const CustomAppBar(
+          hasBackIcon: true,
+          leadingBackgroundColor: Colors.white,
+          backgroundColor: Colors.white,
+          backIconColor: Palette.blue400,
         ),
         body: SingleChildScrollView(
           child: Container(

@@ -9,7 +9,7 @@ class WelcomeController extends GetxController {
   }
 
   Future<void> initSplash() async {
-    await Future.delayed(const Duration(milliseconds: 700));
+    await Future.delayed(const Duration());
     Get.offAllNamed(RouteManager.root);
   }
 }

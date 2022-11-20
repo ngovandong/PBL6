@@ -21,6 +21,9 @@
     "checkin_date": "Ngày nhận phòng",
     "checkout_date": "Ngày trả phòng"
   },
+  "favorite": {
+    "hotel": "Khách sạn yêu thích"
+  },
   "hotel_detail": {
     "position": "Vị trí"
   },

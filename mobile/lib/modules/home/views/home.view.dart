@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/widgets/app_icon_button.widget.dart';
+import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
-import 'package:mobile/modules/home/widgets/home/home_app_bar.widget.dart';
 import 'package:mobile/modules/home/widgets/home/home_search_box.widget.dart';
 import 'package:mobile/modules/home/widgets/home/top_destinations/list_top_destinations.widget.dart';
 
@@ -18,9 +21,24 @@ class HomeScreen extends GetView<HomeController> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(60),
-          child: HomeAppBar(),
+        appBar: CustomAppBar(
+          actions: [
+            AppIconButton(
+              onPressed: () {},
+              width: 40,
+              height: 40,
+              borderColor: Palette.blue400,
+              isCircle: true,
+              icon: Icon(
+                PhosphorIcons.bell_ringing_bold,
+                color: Palette.blue400,
+                size: 18.sp,
+              ),
+            ),
+            const SizedBox(
+              width: 15,
+            )
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(

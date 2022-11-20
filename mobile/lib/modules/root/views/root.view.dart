@@ -3,7 +3,7 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/modules/booking_history/views/booking_history.view.dart';
-import 'package:mobile/modules/favorite/views/favorite.view.dart';
+import 'package:mobile/modules/favorite_host/view/favorite_host.view.dart';
 import 'package:mobile/modules/home/views/home.view.dart';
 import 'package:mobile/modules/profile/presentation/views/profile.view.dart';
 import 'package:mobile/modules/root/controllers/root.controller.dart';
@@ -21,7 +21,7 @@ class RootScreen extends GetWidget<RootController> {
           children: [
             const HomeScreen(),
             const BookingHistoryView(),
-            const FavoriteScreen(),
+            const FavoriteView(),
             ProfileScreen(),
           ],
         ),
