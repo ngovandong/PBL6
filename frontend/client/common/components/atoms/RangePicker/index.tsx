@@ -41,13 +41,16 @@ L10n.load({
 
 const RangePicker = forwardRef<any, any>((props, ref) => {
   return (
-    <Box>
+    <Box sx={{ mx: 1 }}>
       <DateRangePickerComponent
+        width={220}
+        format='dd/MM/yyyy'
         id='daterangepicker'
-        placeholder='Chọn ngày trả nhận phòng'
+        placeholder='Chọn ngày'
         startDate={props.value[0] || null}
         endDate={props.value[1] || null}
         min={new Date()}
+        showClearButton={false}
         locale='vi'
         onChange={(event: any) => {
           if (event?.value) {

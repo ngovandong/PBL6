@@ -68,3 +68,70 @@ a:focus {
 .e-input-group.e-control-wrapper input.e-input {
   letter-spacing: 0.02rem;
 }
+
+.e-daterangepicker.e-popup
+  .e-calendar
+  .e-end-date.e-selected.e-range-hover
+  span.e-day,
+.e-daterangepicker.e-popup
+  .e-calendar
+  .e-start-date.e-selected.e-range-hover
+  span.e-day,
+.e-bigger.e-small
+  .e-daterangepicker.e-popup
+  .e-calendar
+  .e-end-date.e-selected.e-range-hover
+  span.e-day,
+.e-bigger.e-small
+  .e-daterangepicker.e-popup
+  .e-calendar
+  .e-start-date.e-selected.e-range-hover
+  span.e-day,
+.e-bigger.e-small.e-daterangepicker.e-popup
+  .e-calendar
+  .e-end-date.e-selected.e-range-hover
+  span.e-day,
+.e-bigger.e-small.e-daterangepicker.e-popup
+  .e-calendar
+  .e-start-date.e-selected.e-range-hover
+  span.e-day,
+.e-calendar .e-content td.e-selected span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-selected span.e-da,
+.e-calendar .e-content td.e-today.e-selected:hover span.e-day,
+.e-calendar .e-content td.e-selected:hover span.e-day,
+.e-calendar .e-content td.e-selected.e-focused-date span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-today.e-selected:hover span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-selected:hover span.e-day,
+.e-bigger.e-small
+  .e-calendar
+  .e-content
+  td.e-selected.e-focused-date
+  span.e-day {
+  background-color: #1a2542;
+}
+
+.e-calendar .e-content td.e-today span.e-day,
+.e-calendar .e-content td.e-focused-date.e-today span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-today span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-focused-date.e-today span.e-day {
+  border: 1px solid #1a2542;
+  color: #1a2542;
+}
+
+.e-calendar .e-content td.e-today span.e-day:hover,
+.e-calendar .e-content td.e-focused-date.e-today span.e-day:hover {
+  border: 1px solid #1a2542;
+  color: #1a2542;
+}
+
+.e-btn.e-flat.e-primary,
+.e-css.e-btn.e-flat.e-primary,
+.e-date-range-wrapper .e-input-group-icon.e-icons.e-active {
+  color: #1a2542;
+}
+
+.e-btn.e-flat.e-primary:hover,
+.e-css.e-btn.e-flat.e-primary:hover {
+  color: #1a2542;
+  background-color: rgba(26, 37, 66, 0.04);
+}

@@ -4,10 +4,9 @@ import { isEmpty } from 'lodash'
 
 import UserMenu from '../UserMenu'
 import { MainFilter } from '@components/molecules/filter'
-
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
-import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { DefaultButton } from '../Button/DefaultButton'
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { borderRadiusLarge } from '@constants/styles'
 
 export const AuthHeader = ({ user }: any) => {
@@ -16,21 +15,21 @@ export const AuthHeader = ({ user }: any) => {
   return (
     <AppBar
       position='sticky'
-      style={{ boxShadow: 'unset', borderBottom: '1px solid #F7F7F7' }}
+      style={{ boxShadow: 'unset', borderBottom: '1px solid #F7F7F7', px: 0 }}
     >
-      <Container sx={{ minWidth: '1330px' }}>
+      <Container sx={{ minWidth: '1300px' }}>
         <Toolbar
           disableGutters
           sx={{
             display: 'flex',
-            justifyContent: 'space-between',
+            // justifyContent: 'space-between',
           }}
         >
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
-              mr: 0,
+              mr: 2,
             }}
           >
             <FlightTakeoffIcon
@@ -42,7 +41,7 @@ export const AuthHeader = ({ user }: any) => {
               component='a'
               href='/'
               sx={{
-                mr: 2,
+                mr: 1,
                 display: { xs: 'none', md: 'flex' },
                 fontFamily: 'monospace',
                 fontWeight: 700,
@@ -60,6 +59,7 @@ export const AuthHeader = ({ user }: any) => {
               display: 'flex',
               justifyContent: 'space-between',
               flexDirection: 'row',
+              marginLeft: 'auto',
             }}
           >
             <DefaultButton

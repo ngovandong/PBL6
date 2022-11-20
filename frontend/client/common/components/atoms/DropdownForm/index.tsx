@@ -35,20 +35,20 @@ const DropdownForm = forwardRef<any, any>((props, ref) => {
       <Box onClick={handleClick}>
         <Box
           sx={{
-            m: 2,
             display: 'flex',
             alignItems: 'center',
             textAlign: 'center',
             flexDirection: 'row',
             placeContent: 'center',
+            ml: 1,
+            mr: 2,
           }}
         >
-          <Box minWidth={180} display='flex' alignItems='center'>
+          <Box minWidth='fit-content' display='flex' alignItems='center'>
             <p>{formValue[0]} người</p>
-            <Box px={2}>|</Box>
+            <Box px={1}>-</Box>
             <p>{formValue[1]} phòng</p>
           </Box>
-          <KeyboardArrowDownIcon />
         </Box>
       </Box>
       <Menu
@@ -59,8 +59,10 @@ const DropdownForm = forwardRef<any, any>((props, ref) => {
           elevation: 0,
           sx: {
             overflow: 'visible',
+            pt: 0,
+            borderRadius: 2,
+            marginTop: '5px',
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
             '& .MuiAvatar-root': {
               width: 32,
               height: 32,
@@ -107,6 +109,7 @@ const DropdownForm = forwardRef<any, any>((props, ref) => {
               }}
             >
               <IconButton
+                sx={{ p: '4px' }}
                 onClick={() => {
                   props.onChange([formValue[0] - 1 || 1, formValue[1]])
                   setFormValue([formValue[0] - 1 || 1, formValue[1]])
@@ -116,6 +119,7 @@ const DropdownForm = forwardRef<any, any>((props, ref) => {
               </IconButton>
               <Box sx={{ width: 20 }}>{formValue[0]}</Box>
               <IconButton
+                sx={{ p: '4px' }}
                 onClick={() => {
                   props.onChange([formValue[0] + 1, formValue[1]])
                   setFormValue([formValue[0] + 1 || 1, formValue[1]])
@@ -150,6 +154,7 @@ const DropdownForm = forwardRef<any, any>((props, ref) => {
               }}
             >
               <IconButton
+                sx={{ p: '4px' }}
                 onClick={() => {
                   props.onChange([formValue[0], formValue[1] - 1 || 1])
                   setFormValue([formValue[0], formValue[1] - 1 || 1])
@@ -159,6 +164,7 @@ const DropdownForm = forwardRef<any, any>((props, ref) => {
               </IconButton>
               <Box sx={{ width: 20 }}>{formValue[1]}</Box>
               <IconButton
+                sx={{ p: '4px' }}
                 onClick={() => {
                   props.onChange([formValue[0], formValue[1] + 1])
                   setFormValue([formValue[0], formValue[1] + 1])

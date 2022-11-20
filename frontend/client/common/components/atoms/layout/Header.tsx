@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router'
-import { isEmpty } from 'lodash'
+import { memo, useContext } from 'react'
+import { MainContext } from 'common/context'
 
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
-
-import { MainContext, useUser } from 'common/context'
-import { memo, useContext, useEffect } from 'react'
 import AuthHeader from './AuthHeader'
 
 export const Header = () => {

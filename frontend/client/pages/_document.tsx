@@ -23,6 +23,7 @@ export default class MyDocument extends Document {
             crossOrigin='anonymous'
             referrerPolicy='no-referrer'
           />
+
           <meta name='emotion-insertion-point' content='' />
           {(this.props as any).emotionStyleTags}
         </Head>
