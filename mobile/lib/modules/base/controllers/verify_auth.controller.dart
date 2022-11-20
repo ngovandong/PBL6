@@ -8,8 +8,9 @@ import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
 import 'package:mobile/common/utils/google_auth.util.dart';
 import 'package:mobile/common/utils/snackbar.util.dart';
 import 'package:mobile/modules/auth/data/model/user.model.dart';
-import 'package:mobile/modules/base/data/model/dto/user_auth.dto.dart';
+import 'package:mobile/modules/base/data/model/user_auth.model.dart';
 import 'package:mobile/modules/base/data/repository/verify_auth.repository.dart';
+import 'package:mobile/modules/profile/profile.enum.dart';
 import 'package:mobile/modules/profile/profile.eventbus.dart';
 
 class VerifyAuthController extends GetxController {
@@ -24,23 +25,23 @@ class VerifyAuthController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    _currrentUser.listen((p) {
-      if (p != null) {
-        Get.offNamedUntil(
-          RouteManager.root,
-          ModalRoute.withName(RouteManager.root),
-        );
-      }
-    });
+    // _currrentUser.listen((p) {
+    //   if (p != null) {
+    //     Get.offNamedUntil(
+    //       RouteManager.root,
+    //       ModalRoute.withName(RouteManager.root),
+    //     );
+    //   }
+    // });
 
-    await verifyUserAuth();
+    await _verifyUserAuth();
 
     super.onInit();
   }
 
-  Future<void> verifyUserAuth() async {
+  Future<void> _verifyUserAuth() async {
     try {
-      final UserAuthDTO? userAuth = await veriryAuthRepository.getUserAuth();
+      final UserAuthModel? userAuth = await veriryAuthRepository.getUserAuth();
 
       if (userAuth == null) {
         return;
@@ -56,20 +57,27 @@ class VerifyAuthController extends GetxController {
     }
   }
 
-  Future<void> _saveUserAuth(UserAuthDTO? userAuth) async {
+  Future<void> _saveUserAuth(UserAuthModel? userAuth) async {
     return await veriryAuthRepository.saveUserAuth(userAuth);
   }
 
   Future<void> setCurrentUser(UserModel? user) async {
     _currrentUser.value = user;
 
-    await _saveUserAuth(user == null ? null : UserAuthDTO.fromUserModel(user));
+    await _saveUserAuth(
+      user == null ? null : UserAuthModel.fromUserModel(user),
+    );
 
     EventBusUtil.fireEvent(
       ProfileInternalEvent(
         ProfileInternalEventEnum.updateSettingProfile,
         null,
       ),
+    );
+
+    Get.offNamedUntil(
+      RouteManager.root,
+      ModalRoute.withName(RouteManager.root),
     );
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SettingItemViewModel {
+class SettingItemUI {
   final IconData prefixIcon;
   final String title;
   final IconData suffixIcon;
@@ -8,7 +8,7 @@ class SettingItemViewModel {
   Color? textColor;
   final void Function()? onPressed;
 
-  SettingItemViewModel({
+  SettingItemUI({
     required this.prefixIcon,
     required this.title,
     this.suffixIcon = Icons.chevron_right_rounded,

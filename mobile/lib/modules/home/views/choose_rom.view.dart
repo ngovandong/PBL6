@@ -15,29 +15,26 @@ class ChooseRoomScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: CustomAppBar(
-          title: GestureDetector(
-            onTap: () {},
-            child: Column(
-              children: const [
-                Text(
-                  'Coco hotel',
-                  style: TextStyles.s17BoldText,
-                ),
-                Text(
-                  '2 khách, 23/10/2022 - 24/10/2022',
-                  style: TextStyles.s14MediumText,
-                )
-              ],
-            ),
+      appBar: CustomAppBar(
+        title: GestureDetector(
+          onTap: () {},
+          child: Column(
+            children: const [
+              Text(
+                'Coco hotel',
+                style: TextStyles.s17BoldText,
+              ),
+              Text(
+                '2 khách, 23/10/2022 - 24/10/2022',
+                style: TextStyles.s14MediumText,
+              )
+            ],
           ),
-          hasBackIcon: true,
-          elevation: 2,
-          leadingBackgroundColor: Palette.background,
-          backIconColor: Palette.blue400,
         ),
+        hasBackIcon: true,
+        elevation: 2,
+        leadingBackgroundColor: Palette.background,
+        backIconColor: Palette.blue400,
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(UIConfigs.horizontalPadding),

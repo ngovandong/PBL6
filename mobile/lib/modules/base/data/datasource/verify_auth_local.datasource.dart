@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:injectable/injectable.dart';
 import 'package:mobile/common/constants/hive_keys.dart';
 import 'package:mobile/common/utils/hive/hive_helper.dart';
-import 'package:mobile/modules/base/data/model/dto/user_auth.dto.dart';
+import 'package:mobile/modules/base/data/model/user_auth.model.dart';
 
 @lazySingleton
 class VerifyAuthLocalDataSource {
-  Future<UserAuthDTO?> getUserAuth() async {
+  Future<UserAuthModel?> getUserAuth() async {
     final String? rawUserAuth = await HiveHelper.get(
       boxName: HiveKeys.userBox,
       keyValue: HiveKeys.userProfileKey,
@@ -15,10 +15,10 @@ class VerifyAuthLocalDataSource {
 
     return rawUserAuth == null
         ? null
-        : UserAuthDTO.fromJson(jsonDecode(rawUserAuth));
+        : UserAuthModel.fromJson(jsonDecode(rawUserAuth));
   }
 
-  Future<void> saveUserAuth(UserAuthDTO? userAuth) {
+  Future<void> saveUserAuth(UserAuthModel? userAuth) {
     if (userAuth == null) {
       return HiveHelper.delete(
         boxName: HiveKeys.userBox,

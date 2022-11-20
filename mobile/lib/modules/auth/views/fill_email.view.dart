@@ -16,13 +16,10 @@ class FillEmailView extends GetView<FillEmailController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: CustomAppBar(
-          hasBackIcon: true,
-          title: SizedBox(),
-          backgroundColor: Palette.blue400,
-        ),
+      appBar: const CustomAppBar(
+        hasBackIcon: true,
+        title: SizedBox(),
+        backgroundColor: Palette.blue400,
       ),
       body: Padding(
         padding: const EdgeInsets.all(UIConfigs.horizontalPadding),

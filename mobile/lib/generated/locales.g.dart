@@ -28,6 +28,7 @@ class LocaleKeys {
   static const find_hotel_choose_destination = 'find_hotel_choose_destination';
   static const find_hotel_checkin_date = 'find_hotel_checkin_date';
   static const find_hotel_checkout_date = 'find_hotel_checkout_date';
+  static const favorite_hotel = 'favorite_hotel';
   static const hotel_detail_position = 'hotel_detail_position';
   static const dialog_no = 'dialog_no';
   static const dialog_yes = 'dialog_yes';
@@ -69,6 +70,7 @@ class Locales {
     'find_hotel_choose_destination': 'Chọn điểm đến của bạn',
     'find_hotel_checkin_date': 'Ngày nhận phòng',
     'find_hotel_checkout_date': 'Ngày trả phòng',
+    'favorite_hotel': 'Khách sạn yêu thích',
     'hotel_detail_position': 'Vị trí',
     'dialog_no': 'Không',
     'dialog_yes': 'Có',

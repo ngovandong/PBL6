@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:mobile/modules/auth/data/model/user.model.dart';
 import 'package:mobile/modules/base/data/datasource/verify_auth_local.datasource.dart';
 import 'package:mobile/modules/base/data/datasource/verify_auth_remote.datasource.dart';
-import 'package:mobile/modules/base/data/model/dto/user_auth.dto.dart';
+import 'package:mobile/modules/base/data/model/user_auth.model.dart';
 
 @lazySingleton
 class VeriryAuthRepository {
@@ -18,11 +18,11 @@ class VeriryAuthRepository {
     return remoteDataSource.getUserInfo(userId);
   }
 
-  Future<UserAuthDTO?> getUserAuth() {
+  Future<UserAuthModel?> getUserAuth() {
     return localDataSource.getUserAuth();
   }
 
-  Future<void> saveUserAuth(UserAuthDTO? userAuth) {
+  Future<void> saveUserAuth(UserAuthModel? userAuth) {
     return localDataSource.saveUserAuth(userAuth);
   }
 }
