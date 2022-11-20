@@ -3,8 +3,6 @@ import Head from 'next/head'
 
 import styles from 'public/styles/Home.module.scss'
 import HomeTemplate from '@components/templates/home'
-import { useContext } from 'react'
-import { MainContext } from 'common/context'
 
 const Home: NextPage = () => {
   return (

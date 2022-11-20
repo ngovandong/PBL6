@@ -1,4 +1,5 @@
 export const boxShadow = '0px 4px 29px rgba(210, 212, 218, 0.75)'
+export const boxShadowCard = '0px 4px 4px rgba(210, 212, 218, 0.75)'
 export const padding = '12px'
 export const borderRadius = '12px'
 export const borderRadiusLarge = '40px'
@@ -8,3 +9,5 @@ export const primaryColor = '#131C38'
 export const secondaryColor = '#D7E3F5'
 export const lightColor = '#ffffff'
 export const transparentColor = 'rgba(0,0,0,0.4)'
+export const fontLarge = 24
+export const activeLinkColor = '#0071c2'
