@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/utils/bottom_sheet.util.dart';
 import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 import 'package:mobile/common/widgets/pick_number_tenant_room.widget.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ChooseRoomScreen extends StatelessWidget {
   const ChooseRoomScreen({super.key});
@@ -186,18 +186,14 @@ class ChooseRoomScreen extends StatelessWidget {
                           2,
                       height: 45,
                       onPressed: () async {
-                        await showBarModalBottomSheet(
-                          context: context,
-                          enableDrag: false,
-                          builder: (context) {
-                            return PickNumberTenantAndRoom(
-                              onChangeTenantAndRoom: ({
-                                required int numberOfRooms,
-                                required int numberOfTenants,
-                              }) {},
-                              hasShowTenant: false,
-                            );
-                          },
+                        await BottomSheetUtil.show(
+                          child: PickNumberTenantAndRoom(
+                            onChangeTenantAndRoom: ({
+                              required int numberOfRooms,
+                              required int numberOfTenants,
+                            }) {},
+                            hasShowTenant: false,
+                          ),
                         );
                       },
                       content: 'Số phòng: 1',

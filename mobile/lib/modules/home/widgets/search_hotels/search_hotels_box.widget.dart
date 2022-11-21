@@ -67,6 +67,7 @@ class SearchHotelsBox extends GetView<SearchHotelController> {
                 children: [
                   GestureDetector(
                     onTap: controller.onTapSearchBox,
+                    behavior: HitTestBehavior.opaque,
                     child: SizedBox(
                       height: 70,
                       child: Row(
