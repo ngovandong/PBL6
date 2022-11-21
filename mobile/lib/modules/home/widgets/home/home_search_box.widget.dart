@@ -6,6 +6,7 @@ import 'package:mobile/common/extensions/datetime.extension.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/utils/bottom_sheet.util.dart';
 import 'package:mobile/common/widgets/app_date_picker.widget.dart';
 import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/common/widgets/app_text_form_field.widget.dart';
@@ -13,7 +14,6 @@ import 'package:mobile/common/widgets/pick_number_tenant_room.widget.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
 import 'package:mobile/modules/home/data/dtos/search_hotels.dto.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class HomeSearchBox extends GetView<HomeController> {
   const HomeSearchBox({super.key});
@@ -56,19 +56,15 @@ class HomeSearchBox extends GetView<HomeController> {
             ),
             GestureDetector(
               onTap: () async {
-                await showBarModalBottomSheet(
-                  context: context,
-                  enableDrag: false,
-                  builder: (context) {
-                    final SearchHotelsDTO searchHotelsParams =
-                        controller.searchHotelsParams.value;
+                final SearchHotelsDTO searchHotelsParams =
+                    controller.searchHotelsParams.value;
 
-                    return AppDatePicker(
-                      initStartDate: searchHotelsParams.checkinDate,
-                      initEndDate: searchHotelsParams.checkinDate,
-                      onSubmitRange: controller.onChangeCheckinCheckoutDate,
-                    );
-                  },
+                await BottomSheetUtil.show(
+                  child: AppDatePicker(
+                    initStartDate: searchHotelsParams.checkinDate,
+                    initEndDate: searchHotelsParams.checkoutDate,
+                    onSubmitRange: controller.onChangeCheckinCheckoutDate,
+                  ),
                 );
               },
               child: Container(
@@ -137,18 +133,13 @@ class HomeSearchBox extends GetView<HomeController> {
             ),
             GestureDetector(
               onTap: () async {
-                await showBarModalBottomSheet(
-                  context: context,
-                  enableDrag: false,
-                  builder: (context) {
-                    return PickNumberTenantAndRoom(
-                      onChangeTenantAndRoom: controller.onChangeTenantAndRoom,
-                      initRoom:
-                          controller.searchHotelsParams.value.numberOfRooms,
-                      initTenant:
-                          controller.searchHotelsParams.value.numberOfTenants,
-                    );
-                  },
+                await BottomSheetUtil.show(
+                  child: PickNumberTenantAndRoom(
+                    onChangeTenantAndRoom: controller.onChangeTenantAndRoom,
+                    initRoom: controller.searchHotelsParams.value.numberOfRooms,
+                    initTenant:
+                        controller.searchHotelsParams.value.numberOfTenants,
+                  ),
                 );
               },
               child: Container(

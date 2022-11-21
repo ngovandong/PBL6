@@ -3,6 +3,7 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/utils/bottom_sheet.util.dart';
 import 'package:mobile/common/widgets/app_icon_button.widget.dart';
 import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
@@ -35,97 +36,75 @@ class FindBookingHistoryView extends StatelessWidget {
         actions: [
           AppIconButton(
             onPressed: () {
-              Get.bottomSheet(
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(10),
+              BottomSheetUtil.show(
+                child: Column(
+                  children: [
+                    const Text(
+                      'Lọc lịch sử công việc',
+                      style: TextStyles.s17BoldText,
                     ),
-                  ),
-                  child: Wrap(
-                    direction: Axis.vertical,
-                    alignment: WrapAlignment.center,
-                    runAlignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Container(
-                        height: 8,
-                        width: 152,
-                        margin: const EdgeInsets.only(bottom: 12),
-                        decoration: BoxDecoration(
-                          color: Palette.gray200,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      const Text(
-                        'Lọc lịch sử công việc',
-                        style: TextStyles.s17BoldText,
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      AppRoundedButton(
-                        onPressed: () {},
-                        width: Get.width / 2 + 50,
-                        content: 'Tất cả',
-                        height: 40,
-                        fontSize: 14,
-                        showShadow: false,
-                        backgroundColor: Colors.white,
-                        textColor: Palette.blue400,
-                        borderColor: Palette.blue400,
-                        borderRadius: 8,
-                        showBorder: true,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      AppRoundedButton(
-                        onPressed: () {},
-                        width: Get.width / 2 + 50,
-                        content: LocaleKeys.booking_history_ongoing.tr,
-                        height: 40,
-                        fontSize: 14,
-                        showShadow: false,
-                        backgroundColor: Colors.white,
-                        textColor: Palette.gray400,
-                        borderRadius: 8,
-                        showBorder: true,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      AppRoundedButton(
-                        onPressed: () {},
-                        width: Get.width / 2 + 50,
-                        content: LocaleKeys.booking_history_ordered.tr,
-                        height: 40,
-                        fontSize: 14,
-                        showShadow: false,
-                        backgroundColor: Colors.white,
-                        textColor: Palette.gray400,
-                        borderRadius: 8,
-                        showBorder: true,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      AppRoundedButton(
-                        onPressed: () {},
-                        width: Get.width / 2 + 50,
-                        content: LocaleKeys.booking_history_cancel.tr,
-                        height: 40,
-                        fontSize: 14,
-                        showShadow: false,
-                        backgroundColor: Colors.white,
-                        textColor: Palette.gray400,
-                        borderRadius: 8,
-                        showBorder: true,
-                      )
-                    ],
-                  ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    AppRoundedButton(
+                      onPressed: () {},
+                      width: Get.width / 2 + 50,
+                      content: 'Tất cả',
+                      height: 40,
+                      fontSize: 14,
+                      showShadow: false,
+                      backgroundColor: Colors.white,
+                      textColor: Palette.blue400,
+                      borderColor: Palette.blue400,
+                      borderRadius: 8,
+                      showBorder: true,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    AppRoundedButton(
+                      onPressed: () {},
+                      width: Get.width / 2 + 50,
+                      content: LocaleKeys.booking_history_ongoing.tr,
+                      height: 40,
+                      fontSize: 14,
+                      showShadow: false,
+                      backgroundColor: Colors.white,
+                      textColor: Palette.gray400,
+                      borderRadius: 8,
+                      showBorder: true,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    AppRoundedButton(
+                      onPressed: () {},
+                      width: Get.width / 2 + 50,
+                      content: LocaleKeys.booking_history_ordered.tr,
+                      height: 40,
+                      fontSize: 14,
+                      showShadow: false,
+                      backgroundColor: Colors.white,
+                      textColor: Palette.gray400,
+                      borderRadius: 8,
+                      showBorder: true,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    AppRoundedButton(
+                      onPressed: () {},
+                      width: Get.width / 2 + 50,
+                      content: LocaleKeys.booking_history_cancel.tr,
+                      height: 40,
+                      fontSize: 14,
+                      showShadow: false,
+                      backgroundColor: Colors.white,
+                      textColor: Palette.gray400,
+                      borderRadius: 8,
+                      showBorder: true,
+                    )
+                  ],
                 ),
               );
             },

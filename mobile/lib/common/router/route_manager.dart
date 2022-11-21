@@ -5,7 +5,7 @@ import 'package:mobile/modules/auth/views/fill_email.view.dart';
 import 'package:mobile/modules/booking_history/bindings/booking_history.binding.dart';
 import 'package:mobile/modules/booking_history/views/find_booking_history.view.dart';
 import 'package:mobile/modules/home/bindings/home.binding.dart';
-import 'package:mobile/modules/home/views/choose_rom.view.dart';
+import 'package:mobile/modules/home/views/choose_room.view.dart';
 import 'package:mobile/modules/home/views/hotel_detail.view.dart';
 import 'package:mobile/modules/home/views/pick_destination.view.dart';
 import 'package:mobile/modules/home/views/search_hotels.view.dart';

@@ -62,8 +62,8 @@ class AppRoundedButton extends StatelessWidget {
         splashFactory: NoSplash.splashFactory,
         foregroundColor: isDisable ? disableBackgroundColor : backgroundColor,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        disabledBackgroundColor: backgroundColor,
-        disabledForegroundColor: backgroundColor,
+        disabledBackgroundColor: disableBackgroundColor,
+        disabledForegroundColor: disableBackgroundColor,
       ),
       child: isLoading
           ? const LoadingDot()
