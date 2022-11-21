@@ -30,6 +30,7 @@ abstract class BottomSheetUtil {
         ),
       ),
       isScrollControlled: true,
+      persistent: false,
     );
   }
 }

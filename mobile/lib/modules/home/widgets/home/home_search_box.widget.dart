@@ -62,7 +62,7 @@ class HomeSearchBox extends GetView<HomeController> {
                 await BottomSheetUtil.show(
                   child: AppDatePicker(
                     initStartDate: searchHotelsParams.checkinDate,
-                    initEndDate: searchHotelsParams.checkinDate,
+                    initEndDate: searchHotelsParams.checkoutDate,
                     onSubmitRange: controller.onChangeCheckinCheckoutDate,
                   ),
                 );
