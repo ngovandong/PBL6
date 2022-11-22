@@ -7,11 +7,8 @@ import CheckBoxGroup from '../checkboxGroup'
 import { activeLinkColor } from '@constants/styles'
 
 import { policyFilter, scoreFilter, startFilter } from '@constants/data'
+import { TitleFilter, TitlePost } from '@components/atoms/Heading';
 
-const Title = styled(Typography)`
-  font-size: 18px;
-  font-weight: 500;
-`
 const ButtonDelete = styled(Typography)`
   font-size: 18px;
   font-weight: 700;
@@ -20,10 +17,6 @@ const ButtonDelete = styled(Typography)`
   :hover {
     color: rgb(0, 113, 194, 0.7);
   }
-`
-const TitleFilter = styled(Typography)`
-  font-size: 16px;
-  font-weight: 500;
 `
 
 type FormValues = {
@@ -45,7 +38,7 @@ const LeftFilter = (props: any) => {
     <Box sx={{ borderRadius: 2, mr: 3, my: 2, p: 2, bgcolor: '#F0F2F5' }}>
       <form onSubmit={onSubmit}>
         <Box display='flex'>
-          <Title>Bộ lọc</Title>
+          <TitlePost>Bộ lọc</TitlePost>
           <ButtonDelete ml='auto' onClick={(event) => {onSubmit()}}>Áp dụng</ButtonDelete>
         </Box>
         <Divider sx={{ my: 1 }} />

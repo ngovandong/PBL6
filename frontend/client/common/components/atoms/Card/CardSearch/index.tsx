@@ -12,23 +12,7 @@ import {
 } from '@constants/styles'
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { useRouter } from 'next/router'
-
-const TitleLink = styled('a')`
-  font-size: 24px;
-  font-weight: 500;
-  :hover {
-    color: rgba(26, 37, 66, 0.8);
-  }
-`
-
-const ContentLink = styled('a')`
-  font-size: 16px;
-  font-weight: 400;
-  color: ${activeLinkColor};
-  :hover {
-    color: rgba(26, 37, 66, 0.8);
-  }
-`
+import { ContentLink, TitleLink } from '@components/atoms/Heading'
 
 const CardSearch = (props: any) => {
   const router = useRouter()
@@ -58,6 +42,7 @@ const CardSearch = (props: any) => {
         width={200}
         height={200}
         style={{ margin: 'auto' }}
+        alt="Booking"
       />
       <Box sx={{ flex: 1, mx: 1, position: 'relative' }}>
         <Box display='flex'>
