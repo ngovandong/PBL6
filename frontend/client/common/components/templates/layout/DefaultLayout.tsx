@@ -9,7 +9,15 @@ const DefaultLayout = ({ children }: any) => {
   return (
     <div>
       <Header />
-      <Box sx={{ margin: '30px auto', maxWidth: '1300px' }}>{children}</Box>
+      <Box
+        sx={{
+          margin: '30px auto',
+          maxWidth: '1300px',
+          minHeight: 'calc(100vh - 220px)',
+        }}
+      >
+        {children}
+      </Box>
       {route.pathname !== '/sign-in' && <Footer />}
     </div>
   )
