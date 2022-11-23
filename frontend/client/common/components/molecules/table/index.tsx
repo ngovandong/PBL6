@@ -7,6 +7,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { Typography } from '@mui/material';
+import { DefaultButton } from '@components/atoms/Button/DefaultButton';
+import { Box } from '@mui/system';
 
 interface Column {
   id: 'name' | 'code' | 'population' | 'size' | 'density';
@@ -106,24 +109,45 @@ export default function TableRoom() {
                   {column.label}
                 </TableCell>
               ))}
+               <TableCell
+                  align={'center'}
+                  style={{ minWidth: 200 }}
+                >
+                  ABC
+                </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, rowIndex) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
+                    {columns.map((column, columnIndex) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
+                        <>
+                          <TableCell key={column.id} align={column.align}>
+                              {column.format && typeof value === 'number'
+                                ? column.format(value)
+                                : value}
+                          </TableCell>
+                          {columnIndex === columns.length - 1 &&  rowIndex === 0 && (
+                            <TableCell
+                              align={'center'}
+                              rowSpan={rows.length} 
+                            >
+                              <Box mb={2}>
+                                <Typography>1 phòng</Typography>
+                                <Typography>VND 342.000</Typography>
+                                <Typography>Đã bao gồm thuế và phí</Typography>
+                                <DefaultButton color="primary" sx={{mt: 2}}>Đặt phòng</DefaultButton>
+                              </Box>
+                            </TableCell>
+                          )}
+                        </>);
                     })}
+                    
                   </TableRow>
                 );
               })}
