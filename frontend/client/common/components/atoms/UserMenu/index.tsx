@@ -10,9 +10,21 @@ import {
   Menu,
 } from '@mui/material'
 import Logout from '@mui/icons-material/Logout'
+import MenuIcon from '@mui/icons-material/Menu'
+import PersonIcon from '@mui/icons-material/Person'
+import CardTravelIcon from '@mui/icons-material/CardTravel'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { borderRadiusLarge } from '@constants/styles'
 import { signOut, useSession } from 'next-auth/react'
 import { MainContext, useUser } from 'common/context'
+import Link from 'next/link'
+import styled from '@emotion/styled'
+
+const NavLink = styled.a`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
 
 const MenuContainer = ({ anchorEl, open, handleClose, signOut }: any) => (
   <Menu
@@ -20,7 +32,6 @@ const MenuContainer = ({ anchorEl, open, handleClose, signOut }: any) => (
     id='account-menu'
     open={open}
     onClose={handleClose}
-    // onClick={handleClose}
     PaperProps={{
       elevation: 0,
       sx: {
@@ -51,16 +62,29 @@ const MenuContainer = ({ anchorEl, open, handleClose, signOut }: any) => (
     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
   >
     <MenuItem>
-      <Avatar /> Tài khoản
+      <Link href='/profile'>
+        <NavLink>
+          <PersonIcon sx={{ mr: 2 }} /> <span>Quản lý tài khoản</span>
+        </NavLink>
+      </Link>
     </MenuItem>
     <MenuItem>
-      <Avatar /> Đã lưu
+      <Link href='/my-order'>
+        <NavLink>
+          <CardTravelIcon sx={{ mr: 2 }} /> Đặt chỗ & Chuyến đi
+        </NavLink>
+      </Link>
+    </MenuItem>
+    <MenuItem>
+      <Link href='/my-favorite'>
+        <NavLink>
+          <FavoriteBorderIcon sx={{ mr: 2 }} /> Danh sách đã lưu
+        </NavLink>
+      </Link>
     </MenuItem>
     <Divider />
     <MenuItem onClick={signOut}>
-      <ListItemIcon>
-        <Logout fontSize='small' />
-      </ListItemIcon>
+      <Logout sx={{ mr: 2 }} />
       Đăng xuất
     </MenuItem>
   </Menu>
@@ -99,7 +123,7 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
     >
       <Box onClick={handleClick} display='flex'>
         <Avatar sx={{ width: 32, height: 32, mt: '-5px' }} src={src}></Avatar>
-        <Typography mx={1}>{userName}</Typography>
+        <MenuIcon sx={{ ml: 1, fontSize: 22 }} />
       </Box>
       <MenuContainer
         anchorEl={anchorEl}
