@@ -14,7 +14,9 @@
     "password": "Nhập mật khẩu",
     "incorrect_password": "Mật khẩu đăng nhập không đúng",
     "invalid_email": "Địa chỉ email này không hợp lệ. Vui lòng thử lại",
-    "login_email": "Email này đã được đăng ký tài khoản, bạn có thể tiếp tục bằng cách đăng nhập"
+    "login_email": "Email này đã được đăng ký tài khoản, bạn có thể tiếp tục bằng cách đăng nhập",
+    "phone_max_length": "Số điện thoại phải là 10 ký tự",
+    "phone_required": "Số điện thoại không được để trống"
   },
   "find_hotel": {
     "choose_destination": "Chọn điểm đến của bạn",

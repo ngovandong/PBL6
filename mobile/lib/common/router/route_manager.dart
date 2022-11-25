@@ -11,6 +11,7 @@ import 'package:mobile/modules/home/views/pick_destination.view.dart';
 import 'package:mobile/modules/home/views/search_hotels.view.dart';
 import 'package:mobile/modules/profile/bindings/profile.binding.dart';
 import 'package:mobile/modules/profile/presentation/views/profile.view.dart';
+import 'package:mobile/modules/profile/presentation/views/user_setting.view.dart';
 import 'package:mobile/modules/root/bindings/root.binding.dart';
 import 'package:mobile/modules/root/views/root.view.dart';
 import 'package:mobile/modules/welcome/bindings/welcome.binding.dart';
@@ -27,6 +28,7 @@ abstract class RouteManager {
   static const String hotelDetail = '/hotel_detail';
   static const String chooseRoom = '/choose_room';
   static const String profile = '/profile';
+  static const String userSetting = '/user_setting';
   static const String findBookingHistory = '/find_booking_history';
 
   static List<GetPage> pages = [
@@ -77,6 +79,7 @@ abstract class RouteManager {
     GetPage(
       name: profile,
       page: () => ProfileScreen(),
-    )
+    ),
+    GetPage(name: userSetting, page: () => const UserSettingView())
   ];
 }

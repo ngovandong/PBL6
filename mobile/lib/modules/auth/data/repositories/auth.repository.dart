@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobile/common/utils/dio/dio_provider.dart';
 import 'package:mobile/modules/auth/auth.enum.dart';
-import 'package:mobile/modules/auth/data/datasource/auth.datasource.dart';
+import 'package:mobile/modules/auth/data/datasources/auth.datasource.dart';
 import 'package:mobile/modules/auth/data/model/dtos/auth_response.dto.dart';
 import 'package:mobile/modules/auth/data/model/user.model.dart';
 

@@ -13,20 +13,23 @@ abstract class BottomSheetUtil {
             top: Radius.circular(10),
           ),
         ),
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            Container(
-              height: 6,
-              width: 152,
-              margin: const EdgeInsets.only(bottom: 15),
-              decoration: BoxDecoration(
-                color: Palette.gray200,
-                borderRadius: BorderRadius.circular(8),
+        child: SafeArea(
+          top: false,
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            children: [
+              Container(
+                height: 6,
+                width: 152,
+                margin: const EdgeInsets.only(bottom: 15),
+                decoration: BoxDecoration(
+                  color: Palette.gray200,
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
-            ),
-            child,
-          ],
+              child,
+            ],
+          ),
         ),
       ),
       isScrollControlled: true,

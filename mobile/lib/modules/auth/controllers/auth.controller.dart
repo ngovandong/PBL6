@@ -7,7 +7,7 @@ import 'package:mobile/common/utils/dialog.util.dart';
 import 'package:mobile/common/utils/google_auth.util.dart';
 import 'package:mobile/common/utils/snackbar.util.dart';
 import 'package:mobile/modules/auth/data/model/user.model.dart';
-import 'package:mobile/modules/auth/data/repository/auth.repository.dart';
+import 'package:mobile/modules/auth/data/repositories/auth.repository.dart';
 import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 
 class AuthController extends GetxController {
@@ -41,13 +41,13 @@ class AuthController extends GetxController {
         final UserModel user =
             await authRepository.loginWithGoogle(auth.idToken!);
 
-        await verifyAuthController.setCurrentUser(user);
+        await verifyAuthController.proccessUpdateCurrentUser(user);
 
         DialogUtil.hideLoading();
       }
     } catch (err) {
       SnackbarUtil.showError();
-      log('Error in loginWithGoolge');
+      log('Error in loginWithGoolge: $err');
     }
   }
 }

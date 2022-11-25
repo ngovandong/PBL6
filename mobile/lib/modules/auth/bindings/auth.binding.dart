@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:mobile/di/di.dart';
 import 'package:mobile/modules/auth/controllers/auth.controller.dart';
 import 'package:mobile/modules/auth/controllers/fill_email.controller.dart';
-import 'package:mobile/modules/auth/data/repository/auth.repository.dart';
+import 'package:mobile/modules/auth/data/repositories/auth.repository.dart';
 import 'package:mobile/modules/base/controllers/base_controller.export.dart';
 
 class AuthBinding implements Bindings {

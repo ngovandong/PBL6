@@ -16,6 +16,34 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       avatarImageUrl: json['avatarImageUrl'] as String?,
       address: json['address'] as String?,
       country: json['country'] as String?,
-      birthDay: json['birthDay'] as String?,
+      birthDay: _$JsonConverterFromJson<String, DateTime>(
+          json['birthDay'], const JsonSerializableDateTime().fromJson),
       accessToken: json['accessToken'] as String?,
     );
+
+Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
+      'id': instance.id,
+      'familyName': instance.familyName,
+      'givenName': instance.givenName,
+      'email': instance.email,
+      'phoneNumber': instance.phoneNumber,
+      'gender': instance.gender,
+      'avatarImageUrl': instance.avatarImageUrl,
+      'address': instance.address,
+      'country': instance.country,
+      'birthDay': _$JsonConverterToJson<String, DateTime>(
+          instance.birthDay, const JsonSerializableDateTime().toJson),
+      'accessToken': instance.accessToken,
+    };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);

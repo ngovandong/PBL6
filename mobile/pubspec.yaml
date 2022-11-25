@@ -51,6 +51,7 @@ dependencies:
   google_place: ^0.4.7
   injectable: ^1.5.4
   event_bus: ^2.0.0
+  dropdown_button2: ^1.9.1
 
   flutter_localizations:
     sdk: flutter

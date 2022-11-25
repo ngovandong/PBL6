@@ -4,4 +4,5 @@ abstract class ProfileInternalEventEnum {
 
 abstract class ProfileGetBuilderEnum {
   static const String updateProfile = 'update_profile';
+  static const String updateBirthDay = 'update_birthday';
 }
