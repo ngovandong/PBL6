@@ -25,6 +25,8 @@ class LocaleKeys {
   static const validate_incorrect_password = 'validate_incorrect_password';
   static const validate_invalid_email = 'validate_invalid_email';
   static const validate_login_email = 'validate_login_email';
+  static const validate_phone_max_length = 'validate_phone_max_length';
+  static const validate_phone_required = 'validate_phone_required';
   static const find_hotel_choose_destination = 'find_hotel_choose_destination';
   static const find_hotel_checkin_date = 'find_hotel_checkin_date';
   static const find_hotel_checkout_date = 'find_hotel_checkout_date';
@@ -67,6 +69,8 @@ class Locales {
         'Địa chỉ email này không hợp lệ. Vui lòng thử lại',
     'validate_login_email':
         'Email này đã được đăng ký tài khoản, bạn có thể tiếp tục bằng cách đăng nhập',
+    'validate_phone_max_length': 'Số điện thoại phải là 10 ký tự',
+    'validate_phone_required': 'Số điện thoại không được để trống',
     'find_hotel_choose_destination': 'Chọn điểm đến của bạn',
     'find_hotel_checkin_date': 'Ngày nhận phòng',
     'find_hotel_checkout_date': 'Ngày trả phòng',

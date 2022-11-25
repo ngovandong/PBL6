@@ -6,7 +6,7 @@ import 'package:mobile/common/utils/snackbar.util.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/auth/auth.enum.dart';
 import 'package:mobile/modules/auth/data/model/dtos/auth_response.dto.dart';
-import 'package:mobile/modules/auth/data/repository/auth.repository.dart';
+import 'package:mobile/modules/auth/data/repositories/auth.repository.dart';
 import 'package:mobile/modules/base/controllers/base_controller.export.dart';
 
 class FillEmailController extends GetxController {
@@ -68,7 +68,7 @@ class FillEmailController extends GetxController {
       _setIsLoading();
 
       if (verifyAuth.user != null) {
-        await verifyAuthController.setCurrentUser(verifyAuth.user);
+        await verifyAuthController.proccessUpdateCurrentUser(verifyAuth.user);
       } else {
         switch (verifyAuth.verifyResult) {
           case ErrorAuthentication.needRegister:

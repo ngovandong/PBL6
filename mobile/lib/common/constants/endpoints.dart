@@ -8,6 +8,8 @@ abstract class Endpoints {
 
   // User
   static final String user = '${AppFlavor.apiUrl}/customer/user';
+  static final String changeUserInfo =
+      '${AppFlavor.apiUrl}/customer/user/change-user-info';
 
   // Favorite host
   static final String favoriteHost =

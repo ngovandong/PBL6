@@ -114,7 +114,6 @@ class _AppDatePickerState extends State<AppDatePicker> {
     return Container(
       height: Get.height / 1.6,
       color: Colors.white,
-      padding: const EdgeInsets.only(bottom: 12),
       child: Column(
         children: [
           Expanded(

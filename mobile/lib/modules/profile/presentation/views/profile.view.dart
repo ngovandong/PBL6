@@ -69,7 +69,7 @@ class ProfileScreen extends GetView<ProfileController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            verifyAuthController.currentUser?.givenName ?? '',
+                            verifyAuthController.currentUser!.fullName,
                             style: TextStyles.s17BoldText,
                           ),
                           Text(

@@ -23,23 +23,23 @@ class VerifyAuthController extends GetxController {
   final Rxn<UserModel> _currrentUser = Rxn<UserModel>();
   UserModel? get currentUser => _currrentUser.value;
 
-  @override
-  Future<void> onInit() async {
-    // _currrentUser.listen((p) {
-    //   if (p != null) {
-    //     Get.offNamedUntil(
-    //       RouteManager.root,
-    //       ModalRoute.withName(RouteManager.root),
-    //     );
-    //   }
-    // });
+  // @override
+  // Future<void> onInit() async {
+  //   // _currrentUser.listen((p) {
+  //   //   if (p != null) {
+  //   //     Get.offNamedUntil(
+  //   //       RouteManager.root,
+  //   //       ModalRoute.withName(RouteManager.root),
+  //   //     );
+  //   //   }
+  //   // });
 
-    await _verifyUserAuth();
+  //   await _verifyUserAuth();
 
-    super.onInit();
-  }
+  //   super.onInit();
+  // }
 
-  Future<void> _verifyUserAuth() async {
+  Future<void> verifyUserAuth() async {
     try {
       final UserAuthModel? userAuth = await veriryAuthRepository.getUserAuth();
 
@@ -61,8 +61,12 @@ class VerifyAuthController extends GetxController {
     return await veriryAuthRepository.saveUserAuth(userAuth);
   }
 
-  Future<void> setCurrentUser(UserModel? user) async {
+  void setCurrentUser(UserModel? user) {
     _currrentUser.value = user;
+  }
+
+  Future<void> proccessUpdateCurrentUser(UserModel? user) async {
+    setCurrentUser(user);
 
     await _saveUserAuth(
       user == null ? null : UserAuthModel.fromUserModel(user),
@@ -85,7 +89,7 @@ class VerifyAuthController extends GetxController {
     try {
       DialogUtil.showLoading();
 
-      await setCurrentUser(null);
+      await proccessUpdateCurrentUser(null);
       await GoogleAuthUtil.signOut();
 
       EventBusUtil.fireEvent(

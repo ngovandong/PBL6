@@ -72,7 +72,6 @@ class _PickNumberTenantAndRoomState extends State<PickNumberTenantAndRoom> {
       padding: const EdgeInsets.only(
         left: 12,
         right: 12,
-        bottom: 12,
       ),
       child: Wrap(
         children: [
