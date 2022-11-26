@@ -24,9 +24,6 @@ class SearchHotelScreen extends GetView<SearchHotelController> {
               child: Column(
                 children: const [
                   SearchHotelsBox(),
-                  SizedBox(
-                    height: 50,
-                  ),
                   Expanded(
                     child: ListSearchedHotels(),
                   )

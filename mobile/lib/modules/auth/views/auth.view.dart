@@ -61,7 +61,7 @@ class AuthView extends GetView<AuthController> {
                   backgroundColor: Colors.white,
                   showBorder: true,
                   showShadow: false,
-                  icon: Assets.icons.auth.google.svg(),
+                  prefixIcon: Assets.icons.auth.google.svg(),
                   textColor: Palette.zodiacBlue,
                 ),
                 const SizedBox(
@@ -75,7 +75,7 @@ class AuthView extends GetView<AuthController> {
                   borderRadius: 6,
                   backgroundColor: Colors.black,
                   showShadow: false,
-                  icon: Assets.icons.auth.apple.svg(color: Colors.white),
+                  prefixIcon: Assets.icons.auth.apple.svg(color: Colors.white),
                 ),
                 const SizedBox(
                   height: 15,

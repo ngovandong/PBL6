@@ -76,14 +76,14 @@ class _AppDatePickerState extends State<AppDatePicker> {
 
   void setStartAndEndDate(DateTime startDate, DateTime? endDate) {
     if (widget.isPickRange) {
-      startDateTextController.text = startDate.toShowUIDate();
+      startDateTextController.text = startDate.toDisplayDate;
       if (endDate == null) {
         endDateTextController.text = '';
       } else {
-        endDateTextController.text = endDate.toShowUIDate();
+        endDateTextController.text = endDate.toDisplayDate;
       }
     } else {
-      startDateTextController.text = startDate.toShowUIDate();
+      startDateTextController.text = startDate.toDisplayDate;
       endDateTextController.text = '';
     }
   }

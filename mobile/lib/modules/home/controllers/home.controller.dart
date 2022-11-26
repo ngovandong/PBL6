@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mobile/modules/home/data/dtos/search_hotels.dto.dart';
+import 'package:mobile/modules/home/data/models/dtos/search_hotels.dto.dart';
 
 class HomeController extends GetxController {
   late Rx<SearchHotelsDTO> searchHotelsParams;

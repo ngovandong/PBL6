@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile/common/utils/datetime.extension.dart';
+import 'package:mobile/common/extensions/datetime.extension.dart';
 import 'package:mobile/common/utils/dialog.util.dart';
 import 'package:mobile/common/utils/snackbar.util.dart';
 import 'package:mobile/generated/locales.g.dart';

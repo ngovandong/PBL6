@@ -5,6 +5,7 @@ import 'package:mobile/modules/auth/views/fill_email.view.dart';
 import 'package:mobile/modules/booking_history/bindings/booking_history.binding.dart';
 import 'package:mobile/modules/booking_history/views/find_booking_history.view.dart';
 import 'package:mobile/modules/home/bindings/home.binding.dart';
+import 'package:mobile/modules/home/views/booking_step.view.dart';
 import 'package:mobile/modules/home/views/choose_room.view.dart';
 import 'package:mobile/modules/home/views/hotel_detail.view.dart';
 import 'package:mobile/modules/home/views/pick_destination.view.dart';
@@ -27,6 +28,7 @@ abstract class RouteManager {
   static const String pickDestination = '/pick_destination';
   static const String hotelDetail = '/hotel_detail';
   static const String chooseRoom = '/choose_room';
+  static const String bookingStep = '/booking_step';
   static const String profile = '/profile';
   static const String userSetting = '/user_setting';
   static const String findBookingHistory = '/find_booking_history';
@@ -75,6 +77,10 @@ abstract class RouteManager {
     GetPage(
       name: chooseRoom,
       page: () => const ChooseRoomScreen(),
+    ),
+    GetPage(
+      name: bookingStep,
+      page: () => const BookingStepView(),
     ),
     GetPage(
       name: profile,

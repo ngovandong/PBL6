@@ -13,7 +13,7 @@ import 'package:mobile/common/widgets/app_text_form_field.widget.dart';
 import 'package:mobile/common/widgets/pick_number_tenant_room.widget.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
-import 'package:mobile/modules/home/data/dtos/search_hotels.dto.dart';
+import 'package:mobile/modules/home/data/models/dtos/search_hotels.dto.dart';
 
 class HomeSearchBox extends GetView<HomeController> {
   const HomeSearchBox({super.key});
@@ -91,9 +91,8 @@ class HomeSearchBox extends GetView<HomeController> {
                                   .copyWith(color: Palette.gray100),
                             ),
                             TextSpan(
-                              text: controller
-                                  .searchHotelsParams.value.checkinDate
-                                  .toShowUIDate(),
+                              text: controller.searchHotelsParams.value
+                                  .checkinDate.toDisplayDate,
                               style: TextStyles.s14RegularText,
                             )
                           ],
@@ -111,9 +110,8 @@ class HomeSearchBox extends GetView<HomeController> {
                                   .copyWith(color: Palette.gray100),
                             ),
                             TextSpan(
-                              text: controller
-                                  .searchHotelsParams.value.checkoutDate
-                                  .toShowUIDate(),
+                              text: controller.searchHotelsParams.value
+                                  .checkoutDate.toDisplayDate,
                               style: TextStyles.s14RegularText,
                             )
                           ],
