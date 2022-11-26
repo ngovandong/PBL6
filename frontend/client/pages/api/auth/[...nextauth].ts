@@ -66,7 +66,7 @@ export default NextAuth({
       return Promise.resolve(true)
     },
     async redirect({ url, baseUrl }) {
-      return url
+      return baseUrl
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (account?.access_token) {

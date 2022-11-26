@@ -9,7 +9,7 @@ import { getSession, useSession } from 'next-auth/react'
 const ProfilePage = ({ profile }: { profile: IUserProfile }) => {
   return (
     <Box>
-      <ProfileTemplate />
+      <ProfileTemplate profile={profile} />
     </Box>
   )
 }
@@ -17,19 +17,19 @@ const ProfilePage = ({ profile }: { profile: IUserProfile }) => {
 ProfilePage.getInitialProps = async (context: NextPageContext) => {
   let user = {}
   const session = await getSession(context)
-  const userId = session?.user?.id || null
-  if (userId) {
-    userApi
-      .getUserInfor(userId)
-      .then((res: any) => {
-        user = res.data
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+  // const userId = session?.user?.id || null
+  // if (userId) {
+  //   userApi
+  //     .getUserInfor(userId)
+  //     .then((res: any) => {
+  //       user = res.data
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }
   return {
-    profile: session?.user,
+    profile: session?.user || {},
   }
 }
 

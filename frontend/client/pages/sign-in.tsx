@@ -21,6 +21,7 @@ import { useRouter } from 'next/router'
 import { MainContext, useUser } from 'common/context'
 import { toastError } from '@utils/notifications'
 import { validateEmail, validatePassword } from '@utils/helpers'
+import { isEmpty } from 'lodash'
 
 const StraightLine = styled('p')({
   width: '90px',
@@ -67,26 +68,38 @@ const SignIn = () => {
   const router = useRouter()
 
   useEffect(() => {
+    if (!isEmpty(state.user)) {
+      router.replace('/')
+    }
     if (session) {
       if (session?.idToken) {
-        authApi
-          .loginGoogle({
-            idToken: session.idToken || '',
-          })
-          .then((res) => {
-            if (res.data?.accessToken) {
-              localStorage.setItem(
-                LOCAL_STORAGE.accessToken,
-                res.data?.accessToken
-              )
-              localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
-              setState({ user: res.data })
-              router.replace('/')
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+        const user: any = session?.user
+        user?.id && localStorage.setItem(LOCAL_STORAGE.idUser, user?.id)
+        user?.accessToken &&
+          localStorage.setItem(
+            LOCAL_STORAGE.accessToken,
+            user?.accessToken || ''
+          )
+        setState({ user: user })
+        router.replace('/')
+        // authApi
+        //   .loginGoogle({
+        //     idToken: session.idToken || '',
+        //   })
+        //   .then((res) => {
+        //     if (res.data?.accessToken) {
+        //       localStorage.setItem(
+        //         LOCAL_STORAGE.accessToken,
+        //         res.data?.accessToken
+        //       )
+        //       localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
+        //       setState({ user: res.data })
+        //       router.replace('/')
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     console.log(error)
+        //   })
       } else {
         const user: any = session?.user
         user?.id && localStorage.setItem(LOCAL_STORAGE.idUser, user?.id)

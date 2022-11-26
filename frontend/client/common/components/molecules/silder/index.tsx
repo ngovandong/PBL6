@@ -15,7 +15,7 @@ const SliderCards = (props: any) => {
         <CardCarousel
           size={200}
           key={cities[j]?.src}
-          src={cities[j]?.src}
+          src={cities[j]?.src || ''}
           title={cities[j]?.title}
           description={cities[j]?.description}
         />

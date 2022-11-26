@@ -122,7 +122,10 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
       }}
     >
       <Box onClick={handleClick} display='flex'>
-        <Avatar sx={{ width: 32, height: 32, mt: '-5px' }} src={src}></Avatar>
+        <Avatar
+          sx={{ width: 32, height: 32, mt: '-5px' }}
+          src={src || ''}
+        ></Avatar>
         <MenuIcon sx={{ ml: 1, fontSize: 22 }} />
       </Box>
       <MenuContainer
