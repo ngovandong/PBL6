@@ -23,7 +23,8 @@ class AppRoundedButton extends StatelessWidget {
   final bool showShadow;
   final bool showBorder;
 
-  final Widget? icon;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
 
   const AppRoundedButton({
     Key? key,
@@ -41,7 +42,8 @@ class AppRoundedButton extends StatelessWidget {
     this.isLoading = false,
     this.showShadow = true,
     this.showBorder = false,
-    this.icon,
+    this.prefixIcon,
+    this.suffixIcon,
   }) : super(key: key);
 
   @override
@@ -70,8 +72,8 @@ class AppRoundedButton extends StatelessWidget {
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (icon != null) icon!,
-                if (icon != null)
+                if (prefixIcon != null) prefixIcon!,
+                if (prefixIcon != null)
                   const SizedBox(
                     width: 15,
                   ),
@@ -80,6 +82,11 @@ class AppRoundedButton extends StatelessWidget {
                   style: TextStyles.boldText
                       .copyWith(fontSize: fontSize.sp, color: textColor),
                 ),
+                if (suffixIcon != null)
+                  const SizedBox(
+                    width: 15,
+                  ),
+                if (suffixIcon != null) suffixIcon!,
               ],
             ),
     );

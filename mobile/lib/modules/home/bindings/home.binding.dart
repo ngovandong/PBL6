@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mobile/modules/home/controllers/choose_room.controller.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
 import 'package:mobile/modules/home/controllers/pick_destination.controller.dart';
 import 'package:mobile/modules/home/controllers/search_hotel.controller.dart';
@@ -15,6 +16,10 @@ class HomeBinding implements Bindings {
     );
     Get.lazyPut(
       () => SearchHotelController(),
+      fenix: true,
+    );
+    Get.lazyPut(
+      () => ChooseRoomController(),
       fenix: true,
     );
   }

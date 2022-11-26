@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
-import 'package:mobile/common/widgets/app_icon_button.widget.dart';
 import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/modules/home/controllers/search_hotel.controller.dart';
 
@@ -16,7 +15,7 @@ class SearchHotelsBox extends GetView<SearchHotelController> {
     return Container(
       width: Get.width,
       height: MediaQuery.of(context).padding.top + 120,
-      color: Colors.white,
+      color: Palette.background,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -25,32 +24,15 @@ class SearchHotelsBox extends GetView<SearchHotelController> {
             top: 0,
             child: Assets.images.background.wave.svg(
               width: Get.width,
-              height: 120.h,
+              height: 100.h,
               fit: BoxFit.fill,
             ),
           ),
           Positioned(
             left: 12,
             top: MediaQuery.of(context).padding.top,
-            child: AppIconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: const Icon(
-                PhosphorIcons.caret_left_bold,
-                color: Palette.blue400,
-              ),
-              width: 40,
-              height: 40,
-              borderColor: Palette.blue400,
-              isCircle: true,
-            ),
-          ),
-          Positioned(
-            left: 12,
-            top: MediaQuery.of(context).padding.top + 50,
             child: Container(
-              width: Get.width - 20,
+              width: Get.width - 24,
               height: 100.h,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -72,12 +54,18 @@ class SearchHotelsBox extends GetView<SearchHotelController> {
                       height: 70,
                       child: Row(
                         children: [
-                          const SizedBox.square(
-                            dimension: 70,
-                            child: Center(
-                              child: Icon(
-                                PhosphorIcons.magnifying_glass_bold,
-                                color: Palette.blue400,
+                          GestureDetector(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: const SizedBox.square(
+                              dimension: 70,
+                              child: Center(
+                                child: Icon(
+                                  PhosphorIcons.caret_left_bold,
+                                  color: Palette.blue400,
+                                  size: 28,
+                                ),
                               ),
                             ),
                           ),

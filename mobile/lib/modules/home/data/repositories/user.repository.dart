@@ -1,4 +1,5 @@
-import 'package:mobile/modules/home/data/datasources/index.dart';
+import 'package:mobile/modules/home/data/datasources/local/user.datasource.dart';
+import 'package:mobile/modules/home/data/datasources/remote/user.datasource.dart';
 
 class UserRepository {
   final UserLocalDataSource localDataSource;
