@@ -14,7 +14,7 @@ export const Title = ({
   return (
     <Typography
       align={align || 'left'}
-      fontSize='28px'
+      fontSize='24px'
       fontWeight='700'
       sx={{ ...sx }}
     >

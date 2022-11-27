@@ -1,3 +1,4 @@
+import { primaryColor } from './styles'
 import { createTheme } from '@mui/material/styles'
 
 const theme = createTheme({
@@ -9,6 +10,9 @@ const theme = createTheme({
     },
     background: {
       default: '#fff',
+    },
+    text: {
+      primary: primaryColor,
     },
   },
 })

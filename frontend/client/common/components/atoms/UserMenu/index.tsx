@@ -19,6 +19,7 @@ import { signOut, useSession } from 'next-auth/react'
 import { MainContext, useUser } from 'common/context'
 import Link from 'next/link'
 import styled from '@emotion/styled'
+import { useRouter } from 'next/router'
 
 const NavLink = styled.a`
   display: flex;
@@ -91,7 +92,7 @@ const MenuContainer = ({ anchorEl, open, handleClose, signOut }: any) => (
 )
 
 const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
-  const { status } = useSession()
+  const router = useRouter()
   const { state, setState } = useContext(MainContext)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
@@ -106,6 +107,7 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
     setState({ ...state, user: {} })
     localStorage.clear()
     signOut()
+    router.replace('/')
   }
 
   return (

@@ -1,8 +1,11 @@
 import * as React from 'react'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
+import { Tab, Tabs, Box, Typography, Avatar } from '@mui/material'
+import { IUserProfile } from '@utils/types'
+import { primaryColor } from '@constants/styles'
+import { styled } from '@mui/system'
+import { grey } from '@mui/material/colors'
+import { Title, TitlePost } from '@components/atoms/Heading'
+import Image from 'next/image'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -30,6 +33,30 @@ function TabPanel(props: TabPanelProps) {
   )
 }
 
+interface StyledTabProps {
+  label: string
+}
+
+const TabItem = styled((props: StyledTabProps) => (
+  <Tab disableRipple {...props} />
+))(({ theme }) => ({
+  textTransform: 'none',
+  alignItems: 'flex-start',
+  color: grey[500],
+  fontFamily: 'inherit',
+  fontWeight: 500,
+  fontSize: 16,
+  '&:hover': {
+    color: primaryColor,
+    opacity: 1,
+  },
+  '&.Mui-selected': {
+    color: primaryColor,
+  },
+  '&.Mui-focusVisible': {
+    backgroundColor: '#d1eaff',
+  },
+}))
 function a11yProps(index: number) {
   return {
     id: `vertical-tab-${index}`,
@@ -37,7 +64,11 @@ function a11yProps(index: number) {
   }
 }
 
-export default function ProfileTemplate() {
+export default function ProfileTemplate({
+  profile,
+}: {
+  profile: IUserProfile
+}) {
   const [value, setValue] = React.useState(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -50,7 +81,7 @@ export default function ProfileTemplate() {
         flexGrow: 1,
         bgcolor: 'background.paper',
         display: 'flex',
-        height: 224,
+        height: '100%',
       }}
     >
       <Tabs
@@ -58,37 +89,25 @@ export default function ProfileTemplate() {
         variant='scrollable'
         value={value}
         onChange={handleChange}
-        aria-label='Vertical tabs example'
-        sx={{ borderRight: 1, borderColor: 'divider' }}
+        aria-label='Profile Menu'
+        sx={{ borderRight: 1, borderColor: 'divider', width: 200 }}
       >
-        <Tab label='Item One' {...a11yProps(0)} />
-        <Tab label='Item Two' {...a11yProps(1)} />
-        <Tab label='Item Three' {...a11yProps(2)} />
-        <Tab label='Item Four' {...a11yProps(3)} />
-        <Tab label='Item Five' {...a11yProps(4)} />
-        <Tab label='Item Six' {...a11yProps(5)} />
-        <Tab label='Item Seven' {...a11yProps(6)} />
+        <TabItem label='Chỉnh sửa thông tin' {...a11yProps(0)} />
+        <TabItem label='Item Two' {...a11yProps(1)} />
+        <TabItem label='Item Three' {...a11yProps(2)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Item One
+        <TitlePost>Chỉnh sửa thông tin</TitlePost>
+        <Avatar
+          src={profile.avatarImageUrl?.split('=')[0] || ''}
+          sx={{ width: 200, height: 200 }}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        Item Four
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        Item Seven
       </TabPanel>
     </Box>
   )
