@@ -7,4 +7,6 @@ extension NumberExtension on num {
         symbol: 'đ',
         customPattern: '#,###.#\u00a4',
       ).format(this);
+
+  String get toCompact => NumberFormat.compact().format(this);
 }

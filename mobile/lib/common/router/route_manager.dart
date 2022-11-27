@@ -76,7 +76,7 @@ abstract class RouteManager {
     ),
     GetPage(
       name: chooseRoom,
-      page: () => const ChooseRoomScreen(),
+      page: () => const ChooseRoomView(),
     ),
     GetPage(
       name: bookingStep,
