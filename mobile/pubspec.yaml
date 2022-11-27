@@ -52,6 +52,8 @@ dependencies:
   injectable: ^1.5.4
   event_bus: ^2.0.0
   dropdown_button2: ^1.9.1
+  syncfusion_flutter_sliders: ^20.3.58
+  badges: ^2.0.3
 
   flutter_localizations:
     sdk: flutter

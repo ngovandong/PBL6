@@ -10,7 +10,7 @@ import 'package:mobile/modules/home/data/models/room.model.dart';
 class ChooseRoomController extends GetxController {
   @override
   void onInit() {
-    bookingRooms.listen((p0) {
+    rooms.listen((p0) {
       totalMoneny.value = p0
           .map((e) => e.price * e.bookingQuantity)
           .fold(0, (previousValue, element) => previousValue + element);
@@ -18,7 +18,7 @@ class ChooseRoomController extends GetxController {
     super.onInit();
   }
 
-  final List<RoomModel> rooms = [
+  final RxList<RoomModel> rooms = ([
     RoomModel(
       id: 0,
       name: 'Phòng superior',
@@ -37,16 +37,16 @@ class ChooseRoomController extends GetxController {
       price: 956000,
       availableQuantity: 3,
     )
-  ];
-  final RxList<RoomModel> bookingRooms = <RoomModel>[].obs;
+  ]).obs;
+  // final RxList<RoomModel> bookingRooms = <RoomModel>[].obs;
 
   final RxDouble totalMoneny = (0.0).obs;
 
   void addRoom(int selectedRoomId) {
-    final RoomModel? currentRoom =
-        bookingRooms.firstWhereOrNull((p0) => p0.id == selectedRoomId);
+    final RoomModel currentRoom =
+        rooms.firstWhere((p0) => p0.id == selectedRoomId);
 
-    if (currentRoom != null) {
+    if (currentRoom.isSelected) {
       int numberOfRooms = 0;
 
       Get.bottomSheet(
@@ -90,14 +90,13 @@ class ChooseRoomController extends GetxController {
                 AppRoundedButton(
                   onPressed: () {
                     if (numberOfRooms == 0) {
-                      bookingRooms.removeWhere(
-                        (element) => element.id == selectedRoomId,
-                      );
+                      currentRoom.isSelected = false;
+                      currentRoom.bookingQuantity = 0;
                     } else {
                       currentRoom.bookingQuantity = numberOfRooms;
-                      bookingRooms.refresh();
                     }
 
+                    rooms.refresh();
                     update([selectedRoomId]);
 
                     Get.back();
@@ -114,10 +113,9 @@ class ChooseRoomController extends GetxController {
         ),
       );
     } else {
-      bookingRooms.add(
-        rooms.firstWhere((element) => element.id == selectedRoomId).copyWith()
-          ..bookingQuantity = 1,
-      );
+      currentRoom.isSelected = true;
+      currentRoom.bookingQuantity = 1;
+      rooms.refresh();
       update([selectedRoomId]);
     }
   }

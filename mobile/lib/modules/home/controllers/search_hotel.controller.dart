@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SearchHotelController extends GetxController {
@@ -8,5 +9,11 @@ class SearchHotelController extends GetxController {
   void onTapSearchBox() {
     log('onTapSearchBox');
     showSearchBox.toggle();
+  }
+
+  void onTapFilter() {
+    Get.bottomSheet(
+      Container(),
+    );
   }
 }

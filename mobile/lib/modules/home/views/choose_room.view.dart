@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,8 +13,8 @@ import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 import 'package:mobile/modules/home/controllers/choose_room.controller.dart';
 import 'package:mobile/modules/home/data/models/room.model.dart';
 
-class ChooseRoomScreen extends GetView<ChooseRoomController> {
-  const ChooseRoomScreen({super.key});
+class ChooseRoomView extends GetView<ChooseRoomController> {
+  const ChooseRoomView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,36 @@ class ChooseRoomScreen extends GetView<ChooseRoomController> {
             ],
           ),
         ),
+        actions: [
+          Obx(
+            () => Visibility(
+              visible: controller.rooms.where((p0) => p0.isSelected).isNotEmpty,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: IconButton(
+                  onPressed: () {},
+                  padding: const EdgeInsets.all(4),
+                  icon: Badge(
+                    badgeContent: Text(
+                      controller.rooms
+                          .where((p0) => p0.isSelected)
+                          .length
+                          .toString(),
+                      style: TextStyles.mediumText
+                          .copyWith(color: Colors.white, fontSize: 14),
+                    ),
+                    padding: const EdgeInsets.all(6),
+                    child: const Icon(
+                      PhosphorIcons.list_bullets,
+                      color: Palette.zodiacBlue,
+                      size: 28,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
         hasBackIcon: true,
         elevation: 2,
         leadingBackgroundColor: Palette.background,
@@ -187,11 +218,6 @@ class ChooseRoomScreen extends GetView<ChooseRoomController> {
                       GetBuilder<ChooseRoomController>(
                         id: currentRoom.id,
                         builder: (_) {
-                          final RoomModel? bookingRoom =
-                              controller.bookingRooms.firstWhereOrNull(
-                            (element) => element.id == currentRoom.id,
-                          );
-
                           return AppRoundedButton(
                             width: Get.width -
                                 UIConfigs.horizontalPadding * 2 -
@@ -200,10 +226,10 @@ class ChooseRoomScreen extends GetView<ChooseRoomController> {
                             onPressed: () {
                               controller.addRoom(currentRoom.id);
                             },
-                            content: bookingRoom == null
+                            content: currentRoom.isSelected == false
                                 ? 'Chọn'
-                                : '${bookingRoom.bookingQuantity} phòng',
-                            suffixIcon: bookingRoom == null
+                                : '${currentRoom.bookingQuantity} phòng',
+                            suffixIcon: currentRoom.isSelected == false
                                 ? null
                                 : const Icon(
                                     PhosphorIcons.caret_down,
@@ -221,42 +247,26 @@ class ChooseRoomScreen extends GetView<ChooseRoomController> {
             ),
           ),
           Obx(() {
-            if (controller.bookingRooms.isNotEmpty) {
-              return Container(
+            return Visibility(
+              visible: controller.rooms.where((p0) => p0.isSelected).isNotEmpty,
+              child: Container(
                 color: Colors.white,
                 padding: const EdgeInsets.only(left: 12, top: 12, right: 12),
                 child: SafeArea(
                   top: false,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: AppRoundedButton(
-                          onPressed: () {
-                            Get.toNamed(RouteManager.bookingStep);
-                          },
-                          content:
-                              'Đặt phòng - ${controller.totalMoneny.value.toMoneyFormat}',
-                          fontSize: 15,
-                          showShadow: false,
-                          backgroundColor: Palette.blue400,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          PhosphorIcons.list_bullets,
-                          size: 28,
-                        ),
-                      )
-                    ],
+                  child: AppRoundedButton(
+                    onPressed: () {
+                      Get.toNamed(RouteManager.bookingStep);
+                    },
+                    content:
+                        'Đặt phòng - ${controller.totalMoneny.value.toMoneyFormat}',
+                    fontSize: 15,
+                    showShadow: false,
+                    backgroundColor: Palette.blue400,
                   ),
                 ),
-              );
-            }
-            return const SizedBox();
+              ),
+            );
           })
         ],
       ),

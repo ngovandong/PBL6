@@ -4,8 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/utils/bottom_sheet.util.dart';
 import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/modules/home/controllers/search_hotel.controller.dart';
+import 'package:mobile/modules/home/widgets/search_hotels/filter_options_sheet.widget.dart';
+import 'package:mobile/modules/home/widgets/search_hotels/sort_options_sheet.widget.dart';
 
 class SearchHotelsBox extends GetView<SearchHotelController> {
   const SearchHotelsBox({super.key});
@@ -121,41 +124,66 @@ class SearchHotelsBox extends GetView<SearchHotelController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              PhosphorIcons.sliders_horizontal_light,
-                              color: Palette.blue400,
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              BottomSheetUtil.show(
+                                child: const FilterOptionsSheet(),
+                                isSubmit: true,
+                                title: 'Lọc danh sách khách sạn',
+                                height: Get.height * 0.95,
+                              );
+                            },
+                            behavior: HitTestBehavior.opaque,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  PhosphorIcons.sliders_horizontal_light,
+                                  color: Palette.blue400,
+                                ),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                Text(
+                                  'Bộ lọc',
+                                  style: TextStyles.s14MediumText
+                                      .copyWith(color: Palette.blue400),
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            Text(
-                              'Bộ lọc',
-                              style: TextStyles.s14MediumText
-                                  .copyWith(color: Palette.blue400),
-                            ),
-                          ],
+                          ),
                         ),
                         const VerticalDivider(
                           width: 0,
                         ),
-                        Row(
-                          children: [
-                            const Icon(
-                              PhosphorIcons.funnel_light,
-                              color: Palette.blue400,
-                              size: 20,
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              BottomSheetUtil.show(
+                                child: const SortOptionsSheet(),
+                              );
+                            },
+                            behavior: HitTestBehavior.opaque,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  PhosphorIcons.funnel_light,
+                                  color: Palette.blue400,
+                                  size: 20,
+                                ),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                Text(
+                                  'Sắp xếp',
+                                  style: TextStyles.s14MediumText
+                                      .copyWith(color: Palette.blue400),
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            Text(
-                              'Sắp xếp',
-                              style: TextStyles.s14MediumText
-                                  .copyWith(color: Palette.blue400),
-                            ),
-                          ],
+                          ),
                         )
                       ],
                     ),

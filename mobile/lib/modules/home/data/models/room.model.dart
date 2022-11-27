@@ -8,6 +8,8 @@ class RoomModel {
 
   @JsonKey(ignore: true)
   int bookingQuantity;
+  @JsonKey(ignore: true)
+  bool isSelected;
 
   RoomModel({
     required this.id,
@@ -15,6 +17,7 @@ class RoomModel {
     required this.price,
     required this.availableQuantity,
     this.bookingQuantity = 0,
+    this.isSelected = false,
   });
 
   RoomModel copyWith({
