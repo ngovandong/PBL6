@@ -16,6 +16,7 @@ import { registerLicense } from '@syncfusion/ej2-base'
 import DefaultLayout from '@components/templates/layout/DefaultLayout'
 
 import 'public/styles/globals.scss'
+import 'react-toastify/dist/ReactToastify.css';
 
 registerLicense(process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE || '')
 
@@ -37,7 +38,7 @@ export default function MyApp(props: MyAppProps) {
   return (
     <SessionProvider
       session={session}
-      refetchInterval={30}
+      refetchInterval={0}
       refetchOnWindowFocus={true}
     >
       <CacheProvider value={emotionCache}>

@@ -3,6 +3,7 @@ import Head from 'next/head'
 import SearchTemplate from '@components/templates/search'
 
 const SearchPage: NextPage = (props: any) => {
+
   return (
     <div>
       <Head>

@@ -5,23 +5,24 @@ import {
   Box,
   Typography,
   Avatar,
-  FormControl,
   InputLabel,
   Input,
   Grid,
+  Badge,
+  IconButton,
 } from '@mui/material'
+import {CameraAltRounded} from '@mui/icons-material';
 import { IUserProfile } from '@utils/types'
-import { primaryColor } from '@constants/styles'
+import { boxShadowCard, primaryColor } from '@constants/styles'
 import { styled } from '@mui/system'
 import { grey } from '@mui/material/colors'
 import { Title, TitlePost } from '@components/atoms/Heading'
 import { Controller, useForm } from 'react-hook-form'
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
-import { renderDefaultValuesForHook } from '@utils/helpers'
-import { EDIT_USER_LABEL } from '@constants/constant'
+import { reloadSession, renderDefaultValuesForHook } from '@utils/helpers'
+import { EDIT_USER_FORM, EDIT_USER_LABEL } from '@constants/constant'
 import { userApi } from '@utils/api'
-import axios from 'axios'
-import { useSession } from 'next-auth/react'
+import { toastSuccess } from '@utils/notifications'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -99,9 +100,11 @@ export default function ProfileTemplate({
     console.log(data)
     userApi
       .editUser(data)
-      .then(async (data) => {
-        await axios.get('/api/auth/session?update')
-        console.log(data)
+      .then((res) => {
+        reloadSession();
+        if(res.status === 200) {
+          toastSuccess('Cập nhật thông tin thành công!')
+        }
       })
       .catch((error: any) => {
         console.log(error)
@@ -132,23 +135,53 @@ export default function ProfileTemplate({
       <Box component={TabPanel} value={value} index={0}>
         {/* <TitlePost>Chỉnh sửa thông tin</TitlePost> */}
         <Grid container component='form' onSubmit={handleSubmit(onSubmit)}>
-          <Grid item sm={12}>
-            <Avatar
-              src={profile.avatarImageUrl?.split('=')[0] || ''}
-              sx={{ width: 200, height: 200, margin: 'auto' }}
-            />
+          <Grid item sm={12} mb={2}>
+            <Badge
+              sx={{ 
+                width: '200px',
+                margin: 'auto',
+                display: 'block', 
+                '& .MuiBadge-badge': {
+                  backgroundColor: 'rgba(255,255,255)',
+                  height: 40,
+                  width: 40,
+                  borderRadius: '50%',
+                  boxShadow: boxShadowCard,
+                  '&:hover': {
+                    cursor: 'pointer',
+                    backgroundColor: 'rgba(255,255,255,0.9)',
+                  }
+                }
+              }}
+              overlap="circular"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right'}}
+              badgeContent={
+                <CameraAltRounded />
+              }
+            >
+              <Avatar
+                src={profile.avatarImageUrl?.split('=')[0] || ''}
+                sx={{ width: 200, height: 200, margin: 'auto',boxShadow: boxShadowCard, }}
+              />
+            </Badge>
           </Grid>
-          <Grid item sm={6}>
-            <InputLabel htmlFor='familyName'>Họ</InputLabel>
-            <Controller
-              name='familyName'
-              control={control}
-              render={({ field }) => (
-                <Input fullWidth id='familyName' {...field} />
-              )}
-            />
-          </Grid>
-          <Grid item sm={6}>
+          {
+            EDIT_USER_FORM.map((item) => {
+              return (
+                <Grid item sm={6} key={item.id}>
+                  <InputLabel htmlFor={item.id}>{item.label}</InputLabel>
+                  <Controller
+                    name={item.id}
+                    control={control}
+                    render={({ field }) => (
+                      <Input fullWidth id={item.id} {...field} disabled={item.id === 'email'}/>
+                    )}
+                  />
+                </Grid>
+              )
+            })
+          }
+          {/* <Grid item sm={6}>
             <InputLabel htmlFor='givenName'>Tên</InputLabel>
             <Controller
               name='givenName'
@@ -157,8 +190,8 @@ export default function ProfileTemplate({
                 <Input fullWidth id='givenName' {...field} />
               )}
             />
-          </Grid>
-          <Grid item sm={6}>
+          </Grid> */}
+          {/* <Grid item sm={6}>
             <InputLabel htmlFor='email'>Email</InputLabel>
             <Input fullWidth id='email' value={profile.email} disabled />
           </Grid>
@@ -173,7 +206,7 @@ export default function ProfileTemplate({
           <Grid item sm={6}>
             <InputLabel htmlFor='country'>Quốc tịch</InputLabel>
             <Input fullWidth id='country' value={profile.country} />
-          </Grid>
+          </Grid> */}
           <Grid item sm={12}>
             <DefaultButton color='primary' type='submit'>
               Chỉnh sửa

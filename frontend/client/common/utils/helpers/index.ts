@@ -32,3 +32,8 @@ export const renderDefaultValuesForHook = (
   }
   return result
 }
+
+export const reloadSession = () => {
+  const event = new Event("visibilitychange");
+  document.dispatchEvent(event);
+};
