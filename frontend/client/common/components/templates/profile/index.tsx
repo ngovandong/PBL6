@@ -10,8 +10,9 @@ import {
   Grid,
   Badge,
   IconButton,
+  Divider,
 } from '@mui/material'
-import {CameraAltRounded} from '@mui/icons-material';
+import { CameraAltRounded } from '@mui/icons-material'
 import { IUserProfile } from '@utils/types'
 import { boxShadowCard, primaryColor } from '@constants/styles'
 import { styled } from '@mui/system'
@@ -19,12 +20,22 @@ import { grey } from '@mui/material/colors'
 import { Title, TitlePost } from '@components/atoms/Heading'
 import { Controller, useForm } from 'react-hook-form'
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
-import { reloadSession, renderDefaultValuesForHook } from '@utils/helpers'
-import { EDIT_PASSWORD_FORM, EDIT_USER_FORM, EDIT_USER_LABEL } from '@constants/constant'
-import { userApi } from '@utils/api'
-import { toastSuccess } from '@utils/notifications'
-import { InputField } from '@components/atoms/Input/InputField';
-import { editUser } from '@utils/api/user';
+import {
+  reloadSession,
+  renderDefaultValuesForHook,
+  trimDataObject,
+} from '@utils/helpers'
+import {
+  EDIT_PASSWORD_FORM,
+  EDIT_USER_FORM,
+  EDIT_USER_LABEL,
+  ERROR_MESSAGE,
+  INFOR_MESSAGE,
+} from '@constants/constant'
+import { uploadImageCloudinary, userApi } from '@utils/api'
+import { toastError, toastSuccess } from '@utils/notifications'
+import { InputField } from '@components/atoms/Input/InputField'
+import { editUser } from '@utils/api/user'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -94,63 +105,59 @@ export default function ProfileTemplate({
     setValue(newValue)
   }
 
-  const { control, handleSubmit, formState: { errors }, } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: renderDefaultValuesForHook(profile, EDIT_USER_LABEL),
   })
 
   const onSubmit = (data: any) => {
     userApi
-      .editUser(data)
+      .editUser(trimDataObject(data))
       .then((res) => {
-        reloadSession();
-        if(res.status === 200) {
-          toastSuccess('Cập nhật thông tin thành công!')
+        reloadSession()
+        if (res.status === 200) {
+          toastSuccess(INFOR_MESSAGE.UPDATED_SUCCESSFULLY)
         }
       })
       .catch((error: any) => {
         console.log(error)
+        toastError(ERROR_MESSAGE.COMMON_ERROR)
       })
   }
 
   async function handleClick(this: HTMLInputElement) {
-    console.log("Changed!");
+    console.log('Changed!')
     const fileList = this.files
     if (fileList) {
-      const cloudName = process.env.NEXT_PUBLIC_CLOUD_NAME
-      const uploadPreset = process.env.NEXT_PUBLIC_UPLOAD_PRESET
-      if (cloudName && uploadPreset) {
-        const formData = new FormData()
-        formData.append('file', fileList[0])
-        formData.append('upload_preset', uploadPreset)
-        formData.append('cloud_name', cloudName)
-        try {
-          const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {method: 'POST', body: formData})
-          const data = await res.json()
-          if (data.url) {
-            console.log({...profile, 'avatarImageUrl': data.url})
-            const updateImage = await editUser({...profile, 'avatarImageUrl': data.url})
-            if(updateImage.status === 200) {
-              toastSuccess('Cập nhật thông tin thành công!')
-              reloadSession()
-            }
-          }
-        } catch (error: any) {
-          console.log(error)
+      const imageUrl = await uploadImageCloudinary(fileList[0])
+      if (imageUrl) {
+        const updateImage = await editUser({
+          ...profile,
+          avatarImageUrl: imageUrl,
+        })
+        if (updateImage.status === 200) {
+          toastSuccess(INFOR_MESSAGE.UPDATED_SUCCESSFULLY)
+          reloadSession()
         }
+      } else {
+        toastError(ERROR_MESSAGE.COMMON_ERROR)
       }
     }
-    this.removeEventListener("click", handleClick);
+    this.removeEventListener('click', handleClick)
   }
 
   const onUploadImage = (event: React.MouseEvent) => {
     const inputFile = document.createElement('input')
-    inputFile.style.display = 'none';
+    inputFile.style.display = 'none'
     inputFile.type = 'file'
     inputFile.accept = 'image/*'
-    document.body.appendChild(inputFile);
+    document.body.appendChild(inputFile)
     inputFile.addEventListener('change', handleClick)
     inputFile.click()
-    document.body.removeChild(inputFile);
+    document.body.removeChild(inputFile)
   }
 
   return (
@@ -173,15 +180,29 @@ export default function ProfileTemplate({
         <TabItem label='Thông tin cá nhân' {...a11yProps(0)} />
         <TabItem label='Mật khẩu' {...a11yProps(1)} />
       </Tabs>
-      <Box component={TabPanel} value={value} index={0} ml={2} sx={{width: '100%'}}>
-        <TitlePost sx={{mb: 2}}>Thông tin cá nhân</TitlePost>
-        <Grid container component='form' onSubmit={handleSubmit(onSubmit)} spacing={2} >
-          <Grid item sm={12} mb={2}>
+      <Box
+        component={TabPanel}
+        value={value}
+        index={0}
+        ml={2}
+        sx={{ width: '100%' }}
+      >
+        <Grid
+          container
+          component='form'
+          onSubmit={handleSubmit(onSubmit)}
+          spacing={2}
+          pt={'0px !important'}
+        >
+          <Grid item sm={12}>
+            <TitlePost>Ảnh đại diện</TitlePost>
+          </Grid>
+          <Grid item sm={12} mb={2} sx={{ py: '0 !important' }}>
             <Badge
-              sx={{ 
+              sx={{
                 width: '200px',
                 margin: 'auto',
-                display: 'block', 
+                display: 'block',
                 '& .MuiBadge-badge': {
                   backgroundColor: 'rgba(255,255,255)',
                   height: 40,
@@ -191,82 +212,122 @@ export default function ProfileTemplate({
                   '&:hover': {
                     cursor: 'pointer',
                     backgroundColor: 'rgba(255,255,255,0.9)',
-                  }
-                }
+                  },
+                },
               }}
               onClick={onUploadImage}
-              overlap="circular"
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right'}}
-              badgeContent={
-                <CameraAltRounded/>
-              }
+              overlap='circular'
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              badgeContent={<CameraAltRounded />}
             >
               <Avatar
                 src={profile.avatarImageUrl?.split('=')[0] || ''}
-                sx={{ width: 200, height: 200, margin: 'auto',boxShadow: boxShadowCard, }}
+                sx={{
+                  width: 200,
+                  height: 200,
+                  margin: 'auto',
+                  boxShadow: boxShadowCard,
+                }}
               />
             </Badge>
           </Grid>
-          {
-            EDIT_USER_FORM.map((item) => {
-              return (
-                <Grid item sm={6} key={item.id} >
-                  <InputLabel required={item.required} htmlFor={item.id}>{item.label}</InputLabel>
-                  <Controller
-                    name={item.id}
-                    control={control}
-                    rules={{required: item.required}}
-                    render={({ field }) => (
-                      <InputField fullWidth id={item.id} {...field} />
-                    )}
-                  />
-                  {errors[item.id] && item.message && (
-                    <Box mt={1}>
-                      <Typography component='span' sx={{ color: primaryColor, fontSize: 16, fontWeight: 500}} role="alert">
-                        {item.message}
-                      </Typography>
-                    </Box>
+          <Grid item sm={12} sx={{ pt: '10px !important' }}>
+            <Divider />
+            <TitlePost sx={{ mt: 2 }}>Thông tin cá nhân</TitlePost>
+          </Grid>
+          {EDIT_USER_FORM.map((item) => {
+            return (
+              <Grid item sm={6} key={item.id}>
+                <InputLabel required={item.required} htmlFor={item.id}>
+                  {item.label}
+                </InputLabel>
+                <Controller
+                  name={item.id}
+                  control={control}
+                  rules={{ required: item.required, ...(item.rules as any) }}
+                  render={({ field }) => (
+                    <InputField
+                      fullWidth
+                      id={item.id}
+                      {...field}
+                      disabled={item.disabled}
+                    />
                   )}
-                </Grid>
-              )
-            })
-          }
+                />
+                {errors[item.id] && item.message && (
+                  <Box mt={1}>
+                    <Typography
+                      component='span'
+                      sx={{
+                        color: primaryColor,
+                        fontSize: 16,
+                        fontWeight: 500,
+                      }}
+                      role='alert'
+                    >
+                      {item.message}
+                    </Typography>
+                  </Box>
+                )}
+              </Grid>
+            )
+          })}
           <Grid item sm={2} mx='auto' mt={2}>
-            <DefaultButton color='primary' type='submit' sx={{width: '100%'}}>
+            <DefaultButton color='primary' type='submit' sx={{ width: '100%' }}>
               Chỉnh sửa
             </DefaultButton>
           </Grid>
         </Grid>
       </Box>
-      <Box component={TabPanel} value={value} index={1} ml={2} sx={{width: '100%'}}>
-        <TitlePost sx={{mb: 2}}>Mật khẩu</TitlePost>
-        <Grid container component='form' onSubmit={() => {}} spacing={2} width='60%'>
-          {
-            EDIT_PASSWORD_FORM.map((item) => {
-              return (
-                <Grid item sm={12} key={item.id} >
-                  <InputLabel required={item.required} htmlFor={item.id}>{item.label}</InputLabel>
-                  <Controller
-                    name={item.id}
-                    control={control}
-                    rules={{required: item.required}}
-                    render={({ field }) => (
-                      <InputField fullWidth id={item.id} {...field} />
-                    )}
-                  />
-                  {errors[item.id] && item.message && (
-                    <Box mt={1}>
-                      <Typography component='span' sx={{ color: primaryColor, fontSize: 16, fontWeight: 500}} role="alert">
-                        {item.message}
-                      </Typography>
-                    </Box>
+      <Box
+        component={TabPanel}
+        value={value}
+        index={1}
+        ml={2}
+        sx={{ width: '100%' }}
+      >
+        <TitlePost sx={{ mb: 2 }}>Mật khẩu</TitlePost>
+        <Grid
+          container
+          component='form'
+          onSubmit={() => {}}
+          spacing={2}
+          width='60%'
+        >
+          {EDIT_PASSWORD_FORM.map((item) => {
+            return (
+              <Grid item sm={12} key={item.id}>
+                <InputLabel required={item.required} htmlFor={item.id}>
+                  {item.label}
+                </InputLabel>
+                <Controller
+                  name={item.id}
+                  control={control}
+                  rules={{ required: item.required }}
+                  render={({ field }) => (
+                    <InputField fullWidth id={item.id} {...field} />
                   )}
-                </Grid>
-              )
-            })
-          }
+                />
+                {errors[item.id] && item.message && (
+                  <Box mt={1}>
+                    <Typography
+                      component='span'
+                      sx={{
+                        color: primaryColor,
+                        fontSize: 16,
+                        fontWeight: 500,
+                      }}
+                      role='alert'
+                    >
+                      {item.message}
+                    </Typography>
+                  </Box>
+                )}
+              </Grid>
+            )
+          })}
           <Grid item sm={3} mx='auto' mt={2}>
-            <DefaultButton color='primary' type='submit' sx={{width: '100%'}}>
+            <DefaultButton color='primary' type='submit' sx={{ width: '100%' }}>
               Chỉnh sửa
             </DefaultButton>
           </Grid>

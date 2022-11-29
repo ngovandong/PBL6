@@ -5,16 +5,18 @@ import dynamic from 'next/dynamic'
 import { Box } from '@mui/system'
 import { IUserProfile } from '@utils/types'
 
-const ProfileTemplate = dynamic(() => import('../common/components/templates/profile/index'), { ssr: false })
+const ProfileTemplate = dynamic(
+  () => import('../common/components/templates/profile'),
+  { ssr: false }
+)
 
 const ProfilePage = ({ profile }: { profile: IUserProfile }) => {
-
-  const {data: session} = useSession();
+  const { data: session } = useSession()
 
   const [user, setUser] = useState<IUserProfile>(profile)
 
   useEffect(() => {
-    if(session?.user) {
+    if (session?.user) {
       setUser(session.user as any)
     }
   }, [session?.user])

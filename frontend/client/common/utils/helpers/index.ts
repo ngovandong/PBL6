@@ -34,6 +34,15 @@ export const renderDefaultValuesForHook = (
 }
 
 export const reloadSession = () => {
-  const event = new Event("visibilitychange");
-  document.dispatchEvent(event);
-};
+  const event = new Event('visibilitychange')
+  document.dispatchEvent(event)
+}
+
+export const trimDataObject = (data: { [key: string]: any }) => {
+  Object.keys(data).forEach((item) => {
+    if (typeof data[item] === 'string') {
+      data[item] = data[item].trim()
+    }
+  })
+  return data
+}
