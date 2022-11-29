@@ -1,5 +1,8 @@
 import { LOCAL_STORAGE } from '@constants/constant'
 import axios from 'axios'
+import https from 'https'
+
+const httpsAgent = new https.Agent({ rejectUnauthorized: false })
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -7,6 +10,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  httpsAgent: httpsAgent,
 })
 
 api.interceptors.request.use(

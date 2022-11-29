@@ -55,7 +55,7 @@ export default NextAuth({
       },
     }),
   ],
-  secret: process.env!.JWT_SECRET,
+  secret: process.env.JWT_SECRET,
 
   // pages: {
   //   signIn: '/auth/signin',
@@ -66,7 +66,7 @@ export default NextAuth({
       return Promise.resolve(true)
     },
     async redirect({ url, baseUrl }) {
-      return url
+      return baseUrl
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (account?.access_token) {
@@ -98,7 +98,22 @@ export default NextAuth({
       if (token?.idToken) {
         session.idToken = token?.idToken
       }
-      session.user = token.user
+      if (token.user?.id) {
+        const idUser = token.user?.id
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/user/${idUser}/user-info`,
+          {
+            httpsAgent: new https.Agent({
+              rejectUnauthorized: false,
+            }),
+          }
+        )
+        if (res.status === 200) {
+          session.user = res.data
+        }
+      } else {
+        session.user = token.user
+      }
       return session
     },
   },

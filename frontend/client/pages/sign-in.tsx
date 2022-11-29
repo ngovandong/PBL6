@@ -21,6 +21,7 @@ import { useRouter } from 'next/router'
 import { MainContext, useUser } from 'common/context'
 import { toastError } from '@utils/notifications'
 import { validateEmail, validatePassword } from '@utils/helpers'
+import { isEmpty } from 'lodash'
 
 const StraightLine = styled('p')({
   width: '90px',
@@ -67,26 +68,20 @@ const SignIn = () => {
   const router = useRouter()
 
   useEffect(() => {
+    if (!isEmpty(state.user)) {
+      router.replace('/')
+    }
     if (session) {
       if (session?.idToken) {
-        authApi
-          .loginGoogle({
-            idToken: session.idToken || '',
-          })
-          .then((res) => {
-            if (res.data?.accessToken) {
-              localStorage.setItem(
-                LOCAL_STORAGE.accessToken,
-                res.data?.accessToken
-              )
-              localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
-              setState({ user: res.data })
-              router.replace('/')
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+        const user: any = session?.user
+        user?.id && localStorage.setItem(LOCAL_STORAGE.idUser, user?.id)
+        user?.accessToken &&
+          localStorage.setItem(
+            LOCAL_STORAGE.accessToken,
+            user?.accessToken || ''
+          )
+        setState({ user: user })
+        router.replace('/')
       } else {
         const user: any = session?.user
         user?.id && localStorage.setItem(LOCAL_STORAGE.idUser, user?.id)
@@ -129,13 +124,12 @@ const SignIn = () => {
     >
       {step === 1 && (
         <>
-          <Box display='flex' flexDirection='column' gap={2}>
+          <Box display='flex' flexDirection='column'>
             <Title
               title='Đăng nhập hoặc tạo tài khoản'
               sx={{ fontSize: '24px', textAlign: 'center' }}
             />
-            <FormGroup>
-              {/* <input name='csrfToken' type='hidden' defaultValue={csrfToken} /> */}
+            <FormGroup sx={{ mt: '16px' }}>
               <InputLabel htmlFor='email' color='primary'>
                 Email
               </InputLabel>
@@ -158,15 +152,27 @@ const SignIn = () => {
                 }}
               />
             </FormGroup>
-            <Typography textAlign={'justify'}>{errors}</Typography>
+            {errors && (
+              <Box my={0}>
+                <Typography
+                  component='span'
+                  sx={{ color: primaryColor, fontSize: 16, fontWeight: 500 }}
+                  role='alert'
+                >
+                  {errors}
+                </Typography>
+              </Box>
+            )}
             <DefaultButton
               color='primary'
               onClick={() => {
                 if (email.trim()) {
                   setStep(2)
+                } else {
+                  setErrors('Trường bắt buộc nhập.')
                 }
               }}
-              sx={{ flexFlow: 1 }}
+              sx={{ flexFlow: 1, mt: '26px', mb: '10px' }}
             >
               Tiếp tục với email
             </DefaultButton>
@@ -235,7 +241,7 @@ const SignIn = () => {
               color='primary'
               sx={{ flexGrow: 1 }}
               onClick={() => {
-                if (errors.length <= 0) {
+                if (!errors) {
                   handleSubmit()
                 }
               }}

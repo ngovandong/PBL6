@@ -16,6 +16,8 @@ import { registerLicense } from '@syncfusion/ej2-base'
 import DefaultLayout from '@components/templates/layout/DefaultLayout'
 
 import 'public/styles/globals.scss'
+import 'react-toastify/dist/ReactToastify.css';
+import Script from 'next/script'
 
 registerLicense(process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE || '')
 
@@ -38,7 +40,7 @@ export default function MyApp(props: MyAppProps) {
     <SessionProvider
       session={session}
       refetchInterval={0}
-      refetchOnWindowFocus={false}
+      refetchOnWindowFocus={true}
     >
       <CacheProvider value={emotionCache}>
         <Head>
@@ -49,6 +51,7 @@ export default function MyApp(props: MyAppProps) {
           <CssBaseline />
           <MainProvider session={session}>
             <DefaultLayout>
+              <Script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"/>
               <Component {...pageProps} />
             </DefaultLayout>
             <ToastContainer
