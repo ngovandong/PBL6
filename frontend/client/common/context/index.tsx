@@ -1,4 +1,4 @@
-import { createContext, useContext, useCallback, useReducer, memo } from 'react'
+import { createContext, useContext, useCallback, useReducer, memo, useEffect } from 'react'
 import { Session } from 'next-auth'
 
 interface IMainState {
@@ -43,25 +43,9 @@ const MainProvider = ({
       user: session?.user || {},
     }
   )
-  // useEffect(() => {
-  //   const idUser = localStorage.getItem(LOCAL_STORAGE.idUser)
-  //   if (idUser) {
-  //     getUserInfor(idUser)
-  //       .then((response) => {
-  //         if (response.data?.email) {
-  //           setState({
-  //             user: response.data,
-  //             isLoadingInit: false,
-  //             isLogged: true,
-  //           })
-  //         }
-  //       })
-  //       .catch(() => {
-  //         setState({ user: {}, isLoadingInit: false, isLogged: false })
-  //         toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
-  //       })
-  //   }
-  // }, [])
+  useEffect(() => {
+    setState({ ...state, user: session?.user || {}})
+  }, [session])
 
   return (
     <MainContext.Provider value={{ state, setState }}>

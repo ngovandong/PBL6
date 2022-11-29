@@ -20,9 +20,11 @@ import { Title, TitlePost } from '@components/atoms/Heading'
 import { Controller, useForm } from 'react-hook-form'
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { reloadSession, renderDefaultValuesForHook } from '@utils/helpers'
-import { EDIT_USER_FORM, EDIT_USER_LABEL } from '@constants/constant'
+import { EDIT_PASSWORD_FORM, EDIT_USER_FORM, EDIT_USER_LABEL } from '@constants/constant'
 import { userApi } from '@utils/api'
 import { toastSuccess } from '@utils/notifications'
+import { InputField } from '@components/atoms/Input/InputField';
+import { editUser } from '@utils/api/user';
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -92,12 +94,11 @@ export default function ProfileTemplate({
     setValue(newValue)
   }
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, formState: { errors }, } = useForm({
     defaultValues: renderDefaultValuesForHook(profile, EDIT_USER_LABEL),
   })
 
   const onSubmit = (data: any) => {
-    console.log(data)
     userApi
       .editUser(data)
       .then((res) => {
@@ -109,6 +110,47 @@ export default function ProfileTemplate({
       .catch((error: any) => {
         console.log(error)
       })
+  }
+
+  async function handleClick(this: HTMLInputElement) {
+    console.log("Changed!");
+    const fileList = this.files
+    if (fileList) {
+      const cloudName = process.env.NEXT_PUBLIC_CLOUD_NAME
+      const uploadPreset = process.env.NEXT_PUBLIC_UPLOAD_PRESET
+      if (cloudName && uploadPreset) {
+        const formData = new FormData()
+        formData.append('file', fileList[0])
+        formData.append('upload_preset', uploadPreset)
+        formData.append('cloud_name', cloudName)
+        try {
+          const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {method: 'POST', body: formData})
+          const data = await res.json()
+          if (data.url) {
+            console.log({...profile, 'avatarImageUrl': data.url})
+            const updateImage = await editUser({...profile, 'avatarImageUrl': data.url})
+            if(updateImage.status === 200) {
+              toastSuccess('Cập nhật thông tin thành công!')
+              reloadSession()
+            }
+          }
+        } catch (error: any) {
+          console.log(error)
+        }
+      }
+    }
+    this.removeEventListener("click", handleClick);
+  }
+
+  const onUploadImage = (event: React.MouseEvent) => {
+    const inputFile = document.createElement('input')
+    inputFile.style.display = 'none';
+    inputFile.type = 'file'
+    inputFile.accept = 'image/*'
+    document.body.appendChild(inputFile);
+    inputFile.addEventListener('change', handleClick)
+    inputFile.click()
+    document.body.removeChild(inputFile);
   }
 
   return (
@@ -126,15 +168,14 @@ export default function ProfileTemplate({
         value={value}
         onChange={handleChange}
         aria-label='Profile Menu'
-        sx={{ borderRight: 1, borderColor: 'divider', width: 300 }}
+        sx={{ borderRight: 1, borderColor: 'divider', minWidth: 250 }}
       >
-        <TabItem label='Chỉnh sửa thông tin' {...a11yProps(0)} />
-        <TabItem label='Item Two' {...a11yProps(1)} />
-        <TabItem label='Item Three' {...a11yProps(2)} />
+        <TabItem label='Thông tin cá nhân' {...a11yProps(0)} />
+        <TabItem label='Mật khẩu' {...a11yProps(1)} />
       </Tabs>
-      <Box component={TabPanel} value={value} index={0}>
-        {/* <TitlePost>Chỉnh sửa thông tin</TitlePost> */}
-        <Grid container component='form' onSubmit={handleSubmit(onSubmit)}>
+      <Box component={TabPanel} value={value} index={0} ml={2} sx={{width: '100%'}}>
+        <TitlePost sx={{mb: 2}}>Thông tin cá nhân</TitlePost>
+        <Grid container component='form' onSubmit={handleSubmit(onSubmit)} spacing={2} >
           <Grid item sm={12} mb={2}>
             <Badge
               sx={{ 
@@ -153,10 +194,11 @@ export default function ProfileTemplate({
                   }
                 }
               }}
+              onClick={onUploadImage}
               overlap="circular"
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right'}}
               badgeContent={
-                <CameraAltRounded />
+                <CameraAltRounded/>
               }
             >
               <Avatar
@@ -168,58 +210,68 @@ export default function ProfileTemplate({
           {
             EDIT_USER_FORM.map((item) => {
               return (
-                <Grid item sm={6} key={item.id}>
-                  <InputLabel htmlFor={item.id}>{item.label}</InputLabel>
+                <Grid item sm={6} key={item.id} >
+                  <InputLabel required={item.required} htmlFor={item.id}>{item.label}</InputLabel>
                   <Controller
                     name={item.id}
                     control={control}
+                    rules={{required: item.required}}
                     render={({ field }) => (
-                      <Input fullWidth id={item.id} {...field} disabled={item.id === 'email'}/>
+                      <InputField fullWidth id={item.id} {...field} />
                     )}
                   />
+                  {errors[item.id] && item.message && (
+                    <Box mt={1}>
+                      <Typography component='span' sx={{ color: primaryColor, fontSize: 16, fontWeight: 500}} role="alert">
+                        {item.message}
+                      </Typography>
+                    </Box>
+                  )}
                 </Grid>
               )
             })
           }
-          {/* <Grid item sm={6}>
-            <InputLabel htmlFor='givenName'>Tên</InputLabel>
-            <Controller
-              name='givenName'
-              control={control}
-              render={({ field }) => (
-                <Input fullWidth id='givenName' {...field} />
-              )}
-            />
-          </Grid> */}
-          {/* <Grid item sm={6}>
-            <InputLabel htmlFor='email'>Email</InputLabel>
-            <Input fullWidth id='email' value={profile.email} disabled />
-          </Grid>
-          <Grid item sm={6}>
-            <InputLabel htmlFor='phoneNumber'>Số điện thoại</InputLabel>
-            <Input fullWidth id='phoneNumber' value={profile.phoneNumber} />
-          </Grid>
-          <Grid item sm={6}>
-            <InputLabel htmlFor='address'>Địa chỉ</InputLabel>
-            <Input fullWidth id='address' value={profile.address} />
-          </Grid>
-          <Grid item sm={6}>
-            <InputLabel htmlFor='country'>Quốc tịch</InputLabel>
-            <Input fullWidth id='country' value={profile.country} />
-          </Grid> */}
-          <Grid item sm={12}>
-            <DefaultButton color='primary' type='submit'>
+          <Grid item sm={2} mx='auto' mt={2}>
+            <DefaultButton color='primary' type='submit' sx={{width: '100%'}}>
               Chỉnh sửa
             </DefaultButton>
           </Grid>
         </Grid>
       </Box>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
+      <Box component={TabPanel} value={value} index={1} ml={2} sx={{width: '100%'}}>
+        <TitlePost sx={{mb: 2}}>Mật khẩu</TitlePost>
+        <Grid container component='form' onSubmit={() => {}} spacing={2} width='60%'>
+          {
+            EDIT_PASSWORD_FORM.map((item) => {
+              return (
+                <Grid item sm={12} key={item.id} >
+                  <InputLabel required={item.required} htmlFor={item.id}>{item.label}</InputLabel>
+                  <Controller
+                    name={item.id}
+                    control={control}
+                    rules={{required: item.required}}
+                    render={({ field }) => (
+                      <InputField fullWidth id={item.id} {...field} />
+                    )}
+                  />
+                  {errors[item.id] && item.message && (
+                    <Box mt={1}>
+                      <Typography component='span' sx={{ color: primaryColor, fontSize: 16, fontWeight: 500}} role="alert">
+                        {item.message}
+                      </Typography>
+                    </Box>
+                  )}
+                </Grid>
+              )
+            })
+          }
+          <Grid item sm={3} mx='auto' mt={2}>
+            <DefaultButton color='primary' type='submit' sx={{width: '100%'}}>
+              Chỉnh sửa
+            </DefaultButton>
+          </Grid>
+        </Grid>
+      </Box>
     </Box>
   )
 }

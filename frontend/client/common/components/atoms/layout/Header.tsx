@@ -5,11 +5,14 @@ import { MainContext } from 'common/context'
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import AuthHeader from './AuthHeader'
+import { useSession } from 'next-auth/react'
 
 export const Header = () => {
   const router = useRouter()
-  const { state } = useContext(MainContext)
-  if (router.pathname !== '/sign-in') return <AuthHeader user={state.user} />
+
+  const {data: session} = useSession()
+
+  if (router.pathname !== '/sign-in') return <AuthHeader user={session?.user || {}} />
   return (
     <AppBar
       position='sticky'

@@ -82,24 +82,6 @@ const SignIn = () => {
           )
         setState({ user: user })
         router.replace('/')
-        // authApi
-        //   .loginGoogle({
-        //     idToken: session.idToken || '',
-        //   })
-        //   .then((res) => {
-        //     if (res.data?.accessToken) {
-        //       localStorage.setItem(
-        //         LOCAL_STORAGE.accessToken,
-        //         res.data?.accessToken
-        //       )
-        //       localStorage.setItem(LOCAL_STORAGE.idUser, res.data?.id)
-        //       setState({ user: res.data })
-        //       router.replace('/')
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     console.log(error)
-        //   })
       } else {
         const user: any = session?.user
         user?.id && localStorage.setItem(LOCAL_STORAGE.idUser, user?.id)
