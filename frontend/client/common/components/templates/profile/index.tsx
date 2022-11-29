@@ -1,11 +1,27 @@
 import * as React from 'react'
-import { Tab, Tabs, Box, Typography, Avatar } from '@mui/material'
+import {
+  Tab,
+  Tabs,
+  Box,
+  Typography,
+  Avatar,
+  FormControl,
+  InputLabel,
+  Input,
+  Grid,
+} from '@mui/material'
 import { IUserProfile } from '@utils/types'
 import { primaryColor } from '@constants/styles'
 import { styled } from '@mui/system'
 import { grey } from '@mui/material/colors'
 import { Title, TitlePost } from '@components/atoms/Heading'
-import Image from 'next/image'
+import { Controller, useForm } from 'react-hook-form'
+import { DefaultButton } from '@components/atoms/Button/DefaultButton'
+import { renderDefaultValuesForHook } from '@utils/helpers'
+import { EDIT_USER_LABEL } from '@constants/constant'
+import { userApi } from '@utils/api'
+import axios from 'axios'
+import { useSession } from 'next-auth/react'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -75,6 +91,23 @@ export default function ProfileTemplate({
     setValue(newValue)
   }
 
+  const { control, handleSubmit } = useForm({
+    defaultValues: renderDefaultValuesForHook(profile, EDIT_USER_LABEL),
+  })
+
+  const onSubmit = (data: any) => {
+    console.log(data)
+    userApi
+      .editUser(data)
+      .then(async (data) => {
+        await axios.get('/api/auth/session?update')
+        console.log(data)
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
+  }
+
   return (
     <Box
       sx={{
@@ -90,19 +123,64 @@ export default function ProfileTemplate({
         value={value}
         onChange={handleChange}
         aria-label='Profile Menu'
-        sx={{ borderRight: 1, borderColor: 'divider', width: 200 }}
+        sx={{ borderRight: 1, borderColor: 'divider', width: 300 }}
       >
         <TabItem label='Chỉnh sửa thông tin' {...a11yProps(0)} />
         <TabItem label='Item Two' {...a11yProps(1)} />
         <TabItem label='Item Three' {...a11yProps(2)} />
       </Tabs>
-      <TabPanel value={value} index={0}>
-        <TitlePost>Chỉnh sửa thông tin</TitlePost>
-        <Avatar
-          src={profile.avatarImageUrl?.split('=')[0] || ''}
-          sx={{ width: 200, height: 200 }}
-        />
-      </TabPanel>
+      <Box component={TabPanel} value={value} index={0}>
+        {/* <TitlePost>Chỉnh sửa thông tin</TitlePost> */}
+        <Grid container component='form' onSubmit={handleSubmit(onSubmit)}>
+          <Grid item sm={12}>
+            <Avatar
+              src={profile.avatarImageUrl?.split('=')[0] || ''}
+              sx={{ width: 200, height: 200, margin: 'auto' }}
+            />
+          </Grid>
+          <Grid item sm={6}>
+            <InputLabel htmlFor='familyName'>Họ</InputLabel>
+            <Controller
+              name='familyName'
+              control={control}
+              render={({ field }) => (
+                <Input fullWidth id='familyName' {...field} />
+              )}
+            />
+          </Grid>
+          <Grid item sm={6}>
+            <InputLabel htmlFor='givenName'>Tên</InputLabel>
+            <Controller
+              name='givenName'
+              control={control}
+              render={({ field }) => (
+                <Input fullWidth id='givenName' {...field} />
+              )}
+            />
+          </Grid>
+          <Grid item sm={6}>
+            <InputLabel htmlFor='email'>Email</InputLabel>
+            <Input fullWidth id='email' value={profile.email} disabled />
+          </Grid>
+          <Grid item sm={6}>
+            <InputLabel htmlFor='phoneNumber'>Số điện thoại</InputLabel>
+            <Input fullWidth id='phoneNumber' value={profile.phoneNumber} />
+          </Grid>
+          <Grid item sm={6}>
+            <InputLabel htmlFor='address'>Địa chỉ</InputLabel>
+            <Input fullWidth id='address' value={profile.address} />
+          </Grid>
+          <Grid item sm={6}>
+            <InputLabel htmlFor='country'>Quốc tịch</InputLabel>
+            <Input fullWidth id='country' value={profile.country} />
+          </Grid>
+          <Grid item sm={12}>
+            <DefaultButton color='primary' type='submit'>
+              Chỉnh sửa
+            </DefaultButton>
+          </Grid>
+        </Grid>
+      </Box>
       <TabPanel value={value} index={1}>
         Item Two
       </TabPanel>

@@ -37,8 +37,8 @@ export default function MyApp(props: MyAppProps) {
   return (
     <SessionProvider
       session={session}
-      refetchInterval={0}
-      refetchOnWindowFocus={false}
+      refetchInterval={30}
+      refetchOnWindowFocus={true}
     >
       <CacheProvider value={emotionCache}>
         <Head>
