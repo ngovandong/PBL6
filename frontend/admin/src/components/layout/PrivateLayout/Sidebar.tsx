@@ -1,4 +1,4 @@
-import { SIDE_BAR } from "../../../constants";
+import { SIDE_BAR } from '@/constants';
 
 const Sidebar = () => {
 	return (
@@ -14,18 +14,18 @@ const Sidebar = () => {
 				<ul
 					className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
 					id="menu">
-					{
-						SIDE_BAR.map((item) => (
-							<li className="nav-item" key={item.name}>
-								<a href={item.path} className="nav-link align-middle px-0">
-									<i className={item.icon || ''}></i>
-									<span className="ms-2 d-none d-sm-inline">
-										{item.name}
-									</span>
-								</a>
-							</li>
-						))
-					}
+					{SIDE_BAR.map((item) => (
+						<li className="nav-item" key={item.name}>
+							<a
+								href={item.path}
+								className="nav-link align-middle px-0">
+								<i className={item.icon || ''}></i>
+								<span className="ms-2 d-none d-sm-inline">
+									{item.name}
+								</span>
+							</a>
+						</li>
+					))}
 				</ul>
 				<br />
 				<div className="dropdown pb-4">
