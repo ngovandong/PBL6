@@ -11,17 +11,21 @@ import SearchInput from 'common/components/atoms/SearchInput'
 import RangePicker from 'common/components/atoms/RangePicker'
 
 import { borderRadiusLarge, primaryColor } from '@constants/styles'
+import { IAddress, ISearchForm } from '@utils/types'
+import { searchApi } from '@utils/api'
+import { isEmpty } from 'lodash'
 
 interface IFormInputs {
-  address: string
+  address: IAddress
   time: any
   number: any
 }
 
 export default function MainFilter() {
+  const searchAdressRef = useRef<{ defaultValue: any }>(null)
   const { handleSubmit, control, register } = useForm<IFormInputs>({
     defaultValues: {
-      address: '',
+      address: {},
       time: [
         new Date(moment().toISOString()),
         new Date(moment().add(1, 'days').toISOString()),
@@ -30,8 +34,26 @@ export default function MainFilter() {
     },
   })
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data: any) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
+    const form: ISearchForm = {
+      SearchText: data.address.placeName || '',
+      SearchType: data.address.placeType || '',
+      DateCheckin: data.time[0]?.toISOString() || '',
+      DateCheckout: data.time[1]?.toISOString() || '',
+      QuantityPerson: data.number[0] || 1,
+    }
+    if (searchAdressRef.current) {
+      if (isEmpty(data.address)) {
+        form.SearchText = searchAdressRef.current.defaultValue?.placeName || ''
+        form.SearchType = searchAdressRef.current.defaultValue?.placeType || ''
+      }
+    }
+    searchApi
+      .searchHotel(form)
+      .then((res) => console.log(res.data))
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   return (
@@ -65,9 +87,10 @@ export default function MainFilter() {
           render={({ field }) => (
             <SearchInput
               inputRef={field.ref}
-              placeholder='Địa điểm, tên khách sạn...'
+              placeholder='Địa điểm, khách sạn...'
               {...field}
-              sx={{ width: 200, ml: 1 }}
+              sx={{ width: 150, ml: 1 }}
+              ref={searchAdressRef}
             />
           )}
         />

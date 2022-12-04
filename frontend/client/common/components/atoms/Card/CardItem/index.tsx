@@ -85,8 +85,7 @@ const CardItem = ({ src, title }: ICard) => {
                       fontSize={18}
                       noWrap
                     >
-                      Căn hộ LuxHomes Saigon – Vinhomes Central Park (LuxHomes
-                      Saigon - Vinhomes Central Park)
+                      {title}
                     </Typography>
                   </Tooltip>
                   <CardTitle>

@@ -22,6 +22,12 @@ api.interceptors.request.use(
         config.headers!.Authorization = `Bearer ${accessToken}`
       }
     }
+    config.transformRequest = [
+      function (data, headers) {
+        console.log(data)
+        return data
+      },
+    ]
 
     return config
   },

@@ -1,11 +1,4 @@
-import {
-  useState,
-  useRef,
-  useImperativeHandle,
-  useEffect,
-  forwardRef,
-  PointerEventHandler,
-} from 'react'
+import { forwardRef } from 'react'
 import { Box, TextField } from '@mui/material'
 import { MomentInput } from 'moment'
 import 'moment/locale/vi'
@@ -17,7 +10,6 @@ import * as timeZoneNames from 'cldr-data/main/vi/timeZoneNames.json'
 import * as numberingSystems from 'cldr-data/supplemental/numberingSystems.json'
 import * as weekData from 'cldr-data/supplemental/weekData.json' //
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames, weekData)
-// export interface IRangePickerProps {}
 
 export interface IRangePickerRef {
   startDate: MomentInput
@@ -52,6 +44,7 @@ const RangePicker = forwardRef<any, any>((props, ref) => {
         min={new Date()}
         showClearButton={false}
         locale='vi'
+        allowEdit={false}
         onChange={(event: any) => {
           if (event?.value) {
             props.onChange(event?.value)

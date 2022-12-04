@@ -46,8 +46,8 @@ const DropdownForm = forwardRef<any, any>((props, ref) => {
         >
           <Box minWidth='fit-content' display='flex' alignItems='center'>
             <p>{formValue[0]} người</p>
-            <Box px={1}>-</Box>
-            <p>{formValue[1]} phòng</p>
+            {/* <Box px={1}>-</Box>
+            <p>{formValue[1]} phòng</p> */}
           </Box>
         </Box>
       </Box>
@@ -82,8 +82,8 @@ const DropdownForm = forwardRef<any, any>((props, ref) => {
             },
           },
         }}
-        transformOrigin={{ horizontal: 'left', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <CustomMenuItem>
           <Box
@@ -130,7 +130,7 @@ const DropdownForm = forwardRef<any, any>((props, ref) => {
             </Box>
           </Box>
         </CustomMenuItem>
-        <CustomMenuItem>
+        {/* <CustomMenuItem>
           <Box
             sx={{
               display: 'flex',
@@ -174,7 +174,7 @@ const DropdownForm = forwardRef<any, any>((props, ref) => {
               </IconButton>
             </Box>
           </Box>
-        </CustomMenuItem>
+        </CustomMenuItem> */}
       </Menu>
     </React.Fragment>
   )
