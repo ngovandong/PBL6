@@ -1,18 +1,19 @@
 import { useRouter } from 'next/router'
 import { memo, useContext } from 'react'
-import { MainContext } from 'common/context'
+import { useSession } from 'next-auth/react'
+import { ParsedUrlQuery } from 'querystring'
 
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import AuthHeader from './AuthHeader'
-import { useSession } from 'next-auth/react'
 
-export const Header = () => {
+
+export const Header = ({searchQuery}: {searchQuery: ParsedUrlQuery}) => {
   const router = useRouter()
 
   const {data: session} = useSession()
 
-  if (router.pathname !== '/sign-in') return <AuthHeader user={session?.user || {}} />
+  if (router.pathname !== '/sign-in') return <AuthHeader user={session?.user || {}} searchQuery={searchQuery}/>
   return (
     <AppBar
       position='sticky'

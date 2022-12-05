@@ -18,6 +18,7 @@ import DefaultLayout from '@components/templates/layout/DefaultLayout'
 import 'public/styles/globals.scss'
 import 'react-toastify/dist/ReactToastify.css';
 import Script from 'next/script'
+import { ParsedUrlQuery } from 'querystring'
 
 registerLicense(process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE || '')
 
@@ -27,6 +28,7 @@ const clientSideEmotionCache = createEmotionCache()
 interface MyAppProps extends AppProps<{ session: Session }> {
   emotionCache?: EmotionCache
   session: Session
+  searchQuery: ParsedUrlQuery
 }
 
 export default function MyApp(props: MyAppProps) {
@@ -35,6 +37,7 @@ export default function MyApp(props: MyAppProps) {
     emotionCache = clientSideEmotionCache,
     pageProps,
     session,
+    searchQuery
   } = props
   return (
     <SessionProvider
@@ -50,7 +53,7 @@ export default function MyApp(props: MyAppProps) {
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <MainProvider session={session}>
-            <DefaultLayout>
+            <DefaultLayout searchQuery={searchQuery}>
               <Script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"/>
               <Component {...pageProps} />
             </DefaultLayout>
@@ -77,5 +80,6 @@ MyApp.getInitialProps = async (context: AppContext) => {
   return {
     ...appProps,
     session,
+    searchQuery: context.router.query
   }
 }

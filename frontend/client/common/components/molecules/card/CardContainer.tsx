@@ -6,7 +6,7 @@ const CardContainer = (props: { hotels: ICardItem[] | null }) => {
   return (
     <Grid container rowSpacing={2} columnSpacing={1} width='100%' margin='auto'>
       {props.hotels?.map((hotel: ICardItem) => (
-        <CardItem src={hotel.avatarImage} title={hotel.name} />
+        <CardItem src={hotel.avatarImage} title={hotel.name} key={hotel.id}/>
       ))}
     </Grid>
   )

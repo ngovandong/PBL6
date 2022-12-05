@@ -1,8 +1,10 @@
+import { useRouter, withRouter } from 'next/router'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import moment from 'moment'
 import 'moment/locale/vi'
+import { isEmpty } from 'lodash'
 
 import { Box, IconButton } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
@@ -13,7 +15,8 @@ import RangePicker from 'common/components/atoms/RangePicker'
 import { borderRadiusLarge, primaryColor } from '@constants/styles'
 import { IAddress, ISearchForm } from '@utils/types'
 import { searchApi } from '@utils/api'
-import { isEmpty } from 'lodash'
+import { ParsedUrlQuery } from 'querystring'
+
 
 interface IFormInputs {
   address: IAddress
@@ -21,21 +24,23 @@ interface IFormInputs {
   number: any
 }
 
-export default function MainFilter() {
+export default function MainFilter({searchQuery}: {searchQuery: ParsedUrlQuery}) {
+  const router = useRouter();
   const searchAdressRef = useRef<{ defaultValue: any }>(null)
+
   const { handleSubmit, control, register } = useForm<IFormInputs>({
     defaultValues: {
       address: {},
       time: [
-        new Date(moment().toISOString()),
-        new Date(moment().add(1, 'days').toISOString()),
+        new Date(searchQuery?.DateCheckin as string ?? moment().toISOString()),
+        new Date(searchQuery?.DateCheckout as string ?? moment().add(1, 'days').toISOString()),
       ],
-      number: [1, 1],
+      number: [Number(searchQuery?.QuantityPerson) || 1, 1],
     },
   })
 
   const onSubmit: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
-    const form: ISearchForm = {
+    const form = {
       SearchText: data.address.placeName || '',
       SearchType: data.address.placeType || '',
       DateCheckin: data.time[0]?.toISOString() || '',
@@ -48,12 +53,12 @@ export default function MainFilter() {
         form.SearchType = searchAdressRef.current.defaultValue?.placeType || ''
       }
     }
-    searchApi
-      .searchHotel(form)
-      .then((res) => console.log(res.data))
-      .catch((error) => {
-        console.log(error)
-      })
+    // router.push(`/search/[[...query]]`, {pathname: 'search', query: {...form}}, {shallow: true})
+    // router.push({pathname: 'search', search: new URLSearchParams(form).toString()})
+    router.push({
+      pathname: '/search/[[...query]]',
+      query: {...form},
+    })
   }
 
   return (
@@ -91,6 +96,7 @@ export default function MainFilter() {
               {...field}
               sx={{ width: 150, ml: 1 }}
               ref={searchAdressRef}
+              textSearch={searchQuery.SearchText || ''}
             />
           )}
         />
