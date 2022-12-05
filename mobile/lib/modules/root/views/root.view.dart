@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
@@ -16,8 +14,6 @@ class RootScreen extends GetWidget<RootController> {
 
   @override
   Widget build(BuildContext context) {
-    log('RootScreen build');
-
     return Scaffold(
       body: Obx(
         () => LazyIndexedStack(

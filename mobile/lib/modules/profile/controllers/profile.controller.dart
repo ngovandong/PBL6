@@ -30,7 +30,7 @@ class ProfileController extends GetxController {
 
   @override
   void onClose() async {
-    _closeProfileEventBus();
+    await _closeProfileEventBus();
   }
 
   late RxList<List<SettingItemUI>> settingItems;
@@ -114,6 +114,6 @@ class ProfileController extends GetxController {
   }
 
   Future<void> _closeProfileEventBus() async {
-    _profileEventBusSubscription?.cancel();
+    await _profileEventBusSubscription?.cancel();
   }
 }

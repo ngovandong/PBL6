@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/constants/ui_configs.dart';
@@ -102,8 +100,6 @@ class _AppDatePickerState extends State<AppDatePicker> {
       setState(() {
         isValidate = dateRangeValue.endDate != null;
       });
-
-      log(isValidate.toString());
     } else {
       setStartAndEndDate((dateRangeValue as DateTime), null);
     }

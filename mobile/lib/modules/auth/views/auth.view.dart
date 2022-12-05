@@ -37,7 +37,7 @@ class AuthView extends GetView<AuthController> {
             ),
             child: Column(
               children: [
-                Assets.icons.app.appIcon.svg(),
+                Assets.icons.app.appIconSvg.svg(),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 40.h),
                   child: Align(

@@ -54,6 +54,8 @@ dependencies:
   dropdown_button2: ^1.9.1
   syncfusion_flutter_sliders: ^20.3.58
   badges: ^2.0.3
+  readmore: ^2.2.0
+  lottie: ^2.0.0
 
   flutter_localizations:
     sdk: flutter
@@ -117,6 +119,7 @@ flutter:
     - assets/images/snackbar/
     - assets/images/background/
     - assets/locales/
+    - assets/lotties/
     - assets/secure/
 
   # An image asset can refer to one or more resolution-specific "variants", see
