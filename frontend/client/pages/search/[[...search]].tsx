@@ -16,32 +16,31 @@ const SearchPage: NextPage = (props: any) => {
         <title>Ready Booking | Tìm kiếm</title>
         <meta name='description' content='Ready Booking' />
       </Head>
-      <SearchTemplate data={props?.data?.hostSearches}/>
+      <SearchTemplate
+        data={props?.data?.hostSearches}
+        total={props?.data?.totalResult}
+      />
     </div>
   )
 }
 
 SearchPage.getInitialProps = async (context) => {
-  const {
-    query,
-    asPath,
-    req,
-    res,
-} = context;
+  const { query, asPath, req, res } = context
   let data = {}
-  if(!isEmpty(query)) {
-    data = await searchApi.searchHotel( query)
-    .then((res) => res.data)
-    .catch((error) => {
-      console.log(error)
-      return {}
-    })
+  if (!isEmpty(query)) {
+    data = await searchApi
+      .searchHotel(query)
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error)
+        return {}
+      })
   }
-  
-  return { 
-    searchQuery: query || {}, 
-    data: data
- }
+
+  return {
+    searchQuery: query || {},
+    data: data,
+  }
 }
 
 export default SearchPage

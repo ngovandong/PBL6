@@ -8,3 +8,6 @@ export const searchHotel = (body: any) =>
 
 export const searchHotelProvince = (body: any) =>
   api.get('search/host-view', { params: { ...body } })
+
+export const getDetailHotel = (body: any) =>
+  api.get('search/host-search/detail', { params: { ...body } })

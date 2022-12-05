@@ -18,11 +18,12 @@ import { isNumber, uniqueId } from 'lodash'
 const CardSearch = (props: any) => {
   const router = useRouter()
 
-  const {data} = props
+  const { data } = props
 
   return (
     <Box
       maxWidth='100%'
+      maxHeight='250px'
       display='flex'
       width='880px'
       gap={2}
@@ -43,28 +44,47 @@ const CardSearch = (props: any) => {
         width={200}
         height={200}
         style={{ margin: 'auto' }}
-        alt="Booking"
+        alt='Booking'
       />
-      <Box sx={{ flex: 1, mx: 1, position: 'relative' }}>
+      <Box
+        sx={{
+          flex: 1,
+          mx: 1,
+          position: 'relative',
+          maxHeight: '100%',
+        }}
+      >
         <Box display='flex'>
           <Box display='block' width='75%'>
             <Link href='/'>
-              <TitleLink>
-                {data.name}
-              </TitleLink>
+              <TitleLink>{data.name}</TitleLink>
             </Link>
-            <Box sx={{ ml: 1, mt: 0, display: 'inline-flex', placeContent: 'center' }}>
+            <Box
+              sx={{
+                ml: 1,
+                mt: 0,
+                display: 'inline-flex',
+                placeContent: 'center',
+              }}
+            >
               <Tooltip title='Đánh giá sao này do chỗ nghỉ cung cấp cho Booking.com và thường được quyết định bởi một tổ chức đánh giá khách sạn chính thức hoặc một bên thứ ba khác.'>
                 <span>
-                  {isNumber(data?.ratingStar) && Array.from(Array(data?.ratingStar).keys()).map((item) => (
-                    <StarPurple500Outlined color='warning' key={data.id + '_' + uniqueId()} sx={{position: 'relative', top: '3px'}}/>
-                  ))}
+                  {isNumber(data?.ratingStar) &&
+                    Array.from(Array(data?.ratingStar).keys()).map((item) => (
+                      <StarPurple500Outlined
+                        color='warning'
+                        key={data.id + '_' + uniqueId()}
+                        sx={{ position: 'relative', top: '3px' }}
+                      />
+                    ))}
                 </span>
               </Tooltip>
             </Box>
           </Box>
           <Box sx={{ ml: 'auto', display: 'flex' }}>
-            <Typography sx={{ mt: 1, mx: 1 }}>{`${data?.quantityFeedBack || 0} đánh giá`}</Typography>
+            <Typography sx={{ mt: 1, mx: 1 }}>{`${
+              data?.quantityFeedBack || 0
+            } đánh giá`}</Typography>
             <Box
               p={1}
               height='fit-content'
@@ -81,7 +101,7 @@ const CardSearch = (props: any) => {
             <ContentLink>{`${data?.address}, ${data?.province}, ${data?.country}`}</ContentLink>
           </Link>
         </div>
-        <Box display='flex'>
+        <Box display='flex' maxHeight={120}>
           <Box
             sx={{
               width: '60%',
@@ -89,6 +109,11 @@ const CardSearch = (props: any) => {
               pl: 2,
               mt: 1,
               fontSize: 14,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              // display: '-webkit-box' /* number of lines to show */,
+              // lineClamp: 2,
+              WebkitLineClamp: 2,
             }}
           >
             {data?.description}

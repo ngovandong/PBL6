@@ -17,23 +17,31 @@ import { IAddress, ISearchForm } from '@utils/types'
 import { searchApi } from '@utils/api'
 import { ParsedUrlQuery } from 'querystring'
 
-
 interface IFormInputs {
   address: IAddress
   time: any
   number: any
 }
 
-export default function MainFilter({searchQuery}: {searchQuery: ParsedUrlQuery}) {
-  const router = useRouter();
+export default function MainFilter({
+  searchQuery,
+}: {
+  searchQuery: ParsedUrlQuery
+}) {
+  const router = useRouter()
   const searchAdressRef = useRef<{ defaultValue: any }>(null)
 
   const { handleSubmit, control, register } = useForm<IFormInputs>({
     defaultValues: {
       address: {},
       time: [
-        new Date(searchQuery?.DateCheckin as string ?? moment().toISOString()),
-        new Date(searchQuery?.DateCheckout as string ?? moment().add(1, 'days').toISOString()),
+        new Date(
+          (searchQuery?.DateCheckin as string) ?? moment().toISOString()
+        ),
+        new Date(
+          (searchQuery?.DateCheckout as string) ??
+            moment().add(1, 'days').toISOString()
+        ),
       ],
       number: [Number(searchQuery?.QuantityPerson) || 1, 1],
     },
@@ -42,7 +50,7 @@ export default function MainFilter({searchQuery}: {searchQuery: ParsedUrlQuery})
   const onSubmit: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
     const form = {
       SearchText: data.address.placeName || '',
-      SearchType: data.address.placeType || '',
+      SearchType: data.address.placeType || 'location',
       DateCheckin: data.time[0]?.toISOString() || '',
       DateCheckout: data.time[1]?.toISOString() || '',
       QuantityPerson: data.number[0] || 1,
@@ -55,17 +63,17 @@ export default function MainFilter({searchQuery}: {searchQuery: ParsedUrlQuery})
     }
     // router.push(`/search/[[...query]]`, {pathname: 'search', query: {...form}}, {shallow: true})
     // router.push({pathname: 'search', search: new URLSearchParams(form).toString()})
-    if(router.pathname.includes('search')) {
-      router.query = form;
-      router.push(router);
+    if (router.pathname.includes('search')) {
+      router.query = form
+      router.push(router)
     } else {
       router.push(
-        '/search/[[...query]]', 
+        '/search/[[...query]]',
         {
           pathname: '/search',
-          query: {...form},
+          query: { ...form },
         },
-        {shallow: true},
+        { shallow: true }
       )
     }
   }
