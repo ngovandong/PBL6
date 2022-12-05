@@ -8,8 +8,8 @@ import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/app_icon_button.widget.dart';
 import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
-import 'package:mobile/modules/home/widgets/home/home_search_box.widget.dart';
-import 'package:mobile/modules/home/widgets/home/top_destinations/list_top_destinations.widget.dart';
+import 'package:mobile/modules/home/widgets/search_box/search_box.widget.dart';
+import 'package:mobile/modules/home/widgets/top_destinations/list_top_destinations.widget.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);

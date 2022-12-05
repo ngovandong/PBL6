@@ -11,7 +11,7 @@ class SplashView extends GetView<WelcomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Assets.icons.app.appIcon.svg(
+        child: Assets.icons.app.appIconSvg.svg(
           width: 100.w,
           height: 100.h,
         ),
