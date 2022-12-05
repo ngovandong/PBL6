@@ -13,11 +13,12 @@ const SearchTemplate = (props: any) => {
         <Grid item sm={4}>
           <LeftFilter />
         </Grid>
-        <Grid item sm={8}>
-          <CardSearch />
-          <CardSearch />
-          <CardSearch />
-        </Grid>
+        {props.data?.map((item: any) => (
+          <Grid item sm={8} key={item.id}>
+            <CardSearch data={item}/>
+          </Grid>
+          ))
+        }
       </Grid>
     </Box>
   )

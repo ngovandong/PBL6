@@ -13,9 +13,12 @@ import {
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { useRouter } from 'next/router'
 import { ContentLink, TitleLink } from '@components/atoms/Heading'
+import { isNumber, uniqueId } from 'lodash'
 
 const CardSearch = (props: any) => {
   const router = useRouter()
+
+  const {data} = props
 
   return (
     <Box
@@ -36,9 +39,7 @@ const CardSearch = (props: any) => {
       }}
     >
       <Image
-        src={
-          'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-        }
+        src={data?.avatarImage || ''}
         width={200}
         height={200}
         style={{ margin: 'auto' }}
@@ -49,21 +50,21 @@ const CardSearch = (props: any) => {
           <Box display='block' width='75%'>
             <Link href='/'>
               <TitleLink>
-                Koi Resort & Spa Hoi An Koi Resort & Spa Hoi An
+                {data.name}
               </TitleLink>
             </Link>
-            <Box sx={{ ml: 1, mt: 'auto', display: 'inline-block' }}>
+            <Box sx={{ ml: 1, mt: 0, display: 'inline-flex', placeContent: 'center' }}>
               <Tooltip title='Đánh giá sao này do chỗ nghỉ cung cấp cho Booking.com và thường được quyết định bởi một tổ chức đánh giá khách sạn chính thức hoặc một bên thứ ba khác.'>
                 <span>
-                  {Array.from(Array(5).keys()).map((item) => (
-                    <StarPurple500Outlined color='warning' key='1' />
+                  {isNumber(data?.ratingStar) && Array.from(Array(data?.ratingStar).keys()).map((item) => (
+                    <StarPurple500Outlined color='warning' key={data.id + '_' + uniqueId()} sx={{position: 'relative', top: '3px'}}/>
                   ))}
                 </span>
               </Tooltip>
             </Box>
           </Box>
           <Box sx={{ ml: 'auto', display: 'flex' }}>
-            <Typography sx={{ mt: 1, mx: 1 }}>125 đánh giá</Typography>
+            <Typography sx={{ mt: 1, mx: 1 }}>{`${data?.quantityFeedBack || 0} đánh giá`}</Typography>
             <Box
               p={1}
               height='fit-content'
@@ -71,13 +72,13 @@ const CardSearch = (props: any) => {
               color={lightColor}
               borderRadius={'6px'}
             >
-              8,7
+              {data?.ratingFeedBack || 0}
             </Box>
           </Box>
         </Box>
         <div>
-          <Link href='/'>
-            <ContentLink>Cửa Đại, Hội An</ContentLink>
+          <Link href={`/post/${data.id}`}>
+            <ContentLink>{`${data?.address}, ${data?.province}, ${data?.country}`}</ContentLink>
           </Link>
         </div>
         <Box display='flex'>
@@ -90,10 +91,7 @@ const CardSearch = (props: any) => {
               fontSize: 14,
             }}
           >
-            Phòng 2 Giường Đơn Nhìn Ra Hồ Bơi 2 giường đơn Miễn Phí hủy phòng •
-            Không cần thanh toán trước Bạn có thể hủy sau, nên hãy đặt ngay hôm
-            nay để có giá tốt. Chỉ còn 1 phòng với giá này trên trang của chúng
-            tôi
+            {data?.description}
           </Box>
           <Box ml='auto' mt='auto' width='max-content' textAlign='right'>
             <Typography color='error' sx={{ fontSize: 18, fontWeight: 700 }}>
@@ -105,7 +103,7 @@ const CardSearch = (props: any) => {
             <DefaultButton
               color='primary'
               sx={{ mt: 1 }}
-              onClick={() => router.push('/')}
+              onClick={() => router.push(`/post/${data.id}`)}
             >
               Xem chi tiết
             </DefaultButton>

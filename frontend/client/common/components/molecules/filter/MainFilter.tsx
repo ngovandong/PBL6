@@ -55,10 +55,19 @@ export default function MainFilter({searchQuery}: {searchQuery: ParsedUrlQuery})
     }
     // router.push(`/search/[[...query]]`, {pathname: 'search', query: {...form}}, {shallow: true})
     // router.push({pathname: 'search', search: new URLSearchParams(form).toString()})
-    router.push({
-      pathname: '/search/[[...query]]',
-      query: {...form},
-    })
+    if(router.pathname.includes('search')) {
+      router.query = form;
+      router.push(router);
+    } else {
+      router.push(
+        '/search/[[...query]]', 
+        {
+          pathname: '/search',
+          query: {...form},
+        },
+        {shallow: true},
+      )
+    }
   }
 
   return (
