@@ -36,10 +36,10 @@ export default function MainFilter({
       address: {},
       time: [
         new Date(
-          (searchQuery?.DateCheckin as string) ?? moment().toISOString()
+          (searchQuery?.DateCheckin as string) || moment().toISOString()
         ),
         new Date(
-          (searchQuery?.DateCheckout as string) ??
+          (searchQuery?.DateCheckout as string) ||
             moment().add(1, 'days').toISOString()
         ),
       ],
@@ -51,8 +51,8 @@ export default function MainFilter({
     const form = {
       SearchText: data.address.placeName || '',
       SearchType: data.address.placeType || 'location',
-      DateCheckin: data.time[0]?.toISOString() || '',
-      DateCheckout: data.time[1]?.toISOString() || '',
+      DateCheckin: data.time[0]?.toISOString().split('T')[0] || '',
+      DateCheckout: data.time[1]?.toISOString().split('T')[0] || '',
       QuantityPerson: data.number[0] || 1,
     }
     if (searchAdressRef.current) {

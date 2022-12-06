@@ -10,80 +10,58 @@ import TableRow from '@mui/material/TableRow';
 import { Typography } from '@mui/material';
 import { DefaultButton } from '@components/atoms/Button/DefaultButton';
 import { Box } from '@mui/system';
+import { TitleLink } from '@components/atoms/Heading';
 
 interface Column {
-  id: 'name' | 'code' | 'population' | 'size' | 'density';
+  id: 'name' | 'price' | 'room' | 'size' | 'density';
   label: string;
   minWidth?: number;
   align?: 'right';
-  format?: (value: number) => string;
+  format?: () => string;
 }
 
 const columns: readonly Column[] = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+  { id: 'name', label: 'Loại chỗ nghỉ', minWidth: 170 },
   {
-    id: 'population',
-    label: 'Population',
+    id: 'price',
+    label: 'Giá phòng',
     minWidth: 170,
     align: 'right',
-    format: (value: number) => value.toLocaleString('en-US'),
+    // format: (value: number) => value,
   },
   {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
+    id: 'room',
+    label: 'Tiện ích phòng',
     minWidth: 170,
     align: 'right',
-    format: (value: number) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toFixed(2),
+    // format: (value: number) => value,
   },
 ];
 
-interface Data {
-  name: string;
-  code: string;
-  population: number;
-  size: number;
-  density: number;
+interface rows {
+  name: any;
+  price: string;
+  room: any;
 }
 
-function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number,
-): Data {
-  const density = population / size;
-  return { name, code, population, size, density };
+const createData = (data: any) => {
+  console.log(data)
+  return {
+    name: (<Box>
+        <Typography fontSize={14} fontWeight='700'>{data.name}</Typography>
+        <Box component='ul'>
+          <li>Mô tả: {data.description ?? ''}</li>
+          <li>Loại: {data.accommodationType ?? ''}</li>
+        </Box>
+      </Box>),
+    price: data.price,
+    room: <></>
+  }
 }
 
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
-];
-
-export default function TableRoom() {
+export default function TableRoom({data}: any) {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -93,6 +71,8 @@ export default function TableRoom() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const rows = data?.map((item: any) => createData(item));
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -119,8 +99,8 @@ export default function TableRoom() {
           </TableHead>
           <TableBody>
             {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, rowIndex) => {
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row: any, rowIndex: number) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {columns.map((column, columnIndex) => {
@@ -157,7 +137,7 @@ export default function TableRoom() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={rows?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

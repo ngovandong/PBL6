@@ -6,7 +6,7 @@ import ImageContainer from '@components/molecules/image'
 import TableRoom from '@components/molecules/table'
 import { activeLinkColor, lightColor } from '@constants/styles'
 import { ProgressBarHorizontal } from '@components/atoms/Progress'
-import { isNumber } from 'lodash'
+import { isNumber, uniqueId } from 'lodash'
 import { AMENITIES } from '@constants/constant'
 
 const PostDetailTemplate = ({ data }: any) => {
@@ -39,18 +39,28 @@ const PostDetailTemplate = ({ data }: any) => {
           <Typography fontSize={18} fontWeight='700' mb={1}>
             Mô tả
           </Typography>
-          <Typography sx={{ fontSize: 14, whiteSpace: 'pre-wrap' }}>
+          <Typography sx={{ fontSize: 16, whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
             {data.description}
           </Typography>
         </Box>
         <Box sx={{ my: 1 }}>
-          <Typography fontSize={18} fontWeight='700'>
+          <Typography fontSize={18} fontWeight='700' mb={1}>
+            Dịch vụ khách sạn
+          </Typography>
+          <Box component='ul' py={0} my={0}>
+            {data?.parkingLot && <li>Bãi đỗ xe: {data?.parkingLotFee?.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</li>}
+            {data?.breakfast && <li>Phục vụ bữa sáng: {data?.breakfastFee?.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</li>}
+            {data?.breakfast && <li>Phục vụ bữa sáng: {data?.breakfastFee?.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</li>}
+          </Box>
+        </Box>
+        <Box sx={{ my: 1 }}>
+          <Typography fontSize={18} fontWeight='700' mb={1}>
             Tiện nghi khách sạn
           </Typography>
-          {data.utilities.map((item: string) => {
-            const element = AMENITIES.find((element) => element.code === item)
+          {data.utilities?.map((item: string) => {
+            const element = AMENITIES.find((element: any) => element.code === item)
             return (
-              <Typography component='span' sx={{ px: 1 }}>
+              <Typography component='span' sx={{ px: 1 }} key={item + uniqueId()}>
                 <i className={element?.icon} style={{ padding: '5px' }} />
                 {element?.label}
               </Typography>
@@ -58,13 +68,13 @@ const PostDetailTemplate = ({ data }: any) => {
           })}
         </Box>
         <Box sx={{ my: 1 }}>
-          <Typography fontSize={18} fontWeight='700'>
+          <Typography fontSize={18} fontWeight='700' mb={1}>
             Các tiện nghi được ưa chuộng nhất
           </Typography>
-          {data.outstandingUtilities.map((item: string) => {
-            const element = AMENITIES.find((element) => element.code === item)
+          {data.outstandingUtilities?.map((item: string) => {
+            const element = AMENITIES.find((element: any) => element.code === item)
             return (
-              <Typography component='span' sx={{ px: 1 }}>
+              <Typography component='span' sx={{ px: 1 }} key={item + uniqueId()}>
                 <i className={element?.icon} style={{ padding: '5px' }} />
                 {element?.label}
               </Typography>
@@ -79,7 +89,12 @@ const PostDetailTemplate = ({ data }: any) => {
             Danh sách phòng trống
           </Typography>
         </Box>
-        <TableRoom />
+        <Box sx={{ my: 1 }}>
+          <Typography fontSize={14}>
+            Thời gian check-in: {data?.timeCheckin || ''} - Thời gian check-out: {data?.timeCheckout || ''}
+          </Typography>
+        </Box>
+        <TableRoom data={data.accommodationSearches} />
       </Box>
       <Box sx={{ my: 2 }}>
         <Box sx={{ my: 1 }}>

@@ -8,8 +8,6 @@ import { useEffect } from 'react'
 
 const SearchPage: NextPage = (props: any) => {
   const router = useRouter()
-  console.log('update', props.data)
-
   return (
     <div>
       <Head>

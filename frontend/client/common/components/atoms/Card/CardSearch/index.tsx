@@ -17,8 +17,8 @@ import { isNumber, uniqueId } from 'lodash'
 
 const CardSearch = (props: any) => {
   const router = useRouter()
-
   const { data } = props
+  const query = router.query
 
   return (
     <Box
@@ -56,7 +56,7 @@ const CardSearch = (props: any) => {
       >
         <Box display='flex'>
           <Box display='block' width='75%'>
-            <Link href='/'>
+            <Link href={`/post/${data.id}?DateCheckin=${query.DateCheckin}&DateCheckout=${query.DateCheckout}&QuantityPerson=${query.QuantityPerson}`}>
               <TitleLink>{data.name}</TitleLink>
             </Link>
             <Box
@@ -86,18 +86,20 @@ const CardSearch = (props: any) => {
               data?.quantityFeedBack || 0
             } đánh giá`}</Typography>
             <Box
-              p={1}
+              py={1}
               height='fit-content'
               bgcolor={activeLinkColor}
               color={lightColor}
               borderRadius={'6px'}
+              width={38}
+              textAlign='center'
             >
               {data?.ratingFeedBack || 0}
             </Box>
           </Box>
         </Box>
         <div>
-          <Link href={`/post/${data.id}`}>
+          <Link href={`/post/${data.id}?DateCheckin=${query.DateCheckin}&DateCheckout=${query.DateCheckout}&QuantityPerson=${query.QuantityPerson}`}>
             <ContentLink>{`${data?.address}, ${data?.province}, ${data?.country}`}</ContentLink>
           </Link>
         </div>
@@ -119,16 +121,16 @@ const CardSearch = (props: any) => {
             {data?.description}
           </Box>
           <Box ml='auto' mt='auto' width='max-content' textAlign='right'>
-            <Typography color='error' sx={{ fontSize: 18, fontWeight: 700 }}>
-              VND 443.040
-            </Typography>
             <Typography sx={{ fontSize: 14, color: 'gray' }}>
-              Đã bao gồm thuế và phí
+              Giá thấp nhất chỉ từ
+            </Typography>
+            <Typography color='error' sx={{ fontSize: 18, fontWeight: 700 }}>
+              {data.accommodationSearches?.length > 0 && Math.min(...data.accommodationSearches?.map((o : any) => o.price)).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}
             </Typography>
             <DefaultButton
               color='primary'
               sx={{ mt: 1 }}
-              onClick={() => router.push(`/post/${data.id}`)}
+              onClick={() => router.push(`/post/${data.id}?DateCheckin=${query.DateCheckin}&DateCheckout=${query.DateCheckout}&QuantityPerson=${query.QuantityPerson}`)}
             >
               Xem chi tiết
             </DefaultButton>

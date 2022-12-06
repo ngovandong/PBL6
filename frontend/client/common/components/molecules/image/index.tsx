@@ -17,18 +17,18 @@ import { useState } from 'react'
 
 const ImageContainer = ({
   images = [],
+  alt = 'Ready Booking',
   width = '100%',
   height = 600,
-  alt = 'Ready Booking',
 }: {
   images?: string[]
+  alt?: string
   width?: number | string
   height?: number | string
-  alt?: string
+  
 }) => {
   const [open, setOpen] = useState(false)
   const [current, setCurrent] = useState<number>(0)
-  console.log(images)
   return (
     <Box position='relative'>
       <ImageList
