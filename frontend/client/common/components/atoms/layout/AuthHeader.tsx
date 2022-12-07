@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { useRouter } from 'next/router'
 import { isEmpty } from 'lodash'
+import { ParsedUrlQuery } from 'querystring'
 
 import UserMenu from '../UserMenu'
 import { MainFilter } from '@components/molecules/filter'
@@ -9,7 +10,8 @@ import { DefaultButton } from '../Button/DefaultButton'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { borderRadiusLarge } from '@constants/styles'
 
-export const AuthHeader = ({ user }: any) => {
+
+export const AuthHeader = ({ user, searchQuery }: {user: any, searchQuery: ParsedUrlQuery}) => {
   const router = useRouter()
 
   return (
@@ -56,7 +58,7 @@ export const AuthHeader = ({ user }: any) => {
               ReadyBooking
             </Typography>
           </Box>
-          <MainFilter />
+          <MainFilter searchQuery={searchQuery}/>
           <Box
             sx={{
               display: 'flex',

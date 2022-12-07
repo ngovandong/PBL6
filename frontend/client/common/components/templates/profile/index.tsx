@@ -129,7 +129,6 @@ export default function ProfileTemplate({
   }
 
   async function handleClick(this: HTMLInputElement) {
-    console.log('Changed!')
     const fileList = this.files
     if (fileList) {
       const imageUrl = await uploadImageCloudinary(fileList[0])

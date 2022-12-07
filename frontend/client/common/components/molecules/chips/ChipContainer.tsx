@@ -1,31 +1,29 @@
 import ChipItem from '@components/atoms/Chip/ChipItem'
+import { provinces } from '@constants/data'
 import { Stack } from '@mui/material'
-import { MouseEventHandler, useState } from 'react'
+import React, {
+  MouseEventHandler,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react'
 
-const dump = [
-  {
-    name: 'Hà Nội',
-    id: 'Hà Nội',
-  },
-  {
-    name: 'TP Hồ Chí Minh',
-    id: 'TP Hồ Chí Minh',
-  },
-  {
-    name: 'Đà Nẵng',
-    id: 'Đà Nẵng',
-  },
-  {
-    name: 'Hội An',
-    id: 'Hội An',
-  },
-]
-
-const ChipContainer = () => {
-  const [selectedItem, setSelectedItem] = useState<string>('Hà Nội')
+const ChipContainer = React.forwardRef<
+  { selectedProvince: string },
+  { province: string; updateHotels?: () => void }
+>((props, ref) => {
+  const [selectedItem, setSelectedItem] = useState<string>(props.province)
   const onFilter = (id: string) => {
     setSelectedItem(id)
   }
+
+  useImperativeHandle(ref, () => ({
+    selectedProvince: selectedItem,
+  }))
+
+  useEffect(() => {
+    props.updateHotels && props.updateHotels()
+  }, [selectedItem])
 
   return (
     <Stack
@@ -37,7 +35,7 @@ const ChipContainer = () => {
       mt={2}
       mb={1}
     >
-      {dump.map((item) => (
+      {provinces.map((item) => (
         <ChipItem
           label={item.name}
           key={`${item.id}-list-chip`}
@@ -47,6 +45,6 @@ const ChipContainer = () => {
       ))}
     </Stack>
   )
-}
+})
 
 export default ChipContainer

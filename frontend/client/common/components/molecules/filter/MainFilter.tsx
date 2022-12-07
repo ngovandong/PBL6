@@ -1,8 +1,10 @@
+import { useRouter, withRouter } from 'next/router'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import moment from 'moment'
 import 'moment/locale/vi'
+import { isEmpty } from 'lodash'
 
 import { Box, IconButton } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
@@ -11,27 +13,74 @@ import SearchInput from 'common/components/atoms/SearchInput'
 import RangePicker from 'common/components/atoms/RangePicker'
 
 import { borderRadiusLarge, primaryColor } from '@constants/styles'
+import { IAddress, ISearchForm } from '@utils/types'
+import { searchApi } from '@utils/api'
+import { ParsedUrlQuery } from 'querystring'
 
 interface IFormInputs {
-  address: string
+  address: IAddress
   time: any
   number: any
 }
 
-export default function MainFilter() {
+export default function MainFilter({
+  searchQuery,
+}: {
+  searchQuery: ParsedUrlQuery
+}) {
+  const router = useRouter()
+  const searchAdressRef = useRef<{ defaultValue: any }>(null)
+  const [query, setQuery] = useState<ParsedUrlQuery>()
+
+  useEffect(() => {
+    setQuery(router?.query)
+  }, [router])
+
   const { handleSubmit, control, register } = useForm<IFormInputs>({
     defaultValues: {
-      address: '',
+      address: {},
       time: [
-        new Date(moment().toISOString()),
-        new Date(moment().add(1, 'days').toISOString()),
+        new Date(
+          (searchQuery?.DateCheckin as string) || moment().toISOString()
+        ),
+        new Date(
+          (searchQuery?.DateCheckout as string) ||
+            moment().add(1, 'days').toISOString()
+        ),
       ],
-      number: [1, 1],
+      number: [Number(searchQuery?.QuantityPerson) || 1, 1],
     },
   })
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data: any) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
+    const form = {
+      SearchText: query?.SearchText ?? data.address.placeName ?? '',
+      SearchType: data.address.placeType || 'location',
+      DateCheckin: data.time[0]?.toISOString().split('T')[0] || '',
+      DateCheckout: data.time[1]?.toISOString().split('T')[0] || '',
+      QuantityPerson: data.number[0] || 1,
+    }
+    if (searchAdressRef.current) {
+      if (isEmpty(data.address)) {
+        form.SearchText = searchAdressRef.current.defaultValue?.placeName || ''
+        form.SearchType = searchAdressRef.current.defaultValue?.placeType || ''
+      }
+    }
+    // router.push(`/search/[[...query]]`, {pathname: 'search', query: {...form}}, {shallow: true})
+    // router.push({pathname: 'search', search: new URLSearchParams(form).toString()})
+    if (router.pathname.includes('search')) {
+      router.query = form
+      router.push(router)
+    } else {
+      router.push(
+        '/search/[[...query]]',
+        {
+          pathname: '/search',
+          query: { ...form },
+        },
+        { shallow: true }
+      )
+    }
   }
 
   return (
@@ -65,9 +114,11 @@ export default function MainFilter() {
           render={({ field }) => (
             <SearchInput
               inputRef={field.ref}
-              placeholder='Địa điểm, tên khách sạn...'
+              placeholder='Địa điểm, khách sạn...'
               {...field}
-              sx={{ width: 200, ml: 1 }}
+              sx={{ width: 150, ml: 1 }}
+              ref={searchAdressRef}
+              textSearch={searchQuery.SearchText || ''}
             />
           )}
         />

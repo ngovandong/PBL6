@@ -4,11 +4,11 @@ import { Header } from 'common/components/atoms/layout/Header'
 
 import { useRouter } from 'next/router'
 
-const DefaultLayout = ({ children }: any) => {
+const DefaultLayout = ({ searchQuery, children }: any) => {
   const route = useRouter()
   return (
     <div>
-      <Header />
+      <Header searchQuery={searchQuery}/>
       <Box
         sx={{
           margin: '30px auto',

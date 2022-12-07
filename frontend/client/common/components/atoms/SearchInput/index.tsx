@@ -1,76 +1,91 @@
-import * as React from 'react'
-
+/* eslint-disable react/display-name */
+import React, { startTransition, useImperativeHandle } from 'react'
 import { Autocomplete, Input, Popper, PopperProps } from '@mui/material'
+import { searchApi } from '@utils/api'
+import { debounce, isEmpty } from 'lodash'
+import { IAddress } from '@utils/types'
 
-interface FilmOptionType {
-  inputValue?: string
-  title: string
-  year?: number
-}
+const SearchInput = React.forwardRef<{ defaultValue: any }, any>(
+  (props: any, ref) => {
+    const [value, setValue] = React.useState<IAddress | null>(null)
+    const [textSearch, setTextSearch] = React.useState<string>('Hà')
+    const [options, setOptions] = React.useState<IAddress[]>([])
 
-const top100Films: readonly FilmOptionType[] = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-  {
-    title: 'The Lord of the Rings: The Return of the King',
-    year: 2003,
-  },
-]
+    useImperativeHandle(ref, () => ({
+      defaultValue: !isEmpty(options) ? options[0] : {},
+    }))
 
-const SearchInput = React.forwardRef((props: any, ref) => {
-  const [value, setValue] = React.useState<string | null>(null)
+    React.useEffect(() => {
+      setOptions([])
+      searchApi
+        .getAddress({ textSearch: textSearch })
+        .then((res) => {
+          setOptions(res.data)
+        })
+        .catch((error) => {
+          console.log(error.data)
+        })
+    }, [textSearch])
 
-  // const CustomPopper = function (props: PopperProps) {
-  //   return (
-  //     <Popper
-  //       {...props}
-  //       style={{
-  //         width: 300,
-  //       }}
-  //       placement='bottom-start'
-  //     />
-  //   )
-  // }
+    React.useEffect(() => {
+      searchApi
+        .getAddress({ textSearch: props.textSearch })
+        .then((res) => {
+          if (res.data[0]) setValue(res.data[0])
+        })
+        .catch((error) => {
+          console.log(error.data)
+        })
+    }, [])
 
-  return (
-    <Autocomplete
-      disableClearable
-      componentsProps={{
-        paper: {
-          sx: {
-            width: 300,
-            mt: 2,
-            borderRadius: 2,
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+    return (
+      <Autocomplete
+        componentsProps={{
+          paper: {
+            sx: {
+              width: 200,
+              mt: 2,
+              borderRadius: 2,
+              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            },
           },
-        },
-      }}
-      options={top100Films.map((option) => option.title)}
-      onChange={(event, value) => props.onChange(value)}
-      selectOnFocus
-      clearOnBlur
-      handleHomeEndKeys
-      // PopperComponent={CustomPopper}
-      renderInput={(params) => (
-        <div ref={params.InputProps.ref}>
-          <Input
-            type='text'
-            value={value}
-            placeholder={props.placeholder}
-            inputProps={{ ...params.inputProps }}
-            ref={props.inputRef}
-            disableUnderline
-            sx={props.sx}
-          />
-        </div>
-      )}
-    />
-  )
-})
+        }}
+        filterSelectedOptions={false}
+        value={value as any}
+        options={options}
+        onChange={(_, newValue) => {
+          props.onChange(newValue)
+          setValue(newValue)
+        }}
+        getOptionLabel={(option: IAddress) => option.placeName}
+        renderOption={(props, option) => (
+          <li {...props} id={option.id}>
+            {option.placeName}
+          </li>
+        )}
+        filterOptions={(options) => options}
+        loadingText='Đang tải...'
+        disableClearable
+        handleHomeEndKeys
+        loading={true}
+        selectOnFocus
+        renderInput={(params) => (
+          <div ref={params.InputProps.ref}>
+            <Input
+              type='text'
+              placeholder={props.placeholder}
+              inputProps={{ ...params.inputProps }}
+              disableUnderline
+              sx={props.sx}
+              onChange={(event) => {
+                startTransition(() => setTextSearch(event.currentTarget.value))
+              }}
+            />
+          </div>
+        )}
+      />
+    )
+  }
+)
 
 export default SearchInput
