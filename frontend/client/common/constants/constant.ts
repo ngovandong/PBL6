@@ -124,7 +124,7 @@ export const AMENITIES = [
 ]
 
 export const BED_TYPE = [
-  { label: '1 giường đơn', code: '1s' },
-  { label: '1 giường đơn, 1 giuờng đôi', code: '1s1d' },
-  { label: '2 giờng đơn', code: '2d' },
+  { label: '1 giường đơn', code: '1s', icon: ['fas fa-bed']},
+  { label: '1 giường đơn, 1 giuờng đôi', code: '1s1d', icon: ["fas fa-bed","fas fa-bed-alt"]},
+  { label: '2 giuờng đơn', code: '2d', icon: ["fas fa-bed", "fas fa-bed"] },
 ]
