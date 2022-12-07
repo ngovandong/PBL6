@@ -41,4 +41,5 @@ export interface ICardItem {
   country: string
   avatarImage: string
   ratingFeedBack: number
+  priceStandard: number
 }

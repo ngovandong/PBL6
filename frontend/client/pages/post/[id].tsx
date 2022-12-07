@@ -2,19 +2,31 @@ import PostDetailTemplate from '@components/templates/post'
 import { searchApi } from '@utils/api'
 import { isEmpty } from 'lodash'
 import { NextPageContext } from 'next'
+import Head from 'next/head'
 
 const PostDetail = (props: any) => {
-  console.log(props.data)
-
-  return <PostDetailTemplate data={props.data} />
+  return (
+    <div>
+      <Head>
+        <title>{`Ready Booking | ${props.data.name}`}</title>
+        <meta name='description' content='Ready Booking' />
+      </Head>
+      <PostDetailTemplate data={props.data} />
+    </div>
+  )
 }
 
 PostDetail.getInitialProps = async (context: NextPageContext) => {
   const id = context.query.id
-  
+
   let data = {}
 
-  const body = { Id: id , DateCheckin: context.query?.DateCheckin || '', DateCheckout: context.query?.DateCheckout || '', QuantityPerson: context.query?.QuantityPerson || 1}
+  const body = {
+    Id: id,
+    DateCheckin: context.query?.DateCheckin || '',
+    DateCheckout: context.query?.DateCheckout || '',
+    QuantityPerson: context.query?.QuantityPerson || 1,
+  }
 
   if (id) {
     try {
@@ -25,7 +37,7 @@ PostDetail.getInitialProps = async (context: NextPageContext) => {
   }
 
   if (isEmpty(data)) {
-    context.res?.writeHead(302, {Location: '/'})
+    context.res?.writeHead(302, { Location: '/' })
     context.res?.end()
   }
 

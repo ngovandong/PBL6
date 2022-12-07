@@ -8,11 +8,12 @@ import { searchHotelProvince } from '@utils/api/search'
 import { provinces } from '@constants/data'
 
 const Home: NextPage = (props: any) => {
+  console.log(props.hotels)
   return (
     <div className={styles.container}>
       <Head>
-        <title>Travel World</title>
-        <meta name='description' content='Travel World' />
+        <title>Ready Booking | Trang chủ</title>
+        <meta name='description' content='Ready Booking' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <HomeTemplate hotels={props.hotels} province={props.province} />

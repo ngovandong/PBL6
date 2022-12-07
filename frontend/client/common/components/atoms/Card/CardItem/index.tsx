@@ -4,15 +4,25 @@ import Link from 'next/link'
 import styled from '@emotion/styled'
 import { Typography, Grid, Tooltip, IconButton } from '@mui/material'
 import { Box } from '@mui/system'
-import { borderRadius } from '@constants/styles'
+import { activeLinkColor, borderRadius, lightColor } from '@constants/styles'
 
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import PaidIcon from '@mui/icons-material/Paid'
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
+import { isNumber } from 'lodash'
+import { StarPurple500Outlined } from '@mui/icons-material'
+import moment from 'moment'
 
 interface ICard {
+  id: string
   src: string
   title: string
+  province: string
+  ratingStar: number
+  country: string
+  hostType: string
+  ratingFeedback: number
+  priceStandard: number
 }
 
 const CardContainer = styled('div')`
@@ -61,11 +71,26 @@ const ButtonFavorite = styled(IconButton)`
   background: transparent;
 `
 
-const CardItem = ({ src, title }: ICard) => {
+const CardItem = ({
+  id,
+  src,
+  title,
+  province,
+  country,
+  priceStandard,
+  ratingStar,
+  ratingFeedback,
+}: ICard) => {
   return (
     <Grid item xs={3}>
       <CardContainer>
-        <Link href={''}>
+        <Link
+          href={`/post/${id}?SearchText=${province}&DateCheckin=${
+            moment().toISOString().split('T')[0]
+          }&DateCheckout=${
+            moment().add(1, 'days').toISOString().split('T')[0]
+          }&QuantityPerson=1`}
+        >
           <a>
             <div>
               <ButtonFavorite>
@@ -74,10 +99,7 @@ const CardItem = ({ src, title }: ICard) => {
               <CardImage src={src} alt={title} width={300} height={240} />
               <Box>
                 <Box>
-                  <Tooltip
-                    title='
-                    Căn hộ LuxHomes Saigon – Vinhomes Central Park (LuxHomes Saigon - Vinhomes Central Park)'
-                  >
+                  <Tooltip title={title}>
                     <Typography
                       fontWeight={700}
                       textOverflow='ellipsis'
@@ -88,15 +110,38 @@ const CardItem = ({ src, title }: ICard) => {
                       {title}
                     </Typography>
                   </Tooltip>
+                </Box>
+                <Box
+                  sx={{
+                    mt: 'auto',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Tooltip title='Đánh giá sao này do chỗ nghỉ cung cấp cho Booking.com và thường được quyết định bởi một tổ chức đánh giá khách sạn chính thức hoặc một bên thứ ba khác.'>
+                    <span>
+                      {isNumber(ratingStar) &&
+                        Array.from(Array(ratingStar).keys()).map((item) => (
+                          <StarPurple500Outlined color='warning' key='1' />
+                        ))}
+                    </span>
+                  </Tooltip>
+                </Box>
+                <Box>
                   <CardTitle>
                     <LocationOnIcon />
-                    Hà Nội
+                    {province} - {country}
                   </CardTitle>
                 </Box>
                 <Box>
                   <CardTitle>
                     <PaidIcon />
-                    VNĐ 3000000
+                    Giá thấp nhất chỉ từ -{' '}
+                    {priceStandard.toLocaleString('it-IT', {
+                      style: 'currency',
+                      currency: 'VND',
+                    })}
                   </CardTitle>
                 </Box>
               </Box>

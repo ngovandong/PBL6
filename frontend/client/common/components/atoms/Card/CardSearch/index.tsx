@@ -56,7 +56,9 @@ const CardSearch = (props: any) => {
       >
         <Box display='flex'>
           <Box display='block' width='75%'>
-            <Link href={`/post/${data.id}?DateCheckin=${query.DateCheckin}&DateCheckout=${query.DateCheckout}&QuantityPerson=${query.QuantityPerson}`}>
+            <Link
+              href={`/post/${data.id}?DateCheckin=${query.DateCheckin}&DateCheckout=${query.DateCheckout}&QuantityPerson=${query.QuantityPerson}`}
+            >
               <TitleLink>{data.name}</TitleLink>
             </Link>
             <Box
@@ -99,38 +101,57 @@ const CardSearch = (props: any) => {
           </Box>
         </Box>
         <div>
-          <Link href={`/post/${data.id}?DateCheckin=${query.DateCheckin}&DateCheckout=${query.DateCheckout}&QuantityPerson=${query.QuantityPerson}`}>
+          <Link
+            href={`/post/${data.id}?DateCheckin=${query.DateCheckin}&DateCheckout=${query.DateCheckout}&QuantityPerson=${query.QuantityPerson}`}
+          >
             <ContentLink>{`${data?.address}, ${data?.province}, ${data?.country}`}</ContentLink>
           </Link>
         </div>
-        <Box display='flex' maxHeight={120}>
+        <Box width={'100%'} display='flex'>
           <Box
             sx={{
-              width: '60%',
+              maxWidth: '70%',
               borderLeft: '2px solid rgba(0,0,0,0.09)',
               pl: 2,
-              mt: 1,
-              fontSize: 14,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              // display: '-webkit-box' /* number of lines to show */,
-              // lineClamp: 2,
-              WebkitLineClamp: 2,
+              mt: 2,
+              mr: 1,
             }}
           >
-            {data?.description}
+            <Typography
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                '-webkit-line-clamp': '6',
+                '-webkit-box-orient': 'vertical',
+                fontSize: 14,
+              }}
+            >
+              {data?.description}
+            </Typography>
           </Box>
+
           <Box ml='auto' mt='auto' width='max-content' textAlign='right'>
             <Typography sx={{ fontSize: 14, color: 'gray' }}>
               Giá thấp nhất chỉ từ
             </Typography>
             <Typography color='error' sx={{ fontSize: 18, fontWeight: 700 }}>
-              {data.accommodationSearches?.length > 0 && Math.min(...data.accommodationSearches?.map((o : any) => o.price)).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}
+              {data.accommodationSearches?.length > 0 &&
+                Math.min(
+                  ...data.accommodationSearches?.map((o: any) => o.price)
+                ).toLocaleString('it-IT', {
+                  style: 'currency',
+                  currency: 'VND',
+                })}
             </Typography>
             <DefaultButton
               color='primary'
               sx={{ mt: 1 }}
-              onClick={() => router.push(`/post/${data.id}?DateCheckin=${query.DateCheckin}&DateCheckout=${query.DateCheckout}&QuantityPerson=${query.QuantityPerson}`)}
+              onClick={() =>
+                router.push(
+                  `/post/${data.id}?DateCheckin=${query.DateCheckin}&DateCheckout=${query.DateCheckout}&QuantityPerson=${query.QuantityPerson}`
+                )
+              }
             >
               Xem chi tiết
             </DefaultButton>

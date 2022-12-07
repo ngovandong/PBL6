@@ -1,6 +1,6 @@
 import { useRouter, withRouter } from 'next/router'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import moment from 'moment'
 import 'moment/locale/vi'
@@ -30,6 +30,11 @@ export default function MainFilter({
 }) {
   const router = useRouter()
   const searchAdressRef = useRef<{ defaultValue: any }>(null)
+  const [query, setQuery] = useState<ParsedUrlQuery>()
+
+  useEffect(() => {
+    setQuery(router?.query)
+  }, [router])
 
   const { handleSubmit, control, register } = useForm<IFormInputs>({
     defaultValues: {
@@ -49,7 +54,7 @@ export default function MainFilter({
 
   const onSubmit: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
     const form = {
-      SearchText: data.address.placeName || '',
+      SearchText: query?.SearchText ?? data.address.placeName ?? '',
       SearchType: data.address.placeType || 'location',
       DateCheckin: data.time[0]?.toISOString().split('T')[0] || '',
       DateCheckout: data.time[1]?.toISOString().split('T')[0] || '',

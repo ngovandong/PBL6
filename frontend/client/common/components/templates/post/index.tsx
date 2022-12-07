@@ -39,7 +39,9 @@ const PostDetailTemplate = ({ data }: any) => {
           <Typography fontSize={18} fontWeight='700' mb={1}>
             Mô tả
           </Typography>
-          <Typography sx={{ fontSize: 16, whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
+          <Typography
+            sx={{ fontSize: 16, whiteSpace: 'pre-wrap', lineHeight: 1.6 }}
+          >
             {data.description}
           </Typography>
         </Box>
@@ -48,9 +50,24 @@ const PostDetailTemplate = ({ data }: any) => {
             Dịch vụ khách sạn
           </Typography>
           <Box component='ul' py={0} my={0}>
-            {data?.parkingLot && <li>Bãi đỗ xe: {data?.parkingLotFee?.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</li>}
-            {data?.breakfast && <li>Phục vụ bữa sáng: {data?.breakfastFee?.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</li>}
-            {data?.breakfast && <li>Phục vụ bữa sáng: {data?.breakfastFee?.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</li>}
+            {data?.parkingLot && (
+              <li>
+                Bãi đỗ xe:{' '}
+                {data?.parkingLotFee?.toLocaleString('it-IT', {
+                  style: 'currency',
+                  currency: 'VND',
+                })}
+              </li>
+            )}
+            {data?.breakfast && (
+              <li>
+                Phục vụ bữa sáng:{' '}
+                {data?.breakfastFee?.toLocaleString('it-IT', {
+                  style: 'currency',
+                  currency: 'VND',
+                })}
+              </li>
+            )}
           </Box>
         </Box>
         <Box sx={{ my: 1 }}>
@@ -58,9 +75,15 @@ const PostDetailTemplate = ({ data }: any) => {
             Tiện nghi khách sạn
           </Typography>
           {data.utilities?.map((item: string) => {
-            const element = AMENITIES.find((element: any) => element.code === item)
+            const element = AMENITIES.find(
+              (element: any) => element.code === item
+            )
             return (
-              <Typography component='span' sx={{ px: 1 }} key={item + uniqueId()}>
+              <Typography
+                component='span'
+                sx={{ px: 1 }}
+                key={item + uniqueId()}
+              >
                 <i className={element?.icon} style={{ padding: '5px' }} />
                 {element?.label}
               </Typography>
@@ -72,9 +95,15 @@ const PostDetailTemplate = ({ data }: any) => {
             Các tiện nghi được ưa chuộng nhất
           </Typography>
           {data.outstandingUtilities?.map((item: string) => {
-            const element = AMENITIES.find((element: any) => element.code === item)
+            const element = AMENITIES.find(
+              (element: any) => element.code === item
+            )
             return (
-              <Typography component='span' sx={{ px: 1 }} key={item + uniqueId()}>
+              <Typography
+                component='span'
+                sx={{ px: 1 }}
+                key={item + uniqueId()}
+              >
                 <i className={element?.icon} style={{ padding: '5px' }} />
                 {element?.label}
               </Typography>
@@ -89,9 +118,12 @@ const PostDetailTemplate = ({ data }: any) => {
             Danh sách phòng trống
           </Typography>
         </Box>
-        <Box sx={{ my: 1 }}>
-          <Typography fontSize={14}>
-            Thời gian check-in: {data?.timeCheckin || ''} - Thời gian check-out: {data?.timeCheckout || ''}
+        <Box sx={{ mt: 1, mb: 2 }}>
+          <Typography fontSize={14} fontWeight={500} color='error'>
+            <i>
+              Thời gian check-in: {data?.timeCheckin || ''} - Thời gian
+              check-out: {data?.timeCheckout || ''}
+            </i>
           </Typography>
         </Box>
         <TableRoom data={data.accommodationSearches} />

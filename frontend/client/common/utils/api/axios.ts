@@ -24,7 +24,6 @@ api.interceptors.request.use(
     }
     config.transformRequest = [
       function (data, headers) {
-        console.log(data)
         return data
       },
     ]
