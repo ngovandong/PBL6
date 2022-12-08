@@ -1,10 +1,13 @@
 import 'package:get/get.dart';
-import 'package:mobile/modules/base/controllers/auth.controller.dart';
+import 'package:mobile/common/router/route_manager.dart';
+import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 
 class WelcomeController extends GetxController {
-  final AuthController authController;
+  final VerifyAuthController verifyAuthController;
 
-  WelcomeController({required this.authController});
+  WelcomeController({
+    required this.verifyAuthController,
+  });
 
   @override
   Future<void> onInit() async {
@@ -13,7 +16,8 @@ class WelcomeController extends GetxController {
   }
 
   Future<void> initSplash() async {
-    await Future.delayed(const Duration(milliseconds: 700));
-    await authController.verifyUser();
+    await Future.delayed(const Duration(milliseconds: 400));
+    await verifyAuthController.verifyUserAuth();
+    Get.offAllNamed(RouteManager.root);
   }
 }

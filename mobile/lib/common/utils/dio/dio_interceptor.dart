@@ -12,7 +12,6 @@ class DioInterceptor extends Interceptor {
       AuthorizationUtil.header,
     );
 
-    // options.headers
     return handler.next(options);
   }
 
@@ -21,7 +20,8 @@ class DioInterceptor extends Interceptor {
     log(
       'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
     );
-    return super.onResponse(response, handler);
+
+    return handler.next(response);
   }
 
   @override
@@ -29,6 +29,7 @@ class DioInterceptor extends Interceptor {
     log(
       'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}',
     );
-    return super.onError(err, handler);
+
+    return handler.next(err);
   }
 }

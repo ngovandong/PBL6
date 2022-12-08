@@ -1,0 +1,16 @@
+# netlify.toml
+
+[build]
+  command = "cp ./ ./frontend/host && npm run build"
+  publish = "dist/my-project"
+  environment = {
+    REACT_APP_BASE_URL = "https://3d-shoe.azurewebsites.net/",
+    REACT_APP_GOOGLE_API_KEY="AIzaSyCNp0T1AXbKrdQ91F6SuEihgnOLXK0J1nU",
+    REACT_APP_CLOUD_NAME="dfg9ahd5v",
+    REACT_APP_UPLOAD_PRESET="qsu2t4xz",
+  }
+
+[context.staging] # “staging” is a branch name
+  command = "npm run dev"
+  base = "staging"
+  environment = { SOME_KEY = "t0te5Important5tuff" }

@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter Prod",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main_prod.dart",
+      "flutterMode": "debug",
+      "args": ["--flavor", "prod", "--enable-software-rendering"]
+
+      // "cwd": "build/app/outputs/flutter-apk",
+    },
+    {
+      "name": "Flutter Dev",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main_dev.dart",
+      "flutterMode": "debug",
+      "args": ["--flavor", "dev", "--enable-software-rendering"]
+    }
+  ]
+}

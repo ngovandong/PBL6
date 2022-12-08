@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/extensions/datetime.extension.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
@@ -73,14 +74,14 @@ class _AppDatePickerState extends State<AppDatePicker> {
 
   void setStartAndEndDate(DateTime startDate, DateTime? endDate) {
     if (widget.isPickRange) {
-      startDateTextController.text = startDate.toShowUIDate();
+      startDateTextController.text = startDate.toDisplayDate;
       if (endDate == null) {
         endDateTextController.text = '';
       } else {
-        endDateTextController.text = endDate.toShowUIDate();
+        endDateTextController.text = endDate.toDisplayDate;
       }
     } else {
-      startDateTextController.text = startDate.toShowUIDate();
+      startDateTextController.text = startDate.toDisplayDate;
       endDateTextController.text = '';
     }
   }
@@ -109,7 +110,6 @@ class _AppDatePickerState extends State<AppDatePicker> {
     return Container(
       height: Get.height / 1.6,
       color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         children: [
           Expanded(
@@ -151,11 +151,14 @@ class _AppDatePickerState extends State<AppDatePicker> {
               onSelectionChanged: onSelectionChanged,
             ),
           ),
-          SizedBox(
-            height: 180,
-            width: Get.width - 50,
+          const SizedBox(
+            height: 15,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: UIConfigs.horizontalPadding,
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 widget.isPickRange
                     ? SizedBox(
@@ -228,6 +231,9 @@ class _AppDatePickerState extends State<AppDatePicker> {
                         ),
                       )
                     : const SizedBox(),
+                const SizedBox(
+                  height: 15,
+                ),
                 AppRoundedButton(
                   onPressed: () {
                     if (widget.isPickRange) {
@@ -244,7 +250,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
                   content: 'Chọn ngày',
                   fontSize: 15,
                   showShadow: false,
-                  height: 40,
+                  height: 45,
                   backgroundColor: Palette.blue400,
                   isDisable: !isValidate,
                 )

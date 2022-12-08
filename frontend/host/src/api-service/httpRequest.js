@@ -1,17 +1,17 @@
 import axios from 'axios';
 import store from '../app/store'
-import { setToken, logout } from '../app/store/authSlice';
+// import { setAccount, logout } from '../app/store/authSlice';
 
-const getCurrentToken = () =>
+const getCurrentAccount = () =>
 {
-    return store.getState().auth.token;
+    return store.getState().auth.account;
 }
 const appendHeader = (request) =>
 {
-    const token = getCurrentToken()
-    if (token) {
-        const { access } = token;
-        request.headers["Authorization"] = `Bearer ${access}`;
+    const account = getCurrentAccount()
+    if (account) {
+        const { accessToken } = account;
+        request.headers["Authorization"] = `Bearer ${accessToken}`;
     }
     return request
 }
@@ -24,25 +24,25 @@ const appendSlash = (request) =>
     return request;
 }
 
-let refresh = false
+// let refresh = false
 
-const refreshToken = async (error) =>
-{
-    const token = getCurrentToken()
-    if (error.response?.status === 401 && !refresh && token) {
-        refresh = true;
-        try {
-            const { _, data } = await axios.post('api/token/refresh/', { refresh: token.refresh });
-            store.dispatch(setToken(data))
-            console.log(error.config.headers["Authorization"] = `Bearer ${data.access}`)
-            return axios(error.config);
-        } catch {
-            store.dispatch(logout())
-        }
-    }
-    refresh = false;
-    return error;
-}
+// const refreshToken = async (error) =>
+// {
+//     const account = getCurrentAccount()
+//     if (error.response?.status === 401 && !refresh && account) {
+//         refresh = true;
+//         try {
+//             const { _, data } = await axios.post('api/token/refresh/', { refresh: account.refresh });
+//             store.dispatch(setToken(data))
+//             console.log(error.config.headers["Authorization"] = `Bearer ${data.access}`)
+//             return axios(error.config);
+//         } catch {
+//             store.dispatch(logout())
+//         }
+//     }
+//     refresh = false;
+//     return error;
+// }
 
 
 
@@ -58,8 +58,8 @@ request.interceptors.request.use(
     appendSlash
 )
 
-request.interceptors.response.use(
-    res => res, refreshToken
-)
+// request.interceptors.response.use(
+//     res => res, refreshToken
+// )
 
 export { request }
