@@ -9,9 +9,8 @@ pipeline {
       }
     }
 
-    stage('Checkout code') {
+    stage('prepare env') {
       steps {
-        git(url: 'https://github.com/ngovandong/PBL6', branch: 'develop', credentialsId: 'fc608e6f-8abe-43ea-84ac-a0fd55f44cbf')
         sh '''cd ./frontend/host
               echo "REACT_APP_BASE_URL=$REACT_APP_BASE_URL
               REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY
@@ -20,10 +19,18 @@ pipeline {
       }
     }
 
-    stage('build image') {
+    stage('build host') {
       steps {
         sh '''cd frontend/host
             docker build -t pbl6host .
+            '''
+      }
+    }
+    stage('build client') {
+      steps {
+        sh '''cd frontend/client
+            cp .env.local.example .env
+            docker build -t pbl6client .
             '''
       }
     }
@@ -33,7 +40,9 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'e97b3f57-3660-4723-857c-c3729635f960', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]){
             sh '''docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
                 docker tag pbl6host:latest ngovandong/pbl6host:latest
-                docker push ngovandong/pbl6host:latest'''
+                docker push ngovandong/pbl6host:latest
+                docker tag pbl6client:latest ngovandong/pbl6client:latest
+                docker push ngovandong/pbl6client:latest'''
             }
       }
     }
@@ -41,7 +50,9 @@ pipeline {
     stage('Delete image') {
       steps {
         sh '''docker image rm pbl6host
-              docker image rm ngovandong/pbl6host'''
+              docker image rm ngovandong/pbl6host
+              docker image rm pbl6client
+              docker image rm ngovandong/pbl6client'''
       }
     }
 
