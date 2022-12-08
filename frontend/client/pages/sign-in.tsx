@@ -63,7 +63,7 @@ const SignIn = () => {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState('')
   const [step, setStep] = useState(1)
-  const { data: session } = useSession()
+  const { data: session } : any = useSession()
   const { state, setState } = useContext(MainContext)
   const router = useRouter()
 

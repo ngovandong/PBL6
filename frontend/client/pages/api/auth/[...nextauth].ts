@@ -94,7 +94,7 @@ export default NextAuth({
       }
       return token
     },
-    async session({ session, token, user }) {
+    async session({ session, token, user } : any) {
       if (token?.idToken) {
         session.idToken = token?.idToken
       }

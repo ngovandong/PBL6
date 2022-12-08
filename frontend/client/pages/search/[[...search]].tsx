@@ -25,7 +25,6 @@ const SearchPage: NextPage = (props: any) => {
 SearchPage.getInitialProps = async (context) => {
   const { query, asPath, req, res } = context
   let data = {}
-  console.log(query)
   if (!isEmpty(query)) {
     data = await searchApi
       .searchHotel(query)

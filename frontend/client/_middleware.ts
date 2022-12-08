@@ -1,16 +1,15 @@
 import { getSession } from 'next-auth/react'
-import { NextFetchEvent, NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { IncomingMessage } from 'http'
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 
 // This function can be marked `async` if using `await` inside
-export async function middleware(req: NextRequest, ev: NextFetchEvent) {
+export async function middleware(req: NextRequest) {
   const requestForNextAuth = {
     headers: {
       cookie: req.headers.get('cookie'),
     },
   }
-  const session = await getSession({ req: requestForNextAuth })
+  
+  const session = await getSession({ req: requestForNextAuth} as any)
 
   if (session) {
     return NextResponse.next()

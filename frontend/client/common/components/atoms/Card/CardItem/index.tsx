@@ -134,16 +134,16 @@ const CardItem = ({
                     {province} - {country}
                   </CardTitle>
                 </Box>
-                <Box>
+                {priceStandard  && <Box>
                   <CardTitle>
                     <PaidIcon />
                     Giá thấp nhất chỉ từ -{' '}
-                    {priceStandard.toLocaleString('it-IT', {
+                    {priceStandard?.toLocaleString('it-IT', {
                       style: 'currency',
                       currency: 'VND',
                     })}
                   </CardTitle>
-                </Box>
+                </Box>}
               </Box>
             </div>
           </a>

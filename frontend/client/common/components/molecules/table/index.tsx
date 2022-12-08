@@ -58,7 +58,7 @@ const createData = (
   selectedItem: any,
   updateSelectedItem: (id: string, number: number, price: number) => void
 ) => {
-  console.log(data)
+  
   return {
     name: (
       <Box>
