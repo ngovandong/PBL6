@@ -47,14 +47,5 @@ pipeline {
       }
     }
 
-    stage('Delete image') {
-      steps {
-        sh '''docker image rm pbl6host
-              docker image rm ngovandong/pbl6host
-              docker image rm pbl6client
-              docker image rm ngovandong/pbl6client'''
-      }
-    }
-
   }
 }
