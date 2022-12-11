@@ -9,9 +9,12 @@ import { activeLinkColor, borderRadius, lightColor } from '@constants/styles'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import PaidIcon from '@mui/icons-material/Paid'
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
-import { isNumber } from 'lodash'
+import { isNumber, uniqueId } from 'lodash'
 import { StarPurple500Outlined } from '@mui/icons-material'
 import moment from 'moment'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { userApi } from '@utils/api'
 
 interface ICard {
   id: string
@@ -23,6 +26,9 @@ interface ICard {
   hostType: string
   ratingFeedback: number
   priceStandard: number
+  favorited: boolean
+  userId: boolean
+  updateFavoriteHosts?: () => void
 }
 
 const CardContainer = styled('div')`
@@ -51,11 +57,11 @@ const CardTitle = styled('p')`
 `
 
 const FavoriteIcon = styled(FavoriteOutlinedIcon)(
-  (props: { favorited?: boolean }) => `
+  (props) => `
   display: block;
   stroke: #ffffff;
   overflow: visible;
-  fill: ${props.favorited ? '#FF385C' : 'rgba(0, 0, 0, 0.5);'}
+  fill: ${props.className === 'actived' ? '#FF385C' : 'rgba(0, 0, 0, 0.5)'}
 `
 )
 
@@ -65,7 +71,7 @@ const ButtonFavorite = styled(IconButton)`
   border: none;
   transition: transform 0.25s ease;
   position: absolute;
-  z-index: 10;
+  z-index: 20;
   right: 8px;
   top: 5px;
   background: transparent;
@@ -80,10 +86,34 @@ const CardItem = ({
   priceStandard,
   ratingStar,
   ratingFeedback,
+  favorited,
+  userId,
+  updateFavoriteHosts,
 }: ICard) => {
+  const [favorite, setFavorite] = useState<boolean>(favorited)
+
+  const onFavoriteHost = () => {
+    if (userId) {
+      userApi
+        .postFavoritedHosts({
+          userId: 'b0fdd010-9a45-4210-126b-08dac0df9d93',
+          hostId: '388a2e04-1f9a-41ba-c80a-08dac2d18101',
+        })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }
+
   return (
     <Grid item xs={3}>
       <CardContainer>
+        <ButtonFavorite onClick={onFavoriteHost}>
+          <FavoriteIcon className={favorite ? 'actived' : 'inactived'} />
+        </ButtonFavorite>
         <Link
           href={`/post/${id}?SearchText=${province}&DateCheckin=${
             moment().toISOString().split('T')[0]
@@ -93,9 +123,6 @@ const CardItem = ({
         >
           <a>
             <div>
-              <ButtonFavorite>
-                <FavoriteIcon />
-              </ButtonFavorite>
               <CardImage src={src} alt={title} width={300} height={240} />
               <Box>
                 <Box>
@@ -123,7 +150,10 @@ const CardItem = ({
                     <span>
                       {isNumber(ratingStar) &&
                         Array.from(Array(ratingStar).keys()).map((item) => (
-                          <StarPurple500Outlined color='warning' key='1' />
+                          <StarPurple500Outlined
+                            color='warning'
+                            key={uniqueId()}
+                          />
                         ))}
                     </span>
                   </Tooltip>
@@ -134,16 +164,18 @@ const CardItem = ({
                     {province} - {country}
                   </CardTitle>
                 </Box>
-                {priceStandard  && <Box>
-                  <CardTitle>
-                    <PaidIcon />
-                    Giá thấp nhất chỉ từ -{' '}
-                    {priceStandard?.toLocaleString('it-IT', {
-                      style: 'currency',
-                      currency: 'VND',
-                    })}
-                  </CardTitle>
-                </Box>}
+                {priceStandard && (
+                  <Box>
+                    <CardTitle>
+                      <PaidIcon />
+                      Giá thấp nhất chỉ từ -{' '}
+                      {priceStandard?.toLocaleString('it-IT', {
+                        style: 'currency',
+                        currency: 'VND',
+                      })}
+                    </CardTitle>
+                  </Box>
+                )}
               </Box>
             </div>
           </a>

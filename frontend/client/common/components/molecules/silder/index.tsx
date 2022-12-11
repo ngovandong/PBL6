@@ -3,6 +3,7 @@ import Carousel from 'react-material-ui-carousel'
 import { CardCarousel } from 'common/components/atoms/Card'
 import { transparentColor } from '@constants/styles'
 import { cities } from '@constants/data/city'
+import { uniqueId } from 'lodash'
 
 const SliderCards = (props: any) => {
   const totalItems = props.length ? props.length : 6
@@ -14,7 +15,7 @@ const SliderCards = (props: any) => {
       item.push(
         <CardCarousel
           size={200}
-          key={cities[j]?.src}
+          key={uniqueId()}
           src={cities[j]?.src || ''}
           title={cities[j]?.title}
           description={cities[j]?.description}

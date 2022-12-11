@@ -13,3 +13,9 @@ export const changePassword = (havePassword: boolean, body: any) => {
     return api.patch('/user/set-password', JSON.stringify(body))
   }
 }
+
+export const getFavoritedHosts = (userId: any) =>
+  api.get(`/favorite-host/user/${userId}`)
+
+export const postFavoritedHosts = (body: any) =>
+  api.post('/favorite-host/add-favorite-host', JSON.stringify(body))
