@@ -9,6 +9,9 @@ export const INFOR_MESSAGE = {
 
 export const ERROR_MESSAGE = {
   COMMON_ERROR: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
+  OLD_PASSWORD_ERROR: 'Mật khẩu không chính xác.',
+  NEW_PASSWORD_ERROR:
+    'Mật khẩu có chứa ít nhất tám ký tự, trong đó có ít nhất một số và bao gồm cả chữ hoa và chữ thường.',
 }
 
 export const EDIT_USER_LABEL = [
@@ -66,12 +69,14 @@ export const EDIT_PASSWORD_FORM = [
     id: 'oldPassword',
     required: true,
     message: 'Trường bắt buộc nhập.',
+    type: 'password',
   },
   {
     label: 'Mật khẩu mới',
     id: 'newPassword',
     required: true,
     message: 'Trường bắt buộc nhập.',
+    type: 'password',
   },
 ]
 
@@ -124,7 +129,11 @@ export const AMENITIES = [
 ]
 
 export const BED_TYPE = [
-  { label: '1 giường đơn', code: '1s', icon: ['fas fa-bed']},
-  { label: '1 giường đơn, 1 giuờng đôi', code: '1s1d', icon: ["fas fa-bed","fas fa-bed-alt"]},
-  { label: '2 giuờng đơn', code: '2d', icon: ["fas fa-bed", "fas fa-bed"] },
+  { label: '1 giường đơn', code: '1s', icon: ['fas fa-bed'] },
+  {
+    label: '1 giường đơn, 1 giuờng đôi',
+    code: '1s1d',
+    icon: ['fas fa-bed', 'fas fa-bed-alt'],
+  },
+  { label: '2 giuờng đơn', code: '2d', icon: ['fas fa-bed', 'fas fa-bed'] },
 ]

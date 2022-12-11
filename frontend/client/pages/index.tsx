@@ -8,7 +8,6 @@ import { searchHotelProvince } from '@utils/api/search'
 import { provinces } from '@constants/data'
 
 const Home: NextPage = (props: any) => {
-
   return (
     <div className={styles.container}>
       <Head>

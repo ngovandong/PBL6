@@ -9,6 +9,8 @@ import {
   FormGroup,
   styled,
   alpha,
+  InputAdornment,
+  IconButton,
 } from '@mui/material'
 import { Title } from '@components/atoms/Heading'
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
@@ -22,6 +24,7 @@ import { MainContext, useUser } from 'common/context'
 import { toastError } from '@utils/notifications'
 import { validateEmail, validatePassword } from '@utils/helpers'
 import { isEmpty } from 'lodash'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 const StraightLine = styled('p')({
   width: '90px',
@@ -62,8 +65,9 @@ const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [step, setStep] = useState(1)
-  const { data: session } : any = useSession()
+  const { data: session }: any = useSession()
   const { state, setState } = useContext(MainContext)
   const router = useRouter()
 
@@ -95,6 +99,16 @@ const SignIn = () => {
       }
     }
   }, [session])
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault()
+  }
 
   const handleSubmit = async () => {
     if (!validatePassword(password)) {
@@ -209,7 +223,6 @@ const SignIn = () => {
             </InputLabel>
             <InputField
               id='password'
-              type='password'
               value={password}
               onChange={(
                 event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -224,6 +237,19 @@ const SignIn = () => {
                 }
                 setPassword(event.currentTarget.value)
               }}
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    aria-label='toggle password visibility'
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge='end'
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
           </FormGroup>
           <Typography textAlign={'justify'}>{errors}</Typography>
