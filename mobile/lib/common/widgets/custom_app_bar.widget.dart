@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/widgets/app_icon_button.widget.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isCenterTitle;
   final bool hasBackIcon;
 
@@ -14,8 +14,10 @@ class CustomAppBar extends StatelessWidget {
   final double toolbarHeight;
   final double titleSpacing;
   final double elevation;
+  final double bottomSize;
 
-  final Widget title;
+  final Widget? title;
+  final Widget? bottom;
   final List<Widget> actions;
 
   const CustomAppBar({
@@ -28,7 +30,9 @@ class CustomAppBar extends StatelessWidget {
     this.toolbarHeight = 60,
     this.titleSpacing = 15,
     this.elevation = 0,
-    required this.title,
+    this.bottomSize = 45,
+    this.title,
+    this.bottom,
     this.actions = const [],
   });
 
@@ -43,6 +47,12 @@ class CustomAppBar extends StatelessWidget {
       toolbarHeight: toolbarHeight,
       titleSpacing: titleSpacing,
       title: title,
+      bottom: bottom != null
+          ? PreferredSize(
+              preferredSize: Size.fromHeight(bottomSize),
+              child: bottom!,
+            )
+          : null,
       actions: actions,
       leading: hasBackIcon
           ? AppIconButton(
@@ -58,4 +68,7 @@ class CustomAppBar extends StatelessWidget {
           : null,
     );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(toolbarHeight);
 }

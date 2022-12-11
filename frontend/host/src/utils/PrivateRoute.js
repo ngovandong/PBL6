@@ -3,13 +3,13 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import history from './history';
-import { selectToken } from '../app/store/authSlice';
+import { selectAccount } from '../app/store/authSlice';
 
 function PrivateRoute({ children })
 {
-    const token = useSelector(selectToken)
+    const account = useSelector(selectAccount)
 
-    if (!token)
+    if (!account)
         return (<Navigate to="/login" state={{ from: history.location }} />);
     return children
 }

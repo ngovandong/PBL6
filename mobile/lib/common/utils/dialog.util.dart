@@ -122,4 +122,30 @@ abstract class DialogUtil {
       ),
     );
   }
+
+  static void showLoading() {
+    Get.dialog(
+      WillPopScope(
+        onWillPop: () async => false,
+        child: Center(
+          child: Container(
+            height: 60,
+            width: 60,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const CupertinoActivityIndicator(),
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  static void hideLoading() {
+    if (Get.isDialogOpen!) {
+      Get.back();
+    }
+  }
 }

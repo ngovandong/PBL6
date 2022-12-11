@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 
 class LoadingDot extends StatefulWidget {
   final double size;
+  final Color dotColor;
 
-  const LoadingDot({Key? key, this.size = 20}) : super(key: key);
+  const LoadingDot({
+    Key? key,
+    this.size = 20,
+    this.dotColor = Colors.white,
+  }) : super(key: key);
 
   @override
   State<LoadingDot> createState() => _LoadingDotState();
@@ -83,7 +88,7 @@ class _LoadingDotState extends State<LoadingDot> with TickerProviderStateMixin {
           scale: _scaleAnimations[i],
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: widget.dotColor,
               borderRadius: BorderRadius.circular(50),
             ),
             child: SizedBox(

@@ -6,7 +6,7 @@ import NavBar from "./NavBar";
 function PrivateContainer() {
   return (
     <PrivateRoute>
-      <NavBar />
+      <NavBar showLinks={true} />
       <div className="full-height-container">
         <div className="full-width">
           <div className="main-container">

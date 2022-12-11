@@ -5,7 +5,7 @@ abstract class HiveHelper {
     return await Hive.openBox(boxName);
   }
 
-  static Future<void> set({
+  static Future<void> put({
     required String boxName,
     required String keyValue,
     required dynamic value,
@@ -25,5 +25,13 @@ abstract class HiveHelper {
   static Future<List<dynamic>> getAll({required String boxName}) async {
     final Box box = await openBox(boxName);
     return box.values.toList();
+  }
+
+  static Future<void> delete({
+    required String boxName,
+    required String keyValue,
+  }) async {
+    final Box box = await openBox(boxName);
+    return await box.delete(keyValue);
   }
 }
