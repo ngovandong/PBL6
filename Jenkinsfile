@@ -29,7 +29,7 @@ pipeline {
     stage('build client') {
       steps {
         sh '''cd frontend/client
-            cp .env.local.example .env
+            cp .env.production.example .env
             docker build -t pbl6client .
             '''
       }
@@ -44,15 +44,6 @@ pipeline {
                 docker tag pbl6client:latest ngovandong/pbl6client:latest
                 docker push ngovandong/pbl6client:latest'''
             }
-      }
-    }
-
-    stage('Delete image') {
-      steps {
-        sh '''docker image rm pbl6host
-              docker image rm ngovandong/pbl6host
-              docker image rm pbl6client
-              docker image rm ngovandong/pbl6client'''
       }
     }
 
