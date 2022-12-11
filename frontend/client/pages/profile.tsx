@@ -11,19 +11,20 @@ const ProfileTemplate = dynamic(
 )
 
 const ProfilePage = ({ profile }: { profile: IUserProfile }) => {
-  const { data: session } = useSession()
-
   const [user, setUser] = useState<IUserProfile>(profile)
 
+  const { data: session } = useSession()
+
   useEffect(() => {
-    if (session?.user) {
-      setUser(session.user as any)
-    }
-  }, [session?.user])
+    if (session?.user) setUser(session?.user as IUserProfile)
+  }, [session])
 
   return (
     <Box>
-      <ProfileTemplate profile={user} />
+      <ProfileTemplate
+        profile={user}
+        havePassword={profile.havePassword as boolean}
+      />
     </Box>
   )
 }

@@ -16,6 +16,7 @@ export interface IUserProfile {
   givenName?: string
   id?: string
   phoneNumber?: string | number
+  havePassword?: boolean
 }
 
 export interface IAddress {

@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CreadentialProvider from 'next-auth/providers/credentials'
@@ -63,6 +64,7 @@ export default NextAuth({
 
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
+      if (isEmpty(user)) return Promise.reject(true)
       return Promise.resolve(true)
     },
     async redirect({ url, baseUrl }) {
@@ -94,7 +96,7 @@ export default NextAuth({
       }
       return token
     },
-    async session({ session, token, user } : any) {
+    async session({ session, token, user }: any) {
       if (token?.idToken) {
         session.idToken = token?.idToken
       }

@@ -4,11 +4,11 @@ import { alpha } from '@mui/system'
 
 const Input = styled(InputBase)(({ theme }) => ({
   marginTop: '5px',
+  backgroundColor: theme.palette.mode === 'light' ? '#fcfcfb' : '#2b2b2b',
+  border: '1px solid #ced4da',
+  borderRadius: 8,
   '& .MuiInputBase-input': {
-    borderRadius: 8,
     position: 'relative',
-    backgroundColor: theme.palette.mode === 'light' ? '#fcfcfb' : '#2b2b2b',
-    border: '1px solid #ced4da',
     fontSize: 16,
     width: '100%',
     padding: '10px 12px',
@@ -31,10 +31,13 @@ const Input = styled(InputBase)(({ theme }) => ({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
-    '&:focus': {
-      boxShadow: `${alpha(primaryColor, 0.8)} 0 0 0 0.05rem`,
-      borderColor: '#ced4da',
-    },
+  },
+  '&:focus-within': {
+    boxShadow: `${alpha(primaryColor, 0.8)} 0 0 0 0.05rem`,
+    borderColor: '#ced4da',
+  },
+  '& .MuiInputAdornment-root': {
+    width: 52,
   },
 }))
 
