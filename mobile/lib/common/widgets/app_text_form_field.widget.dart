@@ -14,12 +14,15 @@ class AppTextFormField extends StatefulWidget {
 
   final String? hintText;
   final String? errorText;
+  final String? labelText;
+  final String? initialValue;
 
   final double borderRadius;
 
   final Color focusedBorderColor;
   final Color borderColor;
   final Color fillColor;
+  final Color hintColor;
 
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -28,7 +31,9 @@ class AppTextFormField extends StatefulWidget {
 
   final String? Function(String?)? validator;
   final void Function()? onTap;
-  final Future<void> Function(String)? onChanged;
+  final void Function(String)? onChanged;
+
+  final TextStyle? labelStyle;
 
   const AppTextFormField({
     Key? key,
@@ -40,16 +45,20 @@ class AppTextFormField extends StatefulWidget {
     this.isCenterText = false,
     this.hintText,
     this.errorText,
+    this.labelText,
+    this.initialValue,
     this.borderRadius = 6,
     this.borderColor = Palette.gray100,
     this.focusedBorderColor = Palette.blue400,
     this.fillColor = Colors.white,
+    this.hintColor = Palette.gray100,
     this.suffixIcon,
     this.prefixIcon,
     this.keyboardType,
     this.validator,
     this.onTap,
     this.onChanged,
+    this.labelStyle,
   }) : super(key: key);
 
   @override
@@ -78,11 +87,17 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       enableSuggestions: false,
       enabled: widget.enabled,
       keyboardType: widget.keyboardType,
+      initialValue: widget.initialValue,
       style: TextStyles.s14RegularText.copyWith(color: Palette.zodiacBlue),
       textAlign: widget.isCenterText ? TextAlign.center : TextAlign.start,
       decoration: InputDecoration(
+        labelText: widget.labelText,
+        labelStyle: widget.labelStyle ??
+            TextStyles.s14RegularText.copyWith(color: widget.hintColor),
+        floatingLabelStyle:
+            TextStyles.s14RegularText.copyWith(color: Palette.blue400),
         hintText: widget.hintText,
-        hintStyle: TextStyles.s14RegularText.copyWith(color: Palette.gray100),
+        hintStyle: TextStyles.s14RegularText.copyWith(color: widget.hintColor),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
           borderSide: const BorderSide(
@@ -130,13 +145,13 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         prefixIcon: widget.prefixIcon,
         helperText: widget.extendField ? '' : null,
         helperStyle: widget.extendField
-            ? TextStyles.regularText.copyWith(fontSize: 11)
+            ? TextStyles.regularText.copyWith(fontSize: 13)
             : null,
         errorText: widget.errorText == '' || widget.errorText == null
             ? null
             : widget.errorText,
         errorStyle: TextStyles.regularText
-            .copyWith(color: Colors.red, fontSize: 11, height: 0),
+            .copyWith(color: Colors.red, fontSize: 13, height: 0),
       ),
     );
   }

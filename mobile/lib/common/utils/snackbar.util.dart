@@ -1,137 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
-import 'package:mobile/generated/assets.gen.dart';
+import 'package:mobile/generated/locales.g.dart';
 
 abstract class SnackbarUtil {
-  static void showSuccess(String message, BuildContext context) {
-    return showGeneral(
-      message,
-      context,
-      backgroundColor: Palette.green300,
-      prefixIcon: Icons.check_circle_rounded,
-    );
-  }
-
-  static void showError(String message, BuildContext context) {
-    return showGeneral(
-      message,
-      context,
-      backgroundColor: Palette.red300,
-      prefixIcon: Icons.highlight_off_rounded,
-    );
-  }
-
-  static void showGeneral(
-    String message,
-    BuildContext context, {
-    Color? backgroundColor,
-    IconData? prefixIcon,
-  }) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
+  static Future<void> showSuccess({
+    String? message,
+    SnackPosition position = SnackPosition.TOP,
+    Duration duration = const Duration(seconds: 2),
+  }) async {
+    await Get.closeCurrentSnackbar();
+    Get.snackbar(
+      '',
+      '',
+      onTap: (snack) async {
+        await Get.closeCurrentSnackbar();
+      },
+      duration: duration,
+      barBlur: 0,
+      margin: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.all(0),
+      snackPosition: position,
+      messageText: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Palette.green700,
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Row(
           children: [
-            if (prefixIcon != null)
-              Icon(
-                prefixIcon,
-                size: 24,
-                color: Colors.white,
-              ),
-            const SizedBox(
-              width: 10,
+            const Icon(
+              Icons.check_circle_rounded,
+              color: Colors.white,
             ),
+            const SizedBox(width: 10),
             Flexible(
               child: Text(
-                message,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyles.regularText
-                    .copyWith(color: Colors.white, fontSize: 16.sp),
+                message ?? LocaleKeys.share_success_message.tr,
+                style: TextStyles.s14BoldText.copyWith(color: Colors.white),
               ),
             )
           ],
         ),
-        margin: const EdgeInsets.all(12),
-        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
-        elevation: 0.5,
       ),
+      backgroundColor: Colors.transparent,
     );
   }
 
-  static void showAnimated(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Stack(
-          clipBehavior: Clip.none,
+  static Future<void> showError({
+    String? message,
+    SnackPosition position = SnackPosition.TOP,
+    Duration duration = const Duration(seconds: 2),
+  }) async {
+    await Get.closeCurrentSnackbar();
+    Get.snackbar(
+      '',
+      '',
+      onTap: (snack) async {
+        await Get.closeCurrentSnackbar();
+      },
+      duration: duration,
+      barBlur: 0,
+      margin: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.all(0),
+      snackPosition: position,
+      messageText: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Palette.red500,
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Row(
           children: [
-            Container(
-              height: 45,
-              padding: const EdgeInsets.only(left: 60, top: 6, bottom: 6),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Đăng nhập không thành công',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyles.regularText
-                      .copyWith(color: Colors.white, fontSize: 16.sp),
-                ),
-              ),
+            const Icon(
+              Icons.warning_amber_outlined,
+              color: Colors.white,
             ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                ),
-                child: Assets.images.snackbar.bubbles.svg(
-                  height: 30,
-                  width: 25,
-                  color: Palette.red600,
-                ),
+            const SizedBox(width: 10),
+            Flexible(
+              child: Text(
+                message ?? LocaleKeys.share_error_message.tr,
+                style: TextStyles.s14BoldText.copyWith(color: Colors.white),
               ),
-            ),
-            Positioned(
-              top: -25,
-              left: 25,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Assets.images.snackbar.back.svg(
-                    height: 40,
-                    width: 40,
-                    color: Palette.red600,
-                  ),
-                  Positioned(
-                    top: 9,
-                    child: Assets.images.snackbar.failure.svg(
-                      height: 18,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              ),
-            ),
+            )
           ],
         ),
-        margin: const EdgeInsets.fromLTRB(12, 40, 12, 0),
-        padding: EdgeInsets.zero,
-        // padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Palette.red400,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
-        elevation: 0.5,
       ),
+      backgroundColor: Colors.transparent,
     );
   }
 }
