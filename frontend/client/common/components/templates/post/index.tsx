@@ -10,7 +10,6 @@ import { isNumber, uniqueId } from 'lodash'
 import { AMENITIES } from '@constants/constant'
 
 const PostDetailTemplate = ({ data }: any) => {
-
   return (
     <Box>
       <Box display='flex' flexDirection='column'>
@@ -130,7 +129,7 @@ const PostDetailTemplate = ({ data }: any) => {
             </i>
           </Typography>
         </Box>
-        <TableRoom data={data.accommodationSearches} />
+        <TableRoom data={data.accommodationSearches} hostId={data.id} />
       </Box>
       <Box sx={{ my: 2 }}>
         <Box sx={{ my: 1 }}>

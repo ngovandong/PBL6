@@ -80,6 +80,37 @@ export const EDIT_PASSWORD_FORM = [
   },
 ]
 
+export const ORDER_FORM = [
+  {
+    label: 'Họ',
+    id: 'userLastName',
+    required: true,
+    message: 'Trường bắt buộc nhập.',
+    type: 'text',
+  },
+  {
+    label: 'Tên',
+    id: 'userFirstName',
+    required: true,
+    message: 'Trường bắt buộc nhập.',
+    type: 'text',
+  },
+  {
+    label: 'Email',
+    id: 'userEmail',
+    required: true,
+    message: 'Trường bắt buộc nhập.',
+    type: 'text',
+  },
+  {
+    label: 'Ghi chú',
+    id: 'note',
+    required: false,
+    message: 'Trường bắt buộc nhập.',
+    type: 'text',
+  },
+]
+
 export const AMENITIES = [
   {
     label: 'Wi-Fi miễn phí',

@@ -8,8 +8,8 @@ export async function middleware(req: NextRequest) {
       cookie: req.headers.get('cookie'),
     },
   }
-  
-  const session = await getSession({ req: requestForNextAuth} as any)
+
+  const session = await getSession({ req: requestForNextAuth } as any)
 
   if (session) {
     return NextResponse.next()
