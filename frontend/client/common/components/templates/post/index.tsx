@@ -10,6 +10,7 @@ import { isNumber, uniqueId } from 'lodash'
 import { AMENITIES } from '@constants/constant'
 
 const PostDetailTemplate = ({ data }: any) => {
+
   return (
     <Box>
       <Box display='flex' flexDirection='column'>

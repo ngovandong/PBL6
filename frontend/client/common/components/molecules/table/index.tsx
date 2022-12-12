@@ -12,10 +12,12 @@ import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { Box } from '@mui/system'
 import { TitleLink } from '@components/atoms/Heading'
 import { AMENITIES, BED_TYPE } from '@constants/constant'
-import { uniqueId } from 'lodash'
+import { isEmpty, uniqueId } from 'lodash'
+import { Controller, useForm } from 'react-hook-form'
+import { toastError } from '@utils/notifications'
 
 interface Column {
-  id: 'name' | 'price' | 'room' | 'number'
+  id: 'name' | 'price' | 'room' | 'number' | 'people'
   label: string
   width?: number
   align?: 'right' | 'left'
@@ -56,7 +58,7 @@ interface rows {
 const createData = (
   data: any,
   selectedItem: any,
-  updateSelectedItem: (id: string, number: number, price: number) => void
+  register: any
 ) => {
   
   return {
@@ -99,10 +101,16 @@ const createData = (
                 sx={{ display: 'block' }}
                 key={uniqueId()}
               >
-                {result?.label}{' '}
-                {result?.icon?.map((item: string) => (
-                  <i className={item} key={uniqueId()} />
-                ))}
+                <input 
+                  {...register(`bedInfo_${data.id}`)}
+                  type="radio" id={`bedInfo_${data.id}_${result?.code}`} 
+                  // name={`bedInfo_${data.id}`} 
+                  value={`bedInfo_${data.id}_${result?.code}`}  
+                />
+                <label htmlFor={`bedInfo_${data.id}_${result?.code}`}>{result?.label}{' '}
+                  {result?.icon?.map((item: string) => (
+                    <i className={item} key={uniqueId()} />
+                  ))}</label><br></br>
               </Typography>
             )
           })}
@@ -129,6 +137,12 @@ const createData = (
     ),
     room: (
       <Box>
+        <Typography component='p' fontSize={14} fontWeight='500' mt={1}>
+          Số người tối đa:{' '}
+          <Typography component='span' fontSize={14} fontWeight='400'>
+            {Array.from(Array(Number(data?.quantityPersonFit || 0)).keys()).map((item: number) => <i className="fas fa-user-alt" key={uniqueId()}/>) ?? 0} 
+          </Typography>
+        </Typography>
         <Typography component='p' fontSize={14} fontWeight='500' mt={1}>
           Số phòng tắm:{' '}
           <Typography component='span' fontSize={14} fontWeight='400'>
@@ -165,16 +179,14 @@ const createData = (
     ),
     number: (
       <Select
-        defaultValue={0}
+        name={`quantity_${data.id}`}
+        defaultValue={`quantity_${data.id}_0`}
         disabled={selectedItem?.number && data?.id !== selectedItem?.idRoom}
-        onChange={(event) => {
-          const number = Number(event.target.value) || 0
-          updateSelectedItem(data.id, number, number * data.price)
-        }}
+        {...register(`quantity_${data.id}`, {defaultValue: `quantity_${data.id}_0`})}
       >
         {Array.from(Array(data.quantityAvailable + 1).keys()).map(
           (item: number) => (
-            <MenuItem value={item} key={uniqueId()}>
+            <MenuItem value={`quantity_${data.id}_${item}`} key={`quantity_${data.id}_${item}`} >
               {item}
             </MenuItem>
           )
@@ -187,11 +199,7 @@ const createData = (
 export default function TableRoom({ data }: any) {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
-  const [selectedItem, setSelectedItem] = React.useState({
-    number: 0,
-    idRoom: '',
-    price: 0,
-  })
+  const [selectedItem, setSelectedItem] = React.useState([])
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
@@ -204,139 +212,169 @@ export default function TableRoom({ data }: any) {
     setPage(0)
   }
 
-  const updateSelectedItem = (id: string, number: number, price: number) => {
-    setSelectedItem({ number: number, idRoom: id, price: price })
+  const updateSelectedItem = (values: {[key: string]: string}) => {
+    const newArr = []
+    for (let i = 0; i < data.length; i++) {
+      const id = data[i].id
+      const bedInfoId = `bedInfo_${id}`
+      const quantityid = `quantity_${id}`
+      if(!values[bedInfoId] && (values[quantityid] && values[quantityid] !== `${quantityid}_0`)) {
+        console.log(data[i].name, values[quantityid])
+        toastError(`Vui lòng chọn số lượng phòng cho ${data[i].name}`)
+        return;
+      }
+      if(values[bedInfoId] && (values[quantityid] && values[quantityid] !== `${quantityid}_0`)) {
+        newArr.push({ 
+          accommodationId: id,
+          quantity: values[quantityid]?.split('_')[2] || '',
+          bedInfoId: values[bedInfoId]?.split('_')[2] || ''
+        })
+      }
+    }
+    return newArr;
   }
 
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm()
+
   const rows = data?.map((item: any) =>
-    createData(item, selectedItem, updateSelectedItem)
+    createData(item, selectedItem, register)
   )
+
+  const onSubmit = (values: any) => { updateSelectedItem(values) }
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: '80vh' }}>
-        <Table
-          stickyHeader
-          aria-label='sticky table'
-          sx={{ position: 'relative' }}
-        >
-          <TableHead sx={{ position: 'relative' }}>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ width: column.width }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-              <TableCell align={'center'} style={{ minWidth: 200 }}></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody sx={{ position: 'relative' }}>
-            {rows
-              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row: any, rowIndex: number) => {
-                return (
-                  <TableRow hover role='checkbox' tabIndex={-1} key={row.code}>
-                    {columns.map((column, columnIndex) => {
-                      const value = row[column.id]
-                      return (
-                        <>
-                          <TableCell
-                            key={column.id}
-                            align={column.align}
-                            sx={{ verticalAlign: 'top' }}
-                          >
-                            {value}
-                          </TableCell>
-                          {columnIndex === columns.length - 1 &&
-                            rowIndex === 0 && (
-                              <TableCell
-                                width={250}
-                                rowSpan={rows.length}
-                                sx={{ verticalAlign: 'top' }}
-                              >
-                                <Box
-                                  mb={2}
-                                  sx={{
-                                    position: 'sticky',
-                                    zindex: 1,
-                                    top: 80,
-                                    textAlign: 'center',
-                                  }}
+      <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+        <TableContainer sx={{ maxHeight: '80vh' }}>
+          <Table
+            stickyHeader
+            aria-label='sticky table'
+            sx={{ position: 'relative' }}
+          >
+            <TableHead sx={{ position: 'relative' }}>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ width: column.width }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+                <TableCell align={'center'} style={{ minWidth: 200 }}></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody sx={{ position: 'relative' }}>
+              {rows
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row: any, rowIndex: number) => {
+                  return (
+                    <TableRow tabIndex={-1} key={row.code}>
+                      {columns.map((column: any, columnIndex) => {
+                        const value = row[column.id]
+                        return (
+                          <>
+                            <TableCell
+                              key={column.id}
+                              align={column.align}
+                              sx={{ verticalAlign: 'top' }}
+                            >
+                              {value}
+                            </TableCell>
+                            {columnIndex === columns.length - 1 &&
+                              rowIndex === 0 && (
+                                <TableCell
+                                  width={250}
+                                  rowSpan={rows.length}
+                                  sx={{ verticalAlign: 'top' }}
                                 >
-                                  {selectedItem.number != 0 && (
-                                    <>
-                                      <Typography
-                                        sx={{ span: { fontWeight: 700 } }}
-                                      >
-                                        <span>{selectedItem.number}</span> phòng
-                                      </Typography>
-                                      <Typography
-                                        sx={{ span: { fontWeight: 700 } }}
-                                      >
-                                        Tổng giá:{' '}
-                                        <span>
-                                          {selectedItem.price.toLocaleString(
-                                            'it-IT',
-                                            {
-                                              style: 'currency',
-                                              currency: 'VND',
-                                            }
-                                          )}
-                                        </span>
-                                      </Typography>
-                                      <Typography fontSize={12} color='error'>
-                                        <i>Đã bao gồm thuế và phí</i>
-                                      </Typography>
-                                    </>
-                                  )}
+                                  <Box
+                                    mb={2}
+                                    sx={{
+                                      position: 'sticky',
+                                      zindex: 1,
+                                      top: 80,
+                                      textAlign: 'center',
+                                    }}
+                                  >
+                                    {true && (
+                                      <>
+                                        <Typography
+                                          sx={{ span: { fontWeight: 700 } }}
+                                        >
+                                          <span>{selectedItem.number}</span> phòng
+                                        </Typography>
+                                        <Typography
+                                          sx={{ span: { fontWeight: 700 } }}
+                                        >
+                                          Tổng giá:{' '}
+                                          <span>
+                                            {selectedItem.price?.toLocaleString(
+                                              'it-IT',
+                                              {
+                                                style: 'currency',
+                                                currency: 'VND',
+                                              }
+                                            )}
+                                          </span>
+                                        </Typography>
+                                        <Typography fontSize={12} color='error'>
+                                          <i>Đã bao gồm thuế và phí</i>
+                                        </Typography>
+                                      </>
+                                    )}
 
-                                  <DefaultButton color='primary' sx={{ mt: 2 }}>
-                                    <Tooltip
-                                      title={
-                                        selectedItem.number === 0 &&
-                                        'Vui lòng chọn số phòng'
-                                      }
-                                    >
-                                      <span> Đặt phòng ngay</span>
-                                    </Tooltip>
-                                  </DefaultButton>
+                                    <DefaultButton color='primary' sx={{ mt: 2 }} type='submit'>
+                                      <Tooltip
+                                        title={
+                                          selectedItem.number === 0 &&
+                                          'Vui lòng chọn số phòng'
+                                        }
+                                      >
+                                        <span> Đặt phòng ngay</span>
+                                      </Tooltip>
+                                    </DefaultButton>
 
-                                  <Box sx={{ textAlign: 'left' }}>
-                                    <ul>
-                                      <li>Chỉ mất có 2 phút</li>
-                                      <li>Xác nhận tức thời</li>
-                                      <li>
-                                        Không mất phí đặt phòng hay phí thẻ tín
-                                        dụng!
-                                      </li>
-                                    </ul>
+                                    <Box sx={{ textAlign: 'left' }}>
+                                      <ul>
+                                        <li>Chỉ mất có 2 phút</li>
+                                        <li>Xác nhận tức thời</li>
+                                        <li>
+                                          Không mất phí đặt phòng hay phí thẻ tín
+                                          dụng!
+                                        </li>
+                                      </ul>
+                                    </Box>
                                   </Box>
-                                </Box>
-                              </TableCell>
-                            )}
-                        </>
-                      )
-                    })}
-                  </TableRow>
-                )
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        labelRowsPerPage={'Hiển thị:'}
-        rowsPerPageOptions={[5, 10, 25]}
-        component='div'
-        count={rows?.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+                                </TableCell>
+                              )}
+                          </>
+                        )
+                      })}
+                    </TableRow>
+                  )
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {/* <TablePagination
+          labelRowsPerPage={'Hiển thị:'}
+          rowsPerPageOptions={[5, 10, 25]}
+          component='div'
+          count={rows?.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        /> */}
+      </Box>
     </Paper>
   )
 }
