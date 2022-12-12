@@ -61,7 +61,7 @@ function TableRow({ host }) {
         </a>
       </td>
       <td style={{ width: "10%" }}>
-        <span className="btn-link" onClick={handleDelete}>
+        <span className="btn-link delete" onClick={handleDelete}>
           Xóa
         </span>
       </td>

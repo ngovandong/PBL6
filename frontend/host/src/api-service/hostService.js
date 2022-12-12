@@ -13,7 +13,7 @@ const createHost = async (hostName) => {
 };
 
 const updateHost = async (host) => {
-  const res = await request.put(`partner/host/update-all/${host.id}`, host);
+  const res = await request.put("partner/host/update-all", host);
   return res;
 };
 

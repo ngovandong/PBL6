@@ -186,7 +186,11 @@ const hostSlice = createSlice({
       })
       .addCase(updateHost.fulfilled, (state, action) => {
         state.addingHost = action.payload;
-        state.activeStep += 1;
+        if (state.activeStep === 3) {
+          state.activeStep = 0;
+        } else {
+          state.activeStep += 1;
+        }
       })
       .addCase(getListHost.fulfilled, (state, action) => {
         state.listHost = action.payload;

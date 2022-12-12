@@ -21,7 +21,6 @@ const listBT = [
 function BasicStep() {
   const addingHost = useSelector(selectAddingHost);
   return (
-    
     <div className="tab-container">
       <p className="section-tile">Tên chỗ nghỉ</p>
       <TextField
@@ -61,13 +60,21 @@ function BasicStep() {
         }}
         value={addingHost.ratingStar}
       />
-      {/* <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterMoment}>
         <p className="section-tile">Giờ check in, check out</p>
         <TimePicker
+          ampm={false}
           label="Giờ check in"
-          value={addingHost.timeCheckin}
+          value={
+            addingHost.timeCheckin
+              ? new moment(addingHost.timeCheckin, "HH:mm:ss")
+              : new moment()
+          }
           onChange={(newValue) => {
-            handleUpdateAddingHost("timeCheckin", newValue);
+            handleUpdateAddingHost(
+              "timeCheckin",
+              newValue._d.toTimeString().slice(0, 8)
+            );
           }}
           renderInput={(params) => (
             <TextField
@@ -78,9 +85,17 @@ function BasicStep() {
         />
         <TimePicker
           label="Giờ checkout"
+          ampm={false}
+          value={
+            addingHost.timeCheckout
+              ? new moment(addingHost.timeCheckout, "HH:mm:ss")
+              : new moment()
+          }
           onChange={(newValue) => {
-            let parseTime = newValue._d.toTimeString().slice(0, 5);
-            handleUpdateAddingHost("timeCheckout", parseTime);
+            handleUpdateAddingHost(
+              "timeCheckout",
+              newValue._d.toTimeString().slice(0, 8)
+            );
           }}
           renderInput={(params) => {
             console.log(params);
@@ -94,7 +109,7 @@ function BasicStep() {
             );
           }}
         />
-      </LocalizationProvider> */}
+      </LocalizationProvider>
       <p className="section-tile">Mô tả chỗ ở</p>
       <TextField
         placeholder="Mô tả về chỗ ở"

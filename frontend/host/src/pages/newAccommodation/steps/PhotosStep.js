@@ -5,9 +5,7 @@ import {
   selectAddingHost,
 } from "../../../app/store/hostSlice";
 import { useSelector } from "react-redux";
-
-const cloudName = process.env.REACT_APP_CLOUD_NAME;
-const uploadPreset = process.env.REACT_APP_UPLOAD_PRESET;
+import { uploadImage } from "../../../api-service/cloudinaryService";
 
 function PhotosStep() {
   const [loading, setLoading] = useState(false);
@@ -16,51 +14,29 @@ function PhotosStep() {
   const [avatarLoading, setAvatarLoading] = useState(false);
   const addingHost = useSelector(selectAddingHost);
 
-  const handleAddImg = (e) => {
+  const handleAddImg = async (e) => {
     const file = e.target.files[0];
     const existed = imagesName.some((n) => n === file.name);
     if (!existed) {
       setimagesName((pre) => [...pre, file.name]);
       setLoading(true);
-      const data = new FormData();
-      data.append("file", file);
-      data.append("upload_preset", uploadPreset);
-      data.append("cloud_name", cloudName);
-      fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        method: "post",
-        body: data,
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          handleUpdateAddingHost("images", [
-            ...(addingHost.images ? addingHost.images : []),
-            data.url,
-          ]);
-          setLoading(false);
-        })
-        .catch((err) => console.log(err));
+      const url = await uploadImage(file);
+      handleUpdateAddingHost("images", [
+        ...(addingHost.images ? addingHost.images : []),
+        url,
+      ]);
+      setLoading(false);
     } else {
       setOpenSnackbar(true);
     }
   };
 
-  const uploadAvatar = (e) => {
+  const uploadAvatar = async (e) => {
     const file = e.target.files[0];
     setAvatarLoading(true);
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", uploadPreset);
-    data.append("cloud_name", cloudName);
-    fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-      method: "post",
-      body: data,
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        handleUpdateAddingHost("avatarImage", data.url);
-        setAvatarLoading(false);
-      })
-      .catch((err) => console.log(err));
+    const url = await uploadImage(file);
+    handleUpdateAddingHost("avatarImage", url);
+    setAvatarLoading(false);
   };
   return (
     <div className="tab-container">
@@ -103,7 +79,7 @@ function PhotosStep() {
 
 export default PhotosStep;
 
-function ImageCard({ src }) {
+export function ImageCard({ src }) {
   return (
     <div>
       <img className="upload-img" alt="alt" src={src} />
@@ -123,7 +99,7 @@ function Avatar({ src, handleClick, avatarLoading }) {
     </div>
   );
 }
-function LoadingImg() {
+export function LoadingImg() {
   return (
     <div className="loading-img">
       <CircularProgress />
@@ -131,7 +107,7 @@ function LoadingImg() {
   );
 }
 
-function AddImageBT({ onClick, disabled }) {
+export function AddImageBT({ onClick, disabled }) {
   const handleClick = () => {
     document.getElementById("upload_image").click();
   };

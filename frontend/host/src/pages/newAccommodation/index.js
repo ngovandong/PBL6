@@ -8,25 +8,6 @@ import PrivateRoute from "../../utils/PrivateRoute";
 import StepLeffPanel from "./StepLeffPanel";
 import StepRightPanel from "./StepRightPanel";
 
-const steps = [
-  {
-    label: "Thông tin cơ bản",
-    description: "",
-  },
-  {
-    label: "Vị trí",
-    description: "",
-  },
-  {
-    label: "Tiện nghi",
-    description: "",
-  },
-  {
-    label: "Ảnh",
-    description: "",
-  },
-];
-
 function NewAccommodation() {
   const dispatch = useDispatch();
   let { id } = useParams();
@@ -46,7 +27,7 @@ function NewAccommodation() {
         <div className="full-width">
           <div className="add-new-container">
             <div className="stepper-left">
-              <StepLeffPanel steps={steps} />
+              <StepLeffPanel />
             </div>
             <div className="step-right">
               <StepRightPanel />

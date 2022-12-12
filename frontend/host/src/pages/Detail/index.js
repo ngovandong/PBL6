@@ -5,6 +5,7 @@ import hostService from "../../api-service/hostService";
 import Footer from "../../components/Footer";
 import NavBar from "../../components/NavBar";
 import PrivateRoute from "../../utils/PrivateRoute";
+import LeftNav from "./LeftNav";
 
 function Detail() {
   const { id } = useParams();
@@ -25,7 +26,14 @@ function Detail() {
     <PrivateRoute>
       <NavBar showLinks={false} />
       <div className="full-height-container">
-        <div className="full-width">{host ? host.name : ""}</div>
+        <div className="full-width">
+          <div className="detail-container">
+            <LeftNav />
+            <div className="right-container">
+              <Outlet />
+            </div>
+          </div>
+        </div>
         <Footer />
       </div>
     </PrivateRoute>
