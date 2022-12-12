@@ -39,7 +39,7 @@ function Login() {
         <div className="panel">
           <div className="title-container">
             <h1>
-              Đăng ký thành viên Luxstay - Tích điểm thưởng và nhận ưu đãi
+              Đăng ký thành viên Ready Booking - Tích điểm thưởng và nhận ưu đãi
             </h1>
             <p>
               Nhanh chóng, tiện lợi và an toàn. Đăng ký liền tay, rinh ngay
