@@ -1,8 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/utils/dialog.util.dart';
 import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
 import 'package:mobile/common/utils/google_auth.util.dart';
@@ -63,6 +61,7 @@ class VerifyAuthController extends GetxController {
 
   void setCurrentUser(UserModel? user) {
     _currrentUser.value = user;
+    _currrentUser.refresh();
   }
 
   Future<void> proccessUpdateCurrentUser(UserModel? user) async {
@@ -77,11 +76,6 @@ class VerifyAuthController extends GetxController {
         ProfileInternalEventEnum.updateSettingProfile,
         null,
       ),
-    );
-
-    Get.offNamedUntil(
-      RouteManager.root,
-      ModalRoute.withName(RouteManager.root),
     );
   }
 

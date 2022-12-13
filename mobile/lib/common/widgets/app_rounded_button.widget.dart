@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/loading_dot.widget.dart';
@@ -80,7 +79,7 @@ class AppRoundedButton extends StatelessWidget {
                 Text(
                   content,
                   style: TextStyles.boldText
-                      .copyWith(fontSize: fontSize.sp, color: textColor),
+                      .copyWith(fontSize: fontSize, color: textColor),
                 ),
                 if (suffixIcon != null)
                   const SizedBox(

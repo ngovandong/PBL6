@@ -26,11 +26,11 @@ class ProfileScreen extends GetView<ProfileController> {
           UIConfigs.horizontalPadding,
           UIConfigs.horizontalPadding,
         ),
-        child: Obx(() {
-          return Column(
-            children: [
-              if (verifyAuthController.currentUser != null)
-                Container(
+        child: Column(
+          children: [
+            Obx(() {
+              if (verifyAuthController.currentUser != null) {
+                return Container(
                   height: 70,
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -80,93 +80,97 @@ class ProfileScreen extends GetView<ProfileController> {
                       )
                     ],
                   ),
-                ),
-              const SizedBox(
-                height: 20,
-              ),
-              GetBuilder<ProfileController>(
-                id: ProfileGetBuilderEnum.updateProfile,
-                builder: (profileController) {
-                  return ListView.separated(
-                    itemCount: controller.settingItems.length,
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 20,
-                      );
-                    },
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              offset: const Offset(0, 2),
-                              blurRadius: 12,
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: Wrap(
-                            children: List.generate(
-                              controller.settingItems[index].length,
-                              (subIndex) {
-                                final SettingItemUI settingItem =
-                                    controller.settingItems[index][subIndex];
+                );
+              }
+              return const SizedBox();
+            }),
+            const SizedBox(
+              height: 20,
+            ),
+            GetBuilder<ProfileController>(
+              id: ProfileGetBuilderEnum.updateProfile,
+              builder: (profileController) {
+                return ListView.separated(
+                  itemCount: controller.settingItems.length,
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 20,
+                    );
+                  },
+                  itemBuilder: (context, index) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            offset: const Offset(0, 2),
+                            blurRadius: 12,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: Column(
+                          children: List.generate(
+                            controller.settingItems[index].length,
+                            (subIndex) {
+                              final SettingItemUI settingItem =
+                                  controller.settingItems[index][subIndex];
 
-                                return GestureDetector(
-                                  onTap: settingItem.onPressed,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    height: 50,
-                                    color: settingItem.backgroundColor,
-                                    child: Row(
-                                      children: [
-                                        Center(
-                                          child: Icon(
-                                            settingItem.prefixIcon,
-                                            color: settingItem.textColor ??
-                                                Palette.gray300,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 15,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            settingItem.title,
-                                            style: TextStyles.s14MediumText
-                                                .copyWith(
-                                              color: settingItem.textColor ??
-                                                  Palette.zodiacBlue,
-                                            ),
-                                          ),
-                                        ),
-                                        Icon(
-                                          settingItem.suffixIcon,
+                              return GestureDetector(
+                                onTap: settingItem.onPressed,
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  height: 50,
+                                  color: settingItem.backgroundColor,
+                                  child: Row(
+                                    children: [
+                                      Center(
+                                        child: Icon(
+                                          settingItem.prefixIcon,
                                           color: settingItem.textColor ??
                                               Palette.gray300,
-                                        )
-                                      ],
-                                    ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 15,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          settingItem.title,
+                                          style:
+                                              TextStyles.s14MediumText.copyWith(
+                                            color: settingItem.textColor ??
+                                                Palette.zodiacBlue,
+                                          ),
+                                        ),
+                                      ),
+                                      Icon(
+                                        settingItem.suffixIcon,
+                                        color: settingItem.textColor ??
+                                            Palette.gray300,
+                                      )
+                                    ],
                                   ),
-                                );
-                              },
-                            ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
-              const Spacer(),
-              if (verifyAuthController.currentUser != null)
-                GestureDetector(
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+            const Spacer(),
+            Obx(() {
+              if (verifyAuthController.currentUser != null) {
+                return GestureDetector(
                   onTap: () async {
                     await verifyAuthController.signOut();
                   },
@@ -197,10 +201,12 @@ class ProfileScreen extends GetView<ProfileController> {
                       ],
                     ),
                   ),
-                )
-            ],
-          );
-        }),
+                );
+              }
+              return const SizedBox();
+            })
+          ],
+        ),
       ),
       backgroundColor: Palette.background,
     );

@@ -15,7 +15,6 @@ class HomeBinding implements Bindings {
         searchDestinationRepository: getIt.get<LocationRepository>(),
         homeController: Get.find<HomeController>(),
       ),
-      fenix: true,
     );
   }
 }

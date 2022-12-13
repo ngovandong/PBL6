@@ -38,9 +38,10 @@ class FavoriteView extends StatelessWidget {
           );
         },
         itemBuilder: (context, index) {
-          return const HotelInfoCard(
-            showPrice: false,
-          );
+          // return const HotelInfoCard(
+          //   showPrice: false,
+          // );
+          return const SizedBox();
         },
       ),
       backgroundColor: Palette.background,

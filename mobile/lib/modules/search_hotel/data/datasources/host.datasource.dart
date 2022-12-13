@@ -34,6 +34,9 @@ class HostDataSource {
     ))
         .data;
 
-    return HostModel.fromJson(response);
+    final HostModel host = HostModel.fromJson(response);
+    host.accommodationSearches.sort((a, b) => a.price.compareTo(b.price));
+
+    return host;
   }
 }

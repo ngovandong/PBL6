@@ -8,7 +8,14 @@ import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/generated/locales.g.dart';
 
 class ErrorBanner extends StatelessWidget {
-  const ErrorBanner({super.key});
+  final String? title;
+  final Function()? action;
+
+  const ErrorBanner({
+    super.key,
+    this.title,
+    this.action,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +35,13 @@ class ErrorBanner extends StatelessWidget {
           ),
           AppRoundedButton(
             onPressed: () {
-              Get.back();
+              action ?? Get.back();
             },
             width: 250,
             height: 45,
             backgroundColor: Palette.red500,
             showShadow: false,
-            content: 'Trở về trang trước',
+            content: title ?? 'Trở về trang trước',
           )
         ],
       ),

@@ -20,6 +20,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? bottom;
   final List<Widget> actions;
 
+  final Function()? onLeadingAction;
+
   const CustomAppBar({
     super.key,
     this.isCenterTitle = true,
@@ -34,6 +36,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.bottom,
     this.actions = const [],
+    this.onLeadingAction,
   });
 
   @override
@@ -56,7 +59,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: actions,
       leading: hasBackIcon
           ? AppIconButton(
-              onPressed: () => Get.back(),
+              onPressed: () {
+                if (onLeadingAction != null) {
+                  onLeadingAction?.call();
+                } else {
+                  Get.back();
+                }
+              },
               icon: Icon(
                 Icons.chevron_left_rounded,
                 size: 40,

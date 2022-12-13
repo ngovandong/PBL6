@@ -1,5 +1,5 @@
 abstract class ProfileInternalEventEnum {
-  static const String updateSettingProfile = 'UpdateSettingProfile';
+  static const String updateSettingProfile = 'UPDATE_SETTING_PROFILE';
 }
 
 abstract class ProfileGetBuilderEnum {
