@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
-import 'package:mobile/modules/hotel_detail/widgets/info_card.widget.dart';
+import 'package:mobile/modules/hotel_detail/widgets/detail/info_card.widget.dart';
 
-class ReviewInfo extends StatelessWidget {
-  const ReviewInfo({super.key});
+class PolicyInfo extends StatelessWidget {
+  const PolicyInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class ReviewInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text(
-            'Đánh giá và nhận xét',
+            'Chính sách',
             style: TextStyles.s17BoldText,
           ),
           Text(

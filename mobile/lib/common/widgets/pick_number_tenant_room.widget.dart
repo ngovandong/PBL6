@@ -73,17 +73,17 @@ class _PickNumberTenantAndRoomState extends State<PickNumberTenantAndRoom> {
         left: 12,
         right: 12,
       ),
-      child: Wrap(
+      child: Column(
         children: [
           RowPickTenantOrRoom(
-            number: roomEditingControlller.text,
+            number: int.parse(roomEditingControlller.text),
             title: 'Phòng',
             onMinus: () => onMinus(false),
             onPlus: () => onPlus(false),
           ),
           if (widget.hasShowTenant)
             RowPickTenantOrRoom(
-              number: tenantEditingController.text,
+              number: int.parse(tenantEditingController.text),
               title: 'Người',
               onMinus: () => onMinus(true),
               onPlus: () => onPlus(true),
@@ -110,10 +110,12 @@ class _PickNumberTenantAndRoomState extends State<PickNumberTenantAndRoom> {
 }
 
 class RowPickTenantOrRoom extends StatelessWidget {
-  final String number;
+  final int number;
   final String title;
   final void Function() onMinus;
   final void Function() onPlus;
+  final int? maxNumber;
+  final int minNumber;
 
   const RowPickTenantOrRoom({
     super.key,
@@ -121,6 +123,8 @@ class RowPickTenantOrRoom extends StatelessWidget {
     required this.title,
     required this.onMinus,
     required this.onPlus,
+    this.maxNumber,
+    this.minNumber = 1,
   });
 
   @override
@@ -133,7 +137,7 @@ class RowPickTenantOrRoom extends StatelessWidget {
             dimension: 50,
             child: Center(
               child: Text(
-                number,
+                number.toString(),
                 style: TextStyles.s17MediumText,
               ),
             ),
@@ -149,12 +153,10 @@ class RowPickTenantOrRoom extends StatelessWidget {
             width: 50,
             height: 50,
             hasBorder: false,
-            isDisable: number.compareTo('1') == 0,
+            isDisable: number == minNumber,
             icon: Icon(
               PhosphorIcons.minus_circle_light,
-              color: number.compareTo('1') == 0
-                  ? Palette.gray300
-                  : Palette.blue400,
+              color: number == minNumber ? Palette.gray300 : Palette.blue400,
               size: 28,
             ),
           ),
@@ -163,9 +165,10 @@ class RowPickTenantOrRoom extends StatelessWidget {
             width: 50,
             height: 50,
             hasBorder: false,
-            icon: const Icon(
+            isDisable: number == maxNumber,
+            icon: Icon(
               PhosphorIcons.plus_circle_light,
-              color: Palette.blue400,
+              color: number == maxNumber ? Palette.gray300 : Palette.blue400,
               size: 28,
             ),
           )

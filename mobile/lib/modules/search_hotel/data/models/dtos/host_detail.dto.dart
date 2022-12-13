@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mobile/common/extensions/datetime.extension.dart';
 import 'package:mobile/common/utils/datetime.util.dart';
 
 part 'host_detail.dto.g.dart';
@@ -17,6 +18,11 @@ class HostDetailDTO {
     required this.dateCheckout,
     this.quantiyPerson = 2,
   });
+
+  String get displayDate =>
+      '${dateCheckin.toDisplayDate} - ${dateCheckout.toDisplayDate}';
+
+  int get numberOfDate => dateCheckout.difference(dateCheckin).inDays;
 
   Map<String, dynamic> toJson() => _$HostDetailDTOToJson(this);
 }

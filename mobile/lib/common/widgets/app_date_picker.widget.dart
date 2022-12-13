@@ -13,7 +13,7 @@ class AppDatePicker extends StatefulWidget {
   final DateTime? initEndDate;
   final DateTime? initDate;
 
-  final void Function(DateTime startDate, DateTime endDate)? onSubmitRange;
+  final Function(DateTime startDate, DateTime endDate)? onSubmitRange;
 
   final bool isPickRange;
 
@@ -36,6 +36,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
   final TextEditingController endDateTextController = TextEditingController();
 
   bool isValidate = true;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -235,20 +236,29 @@ class _AppDatePickerState extends State<AppDatePicker> {
                   height: 15,
                 ),
                 AppRoundedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (widget.isPickRange) {
                       final PickerDateRange selectedRange =
                           dateController.selectedRange!;
+                      // setState(() {
+                      //   isLoading = true;
+                      // });
+
                       widget.onSubmitRange!(
                         selectedRange.startDate!,
                         selectedRange.endDate!,
                       );
+
+                      // setState(() {
+                      //   isLoading = false;
+                      // });
                     }
 
                     Get.back();
                   },
                   content: 'Chọn ngày',
                   fontSize: 15,
+                  isLoading: isLoading,
                   showShadow: false,
                   height: 45,
                   backgroundColor: Palette.blue400,

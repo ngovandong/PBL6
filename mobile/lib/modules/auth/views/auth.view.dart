@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
@@ -39,18 +38,18 @@ class AuthView extends GetView<AuthController> {
               children: [
                 Assets.icons.app.appIconSvg.svg(),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40.h),
+                  padding: const EdgeInsets.symmetric(vertical: 40),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Bắt đầu với ReadyBooking',
-                      style: TextStyles.boldText.copyWith(fontSize: 24.sp),
+                      style: TextStyles.boldText.copyWith(fontSize: 24),
                     ),
                   ),
                 ),
                 // const LoginForm(),
-                SizedBox(
-                  height: 20.h,
+                const SizedBox(
+                  height: 20,
                 ),
                 AppRoundedButton(
                   onPressed: controller.loginWithGoolge,

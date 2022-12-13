@@ -9,7 +9,7 @@ class HostModel {
   final String id;
   final String name;
   final String description;
-  final int? ratingStar;
+  final int ratingStar;
   final String hostType;
   final String country;
   final String province;
@@ -37,7 +37,7 @@ class HostModel {
     required this.id,
     required this.name,
     required this.description,
-    this.ratingStar,
+    this.ratingStar = 0,
     required this.hostType,
     required this.country,
     required this.province,

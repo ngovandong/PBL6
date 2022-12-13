@@ -108,6 +108,7 @@ class ProfileController extends GetxController {
       switch (action) {
         case ProfileInternalEventEnum.updateSettingProfile:
           _updateSettingItems();
+
           break;
       }
     });

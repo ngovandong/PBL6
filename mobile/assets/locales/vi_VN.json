@@ -16,7 +16,10 @@
     "invalid_email": "Địa chỉ email này không hợp lệ. Vui lòng thử lại",
     "login_email": "Email này đã được đăng ký tài khoản, bạn có thể tiếp tục bằng cách đăng nhập",
     "phone_max_length": "Số điện thoại phải là 10 ký tự",
-    "phone_required": "Số điện thoại không được để trống"
+    "phone_required": "Số điện thoại không được để trống",
+    "first_name_required": "Vui lòng nhập họ của bạn",
+    "second_name_required": "Vui lòng nhập tên của bạn",
+    "email_required": "Vui lòng nhập số điện thoại của bạn"
   },
   "find_hotel": {
     "choose_destination": "Chọn điểm đến của bạn",
@@ -27,11 +30,15 @@
     "hotel": "Khách sạn yêu thích"
   },
   "hotel_detail": {
-    "position": "Vị trí"
+    "position": "Vị trí",
+    "required_login": "Để có thể đặt phòng, vui lòng đăng nhập để tiếp tục",
+    "saved_info_account": "Lưu thông tin vào tài khoản của bạn"
   },
   "dialog": {
     "no": "Không",
-    "yes": "Có"
+    "yes": "Có",
+    "cancel": "Huỷ",
+    "continue": "Tiếp tục"
   },
   "profile": {
     "setting_account": "Cài đặt tài khoản",
@@ -50,6 +57,7 @@
   },
   "share": {
     "error_message": "Đã có lỗi xảy ra. Vui lòng thử lại sau",
+    "error_find": "Chọn địa điểm cần tìm khách sạn",
     "success_message": "Thành công"
   }
 }

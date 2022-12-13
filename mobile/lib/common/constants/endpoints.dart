@@ -24,4 +24,14 @@ abstract class Endpoints {
   // Host detail
   static final String hostDetail =
       '${AppFlavor.apiUrl}/customer/search/host-search/detail';
+
+  // Booking
+  static final String createBooking =
+      '${AppFlavor.apiUrl}/customer/booking/create-booking';
+  static final String getCurrentBooking =
+      '${AppFlavor.apiUrl}/customer/booking/current-booking';
+  static final String getCompletedBooking =
+      '${AppFlavor.apiUrl}/customer/booking/history-booking';
+  static final String getCancelBooking =
+      '${AppFlavor.apiUrl}/customer/booking/cancel-booking';
 }

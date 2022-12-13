@@ -21,7 +21,7 @@ abstract class UtilityCode {
   static const String beach = 'beach';
 }
 
-abstract class UtilityIconUtil {
+abstract class UtilityContentUtil {
   static IconData getIcon(String code) {
     switch (code) {
       case UtilityCode.wifi:
