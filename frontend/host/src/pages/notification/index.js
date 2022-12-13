@@ -1,13 +1,17 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { selectAddingHost } from "../../app/store/hostSlice";
+import { Outlet } from "react-router-dom";
+import NotificationNavbar from "../../components/NotìicationNavbar";
 
 function Notification() {
-  const addingHost = useSelector(selectAddingHost);
   useEffect(() => {
     document.title = "Thông báo";
   }, []);
-  return <div>{JSON.stringify(addingHost)}</div>;
+  return (
+    <div className="notification-page">
+      <NotificationNavbar />
+      <Outlet />
+    </div>
+  );
 }
 
 export default Notification;

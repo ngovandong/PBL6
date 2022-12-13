@@ -25,6 +25,9 @@ import RoomTab from "../pages/Detail/RoomTab";
 import DefaultRoom from "../pages/Detail/RoomTab/DefaultRoom";
 import RoomDetail from "../pages/Detail/RoomTab/RoomDetail";
 import AddRoom from "../pages/Detail/RoomTab/AddRoom";
+import CurrentBooking from "../pages/notification/CurrentBooking";
+import CanceledBooking from "../pages/notification/CanceledBooking";
+import BookingHistory from "../pages/notification/BookingHistory";
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -38,7 +41,12 @@ function App() {
               <Route path="active" element={<ActivePage />} />
               <Route path="deactivated" element={<DeactivatedPage />} />
             </Route>
-            <Route path="notification" element={<Notification />} />
+            <Route path="notification" element={<Notification />}>
+              <Route index element={<Navigate to="current" replace />} />
+              <Route path="current" element={<CurrentBooking />} />
+              <Route path="canceled" element={<CanceledBooking />} />
+              <Route path="history" element={<BookingHistory />} />
+            </Route>
             <Route path="profile" element={<Profile />} />
           </Route>
           <Route path="newaccommodation/:id" element={<NewAccommodation />} />
