@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:mobile/common/constants/handle_status.dart';
+import 'package:mobile/common/utils/bottom_sheet.util.dart';
+import 'package:mobile/common/widgets/app_date_picker.widget.dart';
+import 'package:mobile/common/widgets/pick_number_tenant_room.widget.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
 import 'package:mobile/modules/home/data/models/dtos/search_hotels.dto.dart';
 import 'package:mobile/modules/search_hotel/data/models/dtos/host_detail.dto.dart';
@@ -42,17 +45,60 @@ class HotelDetailController extends GetxController {
     ).obs;
   }
 
-  Future<void> _getData() async {
+  Future<void> _getData({bool isInit = true}) async {
     try {
-      _initParams();
-
       getDataStatus.value = HandleStatus.LOADING;
-      _host = (await hostRepository.getHostDetail(hostDetailParams.value)).obs;
+      if (isInit) {
+        _initParams();
+        _host =
+            (await hostRepository.getHostDetail(hostDetailParams.value)).obs;
+      } else {
+        _host.value =
+            await hostRepository.getHostDetail(hostDetailParams.value);
+      }
 
       getDataStatus.value = HandleStatus.HAS_DATA;
-    } catch (err) {
-      log('Error in _getData from $runtimeType: $err');
+    } catch (err, stack) {
+      log('Error in _getData from $runtimeType: $stack');
       getDataStatus.value = HandleStatus.HAS_ERROR;
     }
+  }
+
+  Future<void> _setBookingDate(
+    DateTime checkinDate,
+    DateTime checkoutDate,
+  ) async {
+    hostDetailParams.value.dateCheckin = checkinDate;
+    hostDetailParams.value.dateCheckout = checkoutDate;
+
+    await _getData(isInit: false);
+  }
+
+  Future<void> showSelectDate() async {
+    await BottomSheetUtil.show(
+      child: AppDatePicker(
+        initStartDate: hostDetailParams.value.dateCheckin,
+        initEndDate: hostDetailParams.value.dateCheckout,
+        onSubmitRange: _setBookingDate,
+      ),
+    );
+  }
+
+  Future<void> _setTenantAndRoom({
+    required int numberOfRooms,
+    required int numberOfTenants,
+  }) async {
+    hostDetailParams.value.quantiyPerson = numberOfTenants;
+
+    await _getData(isInit: false);
+  }
+
+  Future<void> showSelectTenantRoom() async {
+    await BottomSheetUtil.show(
+      child: PickNumberTenantAndRoom(
+        onChangeTenantAndRoom: _setTenantAndRoom,
+        initTenant: hostDetailParams.value.quantiyPerson,
+      ),
+    );
   }
 }

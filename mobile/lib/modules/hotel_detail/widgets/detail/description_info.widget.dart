@@ -3,7 +3,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/modules/hotel_detail/controllers/hotel_detail.controller.dart';
-import 'package:mobile/modules/hotel_detail/widgets/info_card.widget.dart';
+import 'package:mobile/modules/hotel_detail/widgets/detail/info_card.widget.dart';
 import 'package:readmore/readmore.dart';
 
 class DescriptionInfo extends GetView<HotelDetailController> {
@@ -26,6 +26,7 @@ class DescriptionInfo extends GetView<HotelDetailController> {
             controller.host.description,
             colorClickableText: Colors.pink,
             trimMode: TrimMode.Line,
+            trimLines: 3,
             trimCollapsedText: 'Xem thêm',
             trimExpandedText: 'Ẩn thông tin',
             style: TextStyles.s14MediumText,

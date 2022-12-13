@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:mobile/common/extensions/number.extension.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/widgets/icon_title.widget.dart';
+import 'package:mobile/modules/hotel_detail/data/models/dtos/booking.dto.dart';
 
 class HotelInfoCard extends StatelessWidget {
-  final bool showPrice;
+  final BookingDTO bookingParams;
 
   const HotelInfoCard({
     super.key,
-    this.showPrice = true,
+    required this.bookingParams,
   });
 
   @override
@@ -19,17 +22,17 @@ class HotelInfoCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Wrap(
+      child: Column(
         children: [
           Row(
             children: [
               SizedBox(
                 height: 150,
-                width: 120,
+                width: 100,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    'https://phuot3mien.com/wp-content/uploads/2020/03/cau-rong-da-nang-phuot3mien.jpg',
+                    bookingParams.avatarImage!,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -41,124 +44,64 @@ class HotelInfoCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: const [
-                        Text(
-                          'Coco Hotel',
-                          style: TextStyles.s17BoldText,
-                        ),
-                        Spacer(),
-                        Icon(
-                          PhosphorIcons.heart_light,
-                          color: Palette.gray700,
-                        )
-                      ],
+                    Text(
+                      bookingParams.hostName!,
+                      style: TextStyles.s17BoldText,
                     ),
                     const SizedBox(
                       height: 6,
                     ),
-                    Row(
-                      children: const [
-                        Text(
-                          '4.9',
-                          style: TextStyles.s17BoldText,
+                    IconTitle(
+                      icon: Icons.bed_rounded,
+                      child: Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: List.generate(
+                              bookingParams.bookingDetails.length, (index) {
+                            return Text(
+                              bookingParams
+                                  .bookingDetails[index].accommodationName!,
+                            );
+                          }),
                         ),
-                        Icon(
-                          PhosphorIcons.star_fill,
-                          size: 17,
-                          color: Colors.yellow,
-                        ),
-                      ],
+                      ),
                     ),
                     const SizedBox(
                       height: 6,
                     ),
-                    Row(
-                      children: const [
-                        Icon(
-                          Icons.bed_rounded,
-                          size: 18,
-                        ),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          'Phòng Deluxe',
-                          style: TextStyles.s14RegularText,
-                        )
-                      ],
+                    IconTitle(
+                      icon: PhosphorIcons.map_pin,
+                      title: bookingParams.province,
                     ),
                     const SizedBox(
                       height: 6,
                     ),
-                    Row(
-                      children: const [
-                        Icon(
-                          PhosphorIcons.map_pin,
-                          size: 18,
-                        ),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          'Hội An, Quảng Nam',
-                          style: TextStyles.s14RegularText,
-                        )
-                      ],
+                    IconTitle(
+                      icon: PhosphorIcons.calendar_check,
+                      title: bookingParams.displayDate,
                     ),
                     const SizedBox(
                       height: 6,
                     ),
-                    Row(
-                      children: const [
-                        Icon(
-                          PhosphorIcons.calendar_check,
-                          size: 18,
-                        ),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          '12/10/2022 - 20/10/2022',
-                          style: TextStyles.s14RegularText,
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    Row(
-                      children: const [
-                        Icon(
-                          PhosphorIcons.user,
-                          size: 18,
-                        ),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          '2 khách',
-                          style: TextStyles.s14RegularText,
-                        )
-                      ],
-                    )
+                    // const IconTitle(
+                    //   icon: PhosphorIcons.user,
+                    //   title: '2 khách',
+                    // )
                   ],
                 ),
               )
             ],
           ),
-          if (showPrice)
-            const Divider(
-              height: 30,
+          const Divider(
+            height: 30,
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              bookingParams.totalPrice!.toMoneyFormat,
+              style: TextStyles.s17BoldText.copyWith(color: Palette.red400),
             ),
-          if (showPrice)
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                '916.667 đ',
-                style: TextStyles.s17BoldText.copyWith(color: Palette.red400),
-              ),
-            ),
+          )
         ],
       ),
     );

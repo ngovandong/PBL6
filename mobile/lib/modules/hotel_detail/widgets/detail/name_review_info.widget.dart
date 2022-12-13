@@ -13,7 +13,6 @@ class NameAndReviewInfo extends GetView<HotelDetailController> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: UIConfigs.horizontalPadding,
         bottom: UIConfigs.horizontalPadding,
       ),
       child: Row(
@@ -28,7 +27,7 @@ class NameAndReviewInfo extends GetView<HotelDetailController> {
               ),
               Row(
                 children: List.generate(
-                  controller.host.ratingStar ?? 0,
+                  controller.host.ratingStar,
                   (index) => const Icon(
                     PhosphorIcons.star_fill,
                     color: Colors.yellow,

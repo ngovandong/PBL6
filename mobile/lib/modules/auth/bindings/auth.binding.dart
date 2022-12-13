@@ -19,7 +19,6 @@ class AuthBinding implements Bindings {
         authRepository: getIt.get<AuthRepository>(),
         verifyAuthController: Get.find<VerifyAuthController>(),
       ),
-      fenix: true,
     );
   }
 }

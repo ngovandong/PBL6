@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
@@ -44,7 +43,7 @@ class TopDestinationItem extends StatelessWidget {
                     children: [
                       Text(
                         'Đà Nẵng',
-                        style: TextStyles.boldText.copyWith(fontSize: 14.sp),
+                        style: TextStyles.boldText.copyWith(fontSize: 14),
                       ),
                       const SizedBox(
                         height: 8,
@@ -64,8 +63,8 @@ class TopDestinationItem extends StatelessWidget {
                           ),
                           Text(
                             'Bãi biển',
-                            style: TextStyles.regularText
-                                .copyWith(fontSize: 11.sp),
+                            style:
+                                TextStyles.regularText.copyWith(fontSize: 11),
                           )
                         ],
                       ),
@@ -84,8 +83,8 @@ class TopDestinationItem extends StatelessWidget {
                           ),
                           Text(
                             'Tham quan',
-                            style: TextStyles.regularText
-                                .copyWith(fontSize: 11.sp),
+                            style:
+                                TextStyles.regularText.copyWith(fontSize: 11),
                           )
                         ],
                       ),
@@ -104,8 +103,8 @@ class TopDestinationItem extends StatelessWidget {
                           ),
                           Text(
                             'Thiên nhiên',
-                            style: TextStyles.regularText
-                                .copyWith(fontSize: 11.sp),
+                            style:
+                                TextStyles.regularText.copyWith(fontSize: 11),
                           )
                         ],
                       )

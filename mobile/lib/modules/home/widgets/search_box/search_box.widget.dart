@@ -26,7 +26,7 @@ class HomeSearchBox extends GetView<HomeController> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child: Wrap(
+        child: Column(
           children: [
             const LocationFrame(),
             const Divider(

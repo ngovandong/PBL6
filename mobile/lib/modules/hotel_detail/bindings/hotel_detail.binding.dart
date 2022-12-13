@@ -1,8 +1,13 @@
 import 'package:get/get.dart';
 import 'package:mobile/di/di.dart';
+import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
+import 'package:mobile/modules/hotel_detail/controllers/booking_step.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/choose_room.controller.dart';
+import 'package:mobile/modules/hotel_detail/controllers/confirm_booking.controller.dart';
+import 'package:mobile/modules/hotel_detail/controllers/fill_profile_info.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/hotel_detail.controller.dart';
+import 'package:mobile/modules/hotel_detail/data/repositories/booking.repository.dart';
 import 'package:mobile/modules/search_hotel/data/repositories/host.repository.dart';
 
 class HotelDetailBinding extends Bindings {
@@ -17,8 +22,24 @@ class HotelDetailBinding extends Bindings {
     Get.lazyPut(
       () => ChooseRoomController(
         hotelDetailController: Get.find<HotelDetailController>(),
+        verifyAuthController: Get.find<VerifyAuthController>(),
       ),
-      fenix: true,
+    );
+    Get.lazyPut(
+      () => FillProfileInfoController(
+        verifyAuthController: Get.find<VerifyAuthController>(),
+      ),
+    );
+    Get.lazyPut(
+      () => BookingStepController(
+        bookingRepository: getIt.get<BookingRepository>(),
+        fillProfileInfoController: Get.find<FillProfileInfoController>(),
+        hotelDetailController: Get.find<HotelDetailController>(),
+        chooseRoomController: Get.find<ChooseRoomController>(),
+      ),
+    );
+    Get.lazyPut(
+      () => ConfirmBookingController(),
     );
   }
 }

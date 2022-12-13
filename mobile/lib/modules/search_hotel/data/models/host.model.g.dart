@@ -10,7 +10,7 @@ HostModel _$HostModelFromJson(Map<String, dynamic> json) => HostModel(
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String,
-      ratingStar: json['ratingStar'] as int?,
+      ratingStar: json['ratingStar'] as int? ?? 0,
       hostType: json['hostType'] as String,
       country: json['country'] as String,
       province: json['province'] as String,

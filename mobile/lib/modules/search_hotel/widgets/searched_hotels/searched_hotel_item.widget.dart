@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/extensions/number.extension.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/widgets/image_slider.widget.dart';
 import 'package:mobile/modules/search_hotel/controllers/search_hotel.controller.dart';
 import 'package:mobile/modules/search_hotel/data/models/host.model.dart';
 
@@ -32,24 +32,9 @@ class SearchedHotelItem extends GetView<SearchHotelController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            ImageSlider(
               height: 150,
-              width: double.infinity,
-              child: PageView.builder(
-                itemCount: host.images.length,
-                physics: const ClampingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      host.images[index],
-                      height: 150,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                },
-              ),
+              images: host.images,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 6),
@@ -58,10 +43,10 @@ class SearchedHotelItem extends GetView<SearchHotelController> {
                 style: TextStyles.s17BoldText,
               ),
             ),
-            if (host.ratingStar != null && host.ratingStar! > 0)
+            if (host.ratingStar > 0)
               Row(
                 children: List.generate(
-                  host.ratingStar!,
+                  host.ratingStar,
                   (index) => const Icon(
                     PhosphorIcons.star_fill,
                     color: Colors.yellow,
@@ -209,10 +194,10 @@ class SearchedHotelItem extends GetView<SearchHotelController> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              host.cheapestRoom.price.toMoneyFormat,
+                              host.cheapestRoom.totalPrice.toMoneyFormat,
                               style: TextStyles.boldText.copyWith(
                                 color: Palette.red400,
-                                fontSize: 18.sp,
+                                fontSize: 18,
                               ),
                             ),
                           ),

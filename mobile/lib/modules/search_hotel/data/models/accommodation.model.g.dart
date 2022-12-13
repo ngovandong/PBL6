@@ -17,9 +17,8 @@ AccommodationModel _$AccommodationModelFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       description: json['description'] as String,
+      quantityPersonFit: json['quantityPersonFit'] as int,
       quantityAvailable: json['quantityAvailable'] as int,
-      ratingFeedback: (json['ratingFeedback'] as num).toDouble(),
-      quantityFeedBack: json['quantityFeedBack'] as int,
       images:
           (json['images'] as List<dynamic>).map((e) => e as String).toList(),
       area: (json['area'] as num).toDouble(),
@@ -32,7 +31,8 @@ AccommodationModel _$AccommodationModelFromJson(Map<String, dynamic> json) =>
       utilities:
           (json['utilities'] as List<dynamic>).map((e) => e as String).toList(),
       smoking: json['smoking'] as bool,
-      price: (json['price'] as num).toDouble(),
+      vatFee: (json['vatFee'] as num?)?.toDouble() ?? 0,
+      price: (json['price'] as num?)?.toDouble() ?? 0,
       isPrePayment: json['isPrePayment'] as bool,
       hostPartnerId: json['hostPartnerId'] as String,
     );

@@ -8,24 +8,24 @@ import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/generated/locales.g.dart';
 
 abstract class DialogUtil {
-  static void showConfirm({
-    required String title,
-    required String content,
-    String? confirmButtonText,
-    String? cancelButtonText,
-    Function? onClose,
-    Function? onConfirm,
-  }) {
-    showGeneral(
-      title: title,
-      content: content,
-      confirmButtonText: confirmButtonText,
-      cancelButtonText: cancelButtonText,
-      onClose: onClose,
-      onConfirm: onConfirm,
-      isConfirmDialog: true,
-    );
-  }
+  // static void showConfirm({
+  //   required String title,
+  //   required String content,
+  //   String? confirmButtonText,
+  //   String? cancelButtonText,
+  //   Function? onClose,
+  //   Function? onConfirm,
+  // }) {
+  //   showGeneral(
+  //     title: title,
+  //     content: content,
+  //     confirmButtonText: confirmButtonText,
+  //     cancelButtonText: cancelButtonText,
+  //     onClose: onClose,
+  //     onConfirm: onConfirm,
+  //     isConfirmDialog: true,
+  //   );
+  // }
 
   static void showAlert({required String title, required String content}) {
     showGeneral(title: title, content: content);
@@ -60,7 +60,7 @@ abstract class DialogUtil {
     );
   }
 
-  static void showGeneral({
+  static Future<void> showGeneral({
     required String title,
     required String content,
     String? confirmButtonText,
@@ -68,12 +68,12 @@ abstract class DialogUtil {
     Function? onClose,
     Function? onConfirm,
     bool isConfirmDialog = false,
-  }) {
-    Get.dialog(
+  }) async {
+    await Get.dialog(
       AlertDialog(
         title: Text(
           title,
-          style: TextStyles.boldText.copyWith(fontSize: 22.sp),
+          style: TextStyles.boldText.copyWith(fontSize: 22),
           textAlign: TextAlign.center,
         ),
         content: Text(
@@ -87,34 +87,37 @@ abstract class DialogUtil {
               width: 100.w,
               height: 40,
               borderRadius: 6,
-              onPressed: () {
-                Get.back();
+              onPressed: () async {
                 if (onClose != null) {
-                  onClose();
+                  await onClose();
                 }
+                Get.back();
               },
               content: cancelButtonText ?? LocaleKeys.dialog_no.tr,
-              fontSize: 13.sp,
-              backgroundColor: Palette.red400,
+              fontSize: 13,
+              backgroundColor: Colors.white,
+              textColor: Palette.zodiacBlue,
+              showShadow: false,
+              showBorder: true,
             ),
           AppRoundedButton(
-            width: 100.w,
+            width: isConfirmDialog ? 100.w : double.infinity,
             height: 40,
             borderRadius: 6,
-            onPressed: () {
-              Get.back();
+            onPressed: () async {
               if (onConfirm != null) {
-                onConfirm();
+                await onConfirm();
               }
+              Get.back();
             },
             content: confirmButtonText ?? LocaleKeys.dialog_yes.tr,
-            fontSize: 13.sp,
-            backgroundColor: Palette.green600,
+            fontSize: 13,
+            showShadow: false,
           )
         ],
         actionsAlignment: MainAxisAlignment.spaceBetween,
         contentPadding:
-            const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+            const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         actionsPadding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
         titlePadding: const EdgeInsets.only(top: 10),
         buttonPadding: EdgeInsets.zero,
@@ -123,19 +126,39 @@ abstract class DialogUtil {
     );
   }
 
-  static void showLoading() {
+  static void showLoading({String? content}) {
     Get.dialog(
       WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async {
+          return false;
+        },
         child: Center(
           child: Container(
-            height: 60,
-            width: 60,
+            padding: EdgeInsets.all(content == null ? 30 : 20),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const CupertinoActivityIndicator(),
+            child: Material(
+              type: MaterialType.transparency,
+              child: Wrap(
+                direction: Axis.vertical,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  const CupertinoActivityIndicator(),
+                  if (content != null)
+                    const SizedBox(
+                      height: 14,
+                    ),
+                  if (content != null)
+                    Text(
+                      content,
+                      style: TextStyles.s14MediumText,
+                      textAlign: TextAlign.center,
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
