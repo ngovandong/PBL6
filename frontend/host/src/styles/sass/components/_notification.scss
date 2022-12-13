@@ -1,0 +1,65 @@
+.notification-page {
+    .booking-table {
+        margin-top: 30px;
+
+        .booking-row {
+            border: $border-color 0.5px solid;
+            padding: 8px 16px;
+            display: flex;
+            background-color: white;
+            font-size: 14px;
+            color: #666;
+
+
+            .start-column {
+                width: 5%;
+            }
+
+            .code-column {
+                width: 20%;
+
+                * {
+                    padding: 2px 0;
+                }
+
+                span {
+                    color: #ab4445;
+                    font-weight: bold;
+                }
+            }
+
+            .customer-column {
+                width: 35%;
+
+                * {
+                    padding: 5px 0;
+                }
+            }
+
+            .time-column {
+                width: 20%;
+
+                * {
+                    padding: 5px 0;
+                }
+            }
+
+            .room-column {
+                width: 20%;
+
+                * {
+                    padding: 5px 0;
+                }
+            }
+        }
+
+        .booking-detail {
+            background-color: white;
+        }
+
+        .active-row {
+            color: white;
+            background-color: #309BE8 !important;
+        }
+    }
+}

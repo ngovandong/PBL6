@@ -46,10 +46,14 @@ function TableRow({ host }) {
 
   return (
     <tr>
-      <td style={{ width: "35%" }}>{host.name}</td>
-      <td style={{ width: "35%" }}>{host.address}</td>
-      <td style={{ width: "10%" }}>
-        <CircleProgress value={progress} />
+      <td style={{ width: "30%" }}>{host.name}</td>
+      <td style={{ width: "30%" }}>{host.address}</td>
+      <td style={{ width: "20%" }}>
+        {progress === 100 ? (
+          "Chờ kiểm duyệt"
+        ) : (
+          <CircleProgress value={progress} />
+        )}
       </td>
       <td style={{ width: "10%" }}>
         <a
@@ -57,11 +61,11 @@ function TableRow({ host }) {
           className="btn-link"
           target="blank"
         >
-          Hoàn thành
+          {progress === 100 ? "Chỉnh sửa" : "Hoàn thành"}
         </a>
       </td>
       <td style={{ width: "10%" }}>
-        <span className="btn-link" onClick={handleDelete}>
+        <span className="btn-link delete" onClick={handleDelete}>
           Xóa
         </span>
       </td>

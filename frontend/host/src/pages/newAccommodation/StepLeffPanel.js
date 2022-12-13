@@ -14,7 +14,26 @@ import {
   updateHost,
 } from "../../app/store/hostSlice";
 
-function StepLeftPanel({ steps }) {
+const steps = [
+  {
+    label: "Thông tin cơ bản",
+    description: "",
+  },
+  {
+    label: "Vị trí",
+    description: "",
+  },
+  {
+    label: "Tiện nghi",
+    description: "",
+  },
+  {
+    label: "Ảnh",
+    description: "",
+  },
+];
+
+function StepLeftPanel({ isInfoTab }) {
   const activeStep = useSelector(selectActiveStep);
   const dispatch = useDispatch();
   const handleDone = () => {
@@ -43,7 +62,7 @@ function StepLeftPanel({ steps }) {
                     onClick={() => dispatch(updateHost())}
                     sx={{ mt: 1, mr: 1 }}
                   >
-                    Tiếp theo
+                    {isInfoTab ? "Lưu" : "Tiếp theo"}
                   </Button>
                   <Button
                     disabled={index === 0}
@@ -58,7 +77,7 @@ function StepLeftPanel({ steps }) {
           </Step>
         ))}
       </Stepper>
-      {activeStep === steps.length && (
+      {!isInfoTab && activeStep === steps.length && (
         <Paper square elevation={0} sx={{ p: 3 }}>
           <Typography>Tất cả các bước hoàn tất!</Typography>
           <Button onClick={handleDone} sx={{ mt: 1, mr: 1 }}>

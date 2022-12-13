@@ -5,34 +5,14 @@ import {
   InputAdornment,
   OutlinedInput,
   Switch,
-  TextField,
 } from "@mui/material";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   handleUpdateAddingHost,
   selectAddingHost,
 } from "../../../app/store/hostSlice";
+import { AMENITIES } from "../../../constants/amenities";
 
-const amenities = [
-  { label: "Wi-Fi miễn phí", code: "wifi" },
-  { label: "Nhà hàng", code: "restaurant" },
-  { label: "Quầy bar", code: "bar" },
-  { label: "Dịch vụ phòng", code: "room_service" },
-  { label: "Lễ tân 24 giờ", code: "reception24h" },
-  { label: "Phòng xông hơi", code: "sauna" },
-  { label: "Trung tâm thể dục", code: "gym" },
-  { label: "Sân vườn", code: "garden" },
-  { label: "Sân thượng/ hiên", code: "terrace" },
-  { label: "Phòng không hút thuốc", code: "non_smoking_room" },
-  { label: "Xe đưa đón sân bay", code: "airport_shuttle" },
-  { label: "Phòng gia đình", code: "family_room" },
-  { label: "Trung tâm Spa & chăm sóc sức khoe", code: "spa" },
-  { label: "Bồn tắm nóng/bể sục (jacuzzi)", code: "jacuzzi" },
-  { label: "Điều hòa nhiệt độ", code: "ac" },
-  { label: "Hồ bơi", code: "swimming_pool" },
-  { label: "Bãi biển", code: "beach" },
-];
 function Amenities() {
   const addingHost = useSelector(selectAddingHost);
   const outstandingUtilities = addingHost.outstandingUtilities
@@ -75,7 +55,7 @@ function Amenities() {
     <div className="tab-container">
       <p className="section-tile">Các tiện nghi nổi bật</p>
       <div className="amenities-container">
-        {amenities.map((a) => (
+        {AMENITIES.map((a) => (
           <FormControlLabel
             style={{ width: "45%" }}
             key={a.code}
@@ -91,7 +71,7 @@ function Amenities() {
       </div>
       <p className="section-tile">Các tiện nghi khác</p>
       <div className="amenities-container">
-        {amenities.map((a) => (
+        {AMENITIES.map((a) => (
           <FormControlLabel
             style={{ width: "45%" }}
             key={a.code}

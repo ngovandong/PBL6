@@ -2,8 +2,8 @@ import Button from "@mui/material/Button";
 import ViewAgenda from "@mui/icons-material/ViewAgenda";
 import Badge from "@mui/material/Badge";
 import MailIcon from "@mui/icons-material/Mail";
-import { useSelector } from "react-redux";
-import { selectDeactiveHost } from "../../app/store/hostSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { activateHost, selectDeactiveHost } from "../../app/store/hostSlice";
 
 function DeactiveAccommodation() {
   const listHost = useSelector(selectDeactiveHost);
@@ -34,6 +34,10 @@ function DeactiveAccommodation() {
 export default DeactiveAccommodation;
 
 function TableRow({ host }) {
+  const dispatch = useDispatch();
+  const handleActive = () => {
+    dispatch(activateHost(host.id));
+  };
   return (
     <tr>
       <td style={{ width: "30%" }}>{host.name}</td>
@@ -45,7 +49,7 @@ function TableRow({ host }) {
       </td>
       <td style={{ width: "20%" }}>
         <td style={{ width: "10%" }}>
-          <Button variant="outlined"> Kích hoạt lại</Button>
+          <Button variant="outlined" onClick={handleActive}> Kích hoạt lại</Button>
         </td>
       </td>
     </tr>

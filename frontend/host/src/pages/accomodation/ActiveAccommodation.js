@@ -1,7 +1,7 @@
 import Badge from "@mui/material/Badge";
 import MailIcon from "@mui/icons-material/Mail";
-import { useSelector } from "react-redux";
-import { selectActiveHost } from "../../app/store/hostSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { deactivateHost, selectActiveHost } from "../../app/store/hostSlice";
 
 function ActiveAccommodation() {
   const listHost = useSelector(selectActiveHost);
@@ -17,7 +17,6 @@ function ActiveAccommodation() {
               <th>Địa chỉ</th>
               <th>Khách đến/đi trong hôm nay & ngày mai</th>
               <th>Tin nhắn của khách</th>
-              <th>Tin nhắn từ Booking.com</th>
               <th></th>
             </tr>
           </thead>
@@ -35,10 +34,14 @@ function ActiveAccommodation() {
 export default ActiveAccommodation;
 
 function TableRow({ host }) {
+  const dispatch = useDispatch();
+  const handlePause = () => {
+    dispatch(deactivateHost(host.id));
+  };
   return (
     <tr>
       <td style={{ width: "20%" }}>{host.name}</td>
-      <td style={{ width: "20%" }}>{host.address}</td>
+      <td style={{ width: "25%" }}>{host.address}</td>
       <td style={{ width: "20%" }}>
         <Badge
           badgeContent={20}
@@ -56,12 +59,7 @@ function TableRow({ host }) {
           <MailIcon color="action" />
         </Badge>
       </td>
-      <td style={{ width: "15%" }}>
-        <Badge badgeContent={14} color="primary">
-          <MailIcon color="action" />
-        </Badge>
-      </td>
-      <td style={{ width: "10%" }}>
+      <td style={{ width: "7%" }}>
         <a
           href={`/detail/${host.id}`}
           alt=""
@@ -70,6 +68,12 @@ function TableRow({ host }) {
         >
           Xem
         </a>
+      </td>
+      <td style={{ width: "13%" }}>
+        {" "}
+        <span className="btn-link pause" onClick={handlePause}>
+          Tạm ngừng
+        </span>
       </td>
     </tr>
   );

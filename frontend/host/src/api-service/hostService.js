@@ -13,7 +13,7 @@ const createHost = async (hostName) => {
 };
 
 const updateHost = async (host) => {
-  const res = await request.put(`partner/host/update-all/${host.id}`, host);
+  const res = await request.put("partner/host/update-all", host);
   return res;
 };
 
@@ -30,6 +30,12 @@ const getListHost = async () => {
 const deleteHost = async (id) => {
   return await request.delete(`partner/host/${id}`);
 };
+const deactivateHost = async (id) => {
+  return await request.patch(`partner/host/un-active/${id}`);
+};
+const activateHost = async (id) => {
+  return await request.patch(`partner/host/active/${id}`);
+};
 
 const hostService = {
   createHost,
@@ -37,6 +43,8 @@ const hostService = {
   getHost,
   getListHost,
   deleteHost,
+  activateHost,
+  deactivateHost
 };
 
 export default hostService;

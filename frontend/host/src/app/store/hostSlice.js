@@ -142,7 +142,7 @@ export const deleteHost = createAsyncThunk(
   "auth/deleteHost",
   async (id, { rejectWithValue }) => {
     try {
-      await hostService.deleteHost(id);
+      await hostService.activateHost(id);
       toast.success("Xóa thành công");
       return id;
     } catch (error) {
@@ -150,6 +150,40 @@ export const deleteHost = createAsyncThunk(
         toast.error(error.response.data.error);
       } else {
         toast.error("Delete Fail");
+      }
+      return rejectWithValue();
+    }
+  }
+);
+export const deactivateHost = createAsyncThunk(
+  "auth/deactivateHost",
+  async (id, { rejectWithValue }) => {
+    try {
+      await hostService.deactivateHost(id);
+      toast.success("Đã tạm ngưng");
+      return id;
+    } catch (error) {
+      if (error.response.data) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Đã xảy ra lỗi");
+      }
+      return rejectWithValue();
+    }
+  }
+);
+export const activateHost = createAsyncThunk(
+  "auth/activateHost",
+  async (id, { rejectWithValue }) => {
+    try {
+      await hostService.activateHost(id);
+      toast.success("Cập nhật thành công");
+      return id;
+    } catch (error) {
+      if (error.response.data) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Đã xảy ra lỗi");
       }
       return rejectWithValue();
     }
@@ -186,13 +220,35 @@ const hostSlice = createSlice({
       })
       .addCase(updateHost.fulfilled, (state, action) => {
         state.addingHost = action.payload;
-        state.activeStep += 1;
+        if (state.activeStep === 3) {
+          state.activeStep = 0;
+        } else {
+          state.activeStep += 1;
+        }
       })
       .addCase(getListHost.fulfilled, (state, action) => {
         state.listHost = action.payload;
       })
       .addCase(deleteHost.fulfilled, (state, action) => {
         state.listHost = state.listHost.filter((h) => h.id !== action.payload);
+      })
+      .addCase(deactivateHost.fulfilled, (state, action) => {
+        state.listHost = state.listHost.map((h) => {
+          if (h.id !== action.payload) {
+            return h;
+          } else {
+            return { ...h, isActive: false };
+          }
+        });
+      })
+      .addCase(activateHost.fulfilled, (state, action) => {
+        state.listHost = state.listHost.map((h) => {
+          if (h.id !== action.payload) {
+            return h;
+          } else {
+            return { ...h, isActive: true };
+          }
+        });
       })
       .addCase(getAddingHost.fulfilled, (state, action) => {
         state.addingHost = action.payload;

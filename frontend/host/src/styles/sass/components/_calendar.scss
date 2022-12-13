@@ -1,8 +1,21 @@
 .canlendar-container{
     display: flex;
-
+    align-items: stretch;
 
     .canlendar-card{
-        width: 50%;
+        width: 60%;
+        border-right: 1px solid #dddfe2;
+        height: 82vh;
+    }
+    .date-detail{
+        padding: 30px;
+        .text-row{
+            font-size: 20px;
+            margin-bottom: 24px;
+        }
+        .date-text{
+            color:#333;
+            font-weight: bold;
+        }
     }
 }

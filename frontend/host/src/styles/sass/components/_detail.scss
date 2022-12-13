@@ -1,0 +1,141 @@
+.detail-container {
+    display: flex;
+    background-color: white;
+    height: 100%;
+    align-items: stretch;
+
+
+    .left-nav {
+        width: 20%;
+        min-height: 82vh;
+        border-right: 1px solid #dddfe2;
+
+        .left-link {
+            display: block;
+            padding: 14px 22px;
+            text-decoration: none;
+            color: #555;
+            font-size: 18px;
+
+            &:hover {
+                background-color: #f7f7f7;
+            }
+        }
+
+        .active {
+            font-weight: 700;
+            border-right: 4px solid $blue;
+            background-color: #f7f7f7;
+        }
+
+    }
+
+    .right-container {
+        width: 80%;
+
+    }
+
+    .tool-bar {
+        height: 80px;
+        width: 100%;
+        border-bottom: 1px solid #dddfe2;
+        display: flex;
+        align-items: center;
+        column-gap: 30px;
+        padding-left: 30px;
+    }
+
+    .room-container {
+        padding: 50px;
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 50px;
+        column-gap: 50px;
+
+        .room-card {
+            width: 200px;
+            height: 200px;
+            border: 3px solid #ddd;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border-radius: 8px;
+
+            &:hover {
+                border-color: $blue;
+            }
+
+            .tick-icon {
+                position: absolute;
+                top: 0;
+                right: 0;
+                color: $blue;
+                margin: 5px;
+            }
+
+
+            .filled-chip {
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin: 5px;
+            }
+        }
+
+        .card-active {
+            border-color: $blue;
+        }
+    }
+
+    .add-room {
+
+        padding: 20px 40px 40px 40px;
+        max-width: 1000px;
+
+        .row-title {
+            font-size: 22px;
+            margin: 20px 0;
+        }
+
+        .add-img-bt {
+            @include img;
+            background-color: $grey-background;
+            border: none;
+
+            &:hover {
+                box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+                background-color: $grey-background-hover;
+            }
+
+            i {
+                font-size: 60px;
+                color: grey;
+            }
+
+            input {
+                display: none;
+            }
+        }
+
+        .upload-img {
+            @include img;
+        }
+
+        .loading-img {
+            @include img;
+            background-color: $grey-background;
+        }
+
+        .image-upload-container {
+            display: flex;
+            column-gap: 20px;
+            row-gap: 20px;
+            flex-wrap: wrap;
+        }
+
+    }
+
+
+}
