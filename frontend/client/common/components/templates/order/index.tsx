@@ -44,7 +44,7 @@ export default function OrderTemplate({
 
   const onCreateOrder = (value: any) => {
     setLoading(true)
-    const formData : IDataCreateOrder = {...trimDataObject(value),
+    const formData = {...trimDataObject(value),
       dateCheckin: searchQuery.dateCheckin.toString(),
       dateCheckout: searchQuery.dateCheckout.toString(),
       hostId: searchQuery.hostId.toString(),
