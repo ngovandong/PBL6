@@ -12,7 +12,7 @@ import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { Box } from '@mui/system'
 import { TitleLink } from '@components/atoms/Heading'
 import { AMENITIES, BED_TYPE } from '@constants/constant'
-import { isEmpty, uniqueId } from 'lodash'
+import { isEmpty, isNumber, uniqueId } from 'lodash'
 import { useForm } from 'react-hook-form'
 import { useSession } from 'next-auth/react'
 import { toastError } from '@utils/notifications'
@@ -138,10 +138,10 @@ const createData = (
       <Box>
         <Typography fontSize={14} fontWeight='500'>
           Giá 1 đêm:{' '}
-          {data.price?.toLocaleString('it-IT', {
+          {isNumber(Number(data.price) + Number(data?.vatFee)) ? (Number(data.price) + Number(data?.vatFee))?.toLocaleString('it-IT', {
             style: 'currency',
             currency: 'VND',
-          })}
+          }): ''}
         </Typography>
         {/* <Typography fontSize={14} fontWeight='500' mt={1}>
           {data?.isPrePayment ? 'Thanh toán trước' : 'Thanh toán tại khách sạn'}
@@ -254,7 +254,7 @@ export default function TableRoom({ data, hostId }: any) {
     let price = 0
     for (let i = 0; i < data.length; i++) {
       const id = data[i].id
-      const hostPrice = data[i].price
+      const hostPrice = isNumber(Number(data[i].price) + Number(data[i].vatFee)) ? (Number(data[i].price) + Number(data[i].vatFee)) : 0
       const bedInfoId = `bedInfo_${id}`
       const quantityid = `quantity_${id}`
       // if (
@@ -397,7 +397,7 @@ export default function TableRoom({ data, hostId }: any) {
                                           </span>
                                         </Typography>
                                         <Typography fontSize={12} color='error'>
-                                          <i>Đã bao gồm thuế và phí</i>
+                                          <i>Đà bap gồm thuế và phí (10% VAT)</i>
                                         </Typography>
                                       </>
                                     )}
@@ -423,10 +423,10 @@ export default function TableRoom({ data, hostId }: any) {
                                       <ul>
                                         <li>Chỉ mất có 2 phút</li>
                                         <li>Xác nhận tức thời</li>
-                                        <li>
+                                        {/* <li>
                                           Không mất phí đặt phòng hay phí thẻ
                                           tín dụng!
-                                        </li>
+                                        </li> */}
                                       </ul>
                                     </Box>
                                   </Box>

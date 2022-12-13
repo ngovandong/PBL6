@@ -44,3 +44,24 @@ export interface ICardItem {
   ratingFeedBack: number
   priceStandard: number
 }
+
+export interface IDataCreateOrder  {
+  "dateCheckin": string,
+  "dateCheckout": string,
+  "hostId": string,
+  "userEmail": string,
+  "userFirstName": string,
+  "userLastName": string,
+  "userId": string | any,
+  "note": string,
+  "isPrePayment": boolean
+  "bookingDetails":  any
+}
+
+// bookingDetails : [
+//   {
+//     "quantity": string | number,
+//     "bedInfo": string,
+//     "accommodationId": string,
+//   }
+// ]

@@ -1,3 +1,5 @@
+import { validateEmail } from "@utils/helpers"
+
 export const LOCAL_STORAGE = {
   idUser: 'idUser',
   accessToken: 'accessToken',
@@ -5,6 +7,7 @@ export const LOCAL_STORAGE = {
 
 export const INFOR_MESSAGE = {
   UPDATED_SUCCESSFULLY: 'Cập nhật thông tin thành công!',
+  BOOKING_SUCCESSFULLY: 'Đặt phòng thành công!',
 }
 
 export const ERROR_MESSAGE = {
@@ -12,6 +15,8 @@ export const ERROR_MESSAGE = {
   OLD_PASSWORD_ERROR: 'Mật khẩu không chính xác.',
   NEW_PASSWORD_ERROR:
     'Mật khẩu có chứa ít nhất tám ký tự, trong đó có ít nhất một số và bao gồm cả chữ hoa và chữ thường.',
+  INVALID_EMAIL_ERROR: 'Email không hợp lệ.',
+  BOOKING_ERROR: 'Đặt phòng không thành công. Vui lòng thử lại!',
 }
 
 export const EDIT_USER_LABEL = [
@@ -87,6 +92,7 @@ export const ORDER_FORM = [
     required: true,
     message: 'Trường bắt buộc nhập.',
     type: 'text',
+    defaultValue: 'familyName'
   },
   {
     label: 'Tên',
@@ -94,6 +100,7 @@ export const ORDER_FORM = [
     required: true,
     message: 'Trường bắt buộc nhập.',
     type: 'text',
+    defaultValue: 'givenName'
   },
   {
     label: 'Email',
@@ -101,6 +108,12 @@ export const ORDER_FORM = [
     required: true,
     message: 'Trường bắt buộc nhập.',
     type: 'text',
+    rules: {
+      // validate: {
+      //   checkEmail: (v: string) => validateEmail(v) || ERROR_MESSAGE.INVALID_EMAIL_ERROR
+      // },
+    },
+    defaultValue: 'email'
   },
   {
     label: 'Ghi chú',

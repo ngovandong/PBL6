@@ -3,7 +3,14 @@ import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import { ParsedUrlQuery } from 'querystring'
 
-import OrderTemplate from '@components/templates/order'
+// import OrderTemplate from '@components/templates/order'
+import dynamic from 'next/dynamic'
+
+const OrderTemplate = dynamic(
+  () => import('../../common/components/templates/order'),
+  { ssr: false }
+)
+
 
 export default function OrderPage({
   searchQuery,
