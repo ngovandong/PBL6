@@ -12,7 +12,7 @@ import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { Box } from '@mui/system'
 import { TitleLink } from '@components/atoms/Heading'
 import { AMENITIES, BED_TYPE } from '@constants/constant'
-import { isEmpty, isNumber, uniqueId } from 'lodash'
+import { isArray, isEmpty, isNumber, uniqueId } from 'lodash'
 import { useForm } from 'react-hook-form'
 import { useSession } from 'next-auth/react'
 import { toastError } from '@utils/notifications'
@@ -138,10 +138,15 @@ const createData = (
       <Box>
         <Typography fontSize={14} fontWeight='500'>
           Giá 1 đêm:{' '}
-          {isNumber(Number(data.price) + Number(data?.vatFee)) ? (Number(data.price) + Number(data?.vatFee))?.toLocaleString('it-IT', {
-            style: 'currency',
-            currency: 'VND',
-          }): ''}
+          {isNumber(Number(data.price) + Number(data?.vatFee))
+            ? (Number(data.price) + Number(data?.vatFee))?.toLocaleString(
+                'it-IT',
+                {
+                  style: 'currency',
+                  currency: 'VND',
+                }
+              )
+            : ''}
         </Typography>
         {/* <Typography fontSize={14} fontWeight='500' mt={1}>
           {data?.isPrePayment ? 'Thanh toán trước' : 'Thanh toán tại khách sạn'}
@@ -252,38 +257,44 @@ export default function TableRoom({ data, hostId }: any) {
     const newArr = []
     let number = 0
     let price = 0
-    for (let i = 0; i < data.length; i++) {
-      const id = data[i].id
-      const hostPrice = isNumber(Number(data[i].price) + Number(data[i].vatFee)) ? (Number(data[i].price) + Number(data[i].vatFee)) : 0
-      const bedInfoId = `bedInfo_${id}`
-      const quantityid = `quantity_${id}`
-      // if (
-      //   !values[bedInfoId] &&
-      //   values[quantityid] &&
-      //   values[quantityid] !== `${quantityid}_0`
-      // ) {
-      //   // console.log(data[i].name, values[quantityid])
-      //   // toastError(`Vui lòng chọn số lượng phòng cho ${data[i].name}`)
-      //   return
-      // }
+    if (!isArray(data) && data?.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        const id = data[i].id
+        const hostPrice = isNumber(
+          Number(data[i].price) + Number(data[i].vatFee)
+        )
+          ? Number(data[i].price) + Number(data[i].vatFee)
+          : 0
+        const bedInfoId = `bedInfo_${id}`
+        const quantityid = `quantity_${id}`
+        // if (
+        //   !values[bedInfoId] &&
+        //   values[quantityid] &&
+        //   values[quantityid] !== `${quantityid}_0`
+        // ) {
+        //   // console.log(data[i].name, values[quantityid])
+        //   // toastError(`Vui lòng chọn số lượng phòng cho ${data[i].name}`)
+        //   return
+        // }
 
-      if (
-        values[bedInfoId] &&
-        values[quantityid] &&
-        values[quantityid] !== `${quantityid}_0`
-      ) {
-        newArr.push({
-          accommodationId: id,
-          quantity: values[quantityid]?.split('_')[2] || '',
-          bedInfo: values[bedInfoId]?.split('_')[2] || '',
-        })
-        const currentQuantity = Number(values[quantityid]?.split('_')[2]) || 0
-        price += currentQuantity * hostPrice
-        number += currentQuantity
+        if (
+          values[bedInfoId] &&
+          values[quantityid] &&
+          values[quantityid] !== `${quantityid}_0`
+        ) {
+          newArr.push({
+            accommodationId: id,
+            quantity: values[quantityid]?.split('_')[2] || '',
+            bedInfo: values[bedInfoId]?.split('_')[2] || '',
+          })
+          const currentQuantity = Number(values[quantityid]?.split('_')[2]) || 0
+          price += currentQuantity * hostPrice
+          number += currentQuantity
+        }
       }
+      setSelectedItem({ price: price, number: number })
+      setUpdated(false)
     }
-    setSelectedItem({ price: price, number: number })
-    setUpdated(false)
     return newArr
   }
 
@@ -397,7 +408,9 @@ export default function TableRoom({ data, hostId }: any) {
                                           </span>
                                         </Typography>
                                         <Typography fontSize={12} color='error'>
-                                          <i>Đà bap gồm thuế và phí (10% VAT)</i>
+                                          <i>
+                                            Đà bap gồm thuế và phí (10% VAT)
+                                          </i>
                                         </Typography>
                                       </>
                                     )}
