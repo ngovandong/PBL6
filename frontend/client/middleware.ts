@@ -3,22 +3,15 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(req: NextRequest) {
-  // const requestForNextAuth = {
-  //   headers: {
-  //     cookie: req.headers.get('cookie'),
-  //   },
-  // }
+  const jwt = req.cookies.get('next-auth.session-token')
 
-  // const session = await getSession({ req: requestForNextAuth } as any)
+  console.log(jwt)
 
-  // if (session?.user) {
-  //   return NextResponse.next()
-  // } else {
-  //   // the user is not logged in, redirect to the sign-in page
-  //   const signInPage = '/sign-in'
-  //   const signInUrl = new URL(signInPage, req.nextUrl.origin)
-  //   return NextResponse.redirect(signInUrl)
-  // }
+  if (!jwt) {
+    req.nextUrl.pathname = '/sign-in'
+    return NextResponse.redirect(req.nextUrl)
+  }
+  return NextResponse.next()
 }
 
 export const config = {

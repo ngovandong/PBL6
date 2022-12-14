@@ -1,7 +1,12 @@
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { InputField } from '@components/atoms/Input/InputField'
 import { TextArea } from '@components/atoms/Textarea'
-import { BED_TYPE, ERROR_MESSAGE, INFOR_MESSAGE, ORDER_FORM } from '@constants/constant'
+import {
+  BED_TYPE,
+  ERROR_MESSAGE,
+  INFOR_MESSAGE,
+  ORDER_FORM,
+} from '@constants/constant'
 import { primaryColor } from '@constants/styles'
 import {
   Divider,
@@ -17,6 +22,7 @@ import { toastError, toastSuccess } from '@utils/notifications'
 import { IDataCreateOrder } from '@utils/types'
 import { isNumber, uniqueId } from 'lodash'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -28,9 +34,9 @@ export default function OrderTemplate({
   searchQuery: { [key: string]: any }
   user: any
 }) {
-  // console.log(searchQuery)
-  const {data: session} : any= useSession();
-  const [loading, setLoading] = useState(false);
+  const router = useRouter()
+  const { data: session }: any = useSession()
+  const [loading, setLoading] = useState(false)
   const {
     control,
     handleSubmit,
@@ -44,21 +50,29 @@ export default function OrderTemplate({
 
   const onCreateOrder = (value: any) => {
     setLoading(true)
-    const formData = {...trimDataObject(value),
+    const formData = {
+      ...trimDataObject(value),
       dateCheckin: searchQuery.dateCheckin.toString(),
       dateCheckout: searchQuery.dateCheckout.toString(),
       hostId: searchQuery.hostId.toString(),
       isPrePayment: false,
       bookingDetails: [...searchQuery.bookingDetails],
-      userId: session?.user?.id || ''
+      userId: session?.user?.id || '',
     }
-    orderApi.createBooking(formData).then((res: any) => {
-      console.log(res.data)
-      toastSuccess(INFOR_MESSAGE.BOOKING_SUCCESSFULLY)
-    }).catch((err: any) => {
-      console.log(err)
-      toastError(ERROR_MESSAGE.BOOKING_ERROR)
-    }).finally(() => { setLoading(false) })
+    orderApi
+      .createBooking(formData)
+      .then((res: any) => {
+        console.log(res.data)
+        toastSuccess(INFOR_MESSAGE.BOOKING_SUCCESSFULLY)
+        router.push('/order-management')
+      })
+      .catch((err: any) => {
+        console.log(err)
+        toastError(ERROR_MESSAGE.BOOKING_ERROR)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
@@ -66,7 +80,9 @@ export default function OrderTemplate({
       <Grid container columnGap={2}>
         <Grid item sm={5}>
           <Box>
-            <Typography fontWeight={700} fontSize={18}>Chi tiết đặt phòng</Typography>
+            <Typography fontWeight={700} fontSize={18}>
+              Chi tiết đặt phòng
+            </Typography>
           </Box>
           <Divider sx={{ my: 1 }} />
           <Box>
@@ -78,7 +94,9 @@ export default function OrderTemplate({
                 <td>
                   <Typography sx={{ ml: 2 }}>
                     {typeof searchQuery.dateCheckin === 'string'
-                      ? new Intl.DateTimeFormat('vi-VN', { dateStyle: 'full', }).format(new Date(searchQuery.dateCheckin))
+                      ? new Intl.DateTimeFormat('vi-VN', {
+                          dateStyle: 'full',
+                        }).format(new Date(searchQuery.dateCheckin))
                       : ''}
                   </Typography>
                 </td>
@@ -90,7 +108,9 @@ export default function OrderTemplate({
                 <td>
                   <Typography sx={{ ml: 2 }}>
                     {typeof searchQuery.dateCheckin === 'string'
-                      ? new Intl.DateTimeFormat('vi-VN', { dateStyle: 'full', }).format(new Date(searchQuery.dateCheckout))
+                      ? new Intl.DateTimeFormat('vi-VN', {
+                          dateStyle: 'full',
+                        }).format(new Date(searchQuery.dateCheckout))
                       : ''}
                   </Typography>
                 </td>
@@ -134,10 +154,12 @@ export default function OrderTemplate({
                 </td>
                 <td>
                   <Typography sx={{ ml: 2 }}>
-                    {isNumber(Number(searchQuery?.price)) ? (Number(searchQuery?.price)).toLocaleString('it-IT', {
-                      style: 'currency',
-                      currency: 'VND',
-                    }) : ''}
+                    {isNumber(Number(searchQuery?.price))
+                      ? Number(searchQuery?.price).toLocaleString('it-IT', {
+                          style: 'currency',
+                          currency: 'VND',
+                        })
+                      : ''}
                   </Typography>
                 </td>
               </tr>
@@ -164,7 +186,7 @@ export default function OrderTemplate({
                     defaultValue={session?.user[item.defaultValue] || ''}
                     rules={{
                       required: { value: item.required, message: item.message },
-                      ...(item.rules)
+                      ...item.rules,
                     }}
                     render={({ field }) => {
                       if (item.id === 'note') {
@@ -192,7 +214,13 @@ export default function OrderTemplate({
               )
             })}
             <Grid item sm={5} mx='auto' mt={2}>
-              <DefaultButton color='primary' sx={{ width: '100%' }} type="submit" loading={loading} disabled={loading}>
+              <DefaultButton
+                color='primary'
+                sx={{ width: '100%' }}
+                type='submit'
+                loading={loading}
+                disabled={loading}
+              >
                 Xác nhận đặt phòng
               </DefaultButton>
             </Grid>

@@ -70,19 +70,19 @@ const MenuContainer = ({ anchorEl, open, handleClose, signOut }: any) => (
       </Link>
     </MenuItem>
     <MenuItem>
-      <Link href='/my-order'>
+      <Link href='/order-management'>
         <NavLink>
           <CardTravelIcon sx={{ mr: 2 }} /> Đặt chỗ & Chuyến đi
         </NavLink>
       </Link>
     </MenuItem>
-    <MenuItem>
+    {/* <MenuItem>
       <Link href='/my-favorite'>
         <NavLink>
           <FavoriteBorderIcon sx={{ mr: 2 }} /> Danh sách đã lưu
         </NavLink>
       </Link>
-    </MenuItem>
+    </MenuItem> */}
     <Divider />
     <MenuItem onClick={signOut}>
       <Logout sx={{ mr: 2 }} />
