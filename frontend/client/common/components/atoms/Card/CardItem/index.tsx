@@ -126,7 +126,7 @@ const CardItem = ({
                     alignItems: 'center',
                   }}
                 >
-                  <Tooltip title='Đánh giá sao này do chỗ nghỉ cung cấp cho Booking.com và thường được quyết định bởi một tổ chức đánh giá khách sạn chính thức hoặc một bên thứ ba khác.'>
+                  <Tooltip title='Đánh giá sao này do chỗ nghỉ cung cấp và thường được quyết định bởi một tổ chức đánh giá chính thức hoặc một bên thứ ba khác.'>
                     <span>
                       {isNumber(ratingStar) &&
                         Array.from(Array(ratingStar).keys()).map((item) => (

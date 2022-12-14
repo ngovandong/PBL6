@@ -5,7 +5,7 @@ import {
   secondaryColor,
   lightColor,
 } from '@constants/styles'
-import { Button, ButtonProps, styled } from '@mui/material'
+import { Button, ButtonProps, CircularProgress, styled } from '@mui/material'
 
 const ButtonContainer = styled(Button)(({ color }) => ({
   backgroundColor: `${
@@ -15,10 +15,10 @@ const ButtonContainer = styled(Button)(({ color }) => ({
       ? secondaryColor
       : lightColor
   }`,
-  borderTop: '1.6px solid rgba(0,0,0,0.8)',
-  borderBottom: '1.6px solid rgba(0,0,0,0.8)',
-  borderLeft: '1.6px solid rgba(0,0,0,0.8)',
-  borderRight: '1.6px solid rgba(0,0,0,0.8)',
+  outline: '1px solid rgba(0,0,0,0.8)',
+  border: '1.6px solid rgba(0,0,0,0.8)',
+  // borderLeft: '1px solid rgba(0,0,0,0.8)',
+  // borderRight: '1px solid rgba(0,0,0,0.8)',
   borderRadius: `${borderRadiusButton}`,
   color: `${color === 'primary' ? '#FFFFFF' : '#131C38'}`,
   textDecoration: 'none',
@@ -27,6 +27,7 @@ const ButtonContainer = styled(Button)(({ color }) => ({
   fontWeight: 500,
   padding: '20px 16px',
   lineHeight: 0,
+  width: 'auto',
 
   '&:hover': {
     backgroundColor: `${
@@ -37,10 +38,15 @@ const ButtonContainer = styled(Button)(({ color }) => ({
         : lightColor
     }`,
     boxShadow: `${boxShadow}`,
+    outline: '1px solid rgba(0,0,0,0.8)',
   },
 
   '&:disabled': {
     backgroundColor: `${
+      lightColor
+    }`,
+    outline: '1px solid rgba(0,0,0,0.8)',
+    color: `${
       color === 'primary'
         ? primaryColor
         : color === 'secondary'
@@ -49,9 +55,10 @@ const ButtonContainer = styled(Button)(({ color }) => ({
     }`,
     opacity: 0.5,
   },
+  
 }))
 
-export const DefaultButton = (props: ButtonProps) => {
+export const DefaultButton = (props: ButtonProps & {loading?: boolean}) => {
   return (
     <ButtonContainer
       color={props.color}
@@ -59,6 +66,7 @@ export const DefaultButton = (props: ButtonProps) => {
       disabled={props.disabled}
       onClick={props.onClick}
       type={props.type}
+      endIcon={props.loading ? <CircularProgress color="inherit" size='12px' /> : <></>}
     >
       {props.children}
     </ButtonContainer>

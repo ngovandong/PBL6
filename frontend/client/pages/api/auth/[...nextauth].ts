@@ -46,21 +46,21 @@ export default NextAuth({
           )
           return user.data
         } catch (error: any) {
-          if (error?.response?.status === 401) {
-            toastError('Mật khẩu không chính xác!')
-          } else {
-            toastError('Đã có lỗi xảy ra. Vui lòng thử lại!')
-          }
-          return null
+          const message =
+            error?.response?.data?.error || error?.response?.message
+          return Promise.reject({
+            error: error?.response?.status || 401,
+            message: message,
+          })
         }
       },
     }),
   ],
   secret: process.env.JWT_SECRET,
 
-  // pages: {
-  //   signIn: '/auth/signin',
-  // },
+  pages: {
+    error: '/api/auth/error',
+  },
 
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
@@ -88,8 +88,14 @@ export default NextAuth({
             }
           )
           token.user = res.data
-        } catch (error) {
+        } catch (error: any) {
           console.log(error)
+          const message =
+            error?.response?.data?.error || error?.response?.message
+          return Promise.reject({
+            error: error?.response?.status || 401,
+            message: message,
+          })
         }
       } else {
         user && (token.user = user)

@@ -16,7 +16,7 @@ const PostDetailTemplate = ({ data }: any) => {
         <Box display='flex' alignItems='center'>
           <TitleLink>{data.name}</TitleLink>
           <Box sx={{ ml: 1, mt: 'auto', display: 'inline-block' }}>
-            <Tooltip title='Đánh giá sao này do chỗ nghỉ cung cấp cho Booking.com và thường được quyết định bởi một tổ chức đánh giá khách sạn chính thức hoặc một bên thứ ba khác.'>
+            <Tooltip title='Đánh giá sao này do chỗ nghỉ cung cấp và thường được quyết định bởi một tổ chức đánh giá chính thức hoặc một bên thứ ba khác.'>
               <span>
                 {isNumber(data.ratingStar) &&
                   Array.from(Array(data.ratingStar).keys()).map((item) => (
@@ -32,10 +32,7 @@ const PostDetailTemplate = ({ data }: any) => {
           </ContentLink>
           <ContentLink>{`${data.address}, ${data.province}, ${data.country}`}</ContentLink>
         </Box>
-        <ImageContainer
-          images={data.images ?? '/images/no-image-available.png'}
-          alt={data.name}
-        />
+        <ImageContainer images={data.images} alt={data.name} />
       </Box>
       <Box width='80%' id='description'>
         <Box>
@@ -50,7 +47,7 @@ const PostDetailTemplate = ({ data }: any) => {
         </Box>
         <Box sx={{ my: 1 }}>
           <Typography fontSize={18} fontWeight='700' mb={1}>
-            Dịch vụ khách sạn
+            Dịch vụ chỗ nghỉ
           </Typography>
           <Box component='ul' py={0} my={0}>
             {data?.parkingLot && (
@@ -75,7 +72,7 @@ const PostDetailTemplate = ({ data }: any) => {
         </Box>
         <Box sx={{ my: 1 }}>
           <Typography fontSize={18} fontWeight='700' mb={1}>
-            Tiện nghi khách sạn
+            Tiện nghi chỗ nghỉ
           </Typography>
           {data.utilities?.map((item: string) => {
             const element = AMENITIES.find(
@@ -129,7 +126,7 @@ const PostDetailTemplate = ({ data }: any) => {
             </i>
           </Typography>
         </Box>
-        <TableRoom data={data.accommodationSearches} />
+        <TableRoom data={data.accommodationSearches} hostId={data.id} />
       </Box>
       <Box sx={{ my: 2 }}>
         <Box sx={{ my: 1 }}>
