@@ -32,7 +32,10 @@ const PostDetailTemplate = ({ data }: any) => {
           </ContentLink>
           <ContentLink>{`${data.address}, ${data.province}, ${data.country}`}</ContentLink>
         </Box>
-        <ImageContainer images={data.images} alt={data.name} />
+        <ImageContainer
+          images={data.images ?? '/images/no-image-available.png'}
+          alt={data.name}
+        />
       </Box>
       <Box width='80%' id='description'>
         <Box>
