@@ -96,7 +96,14 @@ const CardItem = ({
               <ButtonFavorite>
                 <FavoriteIcon />
               </ButtonFavorite>
-              <CardImage src={src} alt={title} width={300} height={240} />
+
+              <CardImage
+                src={src ?? '/images/no-image-available.png'}
+                alt={title}
+                width={300}
+                height={240}
+              />
+
               <Box>
                 <Box>
                   <Tooltip title={title}>
@@ -134,16 +141,18 @@ const CardItem = ({
                     {province} - {country}
                   </CardTitle>
                 </Box>
-                {priceStandard  && <Box>
-                  <CardTitle>
-                    <PaidIcon />
-                    Giá thấp nhất chỉ từ -{' '}
-                    {priceStandard?.toLocaleString('it-IT', {
-                      style: 'currency',
-                      currency: 'VND',
-                    })}
-                  </CardTitle>
-                </Box>}
+                {priceStandard && (
+                  <Box>
+                    <CardTitle>
+                      <PaidIcon />
+                      Giá thấp nhất chỉ từ -{' '}
+                      {priceStandard?.toLocaleString('it-IT', {
+                        style: 'currency',
+                        currency: 'VND',
+                      })}
+                    </CardTitle>
+                  </Box>
+                )}
               </Box>
             </div>
           </a>
