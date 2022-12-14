@@ -98,7 +98,6 @@ function BasicStep() {
             );
           }}
           renderInput={(params) => {
-            console.log(params);
             return (
               <TextField
                 style={{ width: "45%", marginRight: "5%" }}
