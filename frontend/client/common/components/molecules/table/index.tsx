@@ -257,7 +257,7 @@ export default function TableRoom({ data, hostId }: any) {
     const newArr = []
     let number = 0
     let price = 0
-    if (!isArray(data) && data?.length > 0) {
+    if (data?.length > 0) {
       for (let i = 0; i < data.length; i++) {
         const id = data[i].id
         const hostPrice = isNumber(
