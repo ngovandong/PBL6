@@ -25,7 +25,6 @@ const ImageContainer = ({
   alt?: string
   width?: number | string
   height?: number | string
-  
 }) => {
   const [open, setOpen] = useState(false)
   const [current, setCurrent] = useState<number>(0)
@@ -48,7 +47,7 @@ const ImageContainer = ({
             return (
               <ImageListItem key={item}>
                 <Image
-                  src={item}
+                  src={item ?? '/images/no-image-available.png'}
                   layout='fill'
                   alt={alt}
                   loading='lazy'
@@ -120,7 +119,7 @@ const ImageContainer = ({
                 </IconButton>
               )}
               <Image
-                src={images[current] || ''}
+                src={images[current] ?? '/images/no-image-available.png'}
                 alt={alt}
                 loading='lazy'
                 objectFit='contain'

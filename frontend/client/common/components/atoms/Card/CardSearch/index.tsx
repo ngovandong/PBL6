@@ -40,7 +40,7 @@ const CardSearch = (props: any) => {
       }}
     >
       <Image
-        src={data?.avatarImage || ''}
+        src={data?.avatarImage ?? '/images/no-image-available.png'}
         width={200}
         height={200}
         style={{ margin: 'auto' }}
