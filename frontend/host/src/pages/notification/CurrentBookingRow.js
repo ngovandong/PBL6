@@ -4,7 +4,6 @@ import { useState } from "react";
 function CurrentBookingRow({booking}) {
   const [showDetail, setShowDetail] = useState(false);
   let roomString = "";
-  console.log(booking);
   for (let i = 0; i < booking.bookingDetailDtos.length; i++) {
     roomString += booking.bookingDetailDtos[i].accommodationName;
     if (i < booking.bookingDetailDtos.length - 1) {
@@ -26,7 +25,7 @@ function CurrentBookingRow({booking}) {
         </div>
         <div className="code-column">
           <p>Mã đặt phòng:</p>
-          <span>87hd34hg3434</span>
+          <span>{booking.bookingCode.slice(0,10)}</span>
         </div>
         <div className="customer-column">
           <p>
