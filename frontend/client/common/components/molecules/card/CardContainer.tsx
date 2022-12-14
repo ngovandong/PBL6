@@ -11,7 +11,7 @@ const CardContainer = (props: {
       {props.hotels?.map((hotel: ICardItem) => (
         <CardItem
           id={hotel.id}
-          src={hotel.avatarImage}
+          src={hotel.avatarImage ?? '/images/no-image-available.png'}
           title={hotel.name}
           key={hotel.id}
           province={props.province}

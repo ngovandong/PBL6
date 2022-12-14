@@ -19,7 +19,7 @@ const CardCarousel = (props: IRoundCard) => {
       <Link href={''}>
         <a>
           <Image
-            src={src || ''}
+            src={src ?? '/images/no-image-available.png'}
             alt={title}
             width={props?.size || 300}
             height={props?.size || 300}
@@ -28,7 +28,7 @@ const CardCarousel = (props: IRoundCard) => {
           <Box>
             <Typography variant='h6'>{title}</Typography>
             <Typography variant='body2' sx={{ color: ' rgb(115, 115, 115)' }}>
-              {description}
+              {description ?? ''}
             </Typography>
           </Box>
         </a>
