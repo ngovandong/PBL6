@@ -10,6 +10,7 @@ import 'package:mobile/modules/search_hotel/data/models/host.model.dart';
 import 'package:mobile/modules/search_hotel/data/repositories/host.repository.dart';
 import 'package:mobile/modules/search_hotel/search_hotel.enum.dart';
 import 'package:mobile/modules/search_hotel/search_hotel.eventbus.dart';
+import 'package:mobile/modules/search_hotel/widgets/search/filter_options_sheet.widget.dart';
 
 class SearchHotelController extends GetxController {
   final HostRepository hostRepository;
@@ -26,6 +27,9 @@ class SearchHotelController extends GetxController {
   List<HostModel> searchedHosts = [];
 
   StreamSubscription? _eventBusSubscription;
+
+  final GlobalKey<FilterOptionsSheetState> filterOptionKey =
+      GlobalKey<FilterOptionsSheetState>();
 
   @override
   void onInit() async {
@@ -74,9 +78,15 @@ class SearchHotelController extends GetxController {
     showSearchBox.toggle();
   }
 
-  void onTapFilter() {
-    Get.bottomSheet(
-      Container(),
+  Future<void> submitFilter() async {
+    homeController.searchHotelsParams.value =
+        homeController.searchHotelsParams.value.copyWith(
+      ratingStar: filterOptionKey.currentState!.selectedStar == -1
+          ? null
+          : filterOptionKey.currentState!.selectedStar,
+      utilities: filterOptionKey.currentState!.selectedUtilities,
     );
+
+    await _getData();
   }
 }

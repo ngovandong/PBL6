@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/modules/booking_history/controllers/booking_history.controller.dart';
-import 'package:mobile/modules/booking_history/widgets/list_current_booking.widget.dart';
+import 'package:mobile/modules/booking_history/widgets/list_booking_history.widget.dart';
 
 class BookingHistoryData extends GetView<BookingHistoryController> {
   final TabController tabController;
@@ -13,14 +13,20 @@ class BookingHistoryData extends GetView<BookingHistoryController> {
     return TabBarView(
       controller: tabController,
       children: [
-        ListCurrentBooking(
-          historyBookings: controller.currentBookings,
+        Obx(
+          () => ListBookingHistory(
+            historyBookings: controller.currentBookings.value,
+          ),
         ),
-        ListCurrentBooking(
-          historyBookings: controller.completedBookings,
+        Obx(
+          () => ListBookingHistory(
+            historyBookings: controller.completedBookings.value,
+          ),
         ),
-        ListCurrentBooking(
-          historyBookings: controller.cancelBookings,
+        Obx(
+          () => ListBookingHistory(
+            historyBookings: controller.cancelBookings.value,
+          ),
         )
       ],
     );

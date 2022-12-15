@@ -419,6 +419,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1F4F0E7B6A50BB07F1FFAAE /* Pods-Runner.debug-prod.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47F26D25PZ;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_NAME = Runner;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -428,6 +431,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5FD7B14EFDCDF6636E2E5663 /* Pods-Runner.profile-prod.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47F26D25PZ;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_NAME = Runner;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -437,6 +443,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 66A60A6281B9CB66AA0B7CC0 /* Pods-Runner.release-prod.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47F26D25PZ;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_NAME = Runner;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -446,6 +455,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AC1FB4B0D3C963D7B245925D /* Pods-Runner.debug-dev.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47F26D25PZ;
+				MARKETING_VERSION = 1.0.2;
 				PODS_CONFIGURATION_BUILD_DIR = "${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_NAME = Runner;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -456,6 +468,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EABD895B3DCDE1720CE4CE45 /* Pods-Runner.profile-dev.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47F26D25PZ;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_NAME = Runner;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -465,6 +480,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 60E1E95763DACEE31520A5E3 /* Pods-Runner.release-dev.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47F26D25PZ;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_NAME = Runner;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -526,13 +544,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47F26D25PZ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pbl6.travelbooking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -863,13 +883,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47F26D25PZ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pbl6.travelbooking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -886,13 +908,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47F26D25PZ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pbl6.travelbooking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

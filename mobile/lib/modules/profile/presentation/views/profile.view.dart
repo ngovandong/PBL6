@@ -123,6 +123,7 @@ class ProfileScreen extends GetView<ProfileController> {
 
                               return GestureDetector(
                                 onTap: settingItem.onPressed,
+                                behavior: HitTestBehavior.opaque,
                                 child: Container(
                                   padding: const EdgeInsets.all(10),
                                   height: 50,

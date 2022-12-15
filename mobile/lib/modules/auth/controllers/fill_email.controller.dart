@@ -26,32 +26,71 @@ class FillEmailController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxBool showPassword = false.obs;
 
+  final RxString emailError = ''.obs;
   final RxString passwordError = ''.obs;
   final RxString authContent = ''.obs;
   final RxString authButton = LocaleKeys.auth_continue.tr.obs;
 
-  String? validateEmail(String? value) {
-    if (value == '') {
-      return LocaleKeys.validate_email.tr;
-    } else if (!value!.isEmail) {
-      return LocaleKeys.validate_invalid_email.tr;
-    }
-    return null;
+  final FocusNode emailFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
+
+  @override
+  void onInit() {
+    _listenFocusForm();
+    super.onInit();
   }
 
-  String? validatePassword(String? value) {
-    if (value == '') {
-      return LocaleKeys.validate_password.tr;
+  void _listenFocusForm() {
+    emailFocusNode.addListener(() {
+      if (emailFocusNode.hasFocus) {
+        emailError.value = '';
+      }
+    });
+
+    passwordFocusNode.addListener(() {
+      if (passwordFocusNode.hasFocus) {
+        passwordError.value = '';
+      }
+    });
+  }
+
+  String validateEmail() {
+    String error = '';
+
+    if (emailTextController.text.isEmpty) {
+      error = LocaleKeys.validate_email.tr;
+    } else if (!emailTextController.text.isEmail) {
+      error = LocaleKeys.validate_invalid_email.tr;
     }
 
-    return null;
+    emailError.value = error;
+
+    return error;
+  }
+
+  String validatePassword() {
+    String error = '';
+
+    if (showPassword.value && passwordTextController.text.isEmpty) {
+      error = LocaleKeys.validate_password.tr;
+    }
+
+    passwordError.value = error;
+
+    return error;
+  }
+
+  bool _validateForm() {
+    final bool checkEmail = validateEmail().isEmpty;
+    final bool checkPassword = validatePassword().isEmpty;
+
+    return checkEmail && checkPassword;
   }
 
   Future<void> verifyEmailAuth() async {
-    passwordError.value = '';
-
     if (isLoading.value) return;
-    if (!formKey.currentState!.validate()) {
+
+    if (!_validateForm()) {
       return;
     }
 
@@ -69,6 +108,8 @@ class FillEmailController extends GetxController {
 
       if (verifyAuth.user != null) {
         await verifyAuthController.proccessUpdateCurrentUser(verifyAuth.user);
+
+        Get.close(2); // Close fill email and auth view
       } else {
         switch (verifyAuth.verifyResult) {
           case ErrorAuthentication.needRegister:
@@ -95,7 +136,13 @@ class FillEmailController extends GetxController {
     isLoading.toggle();
   }
 
-  void _setShowPassword() {
-    showPassword.value = true;
+  void _setShowPassword({bool value = true}) {
+    showPassword.value = value;
+  }
+
+  void onChangedEmail(String? value) {
+    _setShowPassword(value: false);
+    authContent.value = '';
+    authButton.value = LocaleKeys.auth_continue.tr;
   }
 }

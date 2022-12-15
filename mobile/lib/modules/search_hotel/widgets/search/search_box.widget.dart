@@ -49,7 +49,7 @@ class SearchHotelsBox extends StatelessWidget {
                   const Divider(
                     height: 0,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: FilterSortFrame(),
                   )
                 ],

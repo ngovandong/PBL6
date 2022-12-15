@@ -52,7 +52,7 @@ class HotelInfoCard extends StatelessWidget {
                       height: 6,
                     ),
                     IconTitle(
-                      icon: Icons.bed_rounded,
+                      icon: Icons.meeting_room_outlined,
                       child: Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

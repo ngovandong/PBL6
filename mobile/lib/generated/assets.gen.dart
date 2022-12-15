@@ -41,6 +41,12 @@ class $AssetsLottiesGen {
 
   /// File path: assets/lotties/error_alert.json
   String get errorAlert => 'assets/lotties/error_alert.json';
+
+  /// File path: assets/lotties/loading_travel.json
+  String get loadingTravel => 'assets/lotties/loading_travel.json';
+
+  /// File path: assets/lotties/search_empty.json
+  String get searchEmpty => 'assets/lotties/search_empty.json';
 }
 
 class $AssetsSecureGen {

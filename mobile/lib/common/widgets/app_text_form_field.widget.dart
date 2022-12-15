@@ -35,6 +35,8 @@ class AppTextFormField extends StatefulWidget {
 
   final TextStyle? labelStyle;
 
+  final FocusNode? focusNode;
+
   const AppTextFormField({
     Key? key,
     this.textController,
@@ -59,6 +61,7 @@ class AppTextFormField extends StatefulWidget {
     this.onTap,
     this.onChanged,
     this.labelStyle,
+    this.focusNode,
   }) : super(key: key);
 
   @override
@@ -78,6 +81,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.textController,
+      focusNode: widget.focusNode,
       textInputAction: TextInputAction.done,
       onChanged: widget.onChanged,
       onTap: widget.onTap,
