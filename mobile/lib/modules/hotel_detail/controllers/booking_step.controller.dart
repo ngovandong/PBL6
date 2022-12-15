@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/utils/dialog.util.dart';
+import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
 import 'package:mobile/common/utils/snackbar.util.dart';
 import 'package:mobile/modules/auth/data/model/user.model.dart';
+import 'package:mobile/modules/booking_history/booking_history.enum.dart';
+import 'package:mobile/modules/booking_history/booking_history.eventbus.dart';
 import 'package:mobile/modules/hotel_detail/controllers/choose_room.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/fill_profile_info.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/hotel_detail.controller.dart';
@@ -50,6 +53,13 @@ class BookingStepController extends GetxController {
 
       final BookingDTO result =
           await bookingRepository.createBooking(createBookingDTO);
+
+      EventBusUtil.fireEvent(
+        BookingHistoryInternalEvent<BookingDTO>(
+          BookingHistoryInternalEventEnum.addBookingHistory,
+          result,
+        ),
+      );
 
       DialogUtil.hideLoading();
       Get.offNamedUntil(

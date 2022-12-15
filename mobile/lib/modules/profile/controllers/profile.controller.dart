@@ -95,6 +95,9 @@ class ProfileController extends GetxController {
           : SettingItemUI(
               prefixIcon: Icons.manage_accounts_rounded,
               title: LocaleKeys.profile_setting_account.tr,
+              onPressed: () {
+                Get.toNamed(RouteManager.userSetting);
+              },
             )
     ];
     update([ProfileGetBuilderEnum.updateProfile]);

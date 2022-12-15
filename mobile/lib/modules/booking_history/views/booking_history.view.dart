@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/constants/handle_status.dart';
-import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
@@ -12,6 +11,7 @@ import 'package:mobile/common/widgets/loading_dot.widget.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/booking_history/controllers/booking_history.controller.dart';
 import 'package:mobile/modules/booking_history/widgets/booking_history_data.widget.dart';
+import 'package:mobile/modules/booking_history/widgets/login_booking_history.widget.dart';
 
 class BookingHistoryView extends StatefulWidget {
   const BookingHistoryView({super.key});
@@ -80,33 +80,27 @@ class _BookingHistoryViewState extends State<BookingHistoryView>
                 ],
               )
             : null,
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            UIConfigs.horizontalPadding,
-            0,
-            UIConfigs.horizontalPadding,
-            0,
-          ),
-          child: Obx(
-            () {
-              switch (_bookingHistoryController.getDataStatus.value) {
-                case HandleStatus.HAS_DATA:
-                  return BookingHistoryData(
-                    tabController: _tabController,
-                  );
-                case HandleStatus.LOADING:
-                  return const Center(
-                    child: LoadingDot(
-                      dotColor: Palette.blue400,
-                    ),
-                  );
-                case HandleStatus.HAS_ERROR:
-                  return const ErrorBanner();
-                case HandleStatus.NORMAL:
-                  return const SizedBox();
-              }
-            },
-          ),
+        body: Obx(
+          () {
+            switch (_bookingHistoryController.getDataStatus.value) {
+              case HandleStatus.HAS_DATA:
+                return BookingHistoryData(
+                  tabController: _tabController,
+                );
+              case HandleStatus.LOADING:
+                return const Center(
+                  child: LoadingDot(
+                    dotColor: Palette.blue400,
+                  ),
+                );
+              case HandleStatus.HAS_ERROR:
+                return const ErrorBanner(
+                  showAction: false,
+                );
+              case HandleStatus.NORMAL:
+                return const LoginBookingHistory();
+            }
+          },
         ),
         backgroundColor: Palette.background,
       );

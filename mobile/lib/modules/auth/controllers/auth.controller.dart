@@ -48,6 +48,7 @@ class AuthController extends GetxController {
         Get.back(); // Go back to root route
       }
     } catch (err) {
+      await GoogleAuthUtil.signOut();
       DialogUtil.hideLoading();
 
       SnackbarUtil.showError();

@@ -10,11 +10,13 @@ import 'package:mobile/generated/locales.g.dart';
 class ErrorBanner extends StatelessWidget {
   final String? title;
   final Function()? action;
+  final bool showAction;
 
   const ErrorBanner({
     super.key,
     this.title,
     this.action,
+    this.showAction = true,
   });
 
   @override
@@ -33,16 +35,17 @@ class ErrorBanner extends StatelessWidget {
           const SizedBox(
             height: 12,
           ),
-          AppRoundedButton(
-            onPressed: () {
-              action ?? Get.back();
-            },
-            width: 250,
-            height: 45,
-            backgroundColor: Palette.red500,
-            showShadow: false,
-            content: title ?? 'Trở về trang trước',
-          )
+          if (showAction)
+            AppRoundedButton(
+              onPressed: () {
+                action ?? Get.back();
+              },
+              width: 250,
+              height: 45,
+              backgroundColor: Palette.red500,
+              showShadow: false,
+              content: title ?? 'Trở về trang trước',
+            )
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 import 'package:mobile/common/utils/datetime.util.dart';
 
 part 'search_hotels.dto.g.dart';
@@ -10,8 +11,12 @@ class SearchHotelsDTO {
   String searchType;
   int quantityPerson;
   int stepNumber;
+  @JsonKey(includeIfNull: false)
   int? ratingStar;
+  @JsonKey(includeIfNull: false)
   int? ratingFeedback;
+  @JsonKey(includeIfNull: false)
+  List<String>? utilities;
   @JsonKey(name: 'DateCheckin')
   DateTime checkinDate;
   @JsonKey(name: 'DateCheckout')
@@ -28,9 +33,34 @@ class SearchHotelsDTO {
     this.ratingFeedback,
     required this.checkinDate,
     required this.checkoutDate,
+    this.utilities,
     // this.numberOfTenants = 2,
     // this.numberOfRooms = 1,
   });
 
   Map<String, dynamic> toJson() => _$SearchHotelsDTOToJson(this);
+
+  SearchHotelsDTO copyWith({
+    String? searchText,
+    String? searchType,
+    int? quantityPerson,
+    int? stepNumber,
+    int? ratingStar,
+    int? ratingFeedback,
+    List<String>? utilities,
+    DateTime? checkinDate,
+    DateTime? checkoutDate,
+  }) {
+    return SearchHotelsDTO(
+      searchText: searchText ?? this.searchText,
+      searchType: searchType ?? this.searchType,
+      quantityPerson: quantityPerson ?? this.quantityPerson,
+      stepNumber: stepNumber ?? this.stepNumber,
+      ratingStar: ratingStar ?? this.ratingStar,
+      ratingFeedback: ratingFeedback ?? this.ratingFeedback,
+      utilities: utilities ?? this.utilities,
+      checkinDate: checkinDate ?? this.checkinDate,
+      checkoutDate: checkoutDate ?? this.checkoutDate,
+    );
+  }
 }

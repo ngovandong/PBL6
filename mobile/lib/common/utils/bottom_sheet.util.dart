@@ -10,6 +10,7 @@ abstract class BottomSheetUtil {
     bool isSubmit = false,
     String? title,
     double? height,
+    Function? submitAction,
   }) async {
     await Get.bottomSheet(
       Container(
@@ -56,8 +57,9 @@ abstract class BottomSheetUtil {
                             style: TextStyles.s17BoldText,
                           ),
                           AppIconButton(
-                            onPressed: () {
+                            onPressed: () async {
                               Get.back();
+                              await submitAction?.call();
                             },
                             size: 35,
                             backgroundColor: Palette.blue400,
