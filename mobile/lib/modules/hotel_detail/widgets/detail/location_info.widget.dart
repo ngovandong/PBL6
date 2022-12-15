@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/hotel_detail/controllers/hotel_detail.controller.dart';
-import 'package:mobile/modules/hotel_detail/widgets/info_card.widget.dart';
+import 'package:mobile/modules/hotel_detail/widgets/detail/info_card.widget.dart';
 
 class LocationInfo extends GetView<HotelDetailController> {
   const LocationInfo({super.key});

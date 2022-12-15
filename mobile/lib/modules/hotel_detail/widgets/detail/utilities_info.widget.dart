@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
-import 'package:mobile/common/utils/utility_icon.util.dart';
-import 'package:mobile/modules/hotel_detail/widgets/info_card.widget.dart';
+import 'package:mobile/common/utils/utility_content.util.dart';
+import 'package:mobile/modules/hotel_detail/widgets/detail/info_card.widget.dart';
 
 class UtilitiesInfo extends StatelessWidget {
   final List<String> utilities;
@@ -41,7 +41,7 @@ class UtilitiesInfo extends StatelessWidget {
                     children: [
                       WidgetSpan(
                         child: Icon(
-                          UtilityIconUtil.getIcon(utilities[index]),
+                          UtilityContentUtil.getIcon(utilities[index]),
                           size: 17,
                         ),
                       ),
@@ -49,7 +49,7 @@ class UtilitiesInfo extends StatelessWidget {
                         child: SizedBox(width: 3),
                       ),
                       TextSpan(
-                        text: UtilityIconUtil.getLabel(utilities[index]),
+                        text: UtilityContentUtil.getLabel(utilities[index]),
                         style: TextStyles.s14RegularText,
                       )
                     ],

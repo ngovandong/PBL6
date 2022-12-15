@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
+import 'package:mobile/common/utils/snackbar.util.dart';
+import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/home/data/models/dtos/search_hotels.dto.dart';
 import 'package:mobile/modules/search_hotel/search_hotel.enum.dart';
 import 'package:mobile/modules/search_hotel/search_hotel.eventbus.dart';
@@ -48,15 +50,19 @@ class HomeController extends GetxController {
   }
 
   void findHotels() {
-    if (Get.currentRoute == RouteManager.searchHotel) {
-      EventBusUtil.fireEvent(
-        SearchHotelInternalEvent(
-          SearchHotelInternalEventEnum.refreshData,
-          null,
-        ),
-      );
+    if (locationTextController.text.isEmpty) {
+      SnackbarUtil.showError(message: LocaleKeys.share_error_find.tr);
     } else {
-      Get.toNamed(RouteManager.searchHotel);
+      if (Get.currentRoute == RouteManager.searchHotel) {
+        EventBusUtil.fireEvent(
+          SearchHotelInternalEvent(
+            SearchHotelInternalEventEnum.refreshData,
+            null,
+          ),
+        );
+      } else {
+        Get.toNamed(RouteManager.searchHotel);
+      }
     }
   }
 }

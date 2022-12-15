@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/theme/palette.dart';
@@ -29,10 +28,10 @@ class HomeScreen extends GetView<HomeController> {
               height: 40,
               borderColor: Palette.blue400,
               isCircle: true,
-              icon: Icon(
+              icon: const Icon(
                 PhosphorIcons.bell_ringing_bold,
                 color: Palette.blue400,
-                size: 18.sp,
+                size: 18,
               ),
             ),
             const SizedBox(

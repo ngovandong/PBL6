@@ -12,14 +12,12 @@ class ProfileBinding implements Bindings {
       () => ProfileController(
         verifyAuthController: Get.find<VerifyAuthController>(),
       ),
-      fenix: true,
     );
     Get.lazyPut(
       () => UserSettingController(
         verifyAuthController: Get.find<VerifyAuthController>(),
         profileRepository: getIt.get<ProfileRepository>(),
       ),
-      fenix: true,
     );
   }
 }

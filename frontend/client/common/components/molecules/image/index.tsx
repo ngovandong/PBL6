@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import ImageList from '@mui/material/ImageList'
@@ -25,7 +26,6 @@ const ImageContainer = ({
   alt?: string
   width?: number | string
   height?: number | string
-  
 }) => {
   const [open, setOpen] = useState(false)
   const [current, setCurrent] = useState<number>(0)
@@ -43,20 +43,32 @@ const ImageContainer = ({
         cols={3}
         rowHeight={300}
       >
-        {images?.map((item: string, index: number) => {
-          if (index < 3)
-            return (
-              <ImageListItem key={item}>
-                <Image
-                  src={item}
-                  layout='fill'
-                  alt={alt}
-                  loading='lazy'
-                  objectFit='cover'
-                />
-              </ImageListItem>
-            )
-        })}
+        {images?.length > 0 ? (
+          images?.map((item: string, index: number) => {
+            if (index < 3)
+              return (
+                <ImageListItem key={item}>
+                  <Image
+                    src={item ?? '/images/no-image-available.png'}
+                    layout='fill'
+                    alt={alt}
+                    loading='lazy'
+                    objectFit='cover'
+                  />
+                </ImageListItem>
+              )
+          })
+        ) : (
+          <ImageListItem>
+            <Image
+              src={'/images/no-image-available.png'}
+              layout='fill'
+              alt={alt}
+              loading='lazy'
+              objectFit='cover'
+            />
+          </ImageListItem>
+        )}
       </ImageList>
       <Box
         sx={{
@@ -73,18 +85,24 @@ const ImageContainer = ({
           border: '1px solid #222222',
           cursor: 'pointer',
           '&:hover': {
-            boxShadow: 1,
-            backgroundColor: '#f4f4f4',
+            boxShadow: images?.length > 0 ? 1 : 0,
+            backgroundColor: images?.length > 0 ? '#f4f4f4' : 'white',
           },
         }}
       >
         <AppsIcon />
-        <Typography
-          sx={{ fontSize: 14, fontWeight: 500, ml: '2px' }}
-          onClick={() => setOpen(true)}
-        >
-          Hiển thị tất cả hình ảnh
-        </Typography>
+        <Tooltip title={images?.length > 0 ? '' : 'Không có hình ảnh hiển thị'}>
+          <Typography
+            sx={{ fontSize: 14, fontWeight: 500, ml: '2px' }}
+            onClick={() => {
+              if (images?.length > 0) {
+                setOpen(true)
+              }
+            }}
+          >
+            Hiển thị tất cả hình ảnh
+          </Typography>
+        </Tooltip>
       </Box>
       <Dialog
         onClose={() => setOpen(false)}
@@ -102,7 +120,7 @@ const ImageContainer = ({
         }}
       >
         <DialogContent>
-          {current >= 0 && current < images.length && (
+          {current >= 0 && current < images?.length && (
             <Box key={images[current] + 'details'}>
               {current > 0 && (
                 <IconButton
@@ -120,7 +138,7 @@ const ImageContainer = ({
                 </IconButton>
               )}
               <Image
-                src={images[current] || ''}
+                src={images[current] ?? '/images/no-image-available.png'}
                 alt={alt}
                 loading='lazy'
                 objectFit='contain'

@@ -40,7 +40,7 @@ const CardSearch = (props: any) => {
       }}
     >
       <Image
-        src={data?.avatarImage || ''}
+        src={data?.avatarImage ?? '/images/no-image-available.png'}
         width={200}
         height={200}
         style={{ margin: 'auto' }}
@@ -69,7 +69,7 @@ const CardSearch = (props: any) => {
                 placeContent: 'center',
               }}
             >
-              <Tooltip title='Đánh giá sao này do chỗ nghỉ cung cấp cho Booking.com và thường được quyết định bởi một tổ chức đánh giá khách sạn chính thức hoặc một bên thứ ba khác.'>
+              <Tooltip title='Đánh giá sao này do chỗ nghỉ cung cấp cho Booking.com và thường được quyết định bởi một tổ chức đánh giá chính thức hoặc một bên thứ ba khác.'>
                 <span>
                   {isNumber(data?.ratingStar) &&
                     Array.from(Array(data?.ratingStar).keys()).map((item) => (

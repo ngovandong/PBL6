@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/generated/assets.gen.dart';
@@ -23,7 +22,7 @@ class SearchHotelsBox extends StatelessWidget {
             top: 0,
             child: Assets.images.background.wave.svg(
               width: Get.width,
-              height: 100.h,
+              height: 100,
               fit: BoxFit.fill,
             ),
           ),
@@ -32,7 +31,7 @@ class SearchHotelsBox extends StatelessWidget {
             top: MediaQuery.of(context).padding.top,
             child: Container(
               width: Get.width - 24,
-              height: 100.h,
+              height: 110,
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -50,7 +49,7 @@ class SearchHotelsBox extends StatelessWidget {
                   const Divider(
                     height: 0,
                   ),
-                  const Expanded(
+                  Expanded(
                     child: FilterSortFrame(),
                   )
                 ],

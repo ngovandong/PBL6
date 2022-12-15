@@ -12,7 +12,6 @@ class SearchHotelBinding implements Bindings {
         hostRepository: getIt.get<HostRepository>(),
         homeController: Get.find<HomeController>(),
       ),
-      fenix: true,
     );
   }
 }

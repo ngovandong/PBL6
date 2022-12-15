@@ -8,7 +8,16 @@ import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/generated/locales.g.dart';
 
 class ErrorBanner extends StatelessWidget {
-  const ErrorBanner({super.key});
+  final String? title;
+  final Function()? action;
+  final bool showAction;
+
+  const ErrorBanner({
+    super.key,
+    this.title,
+    this.action,
+    this.showAction = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +35,17 @@ class ErrorBanner extends StatelessWidget {
           const SizedBox(
             height: 12,
           ),
-          AppRoundedButton(
-            onPressed: () {
-              Get.back();
-            },
-            width: 250,
-            height: 45,
-            backgroundColor: Palette.red500,
-            showShadow: false,
-            content: 'Trở về trang trước',
-          )
+          if (showAction)
+            AppRoundedButton(
+              onPressed: () {
+                action ?? Get.back();
+              },
+              width: 250,
+              height: 45,
+              backgroundColor: Palette.red500,
+              showShadow: false,
+              content: title ?? 'Trở về trang trước',
+            )
         ],
       ),
     );

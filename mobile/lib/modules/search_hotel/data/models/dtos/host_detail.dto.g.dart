@@ -14,4 +14,6 @@ Map<String, dynamic> _$HostDetailDTOToJson(HostDetailDTO instance) =>
       'dateCheckout':
           const JsonSerializableDateTime().toJson(instance.dateCheckout),
       'quantiyPerson': instance.quantiyPerson,
+      'displayDate': instance.displayDate,
+      'numberOfDate': instance.numberOfDate,
     };

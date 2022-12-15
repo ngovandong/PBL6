@@ -27,13 +27,21 @@ class LocaleKeys {
   static const validate_login_email = 'validate_login_email';
   static const validate_phone_max_length = 'validate_phone_max_length';
   static const validate_phone_required = 'validate_phone_required';
+  static const validate_first_name_required = 'validate_first_name_required';
+  static const validate_second_name_required = 'validate_second_name_required';
+  static const validate_email_required = 'validate_email_required';
   static const find_hotel_choose_destination = 'find_hotel_choose_destination';
   static const find_hotel_checkin_date = 'find_hotel_checkin_date';
   static const find_hotel_checkout_date = 'find_hotel_checkout_date';
   static const favorite_hotel = 'favorite_hotel';
   static const hotel_detail_position = 'hotel_detail_position';
+  static const hotel_detail_required_login = 'hotel_detail_required_login';
+  static const hotel_detail_saved_info_account =
+      'hotel_detail_saved_info_account';
   static const dialog_no = 'dialog_no';
   static const dialog_yes = 'dialog_yes';
+  static const dialog_cancel = 'dialog_cancel';
+  static const dialog_continue = 'dialog_continue';
   static const profile_setting_account = 'profile_setting_account';
   static const profile_language = 'profile_language';
   static const profile_notication = 'profile_notication';
@@ -46,6 +54,7 @@ class LocaleKeys {
   static const booking_history_ongoing = 'booking_history_ongoing';
   static const booking_history_title = 'booking_history_title';
   static const share_error_message = 'share_error_message';
+  static const share_error_find = 'share_error_find';
   static const share_success_message = 'share_success_message';
 }
 
@@ -71,13 +80,21 @@ class Locales {
         'Email này đã được đăng ký tài khoản, bạn có thể tiếp tục bằng cách đăng nhập',
     'validate_phone_max_length': 'Số điện thoại phải là 10 ký tự',
     'validate_phone_required': 'Số điện thoại không được để trống',
+    'validate_first_name_required': 'Vui lòng nhập họ của bạn',
+    'validate_second_name_required': 'Vui lòng nhập tên của bạn',
+    'validate_email_required': 'Vui lòng nhập số điện thoại của bạn',
     'find_hotel_choose_destination': 'Chọn điểm đến của bạn',
     'find_hotel_checkin_date': 'Ngày nhận phòng',
     'find_hotel_checkout_date': 'Ngày trả phòng',
     'favorite_hotel': 'Khách sạn yêu thích',
     'hotel_detail_position': 'Vị trí',
+    'hotel_detail_required_login':
+        'Để có thể đặt phòng, vui lòng đăng nhập để tiếp tục',
+    'hotel_detail_saved_info_account': 'Lưu thông tin vào tài khoản của bạn',
     'dialog_no': 'Không',
     'dialog_yes': 'Có',
+    'dialog_cancel': 'Huỷ',
+    'dialog_continue': 'Tiếp tục',
     'profile_setting_account': 'Cài đặt tài khoản',
     'profile_language': 'Ngôn ngữ',
     'profile_notication': 'Thông báo',
@@ -90,6 +107,7 @@ class Locales {
     'booking_history_ongoing': 'Đang đợi',
     'booking_history_title': 'Lịch sử đặt phòng',
     'share_error_message': 'Đã có lỗi xảy ra. Vui lòng thử lại sau',
+    'share_error_find': 'Chọn địa điểm cần tìm khách sạn',
     'share_success_message': 'Thành công',
   };
 }

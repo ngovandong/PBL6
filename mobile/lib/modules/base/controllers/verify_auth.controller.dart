@@ -1,8 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/utils/dialog.util.dart';
 import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
 import 'package:mobile/common/utils/google_auth.util.dart';
@@ -10,6 +8,8 @@ import 'package:mobile/common/utils/snackbar.util.dart';
 import 'package:mobile/modules/auth/data/model/user.model.dart';
 import 'package:mobile/modules/base/data/model/user_auth.model.dart';
 import 'package:mobile/modules/base/data/repository/verify_auth.repository.dart';
+import 'package:mobile/modules/booking_history/booking_history.enum.dart';
+import 'package:mobile/modules/booking_history/booking_history.eventbus.dart';
 import 'package:mobile/modules/profile/profile.enum.dart';
 import 'package:mobile/modules/profile/profile.eventbus.dart';
 
@@ -63,6 +63,7 @@ class VerifyAuthController extends GetxController {
 
   void setCurrentUser(UserModel? user) {
     _currrentUser.value = user;
+    _currrentUser.refresh();
   }
 
   Future<void> proccessUpdateCurrentUser(UserModel? user) async {
@@ -79,9 +80,11 @@ class VerifyAuthController extends GetxController {
       ),
     );
 
-    Get.offNamedUntil(
-      RouteManager.root,
-      ModalRoute.withName(RouteManager.root),
+    EventBusUtil.fireEvent(
+      BookingHistoryInternalEvent(
+        BookingHistoryInternalEventEnum.refreshBookingHistory,
+        null,
+      ),
     );
   }
 
@@ -95,6 +98,13 @@ class VerifyAuthController extends GetxController {
       EventBusUtil.fireEvent(
         ProfileInternalEvent(
           ProfileInternalEventEnum.updateSettingProfile,
+          null,
+        ),
+      );
+
+      EventBusUtil.fireEvent(
+        BookingHistoryInternalEvent(
+          BookingHistoryInternalEventEnum.refreshBookingHistory,
           null,
         ),
       );

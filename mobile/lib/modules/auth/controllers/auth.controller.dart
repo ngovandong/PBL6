@@ -44,8 +44,13 @@ class AuthController extends GetxController {
         await verifyAuthController.proccessUpdateCurrentUser(user);
 
         DialogUtil.hideLoading();
+
+        Get.back(); // Go back to root route
       }
     } catch (err) {
+      await GoogleAuthUtil.signOut();
+      DialogUtil.hideLoading();
+
       SnackbarUtil.showError();
       log('Error in loginWithGoolge: $err');
     }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/extensions/datetime.extension.dart';
 import 'package:mobile/common/theme/palette.dart';
@@ -59,8 +58,7 @@ class LocationDateFrame extends GetView<SearchHotelController> {
                       children: [
                         Text(
                           '${searchHotelsDTO.checkinDate.toDisplayDate} - ${searchHotelsDTO.checkoutDate.toDisplayDate}',
-                          style:
-                              TextStyles.regularText.copyWith(fontSize: 13.sp),
+                          style: TextStyles.regularText.copyWith(fontSize: 13),
                         ),
                         const SizedBox(
                           width: 6,
@@ -78,8 +76,7 @@ class LocationDateFrame extends GetView<SearchHotelController> {
                         ),
                         Text(
                           '${searchHotelsDTO.quantityPerson} khách',
-                          style:
-                              TextStyles.regularText.copyWith(fontSize: 13.sp),
+                          style: TextStyles.regularText.copyWith(fontSize: 13),
                         )
                       ],
                     )

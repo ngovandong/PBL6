@@ -1,24 +1,28 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile/common/constants/ui_configs.dart';
-import 'package:mobile/common/theme/palette.dart';
-import 'package:mobile/common/theme/text_styles.dart';
-import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
+import 'package:mobile/common/router/route_manager.dart';
+import 'package:mobile/common/utils/dialog.util.dart';
+import 'package:mobile/generated/locales.g.dart';
+import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/hotel_detail.controller.dart';
+import 'package:mobile/modules/hotel_detail/widgets/choose_room/pick_room_sheet.widget.dart';
+import 'package:mobile/modules/hotel_detail/widgets/choose_room/pick_room_bed_sheet.widget.dart';
 import 'package:mobile/modules/search_hotel/data/models/accommodation.model.dart';
 import 'package:mobile/modules/search_hotel/data/models/host.model.dart';
 
 class ChooseRoomController extends GetxController {
   final HotelDetailController hotelDetailController;
+  final VerifyAuthController verifyAuthController;
 
   ChooseRoomController({
     required this.hotelDetailController,
+    required this.verifyAuthController,
   });
 
   final HostModel host = Get.arguments;
 
   late RxList<AccommodationModel> rooms;
+  List<AccommodationModel> get bookingRooms =>
+      rooms.where((element) => element.isSelected).toList();
   // final RxList<RoomModel> bookingRooms = <RoomModel>[].obs;
 
   final RxDouble totalMoneny = (0.0).obs;
@@ -28,14 +32,14 @@ class ChooseRoomController extends GetxController {
     _getRoomData();
     rooms.listen((p0) {
       totalMoneny.value = p0
-          .map((e) => e.price * e.bookingQuantity)
+          .map((e) => e.totalPrice * e.bookingQuantity)
           .fold(0, (previousValue, element) => previousValue + element);
     });
     super.onInit();
   }
 
   void _getRoomData() {
-    rooms = (host.accommodationSearches).obs;
+    rooms = (host.accommodationSearches.map((e) => e.copyWith()).toList()).obs;
   }
 
   void addRoom(String selectedRoomId) {
@@ -43,76 +47,103 @@ class ChooseRoomController extends GetxController {
         rooms.firstWhere((p0) => p0.id == selectedRoomId);
 
     if (currentRoom.isSelected) {
-      int numberOfRooms = 0;
-
-      Get.bottomSheet(
-        Container(
-          color: Colors.white,
-          height: 250,
-          padding: const EdgeInsets.only(
-            left: UIConfigs.horizontalPadding,
-            right: UIConfigs.horizontalPadding,
+      if (currentRoom.bedTypes.length == 1) {
+        Get.bottomSheet(
+          PickNumberRoomSheet(
+            bookingQuantity: currentRoom.bookingQuantity,
+            quantityAvailable: currentRoom.quantityAvailable,
+            chooseRoom: (numberOfRooms) {
+              if (numberOfRooms == 0) {
+                refreshData(
+                  currentRoom,
+                  isSelected: false,
+                  bookingQuantity: 0,
+                  bedInfo: currentRoom.bedTypes.first,
+                );
+              } else {
+                currentRoom.bookingQuantity = numberOfRooms;
+                refreshData(
+                  currentRoom,
+                  bookingQuantity: numberOfRooms,
+                  bedInfo: currentRoom.bedTypes.first,
+                );
+              }
+            },
           ),
-          child: SafeArea(
-            top: false,
-            child: Column(
-              children: [
-                Expanded(
-                  child: CupertinoPicker(
-                    magnification: 1.22,
-                    squeeze: 1.2,
-                    useMagnifier: true,
-                    itemExtent: 35,
-                    onSelectedItemChanged: (int selectedItem) {
-                      numberOfRooms = selectedItem;
-                    },
-                    scrollController: FixedExtentScrollController(
-                      initialItem: currentRoom.bookingQuantity,
-                    ),
-                    children: List<Widget>.generate(
-                        currentRoom.quantityAvailable + 1, (int index) {
-                      return Center(
-                        child: Text(
-                          index == 0 ? 'Xoá' : '$index phòng',
-                          style: TextStyles.s17MediumText,
-                        ),
-                      );
-                    }),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                AppRoundedButton(
-                  onPressed: () {
-                    if (numberOfRooms == 0) {
-                      currentRoom.isSelected = false;
-                      currentRoom.bookingQuantity = 0;
-                    } else {
-                      currentRoom.bookingQuantity = numberOfRooms;
-                    }
-
-                    rooms.refresh();
-                    update([selectedRoomId]);
-
-                    Get.back();
-                  },
-                  content: 'Chọn',
-                  fontSize: 15,
-                  showShadow: false,
-                  height: 45,
-                  backgroundColor: Palette.blue400,
-                )
-              ],
-            ),
-          ),
-        ),
-      );
+        );
+      } else {
+        showPickRoomAndBedSheet(currentRoom);
+      }
     } else {
-      currentRoom.isSelected = true;
-      currentRoom.bookingQuantity = 1;
-      rooms.refresh();
-      update([selectedRoomId]);
+      if (currentRoom.bedTypes.length == 1) {
+        refreshData(
+          currentRoom,
+          bookingQuantity: 1,
+          bedInfo: currentRoom.bedTypes.first,
+        );
+      } else {
+        showPickRoomAndBedSheet(currentRoom);
+      }
     }
+  }
+
+  void showPickRoomAndBedSheet(AccommodationModel currentRoom) {
+    Get.bottomSheet(
+      PickRoomAndBedSheet(
+        quantityAvailable: currentRoom.quantityAvailable,
+        bedTypes: currentRoom.bedTypes,
+        initNumberRoom:
+            currentRoom.isSelected ? currentRoom.bookingQuantity : 1,
+        initBedType: currentRoom.isSelected
+            ? currentRoom.bedInfo
+            : currentRoom.bedTypes.first,
+        chooseRoom: (int numberOfRooms, String selectedBedType) {
+          refreshData(
+            currentRoom,
+            bookingQuantity: numberOfRooms,
+            isSelected: !(numberOfRooms == 0),
+            bedInfo: selectedBedType,
+          );
+        },
+      ),
+    );
+  }
+
+  void refreshData(
+    AccommodationModel currentRoom, {
+    bool isSelected = true,
+    required int bookingQuantity,
+    required String bedInfo,
+  }) {
+    currentRoom.isSelected = isSelected;
+    currentRoom.bookingQuantity = bookingQuantity;
+    currentRoom.bedInfo = bedInfo;
+
+    rooms.refresh();
+    update([currentRoom.id]);
+  }
+
+  Future<void> bookingRoom() async {
+    if (verifyAuthController.currentUser == null) {
+      await DialogUtil.showGeneral(
+        title: LocaleKeys.profile_notication.tr,
+        content: LocaleKeys.hotel_detail_required_login.tr,
+        isConfirmDialog: true,
+        cancelButtonText: LocaleKeys.dialog_cancel.tr,
+        confirmButtonText: LocaleKeys.dialog_continue.tr,
+        onConfirm: () async {
+          await Get.toNamed(RouteManager.auth);
+        },
+      );
+
+      await Future.delayed(const Duration(milliseconds: 200));
+      DialogUtil.showLoading(
+        content: 'Đang cập nhập thông tin cá nhân...',
+      );
+      await Future.delayed(const Duration(milliseconds: 1200));
+      DialogUtil.hideLoading();
+    }
+
+    Get.toNamed(RouteManager.fillProfileInfo);
   }
 }
