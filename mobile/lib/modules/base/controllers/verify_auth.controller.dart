@@ -8,6 +8,8 @@ import 'package:mobile/common/utils/snackbar.util.dart';
 import 'package:mobile/modules/auth/data/model/user.model.dart';
 import 'package:mobile/modules/base/data/model/user_auth.model.dart';
 import 'package:mobile/modules/base/data/repository/verify_auth.repository.dart';
+import 'package:mobile/modules/booking_history/booking_history.enum.dart';
+import 'package:mobile/modules/booking_history/booking_history.eventbus.dart';
 import 'package:mobile/modules/profile/profile.enum.dart';
 import 'package:mobile/modules/profile/profile.eventbus.dart';
 
@@ -77,6 +79,13 @@ class VerifyAuthController extends GetxController {
         null,
       ),
     );
+
+    EventBusUtil.fireEvent(
+      BookingHistoryInternalEvent(
+        BookingHistoryInternalEventEnum.refreshBookingHistory,
+        null,
+      ),
+    );
   }
 
   Future<void> signOut() async {
@@ -89,6 +98,13 @@ class VerifyAuthController extends GetxController {
       EventBusUtil.fireEvent(
         ProfileInternalEvent(
           ProfileInternalEventEnum.updateSettingProfile,
+          null,
+        ),
+      );
+
+      EventBusUtil.fireEvent(
+        BookingHistoryInternalEvent(
+          BookingHistoryInternalEventEnum.refreshBookingHistory,
           null,
         ),
       );

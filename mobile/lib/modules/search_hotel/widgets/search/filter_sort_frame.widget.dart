@@ -4,11 +4,15 @@ import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/utils/bottom_sheet.util.dart';
+import 'package:mobile/modules/home/controllers/home.controller.dart';
+import 'package:mobile/modules/search_hotel/controllers/search_hotel.controller.dart';
 import 'package:mobile/modules/search_hotel/widgets/search/filter_options_sheet.widget.dart';
 import 'package:mobile/modules/search_hotel/widgets/search/sort_options_sheet.widget.dart';
 
-class FilterSortFrame extends StatelessWidget {
-  const FilterSortFrame({super.key});
+class FilterSortFrame extends GetView<SearchHotelController> {
+  final HomeController _homeController = Get.find<HomeController>();
+
+  FilterSortFrame({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +23,17 @@ class FilterSortFrame extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               BottomSheetUtil.show(
-                child: const FilterOptionsSheet(),
+                child: FilterOptionsSheet(
+                  key: controller.filterOptionKey,
+                  selectedStar:
+                      _homeController.searchHotelsParams.value.ratingStar ?? -1,
+                  selectedUtilities:
+                      _homeController.searchHotelsParams.value.utilities ?? [],
+                ),
                 isSubmit: true,
                 title: 'Lọc danh sách khách sạn',
                 height: Get.height * 0.95,
+                submitAction: controller.submitFilter,
               );
             },
             behavior: HitTestBehavior.opaque,

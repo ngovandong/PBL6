@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/extensions/number.extension.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/utils/bed_content.util.dart';
 import 'package:mobile/common/widgets/confirm_and_pin_code.widget.dart';
 import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 import 'package:mobile/common/widgets/icon_title.widget.dart';
+import 'package:mobile/modules/booking_history/controllers/booking_history_detail.controller.dart';
+import 'package:mobile/modules/hotel_detail/data/models/dtos/booking.dto.dart';
 
-class DetailBookingHistoryView extends StatelessWidget {
-  const DetailBookingHistoryView({super.key});
+class BookingHistoryDetailView extends GetView<BookingHistoryDetailController> {
+  const BookingHistoryDetailView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,43 +39,33 @@ class DetailBookingHistoryView extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const ConfirmAndPinCode(
-                confirmCode: '123123123123',
+              ConfirmAndPinCode(
+                confirmCode: controller.bookingParams.bookingCode!,
                 pinCode: '2181',
               ),
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                'Luxury Hotel',
+              Text(
+                controller.bookingParams.hostName!,
                 style: TextStyles.s17BoldText,
               ),
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                children: List.generate(
-                  4,
-                  (index) => const Icon(
-                    PhosphorIcons.star_fill,
-                    color: Colors.yellow,
-                  ),
-                ),
-              ),
               const SizedBox(
                 height: 10,
               ),
-              const IconTitle(
+              IconTitle(
                 icon: PhosphorIcons.calendar_check,
-                title: '10/12/2022 - 12/12/2022',
+                title: controller.bookingParams.displayDate,
               ),
               const SizedBox(
                 height: 10,
               ),
-              const IconTitle(
+              IconTitle(
                 icon: PhosphorIcons.map_pin,
-                title:
-                    '62 An Thượng 26, Mỹ An Ward, Ngũ Hành Sơn District, Đà Nẵng',
+                title: controller.bookingParams.province,
               ),
               const SizedBox(
                 height: 10,
@@ -82,15 +76,15 @@ class DetailBookingHistoryView extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                'Bạn đã đặt 1 phòng',
+              Text(
+                'Bạn đã đặt ${controller.bookingParams.bookingDetails.length} phòng',
                 style: TextStyles.s17BoldText,
               ),
               const SizedBox(
                 height: 10,
               ),
               ListView.separated(
-                itemCount: 3,
+                itemCount: controller.bookingParams.bookingDetails.length,
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 separatorBuilder: (context, index) {
@@ -99,6 +93,9 @@ class DetailBookingHistoryView extends StatelessWidget {
                   );
                 },
                 itemBuilder: (context, index) {
+                  final BookingDetailDTO bookingDetail =
+                      controller.bookingParams.bookingDetails[index];
+
                   return Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -111,25 +108,27 @@ class DetailBookingHistoryView extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Phòng Deluxe giường đôi',
+                              Text(
+                                bookingDetail.accommodationName!,
                                 style: TextStyles.s14BoldText,
+                              ),
+                              const SizedBox(
+                                height: 5,
                               ),
                               IconTitle(
                                 icon: Icons.bed_rounded,
-                                child: Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: List.generate(2, (index) {
-                                      return const Text('Giường đôi');
-                                    }),
+                                child: Text(
+                                  BedContentUtil.getLabel(
+                                    bookingDetail.bedInfo,
                                   ),
                                 ),
                               ),
-                              const IconTitle(
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              IconTitle(
                                 icon: Icons.confirmation_number_outlined,
-                                title: 'Số lượng: 2',
+                                title: 'Số lượng: ${bookingDetail.quantity}',
                               )
                             ],
                           ),
@@ -138,7 +137,7 @@ class DetailBookingHistoryView extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          200000.toMoneyFormat,
+                          bookingDetail.priceUnit!.toMoneyFormat,
                           style: TextStyles.s17BoldText
                               .copyWith(color: Palette.red400),
                         )
@@ -168,11 +167,11 @@ class DetailBookingHistoryView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        123123.toMoneyFormat,
+                        controller.bookingParams.totalPrice!.toMoneyFormat,
                         style: TextStyles.s17BoldText
                             .copyWith(color: Palette.red400),
                       ),
-                      const Text('Đã bao gồm thuế và phí')
+                      const Text('(Đã bao gồm thuế và phí)')
                     ],
                   )
                 ],

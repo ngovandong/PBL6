@@ -15,8 +15,8 @@ class UserSettingView extends GetView<UserSettingController> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return Listener(
+      onPointerDown: (_) {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(

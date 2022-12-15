@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/extensions/datetime.extension.dart';
@@ -33,6 +35,8 @@ class UserSettingController extends GetxController {
         TextEditingController(text: updatedUser.birthDay?.toDisplayDate);
 
     _updatedUser.listen((p0) {
+      log(verifyAuthController.currentUser!.toJson().toString());
+
       if (p0 != verifyAuthController.currentUser) {
         haveUpdated.value = true;
       } else {
@@ -94,7 +98,7 @@ class UserSettingController extends GetxController {
       DialogUtil.showLoading();
 
       await profileRepository.changeUserInfo(updatedUser);
-      verifyAuthController.setCurrentUser(updatedUser);
+      verifyAuthController.setCurrentUser(updatedUser.copyWith());
       haveUpdated.value = false;
 
       DialogUtil.hideLoading();

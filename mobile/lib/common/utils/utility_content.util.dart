@@ -19,6 +19,26 @@ abstract class UtilityCode {
   static const String ac = 'ac';
   static const String swimmingPool = 'swimming_pool';
   static const String beach = 'beach';
+
+  static const List<String> listUtilityCodes = [
+    wifi,
+    restaurant,
+    bar,
+    roomService,
+    reception24h,
+    sauna,
+    gym,
+    garden,
+    terrace,
+    nonSmokingRoom,
+    airportShuttle,
+    familyRoom,
+    spa,
+    jacuzzi,
+    ac,
+    swimmingPool,
+    beach,
+  ];
 }
 
 abstract class UtilityContentUtil {
