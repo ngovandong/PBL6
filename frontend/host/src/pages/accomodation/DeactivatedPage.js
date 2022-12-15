@@ -1,5 +1,11 @@
+import DeactiveAccommodation from "./DeactiveAccommodation";
+
 function DeactivatedPage() {
-    return ( <div>Unfinished</div> );
+  return (
+    <div>
+      <DeactiveAccommodation />
+    </div>
+  );
 }
 
 export default DeactivatedPage;

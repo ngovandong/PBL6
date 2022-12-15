@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile/common/utils/dio/dio_interceptor.dart';
 
 class HttpRequestResponse {
@@ -19,19 +16,15 @@ class HttpRequestResponse {
 abstract class DioProvider {
   static final Dio _dio = Dio()..interceptors.add(DioInterceptor());
 
-  static Future<HttpRequestResponse> get({
-    required String endpoint,
+  static Future<HttpRequestResponse> get(
+    String endpoint, {
     Map<String, dynamic>? queryParams,
   }) async {
-    // final String endpoint = '${dotenv.env[EnvKeys.apiUrl]}$url';
-
     final Response response = await _dio.get(
       endpoint,
       queryParameters: queryParams,
     );
 
-    log(response.requestOptions.path);
-
     return HttpRequestResponse(
       data: response.data,
       statusCode: response.statusCode,
@@ -39,16 +32,14 @@ abstract class DioProvider {
     );
   }
 
-  static Future<HttpRequestResponse> post({
-    required String url,
-    Map<String, dynamic>? formBody,
+  static Future<HttpRequestResponse> post(
+    String endpoint, {
+    Map<String, dynamic>? body,
     Map<String, dynamic>? queryParams,
   }) async {
-    final String endpoint = '${dotenv.env['API_URL']}$url';
-
     final Response response = await _dio.post(
       endpoint,
-      data: formBody,
+      data: body,
       queryParameters: queryParams,
     );
 
@@ -59,14 +50,40 @@ abstract class DioProvider {
     );
   }
 
-  static Future<dynamic> patch({
-    required String url,
-    Map<String, dynamic>? formBody,
+  static Future<HttpRequestResponse> put(
+    String endpoint, {
+    Map<String, dynamic>? body,
     Map<String, dynamic>? queryParams,
   }) async {
-    final String endpoint = '${dotenv.env['API_URL']}$url}';
-    final Response response = await _dio.patch(endpoint, data: formBody);
-    return response.data;
+    final Response response = await _dio.put(
+      endpoint,
+      data: body,
+      queryParameters: queryParams,
+    );
+
+    return HttpRequestResponse(
+      data: response.data,
+      statusCode: response.statusCode,
+      statusMessage: response.statusMessage,
+    );
+  }
+
+  static Future<HttpRequestResponse> patch({
+    required String endpoint,
+    Map<String, dynamic>? body,
+    Map<String, dynamic>? queryParams,
+  }) async {
+    final Response response = await _dio.patch(
+      endpoint,
+      data: body,
+      queryParameters: queryParams,
+    );
+
+    return HttpRequestResponse(
+      data: response.data,
+      statusCode: response.statusCode,
+      statusMessage: response.statusMessage,
+    );
   }
 
   // static Future<HttpRequestResponse> download({

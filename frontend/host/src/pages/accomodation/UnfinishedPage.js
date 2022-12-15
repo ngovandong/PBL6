@@ -1,6 +1,7 @@
 import InprogressAccommodation from "./InprogressAccommodation";
 
 function UnfinishedPage() {
+
   return (
     <div>
       <InprogressAccommodation />

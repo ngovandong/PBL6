@@ -1,58 +1,67 @@
-import { Checkbox, FormControlLabel } from "@mui/material";
-import { useState } from "react";
+import {
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  InputAdornment,
+  OutlinedInput,
+  Switch,
+} from "@mui/material";
+import { useSelector } from "react-redux";
+import {
+  handleUpdateAddingHost,
+  selectAddingHost,
+} from "../../../app/store/hostSlice";
+import { AMENITIES } from "../../../constants/amenities";
 
-const amenities = [
-  { label: "Wi-Fi miễn phí", code: "wifi" },
-  { label: "Nhà hàng", code: "restaurant" },
-  { label: "Quầy bar", code: "bar" },
-  { label: "Dịch vụ phòng", code: "roomService" },
-  { label: "Lễ tân 24 giờ", code: "reception24h" },
-  { label: "Phòng xông hơi", code: "sauna" },
-  { label: "Trung tâm thể dục", code: "gym" },
-  { label: "Sân vườn", code: "garden" },
-  { label: "Sân thượng/ hiên", code: "terrace" },
-  { label: "Phòng không hút thuốc", code: "nonSmokingRoom" },
-  { label: "Xe đưa đón sân bay", code: "airportShuttle" },
-  { label: "Phòng gia đình", code: "familyRoom" },
-  { label: "Trung tâm Spa & chăm sóc sức khoe", code: "spa" },
-  { label: "Bồn tắm nóng/bể sục (jacuzzi)", code: "jacuzzi" },
-  { label: "Điều hòa nhiệt độ", code: "AC" },
-  { label: "Hồ bơi", code: "swimmingPool" },
-  { label: "Bãi biển", code: "beach" },
-];
 function Amenities() {
-  const [chooesedAmenities, setChooesedAmenities] = useState({
-    wifi: false,
-    restaurant: false,
-    bar: false,
-    roomService: false,
-    reception24h: false,
-    sauna: false,
-    gym: false,
-    garden: false,
-    nonSmokingRoom: false,
-    airportShuttle: false,
-    familyRoom: false,
-    spa: false,
-    jacuzzi: false,
-    AC: false,
-    swimmingPool: false,
-    beach: false,
+  const addingHost = useSelector(selectAddingHost);
+  const outstandingUtilities = addingHost.outstandingUtilities
+    ? addingHost.outstandingUtilities
+    : [];
+  const chooesedAmenities = {};
+  outstandingUtilities.forEach((e) => {
+    chooesedAmenities[e] = true;
   });
-  const handleChooes = (key) => {
-    setChooesedAmenities((pre) => ({ ...pre, [key]: !pre[key] }));
+
+  const utilities = addingHost.utilities ? addingHost.utilities : [];
+  const chooesedUtilities = {};
+  utilities.forEach((e) => {
+    chooesedUtilities[e] = true;
+  });
+
+  const handleChooseUtilities = (key) => {
+    chooesedUtilities[key] = !chooesedUtilities[key];
+    let result = [];
+    for (const property in chooesedUtilities) {
+      if (chooesedUtilities[property]) {
+        result.push(property);
+      }
+    }
+    handleUpdateAddingHost("utilities", result);
   };
+
+  const handleChooes = (key) => {
+    chooesedAmenities[key] = !chooesedAmenities[key];
+    let result = [];
+    for (const property in chooesedAmenities) {
+      if (chooesedAmenities[property]) {
+        result.push(property);
+      }
+    }
+    handleUpdateAddingHost("outstandingUtilities", result);
+  };
+
   return (
     <div className="tab-container">
-      <p className="section-tile">Chọn các tiện nghi</p>
+      <p className="section-tile">Các tiện nghi nổi bật</p>
       <div className="amenities-container">
-        {amenities.map((a) => (
+        {AMENITIES.map((a) => (
           <FormControlLabel
             style={{ width: "45%" }}
             key={a.code}
             control={
               <Checkbox
-                checked={chooesedAmenities[a.code]}
+                checked={Boolean(chooesedAmenities[a.code])}
                 onChange={() => handleChooes(a.code)}
               />
             }
@@ -60,6 +69,101 @@ function Amenities() {
           />
         ))}
       </div>
+      <p className="section-tile">Các tiện nghi khác</p>
+      <div className="amenities-container">
+        {AMENITIES.map((a) => (
+          <FormControlLabel
+            style={{ width: "45%" }}
+            key={a.code}
+            control={
+              <Checkbox
+                checked={Boolean(chooesedUtilities[a.code])}
+                onChange={() => handleChooseUtilities(a.code)}
+              />
+            }
+            label={a.label}
+          />
+        ))}
+      </div>
+      <p className="section-tile">Các dịch vụ</p>
+
+      <FormGroup>
+        <div className="service-row">
+          <FormControlLabel
+            control={
+              <Switch
+                checked={addingHost.breakfast}
+                onChange={(e) =>
+                  handleUpdateAddingHost("breakfast", e.target.checked)
+                }
+              />
+            }
+            label="Phục vụ bữa sáng"
+            style={{ width: "51%" }}
+          />
+          {addingHost.breakfast && (
+            <OutlinedInput
+              endAdornment={<InputAdornment position="end">đ</InputAdornment>}
+              inputProps={{
+                "aria-label": "weight",
+                placeholder: "Phí bữa sáng",
+                min: "0",
+                type: "number",
+              }}
+              type="number"
+              onChange={(e) =>
+                handleUpdateAddingHost("breakfastFee", Number(e.target.value))
+              }
+              defaultValue={
+                addingHost.breakfastFee ? addingHost.breakfastFee : null
+              }
+            />
+          )}
+        </div>
+        <div className="service-row">
+          <FormControlLabel
+            control={
+              <Switch
+                checked={addingHost.parkingLot}
+                onChange={(e) =>
+                  handleUpdateAddingHost("parkingLot", e.target.checked)
+                }
+              />
+            }
+            label="Bãi đỗ xe"
+          />
+          {addingHost.parkingLot && (
+            <OutlinedInput
+              endAdornment={<InputAdornment position="end">đ</InputAdornment>}
+              inputProps={{
+                "aria-label": "weight",
+                placeholder: "Phí đỗ xe",
+                min: "0",
+                type: "number",
+              }}
+              onChange={(e) =>
+                handleUpdateAddingHost("parkingLotFee", Number(e.target.value))
+              }
+              defaultValue={
+                addingHost.parkingLotFee ? addingHost.parkingLotFee : null
+              }
+            />
+          )}
+        </div>
+        <div className="service-row">
+          <FormControlLabel
+            control={
+              <Switch
+                checked={addingHost.currencyService}
+                onChange={(e) =>
+                  handleUpdateAddingHost("currencyService", e.target.checked)
+                }
+              />
+            }
+            label="Dịch vụ đổi tiền"
+          />
+        </div>
+      </FormGroup>
     </div>
   );
 }

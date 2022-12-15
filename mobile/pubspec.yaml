@@ -18,8 +18,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.17.6 <3.0.0'
-  flutter: '>=3.3.0 <=3.3.2'
+  sdk: '>=2.18.2 <3.0.0'
+  flutter: '>=3.3.0 <=3.3.6'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -45,11 +45,17 @@ dependencies:
   json_annotation: ^4.6.0
   async: ^2.8.2
   flutter_phosphor_icons: ^0.0.1+6
-  modal_bottom_sheet: ^2.1.2
   syncfusion_flutter_datepicker: ^20.2.49
   google_sign_in: ^5.4.1
   intl: ^0.17.0
   google_place: ^0.4.7
+  injectable: ^1.5.4
+  event_bus: ^2.0.0
+  dropdown_button2: ^1.9.1
+  syncfusion_flutter_sliders: ^20.3.58
+  badges: ^2.0.3
+  readmore: ^2.2.0
+  lottie: ^2.0.0
 
   flutter_localizations:
     sdk: flutter
@@ -57,8 +63,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  injectable_generator:
   build_runner: ^2.2.0
   json_serializable: ^6.3.1
+  flutter_flavorizr: ^2.1.5
   # json_annotation: ^4.6.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -67,6 +75,29 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
+flavorizr:
+  # app:
+  #   android:
+  #     flavorDimensions: 'flavor-type'
+  #   ios:
+  flavors:
+    prod:
+      app:
+        name: 'ReadyBooking'
+        icon: 'assets/icons/app/app_icon.png'
+      android:
+        applicationId: 'com.pbl6.travelbooking'
+      ios:
+        bundleId: 'com.pbl6.travelbooking'
+    dev:
+      app:
+        name: 'ReadyBooking DEV'
+        icon: 'assets/icons/app/app_icon.png'
+      android:
+        applicationId: 'com.pbl6.travelbooking'
+      ios:
+        bundleId: 'com.pbl6.travelbooking'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -88,6 +119,7 @@ flutter:
     - assets/images/snackbar/
     - assets/images/background/
     - assets/locales/
+    - assets/lotties/
     - assets/secure/
 
   # An image asset can refer to one or more resolution-specific "variants", see

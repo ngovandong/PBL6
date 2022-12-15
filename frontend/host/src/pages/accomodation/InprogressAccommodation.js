@@ -1,24 +1,28 @@
 import CircleProgress from "../../components/CircleProgress";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteHost, selectUnfinishHost } from "../../app/store/hostSlice";
+import hostService from "../../api-service/hostService";
+import { toast } from "react-toastify";
 
 function InprogressAccommodation() {
+  const listHost = useSelector(selectUnfinishHost);
   return (
     <div className="accommodation-container">
       <h2>Chỗ nghỉ đang trong quá trình đăng ký</h2>
       <div className="accommodation-table">
         <table>
-          <tr>
-            <th>Tên</th>
-            <th>Địa chỉ</th>
-            <th>Tiến trình</th>
-            <th></th>
-          </tr>
+          <thead>
+            <tr>
+              <th>Tên</th>
+              <th>Địa chỉ</th>
+              <th>Tiến trình</th>
+              <th></th>
+            </tr>
+          </thead>
           <tbody>
-            <TableRow progress={25} />
-            <TableRow progress={50} />
-            <TableRow progress={35} />
-            <TableRow progress={75} />
+            {listHost.map((h) => (
+              <TableRow host={h} key={h.id} />
+            ))}
           </tbody>
         </table>
       </div>
@@ -28,18 +32,42 @@ function InprogressAccommodation() {
 
 export default InprogressAccommodation;
 
-function TableRow({progress}) {
+function TableRow({ host }) {
+  const dispatch = useDispatch();
+  let progress = 0;
+  if (host.ratingStar) progress += 25;
+  if (host.address) progress += 25;
+  if (host.utilities?.length) progress += 25;
+  if (host.avatarImage) progress += 25;
+
+  const handleDelete = async () => {
+    dispatch(deleteHost(host.id));
+  };
+
   return (
     <tr>
-      <td style={{ width: "35%" }}>Alfreds Hotel</td>
-      <td style={{ width: "35%" }}>Germany</td>
+      <td style={{ width: "30%" }}>{host.name}</td>
+      <td style={{ width: "30%" }}>{host.address}</td>
       <td style={{ width: "20%" }}>
-        <CircleProgress value={progress} />
+        {progress === 100 ? (
+          "Chờ kiểm duyệt"
+        ) : (
+          <CircleProgress value={progress} />
+        )}
       </td>
       <td style={{ width: "10%" }}>
-      <IconButton aria-label="delete" size="large">
-        <DeleteIcon fontSize="inherit" />
-      </IconButton>
+        <a
+          href={`/newaccommodation/${host.id}`}
+          className="btn-link"
+          target="blank"
+        >
+          {progress === 100 ? "Chỉnh sửa" : "Hoàn thành"}
+        </a>
+      </td>
+      <td style={{ width: "10%" }}>
+        <span className="btn-link delete" onClick={handleDelete}>
+          Xóa
+        </span>
       </td>
     </tr>
   );

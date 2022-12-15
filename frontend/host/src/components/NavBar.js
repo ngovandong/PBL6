@@ -14,19 +14,22 @@ import Divider from "@mui/material/Divider";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import { useDispatch } from "react-redux";
 import { logout } from "../app/store/authSlice";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Badge } from "@mui/material";
+import NotificationMenu from "../pages/notification/notificationMenu";
 const links = [
   { link: "", name: "Tổng quan" },
   { link: "accommodation", name: "Chỗ ở" },
-  { link: "message", name: "Tin Nhắn" },
+  { link: "notification", name: "Thông báo" },
   { link: "profile", name: "Hồ sơ" },
 ];
-const NavBar = () => {
+const NavBar = ({ showLinks }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [anchorElLanguage, setAnchorElLanguage] = useState(null);
+  const [anchorElNotification, setAnchorElNotification] = React.useState(null);
   const [lan, setLan] = useState("vn");
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -53,6 +56,11 @@ const NavBar = () => {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
+        <NotificationMenu
+          anchorEl={anchorElNotification}
+          open={Boolean(anchorElNotification)}
+          handleClose={() => setAnchorElNotification(null)}
+        />
         <Toolbar disableGutters>
           <FlightTakeoffIcon
             sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
@@ -104,13 +112,14 @@ const NavBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {links.map((link) => (
-                <MenuItem key={link.link} onClick={handleCloseNavMenu}>
-                  <NavLink className="nav-button" to={link.link}>
-                    {link.name}
-                  </NavLink>
-                </MenuItem>
-              ))}
+              {showLinks &&
+                links.map((link) => (
+                  <MenuItem key={link.link} onClick={handleCloseNavMenu}>
+                    <NavLink className="nav-button" to={link.link}>
+                      {link.name}
+                    </NavLink>
+                  </MenuItem>
+                ))}
             </Menu>
           </Box>
           <FlightTakeoffIcon
@@ -135,19 +144,32 @@ const NavBar = () => {
             ReadyBooking
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {links.map((link) => (
-              <NavLink
-                key={link.link}
-                className={({ isActive }) =>
-                  isActive ? "nav-item nav-item--active " : "nav-item"
-                }
-                to={link.link}
-              >
-                {link.name}
-              </NavLink>
-            ))}
+            {showLinks &&
+              links.map((link) => (
+                <NavLink
+                  key={link.link}
+                  className={({ isActive }) =>
+                    isActive ? "nav-item nav-item--active " : "nav-item"
+                  }
+                  to={link.link}
+                >
+                  {link.name}
+                </NavLink>
+              ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
+            <IconButton
+              size="large"
+              aria-haspopup="true"
+              onClick={(event) => setAnchorElNotification(event.currentTarget)}
+              color="inherit"
+              id="basic-button-notification"
+            >
+              <Badge badgeContent={4} color="error">
+                <NotificationsIcon color="white" />
+              </Badge>
+            </IconButton>
+
             <Tooltip title="Language">
               <IconButton onClick={handleOpenLanguage} sx={{ p: 2 }}>
                 <span className={`fi fi-${lan}`}></span>

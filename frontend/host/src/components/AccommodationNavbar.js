@@ -1,12 +1,19 @@
 import { Button } from "@mui/material";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import NewAccommodationModal from "../pages/accomodation/newAccommodationModal";
 
 function AccommodationNavbar() {
-  const handleClick = () => {
-    window.open("/newaccommodation");
-  };
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <div className="accommodation-nabar">
+      {openModal && (
+        <NewAccommodationModal
+          handleClose={() => setOpenModal(false)}
+          open={openModal}
+        />
+      )}
       <div className="link-container">
         <NavLink
           className={({ isActive }) => (isActive ? "link active" : "link")}
@@ -28,10 +35,7 @@ function AccommodationNavbar() {
         </NavLink>
       </div>
       <div>
-        <Button
-          onClick={handleClick}
-          variant="contained"
-        >
+        <Button onClick={() => setOpenModal(true)} variant="contained">
           Tạo chỗ ở mới
         </Button>
       </div>

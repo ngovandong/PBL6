@@ -69,9 +69,9 @@ class _PickNumberTenantAndRoomState extends State<PickNumberTenantAndRoom> {
     return Container(
       width: Get.width,
       color: Colors.white,
-      padding: const EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 12,
+      padding: const EdgeInsets.only(
+        left: 12,
+        right: 12,
       ),
       child: Wrap(
         children: [

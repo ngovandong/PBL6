@@ -6,8 +6,11 @@ import BasicStep from "./steps/BasicStep";
 import LocationStep from "./steps/LocationStep";
 import Amenities from "./steps/Amenities";
 import PhotosStep from "./steps/PhotosStep";
+import { useSelector } from "react-redux";
+import { selectActiveStep } from "../../app/store/hostSlice";
 
-export default function StepRightPanel({ activeStep }) {
+export default function StepRightPanel() {
+  const activeStep = useSelector(selectActiveStep);
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
       <TabContext value={activeStep.toString()}>

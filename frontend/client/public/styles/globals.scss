@@ -1,0 +1,201 @@
+@import '../../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-react-calendars/styles/material.css';
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  // font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  //   Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  color: #1a2542;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::before,
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::after,
+.e-input-group.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::before,
+.e-input-group.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::after,
+.e-input-group.e-control-wrapper:not(.e-float-icon-left):not(
+    .e-float-input
+  )::before,
+.e-input-group.e-control-wrapper:not(.e-float-icon-left):not(
+    .e-float-input
+  )::after,
+.e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input)
+  .e-input-in-wrap::before,
+.e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input)
+  .e-input-in-wrap::after {
+  background: none !important;
+}
+
+.e-input-group:not(.e-float-icon-left),
+.e-input-group.e-success:not(.e-float-icon-left),
+.e-input-group.e-warning:not(.e-float-icon-left),
+.e-input-group.e-error:not(.e-float-icon-left),
+.e-input-group.e-control-wrapper:not(.e-float-icon-left),
+.e-input-group.e-control-wrapper.e-success:not(.e-float-icon-left),
+.e-input-group.e-control-wrapper.e-warning:not(.e-float-icon-left),
+.e-input-group.e-control-wrapper.e-error:not(.e-float-icon-left) {
+  border: none !important;
+  border-width: 0;
+}
+
+.e-input-group,
+.e-input-group.e-control-wrapper {
+  margin-bottom: 0px;
+}
+
+.e-input-group,
+.e-input-group.e-control-wrapper {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.e-input-group input.e-input,
+.e-input-group.e-control-wrapper input.e-input {
+  letter-spacing: 0.02rem;
+}
+
+.e-calendar .e-content td.e-today span.e-day:hover,
+.e-calendar .e-content td.e-focused-date.e-today span.e-day:hover {
+  border: 1px solid #1a2542;
+  color: #1a2542;
+}
+
+.e-btn.e-flat.e-primary,
+.e-css.e-btn.e-flat.e-primary,
+.e-date-range-wrapper .e-input-group-icon.e-icons.e-active {
+  color: #1a2542;
+}
+
+.e-btn.e-flat.e-primary:hover,
+.e-css.e-btn.e-flat.e-primary:hover {
+  color: #1a2542;
+  background-color: #fff;
+}
+
+.e-daterangepicker.e-popup
+  .e-calendar
+  .e-start-date.e-selected.e-range-hover.e-today
+  span.e-day,
+.e-bigger.e-small
+  .e-daterangepicker.e-popup
+  .e-calendar
+  .e-start-date.e-selected.e-range-hover.e-today
+  span.e-day,
+.e-bigger.e-small.e-daterangepicker.e-popup
+  .e-calendar
+  .e-start-date.e-selected.e-range-hover.e-today
+  span.e-day {
+  background-color: #1a2542;
+  color: #fff;
+}
+
+.e-daterangepicker.e-popup
+  .e-calendar
+  .e-range-hover.e-start-date.e-selected.e-today
+  span.e-day {
+  border: 1px solid #1a2542;
+}
+
+.e-calendar .e-content td.e-today span.e-day,
+.e-calendar .e-content td.e-focused-date.e-today span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-today span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-focused-date.e-today span.e-day {
+  border: 1px solid #1a2542;
+  color: #1a2542;
+}
+
+.e-daterangepicker.e-popup
+  .e-calendar
+  .e-end-date.e-selected.e-range-hover
+  span.e-day,
+.e-daterangepicker.e-popup
+  .e-calendar
+  .e-start-date.e-selected.e-range-hover
+  span.e-day,
+.e-bigger.e-small
+  .e-daterangepicker.e-popup
+  .e-calendar
+  .e-end-date.e-selected.e-range-hover
+  span.e-day,
+.e-bigger.e-small
+  .e-daterangepicker.e-popup
+  .e-calendar
+  .e-start-date.e-selected.e-range-hover
+  span.e-day,
+.e-bigger.e-small.e-daterangepicker.e-popup
+  .e-calendar
+  .e-end-date.e-selected.e-range-hover
+  span.e-day,
+.e-bigger.e-small.e-daterangepicker.e-popup
+  .e-calendar
+  .e-start-date.e-selected.e-range-hover
+  span.e-day {
+  background-color: #1a2542;
+  color: #fff;
+}
+
+.e-calendar .e-content td.e-today.e-selected span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-today.e-selected span.e-day {
+  background-color: #1a2542;
+  border: 1px solid #1a2542;
+  color: #fff;
+}
+
+.e-calendar .e-content td.e-selected span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-selected span.e-day,
+.e-calendar .e-content td.e-today.e-selected:hover span.e-day,
+.e-calendar .e-content td.e-selected:hover span.e-day,
+.e-calendar .e-content td.e-selected.e-focused-date span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-today.e-selected:hover span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-selected:hover span.e-day,
+.e-bigger.e-small
+  .e-calendar
+  .e-content
+  td.e-selected.e-focused-date
+  span.e-day {
+  background-color: #1a2542;
+  color: #fff;
+}
+
+.e-input.e-error,
+.e-input.e-error:focus,
+.e-input-group.e-error input.e-input,
+.e-input-group.e-control-wrapper.e-error input.e-input,
+.e-input-group.e-control-wrapper.e-error .e-input-group-icon,
+.e-input-group.e-error .e-input-group-icon,
+.e-input-group.e-error textarea.e-input,
+.e-input-group.e-control-wrapper.e-error textarea.e-input {
+  border-color: #1a2542;
+}
+
+input.e-input::selection,
+textarea.e-input::selection,
+.e-input-group input.e-input::selection,
+.e-input-group.e-control-wrapper input.e-input::selection,
+.e-float-input input::selection,
+.e-float-input.e-control-wrapper input::selection,
+.e-input-group textarea.e-input::selection,
+.e-input-group.e-control-wrapper textarea.e-input::selection,
+.e-float-input textarea::selection,
+.e-float-input.e-control-wrapper textarea::selection {
+  background-color: #1a2542;
+}

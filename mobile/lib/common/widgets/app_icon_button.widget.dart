@@ -8,6 +8,7 @@ class AppIconButton extends StatelessWidget {
 
   final double width;
   final double height;
+  final double? size;
   final double borderRadius;
 
   final Color backgroundColor;
@@ -23,6 +24,7 @@ class AppIconButton extends StatelessWidget {
     required this.icon,
     this.width = 70,
     this.height = 36,
+    this.size,
     this.backgroundColor = Colors.white,
     this.borderColor = Palette.gray100,
     this.borderRadius = 8,
@@ -36,10 +38,10 @@ class AppIconButton extends StatelessWidget {
     return RawMaterialButton(
       onPressed: isDisable ? null : onPressed,
       constraints: BoxConstraints(
-        maxHeight: height,
-        maxWidth: width,
-        minHeight: height,
-        minWidth: width,
+        maxHeight: size ?? height,
+        maxWidth: size ?? width,
+        minHeight: size ?? height,
+        minWidth: size ?? width,
       ),
       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

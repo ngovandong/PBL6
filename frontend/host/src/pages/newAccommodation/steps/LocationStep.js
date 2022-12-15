@@ -1,6 +1,11 @@
 import LocationForm from "../../../components/Location/LocationForm";
 import React, { useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import {
+  handleUpdateAddingHost,
+  selectAddingHost,
+} from "../../../app/store/hostSlice";
+import { useSelector } from "react-redux";
 
 const containerStyle = {
   width: "800px",
@@ -13,8 +18,12 @@ const center = {
 };
 
 function LocationStep() {
-  const [position, setPosition] = useState(center);
-  const [placeId, setPlaceId] = useState();
+  // const [placeId, setPlaceId] = useState();
+  const addingHost = useSelector(selectAddingHost);
+  const initialState = addingHost.latitude
+    ? { lat: addingHost.latitude, lng: addingHost.longitude }
+    : center;
+  const [position, setPosition] = useState(initialState);
 
   return (
     <div className="tab-container">
@@ -26,7 +35,9 @@ function LocationStep() {
             onClick={(e) => {
               console.log(e);
               setPosition({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-              setPlaceId(e.placeId);
+              handleUpdateAddingHost("longitude", e.latLng.lng());
+              handleUpdateAddingHost("latitude", e.latLng.lat());
+              // setPlaceId(e.placeId);
             }}
             mapContainerStyle={containerStyle}
             center={center}

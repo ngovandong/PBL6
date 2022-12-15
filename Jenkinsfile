@@ -29,7 +29,7 @@ pipeline {
     stage('build client') {
       steps {
         sh '''cd frontend/client
-            cp .env.local.example .env
+            cp .env.production.example .env
             docker build -t pbl6client .
             '''
       }

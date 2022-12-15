@@ -7,14 +7,38 @@ import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  previousStep,
+  selectActiveStep,
+  updateHost,
+} from "../../app/store/hostSlice";
 
-function StepLeftPanel({
-  steps,
-  activeStep,
-  handleNext,
-  handleBack,
-  handleDone,
-}) {
+const steps = [
+  {
+    label: "Thông tin cơ bản",
+    description: "",
+  },
+  {
+    label: "Vị trí",
+    description: "",
+  },
+  {
+    label: "Tiện nghi",
+    description: "",
+  },
+  {
+    label: "Ảnh",
+    description: "",
+  },
+];
+
+function StepLeftPanel({ isInfoTab }) {
+  const activeStep = useSelector(selectActiveStep);
+  const dispatch = useDispatch();
+  const handleDone = () => {
+    window.close();
+  };
   return (
     <Box sx={{ maxWidth: 300 }}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -35,14 +59,14 @@ function StepLeftPanel({
                 <div>
                   <Button
                     variant="contained"
-                    onClick={handleNext}
+                    onClick={() => dispatch(updateHost())}
                     sx={{ mt: 1, mr: 1 }}
                   >
-                    Tiếp theo
+                    {isInfoTab ? "Lưu" : "Tiếp theo"}
                   </Button>
                   <Button
                     disabled={index === 0}
-                    onClick={handleBack}
+                    onClick={() => dispatch(previousStep())}
                     sx={{ mt: 1, mr: 1 }}
                   >
                     Quay lại
@@ -53,7 +77,7 @@ function StepLeftPanel({
           </Step>
         ))}
       </Stepper>
-      {activeStep === steps.length && (
+      {!isInfoTab && activeStep === steps.length && (
         <Paper square elevation={0} sx={{ p: 3 }}>
           <Typography>Tất cả các bước hoàn tất!</Typography>
           <Button onClick={handleDone} sx={{ mt: 1, mr: 1 }}>

@@ -36,6 +36,13 @@ class $AssetsLocalesGen {
   String get viVN => 'assets/locales/vi_VN.json';
 }
 
+class $AssetsLottiesGen {
+  const $AssetsLottiesGen();
+
+  /// File path: assets/lotties/error_alert.json
+  String get errorAlert => 'assets/lotties/error_alert.json';
+}
+
 class $AssetsSecureGen {
   const $AssetsSecureGen();
 
@@ -46,8 +53,13 @@ class $AssetsSecureGen {
 class $AssetsIconsAppGen {
   const $AssetsIconsAppGen();
 
+  /// File path: assets/icons/app/app_icon.png
+  AssetGenImage get appIconPng =>
+      const AssetGenImage('assets/icons/app/app_icon.png');
+
   /// File path: assets/icons/app/app_icon.svg
-  SvgGenImage get appIcon => const SvgGenImage('assets/icons/app/app_icon.svg');
+  SvgGenImage get appIconSvg =>
+      const SvgGenImage('assets/icons/app/app_icon.svg');
 }
 
 class $AssetsIconsAuthGen {
@@ -110,6 +122,7 @@ class Assets {
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLocalesGen locales = $AssetsLocalesGen();
+  static const $AssetsLottiesGen lotties = $AssetsLottiesGen();
   static const $AssetsSecureGen secure = $AssetsSecureGen();
 }
 
