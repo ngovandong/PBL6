@@ -32,7 +32,7 @@ export default function OrderPage({
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!searchQuery.hostId || !searchQuery.bookingDetails) {
+    if (!searchQuery?.hostId || !searchQuery?.bookingDetails) {
       router.back()
     } else {
       setLoading(false)

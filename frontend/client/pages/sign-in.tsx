@@ -118,12 +118,14 @@ const SignIn = () => {
     } else {
       setErrors('')
     }
+
     if (!errors) {
       const res = await signIn('credentials', {
         email: email,
         password: password,
         redirect: false,
       })
+
       if (res?.status === 401) {
         toastError('Mật khẩu không chính xác.')
       }

@@ -1,10 +1,8 @@
-import { isEmpty } from 'lodash'
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CreadentialProvider from 'next-auth/providers/credentials'
 import axios from 'axios'
 import https from 'https'
-import { toastError } from '@utils/notifications'
 
 export default NextAuth({
   providers: [
@@ -48,15 +46,13 @@ export default NextAuth({
         } catch (error: any) {
           const message =
             error?.response?.data?.error || error?.response?.message
-          return Promise.reject({
-            error: error?.response?.status || 401,
-            message: message,
-          })
+          return null
         }
       },
     }),
   ],
-  secret: process.env.JWT_SECRET,
+
+  secret: process.env.NEXTAUTH_SECRET,
 
   pages: {
     error: '/api/auth/error',
@@ -64,7 +60,7 @@ export default NextAuth({
 
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      if (isEmpty(user)) return Promise.reject(true)
+      if (!user) return Promise.reject(true)
       return Promise.resolve(true)
     },
     async redirect({ url, baseUrl }) {
