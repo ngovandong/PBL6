@@ -29,7 +29,6 @@ export default NextAuth({
           email: string
           password: string
         }
-        console.log(email, password)
         try {
           const user = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/login-with-email`,

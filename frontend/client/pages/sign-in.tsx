@@ -124,6 +124,7 @@ const SignIn = () => {
         email: email,
         password: password,
         redirect: false,
+        callbackUrl: '/',
       })
 
       if (res?.status === 401) {
@@ -137,6 +138,10 @@ const SignIn = () => {
       sx={{ margin: '30px auto', maxWidth: '450px' }}
       component='form'
       autoComplete='false'
+      onSubmit={(event) => {
+        event.preventDefault()
+        handleSubmit()
+      }}
     >
       {step === 1 && (
         <>
@@ -172,7 +177,7 @@ const SignIn = () => {
               <Box mt={2}>
                 <Typography
                   component='span'
-                  sx={{ color: primaryColor, fontSize: 16}}
+                  sx={{ color: primaryColor, fontSize: 16 }}
                   role='alert'
                 >
                   {errors}
@@ -182,10 +187,16 @@ const SignIn = () => {
             <DefaultButton
               color='primary'
               onClick={() => {
-                if (email.trim()) {
-                  setStep(2)
+                const emailTrim = email.trim()
+                const errorMessage = !email.trim()
+                  ? 'Trường bắt buộc nhập.'
+                  : errors
+                  ? 'Email không hợp lệ.'
+                  : ''
+                if (errorMessage) {
+                  setErrors(errorMessage)
                 } else {
-                  setErrors('Trường bắt buộc nhập.')
+                  setStep(2)
                 }
               }}
               sx={{ flexFlow: 1, mt: 2, mb: '10px' }}
