@@ -83,7 +83,7 @@ abstract class RouteManager {
     ),
     GetPage(
       name: hotelDetail,
-      page: () => const HotelDetailScreen(),
+      page: () => HotelDetailScreen(),
       binding: HotelDetailBinding(),
     ),
     GetPage(

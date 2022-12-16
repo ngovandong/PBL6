@@ -5,10 +5,18 @@ import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
-import 'package:mobile/generated/assets.gen.dart';
 
-class LoginBookingHistory extends StatelessWidget {
-  const LoginBookingHistory({super.key});
+class LoginViewData extends StatelessWidget {
+  final String lottiePath;
+  final String title;
+  final String content;
+
+  const LoginViewData({
+    super.key,
+    required this.lottiePath,
+    required this.title,
+    required this.content,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +27,22 @@ class LoginBookingHistory extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Lottie.asset(
-            Assets.lotties.loadingTravel,
+            lottiePath,
             width: Get.width * 0.8,
           ),
           const SizedBox(
             height: 20,
           ),
-          const Text(
-            'Hiện bạn đang không có đơn đặt nào',
+          Text(
+            title,
             style: TextStyles.s17BoldText,
             textAlign: TextAlign.center,
           ),
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            'Đăng nhập để xem tất cả đơn đặt đang có hiệu lực',
+          Text(
+            content,
             style: TextStyles.s17RegularText,
             textAlign: TextAlign.center,
           ),

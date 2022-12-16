@@ -28,8 +28,13 @@ class ListSearchedHotels extends GetView<SearchHotelController> {
           );
         }),
         itemBuilder: (context, index) {
-          return SearchedHotelItem(
-            host: controller.searchedHosts[index],
+          return GetBuilder<SearchHotelController>(
+            id: controller.searchedHosts[index].id,
+            builder: (_) {
+              return SearchedHotelItem(
+                host: controller.searchedHosts[index],
+              );
+            },
           );
         },
       );
