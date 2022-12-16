@@ -86,6 +86,24 @@ abstract class DioProvider {
     );
   }
 
+  static Future<HttpRequestResponse> delete(
+    String endpoint, {
+    Map<String, dynamic>? body,
+    Map<String, dynamic>? queryParams,
+  }) async {
+    final Response response = await _dio.delete(
+      endpoint,
+      data: body,
+      queryParameters: queryParams,
+    );
+
+    return HttpRequestResponse(
+      data: response.data,
+      statusCode: response.statusCode,
+      statusMessage: response.statusMessage,
+    );
+  }
+
   // static Future<HttpRequestResponse> download({
   //   required String url,
   //   String? savedPath,

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mobile/modules/favorite_host/data/model/favorite_host.model.dart';
 import 'package:mobile/modules/search_hotel/data/models/accommodation.model.dart';
 
 part 'host.model.g.dart';
@@ -33,6 +34,13 @@ class HostModel {
   final int quantityFeedBack;
   final List<AccommodationModel> accommodationSearches;
 
+  @JsonKey(ignore: true)
+  bool isFavorite;
+
+  String get fullAddress => '$address, $province';
+
+  AccommodationModel get cheapestRoom => accommodationSearches[0];
+
   HostModel({
     required this.id,
     required this.name,
@@ -60,12 +68,20 @@ class HostModel {
     required this.ratingFeedBack,
     required this.quantityFeedBack,
     required this.accommodationSearches,
+    this.isFavorite = false,
   });
 
   factory HostModel.fromJson(Map<String, dynamic> json) =>
       _$HostModelFromJson(json);
 
-  String get fullAddress => '$address, $province';
-
-  AccommodationModel get cheapestRoom => accommodationSearches[0];
+  FavoriteHostModel toFavoriteHost(String favoriteId) {
+    return FavoriteHostModel(
+      id: favoriteId,
+      hostId: id,
+      hostName: name,
+      ratingStar: ratingStar,
+      address: address,
+      avatarImage: avatarImage,
+    );
+  }
 }

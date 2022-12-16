@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:mobile/di/di.dart';
 import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
+import 'package:mobile/modules/favorite_host/controller/favorite_lookup.controller.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/booking_step.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/choose_room.controller.dart';
@@ -17,6 +18,7 @@ class HotelDetailBinding extends Bindings {
       () => HotelDetailController(
         hostRepository: getIt.get<HostRepository>(),
         homeController: Get.find<HomeController>(),
+        favoriteLookupController: Get.find<FavoriteLookupController>(),
       ),
     );
     Get.lazyPut(

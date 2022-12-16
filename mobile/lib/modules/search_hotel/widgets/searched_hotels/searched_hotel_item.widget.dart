@@ -5,14 +5,23 @@ import 'package:mobile/common/extensions/number.extension.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/utils/utility_content.util.dart';
+import 'package:mobile/common/widgets/app_icon_button.widget.dart';
+import 'package:mobile/common/widgets/icon_title.widget.dart';
 import 'package:mobile/common/widgets/image_slider.widget.dart';
+import 'package:mobile/modules/favorite_host/controller/favorite_lookup.controller.dart';
+import 'package:mobile/modules/home/controllers/home.controller.dart';
 import 'package:mobile/modules/search_hotel/controllers/search_hotel.controller.dart';
 import 'package:mobile/modules/search_hotel/data/models/host.model.dart';
 
 class SearchedHotelItem extends GetView<SearchHotelController> {
   final HostModel host;
 
-  const SearchedHotelItem({super.key, required this.host});
+  final HomeController _homeController = Get.find<HomeController>();
+  final FavoriteLookupController _favoriteLookupController =
+      Get.find<FavoriteLookupController>();
+
+  SearchedHotelItem({super.key, required this.host});
 
   @override
   Widget build(BuildContext context) {
@@ -36,23 +45,63 @@ class SearchedHotelItem extends GetView<SearchHotelController> {
               height: 150,
               images: host.images,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: Text(
-                host.name,
-                style: TextStyles.s17BoldText,
-              ),
+            const SizedBox(
+              height: 6,
             ),
-            if (host.ratingStar > 0)
-              Row(
-                children: List.generate(
-                  host.ratingStar,
-                  (index) => const Icon(
-                    PhosphorIcons.star_fill,
-                    color: Colors.yellow,
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        host.name,
+                        style: TextStyles.s17BoldText
+                            .copyWith(overflow: TextOverflow.ellipsis),
+                        maxLines: 1,
+                      ),
+                      if (host.ratingStar > 0)
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Row(
+                              children: List.generate(
+                                host.ratingStar,
+                                (index) => const Icon(
+                                  PhosphorIcons.star_fill,
+                                  color: Colors.yellow,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
                   ),
                 ),
-              ),
+                AppIconButton(
+                  onPressed: () async {
+                    if (host.isFavorite) {
+                      await _favoriteLookupController
+                          .deleteFavoriteHost(host.id);
+                    } else {
+                      await _favoriteLookupController.addFavoriteHost(host);
+                    }
+                  },
+                  width: 40,
+                  height: 40,
+                  hasBorder: false,
+                  icon: Icon(
+                    host.isFavorite
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_outline_rounded,
+                    size: 28,
+                    color: host.isFavorite ? Palette.red500 : Palette.gray400,
+                  ),
+                )
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 6),
               child: Row(
@@ -96,66 +145,35 @@ class SearchedHotelItem extends GetView<SearchHotelController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Phòng ${host.cheapestRoom.name}',
-                        style: TextStyles.s14BoldText,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 5,
-                            height: 5,
-                            margin: const EdgeInsets.only(right: 5),
-                            decoration: const BoxDecoration(
-                              color: Palette.green500,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const Text(
-                            '2 phòng ngủ',
-                            style: TextStyles.s14RegularText,
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 5,
-                            height: 5,
-                            margin: const EdgeInsets.only(right: 5),
-                            decoration: const BoxDecoration(
-                              color: Palette.green500,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const Text(
-                            'View nhìn ra biển',
-                            style: TextStyles.s14RegularText,
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 5,
-                            height: 5,
-                            margin: const EdgeInsets.only(right: 5),
-                            decoration: const BoxDecoration(
-                              color: Palette.green500,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const Text(
-                            'Hồ bơi',
-                            style: TextStyles.s14RegularText,
-                          )
-                        ],
-                      )
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Phòng ${host.cheapestRoom.name}',
+                          style: TextStyles.s14BoldText,
+                        ),
+                        ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount:
+                              host.cheapestRoom.outstandingUtilities.length > 3
+                                  ? 3
+                                  : host
+                                      .cheapestRoom.outstandingUtilities.length,
+                          itemBuilder: (context, index) {
+                            final String utility =
+                                host.cheapestRoom.outstandingUtilities[index];
+
+                            return IconTitle(
+                              icon: UtilityContentUtil.getIcon(utility),
+                              title: UtilityContentUtil.getLabel(utility),
+                            );
+                          },
+                        )
+                      ],
+                    ),
                   ),
                   Container(
                     width: 150,
@@ -185,7 +203,7 @@ class SearchedHotelItem extends GetView<SearchHotelController> {
                           ),
                           child: Center(
                             child: Text(
-                              '3 ngày, 2 người',
+                              '${_homeController.searchHotelsParams.value.numberOfDate} ngày, ${_homeController.searchHotelsParams.value.quantityPerson} người',
                               style: TextStyles.s14RegularText
                                   .copyWith(color: Colors.white),
                             ),

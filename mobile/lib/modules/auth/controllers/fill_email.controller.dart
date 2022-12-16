@@ -7,7 +7,7 @@ import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/auth/auth.enum.dart';
 import 'package:mobile/modules/auth/data/model/dtos/auth_response.dto.dart';
 import 'package:mobile/modules/auth/data/repositories/auth.repository.dart';
-import 'package:mobile/modules/base/controllers/base_controller.export.dart';
+import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 
 class FillEmailController extends GetxController {
   final AuthRepository authRepository;
