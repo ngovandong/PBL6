@@ -13,12 +13,8 @@ class ChooseRoomView extends StatelessWidget {
         preferredSize: const Size.fromHeight(60),
         child: ChooseRoomAppBar(),
       ),
-      body: Column(
-        children: const [
-          ListRoom(),
-          BookingRoomButton(),
-        ],
-      ),
+      body: const ListRoom(),
+      bottomNavigationBar: const BookingRoomButton(),
     );
   }
 }

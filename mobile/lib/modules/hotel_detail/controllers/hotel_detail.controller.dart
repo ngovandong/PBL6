@@ -1,10 +1,15 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:mobile/common/constants/handle_status.dart';
 import 'package:mobile/common/utils/bottom_sheet.util.dart';
+import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
 import 'package:mobile/common/widgets/app_date_picker.widget.dart';
 import 'package:mobile/common/widgets/pick_number_tenant_room.widget.dart';
+import 'package:mobile/modules/favorite_host/controller/favorite_lookup.controller.dart';
+import 'package:mobile/modules/favorite_host/favorite_host.enum.dart';
+import 'package:mobile/modules/favorite_host/favorite_host.eventbus.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
 import 'package:mobile/modules/home/data/models/dtos/search_hotels.dto.dart';
 import 'package:mobile/modules/search_hotel/data/models/dtos/host_detail.dto.dart';
@@ -14,10 +19,12 @@ import 'package:mobile/modules/search_hotel/data/repositories/host.repository.da
 class HotelDetailController extends GetxController {
   final HostRepository hostRepository;
   final HomeController homeController;
+  final FavoriteLookupController favoriteLookupController;
 
   HotelDetailController({
     required this.hostRepository,
     required this.homeController,
+    required this.favoriteLookupController,
   });
 
   Rx<HandleStatus> getDataStatus = (HandleStatus.NORMAL).obs;
@@ -27,10 +34,43 @@ class HotelDetailController extends GetxController {
   late Rx<HostModel> _host;
   HostModel get host => _host.value;
 
+  StreamSubscription? _favoriteEventBusSubscription;
+
   @override
   void onInit() async {
     await _getData();
+    _openEventBus();
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    _closeEventBus();
+    super.onClose();
+  }
+
+  void _openEventBus() {
+    _favoriteEventBusSubscription =
+        EventBusUtil.listenEvent<FavoriteHostInternalEvent>((event) {
+      final String action = event.action;
+
+      switch (action) {
+        case FavoriteInternalEventEnum.addFavoriteHost:
+          _host.value.isFavorite = true;
+
+          update([event.data]);
+          break;
+        case FavoriteInternalEventEnum.deleteFavoriteHost:
+          _host.value.isFavorite = false;
+
+          update([event.data]);
+          break;
+      }
+    });
+  }
+
+  Future<void> _closeEventBus() async {
+    _favoriteEventBusSubscription?.cancel();
   }
 
   void _initParams() {
@@ -52,6 +92,10 @@ class HotelDetailController extends GetxController {
         _initParams();
         _host =
             (await hostRepository.getHostDetail(hostDetailParams.value)).obs;
+
+        _host.value.isFavorite = favoriteLookupController.favoriteHosts
+            .where((p0) => p0.hostId == _host.value.id)
+            .isNotEmpty;
       } else {
         _host.value =
             await hostRepository.getHostDetail(hostDetailParams.value);

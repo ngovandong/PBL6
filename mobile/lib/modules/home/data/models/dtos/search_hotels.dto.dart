@@ -24,6 +24,8 @@ class SearchHotelsDTO {
   // int numberOfTenants;
   // int numberOfRooms;
 
+  int get numberOfDate => checkoutDate.difference(checkinDate).inDays;
+
   SearchHotelsDTO({
     this.searchText = '',
     this.searchType = '',

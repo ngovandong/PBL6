@@ -3,7 +3,7 @@ import 'package:mobile/di/di.dart';
 import 'package:mobile/modules/auth/controllers/auth.controller.dart';
 import 'package:mobile/modules/auth/controllers/fill_email.controller.dart';
 import 'package:mobile/modules/auth/data/repositories/auth.repository.dart';
-import 'package:mobile/modules/base/controllers/base_controller.export.dart';
+import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 
 class AuthBinding implements Bindings {
   @override

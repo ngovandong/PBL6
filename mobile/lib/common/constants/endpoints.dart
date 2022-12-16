@@ -14,6 +14,8 @@ abstract class Endpoints {
   // Favorite host
   static final String favoriteHost =
       '${AppFlavor.apiUrl}/customer/favorite-host';
+  static final String getFavoriteHost = '$favoriteHost/user';
+  static final String addFavoriteHost = '$favoriteHost/add-favorite-host';
 
   // Search
   static final String locationSuggestions =

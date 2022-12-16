@@ -8,10 +8,11 @@ import 'package:mobile/common/widgets/app_icon_button.widget.dart';
 import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 import 'package:mobile/common/widgets/error_view.widget.dart';
 import 'package:mobile/common/widgets/loading_dot.widget.dart';
+import 'package:mobile/common/widgets/login_view_data.widget.dart';
+import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/booking_history/controllers/booking_history.controller.dart';
 import 'package:mobile/modules/booking_history/widgets/booking_history_data.widget.dart';
-import 'package:mobile/modules/booking_history/widgets/login_booking_history.widget.dart';
 
 class BookingHistoryView extends StatefulWidget {
   const BookingHistoryView({super.key});
@@ -98,7 +99,11 @@ class _BookingHistoryViewState extends State<BookingHistoryView>
                   showAction: false,
                 );
               case HandleStatus.NORMAL:
-                return const LoginBookingHistory();
+                return LoginViewData(
+                  lottiePath: Assets.lotties.loadingTravel,
+                  title: 'Hiện bạn đang không có đơn đặt nào',
+                  content: 'Đăng nhập để xem tất cả đơn đặt đang có hiệu lực',
+                );
             }
           },
         ),

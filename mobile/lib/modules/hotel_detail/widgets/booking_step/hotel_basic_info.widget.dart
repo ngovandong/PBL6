@@ -44,7 +44,7 @@ class HotelBasicInfo extends StatelessWidget {
                 ),
                 Row(
                   children: List.generate(
-                    4,
+                    _hotelDetailController.host.ratingStar,
                     (index) => const Icon(
                       PhosphorIcons.star_fill,
                       color: Colors.yellow,
