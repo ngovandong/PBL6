@@ -118,12 +118,14 @@ const SignIn = () => {
     } else {
       setErrors('')
     }
+
     if (!errors) {
       const res = await signIn('credentials', {
         email: email,
         password: password,
         redirect: false,
       })
+
       if (res?.status === 401) {
         toastError('Mật khẩu không chính xác.')
       }
@@ -167,10 +169,10 @@ const SignIn = () => {
               />
             </FormGroup>
             {errors && (
-              <Box my={0}>
+              <Box mt={2}>
                 <Typography
                   component='span'
-                  sx={{ color: primaryColor, fontSize: 16, fontWeight: 500 }}
+                  sx={{ color: primaryColor, fontSize: 16}}
                   role='alert'
                 >
                   {errors}
@@ -186,7 +188,7 @@ const SignIn = () => {
                   setErrors('Trường bắt buộc nhập.')
                 }
               }}
-              sx={{ flexFlow: 1, mt: '26px', mb: '10px' }}
+              sx={{ flexFlow: 1, mt: 2, mb: '10px' }}
             >
               Tiếp tục với email
             </DefaultButton>
