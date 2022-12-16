@@ -105,8 +105,7 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
 
   const handleSignOut = () => {
     setState({ ...state, user: {} })
-    localStorage.clear()
-    signOut()
+    signOut({redirect: false})
     router.replace('/')
   }
 
