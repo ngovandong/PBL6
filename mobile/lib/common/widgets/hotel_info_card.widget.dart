@@ -4,7 +4,7 @@ import 'package:mobile/common/extensions/number.extension.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/icon_title.widget.dart';
-import 'package:mobile/modules/hotel_detail/data/models/dtos/booking.dto.dart';
+import 'package:mobile/modules/booking_history/data/models/booking.dto.dart';
 
 class HotelInfoCard extends StatelessWidget {
   final BookingDTO bookingParams;

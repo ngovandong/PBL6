@@ -15,7 +15,10 @@ class BookingHistoryBinding implements Bindings {
       ),
     );
     Get.lazyPut(
-      () => BookingHistoryDetailController(),
+      () => BookingHistoryDetailController(
+        bookingHistoryRepository: getIt.get<BookingHistoryRepository>(),
+        bookingHistoryController: Get.find<BookingHistoryController>(),
+      ),
     );
   }
 }
