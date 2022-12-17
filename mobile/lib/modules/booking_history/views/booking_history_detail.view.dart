@@ -6,11 +6,13 @@ import 'package:mobile/common/extensions/number.extension.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/utils/bed_content.util.dart';
+import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/common/widgets/confirm_and_pin_code.widget.dart';
 import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 import 'package:mobile/common/widgets/icon_title.widget.dart';
+import 'package:mobile/modules/booking_history/booking_history.enum.dart';
 import 'package:mobile/modules/booking_history/controllers/booking_history_detail.controller.dart';
-import 'package:mobile/modules/hotel_detail/data/models/dtos/booking.dto.dart';
+import 'package:mobile/modules/booking_history/data/models/booking.dto.dart';
 
 class BookingHistoryDetailView extends GetView<BookingHistoryDetailController> {
   const BookingHistoryDetailView({super.key});
@@ -175,11 +177,26 @@ class BookingHistoryDetailView extends GetView<BookingHistoryDetailController> {
                     ],
                   )
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              if (controller.bookingParams.type == BookingHistoryType.CURRENT)
+                AppRoundedButton(
+                  onPressed: controller.cancelBooking,
+                  showShadow: false,
+                  showBorder: true,
+                  backgroundColor: Colors.white,
+                  borderColor: Palette.red500,
+                  textColor: Palette.red500,
+                  borderRadius: 0,
+                  content: 'Huỷ đặt phòng',
+                )
             ],
           ),
         ),
       ),
+      backgroundColor: Colors.white,
     );
   }
 }

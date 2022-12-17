@@ -27,5 +27,6 @@ Map<String, dynamic> _$SearchHotelsDTOToJson(SearchHotelsDTO instance) {
       const JsonSerializableDateTime().toJson(instance.checkinDate);
   val['DateCheckout'] =
       const JsonSerializableDateTime().toJson(instance.checkoutDate);
+  val['numberOfDate'] = instance.numberOfDate;
   return val;
 }
