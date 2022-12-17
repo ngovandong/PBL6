@@ -7,17 +7,17 @@ function LeftNav() {
         className={({ isActive }) =>
           isActive ? "left-link active" : "left-link"
         }
-        to="info"
+        to="notification"
       >
-        Thông tin chỗ ở
+        Thông Báo
       </NavLink>
       <NavLink
         className={({ isActive }) =>
           isActive ? "left-link active" : "left-link"
         }
-        to="message"
+        to="info"
       >
-        Tin nhắn
+        Thông tin chỗ ở
       </NavLink>
       <NavLink
         className={({ isActive }) =>

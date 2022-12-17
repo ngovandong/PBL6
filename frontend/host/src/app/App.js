@@ -18,7 +18,6 @@ import ConfirmSignup from "../pages/signup/ConfirmSignup";
 import Notification from "../pages/notification";
 import Detail from "../pages/Detail";
 import InfoTab from "../pages/Detail/InfoTab";
-import MessageTab from "../pages/Detail/MessageTab";
 import CalendarTab from "../pages/Detail/CalendarTab";
 import RevenueTab from "../pages/Detail/RevenueTab";
 import RoomTab from "../pages/Detail/RoomTab";
@@ -28,6 +27,10 @@ import AddRoom from "../pages/Detail/RoomTab/AddRoom";
 import CurrentBooking from "../pages/notification/CurrentBooking";
 import CanceledBooking from "../pages/notification/CanceledBooking";
 import BookingHistory from "../pages/notification/BookingHistory";
+import NotificationTab from "../pages/Detail/notificationTab";
+import HostCurrentBooking from "../pages/Detail/notificationTab/HostCurrentBooking";
+import HostCanceledBooking from "../pages/Detail/notificationTab/HostCanceledBooking";
+import HostHistoryBooking from "../pages/Detail/notificationTab/HostHistoryBooking";
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -51,9 +54,14 @@ function App() {
           </Route>
           <Route path="newaccommodation/:id" element={<NewAccommodation />} />
           <Route path="detail/:id" element={<Detail />}>
-            <Route index element={<Navigate to="info" replace />} />
+            <Route index element={<Navigate to="notification" replace />} />
+            <Route path="notification" element={<NotificationTab />}>
+              <Route index element={<Navigate to="current" replace />} />
+              <Route path="current" element={<HostCurrentBooking />} />
+              <Route path="canceled" element={<HostCanceledBooking />} />
+              <Route path="history" element={<HostHistoryBooking />} />
+            </Route>
             <Route path="info" element={<InfoTab />} />
-            <Route path="message" element={<MessageTab />} />
             <Route path="room" element={<RoomTab />}>
               <Route index element={<DefaultRoom />} />
               <Route path=":roomId" element={<RoomDetail />} />

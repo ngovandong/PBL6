@@ -33,17 +33,18 @@ function AddRoom() {
     outstandingUtilities: [],
     bedTypes: [],
     description: "",
-    quantity: 0,
+    quantity: 1,
     images: [],
     area: 0,
     extraBed: true,
-    bathRooms: 0,
+    bathRooms: 1,
     bathRoomUtilities: [],
     view: "",
     utilities: [],
     smoking: false,
     originalPrice: 0,
     isPrePayment: true,
+    quantityPersonFit: 1,
   };
   const [newRoom, setNewRoom] = useState(initialRoom);
   const [loading, setLoading] = useState(false);
@@ -211,6 +212,18 @@ function AddRoom() {
             type="number"
             onChange={(e) => handleUpdate("quantity", Number(e.target.value))}
             defaultValue={newRoom.quantity}
+            style={{ width: "30%", marginRight: "5%" }}
+          />
+          <OutlinedInput
+            endAdornment={<InputAdornment position="end">người</InputAdornment>}
+            inputProps={{
+              placeholder: "Số người",
+              min: "1",
+            }}
+            type="number"
+            onChange={(e) => handleUpdate("quantityPersonFit", Number(e.target.value))}
+            defaultValue={newRoom.quantityPersonFit}
+            style={{ width: "30%", marginRight: "5%" }}
           />
           <p className="row-title">Mô tả phòng</p>
           <TextField
