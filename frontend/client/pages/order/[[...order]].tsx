@@ -12,7 +12,8 @@ import { Box } from '@mui/system'
 import { CircleLoading } from '@components/atoms/Loading'
 
 const OrderTemplate = dynamic(
-  () => import('../../common/components/templates/order'),
+  () =>
+    import('../../common/components/templates/order-management/order-create'),
   {
     ssr: false,
     loading: () => {

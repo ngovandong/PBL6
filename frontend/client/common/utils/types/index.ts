@@ -45,17 +45,17 @@ export interface ICardItem {
   priceStandard: number
 }
 
-export interface IDataCreateOrder  {
-  "dateCheckin": string,
-  "dateCheckout": string,
-  "hostId": string,
-  "userEmail": string,
-  "userFirstName": string,
-  "userLastName": string,
-  "userId": string | any,
-  "note": string,
-  "isPrePayment": boolean
-  "bookingDetails":  any
+export interface IDataCreateOrder {
+  dateCheckin: string
+  dateCheckout: string
+  hostId: string
+  userEmail: string
+  userFirstName: string
+  userLastName: string
+  userId: string | any
+  note: string
+  isPrePayment: boolean
+  bookingDetails: any
 }
 
 // bookingDetails : [
@@ -65,3 +65,23 @@ export interface IDataCreateOrder  {
 //     "accommodationId": string,
 //   }
 // ]
+
+export interface BookingDetailItem {
+  id: string
+  bookingCode: string
+  dateCheckin: string
+  dateCheckout: string
+  hostId: string
+  hostName: string
+  avatarImage: string
+  province: string
+  userEmail: string
+  userFirstName: string
+  userLastName: string
+  userId: string
+  vatFee: number
+  totalPrice: number
+  isPrePayment: boolean
+  note: string
+  bookingDetailDtos: []
+}
