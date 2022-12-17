@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import moment from 'moment'
 import 'moment/locale/vi'
-import { isEmpty, uniqueId } from 'lodash'
 
 import { Box, IconButton, Popover, Popper, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
@@ -14,7 +13,6 @@ import RangePicker from 'common/components/atoms/RangePicker'
 
 import { borderRadiusLarge, primaryColor } from '@constants/styles'
 import { IAddress, ISearchForm } from '@utils/types'
-import { searchApi } from '@utils/api'
 import { ParsedUrlQuery } from 'querystring'
 
 interface IFormInputs {
@@ -74,15 +72,6 @@ export default function MainFilter({
       DateCheckout: data.time[1]?.toISOString().split('T')[0] || '',
       QuantityPerson: data.number[0] || 1,
     }
-    // if (searchAdressRef.current) {
-    //   if (isEmpty(data.address)) {
-    //     form.SearchText = searchAdressRef.current.defaultValue?.placeName || ''
-    //     form.SearchType = searchAdressRef.current.defaultValue?.placeType || ''
-    //   }
-    // }
-
-    // router.push(`/search/[[...query]]`, {pathname: 'search', query: {...form}}, {shallow: true})
-    // router.push({pathname: 'search', search: new URLSearchParams(form).toString()})
 
     if (!form.SearchText) {
       handleClick()

@@ -16,7 +16,7 @@ import { registerLicense } from '@syncfusion/ej2-base'
 import DefaultLayout from '@components/templates/layout/DefaultLayout'
 
 import 'public/styles/globals.scss'
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'
 import Script from 'next/script'
 import { ParsedUrlQuery } from 'querystring'
 
@@ -37,7 +37,7 @@ export default function MyApp(props: MyAppProps) {
     emotionCache = clientSideEmotionCache,
     pageProps,
     session,
-    searchQuery
+    searchQuery,
   } = props
   return (
     <SessionProvider
@@ -54,7 +54,10 @@ export default function MyApp(props: MyAppProps) {
           <CssBaseline />
           <MainProvider session={session}>
             <DefaultLayout searchQuery={searchQuery}>
-              <Script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"/>
+              <Script
+                src='https://upload-widget.cloudinary.com/global/all.js'
+                type='text/javascript'
+              />
               <Component {...pageProps} />
             </DefaultLayout>
             <ToastContainer
@@ -80,6 +83,6 @@ MyApp.getInitialProps = async (context: AppContext) => {
   return {
     ...appProps,
     session,
-    searchQuery: context.router.query
+    searchQuery: context.router.query,
   }
 }
