@@ -1,9 +1,12 @@
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { DefaultButton } from '../Button/DefaultButton'
 import { borderRadiusLarge } from '@constants/styles'
+
+const url = process.env.NEXT_PUCLIC_HOST || '/'
 
 export const NotAuthHeader = () => {
   const router = useRouter()
@@ -54,13 +57,16 @@ export const NotAuthHeader = () => {
               // minWidth: '400px',
             }}
           >
-            <DefaultButton
-              color='primary'
-              sx={{ borderRadius: borderRadiusLarge }}
-              onClick={() => router.push(process.env.NEXT_PUCLIC_HOST || '/')}
-            >
-              Đăng chỗ nghỉ
-            </DefaultButton>
+            <Link href={url} target='_blank'>
+              <a href={url} target='_blank'>
+                <DefaultButton
+                  color='primary'
+                  sx={{ borderRadius: borderRadiusLarge }}
+                >
+                  Đăng chỗ nghỉ
+                </DefaultButton>
+              </a>
+            </Link>
             <DefaultButton
               onClick={() => router.push('/sign-in')}
               sx={{ borderRadius: borderRadiusLarge, ml: 3 }}
