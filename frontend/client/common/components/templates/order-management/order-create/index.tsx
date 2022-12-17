@@ -19,7 +19,7 @@ import { Box } from '@mui/system'
 import { orderApi } from '@utils/api'
 import { trimDataObject, validateEmail } from '@utils/helpers'
 import { toastError, toastSuccess } from '@utils/notifications'
-import { isNumber, uniqueId } from 'lodash'
+import { isEmpty, isNumber, uniqueId } from 'lodash'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -42,11 +42,10 @@ export default function CreateOrderTemplate({
     setError,
   } = useForm()
 
-  useEffect(() => {
-    console.log(session)
-  }, [session])
-
   const onCreateOrder = (value: any) => {
+    if (!session) {
+      return router.push('/sign-in')
+    }
     setLoading(true)
     const formData = {
       ...trimDataObject(value),

@@ -10,8 +10,13 @@ import { DefaultButton } from '../Button/DefaultButton'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { borderRadiusLarge } from '@constants/styles'
 
-
-export const AuthHeader = ({ user, searchQuery }: {user: any, searchQuery: ParsedUrlQuery}) => {
+export const AuthHeader = ({
+  user,
+  searchQuery,
+}: {
+  user: any
+  searchQuery: ParsedUrlQuery
+}) => {
   const router = useRouter()
 
   return (
@@ -58,7 +63,7 @@ export const AuthHeader = ({ user, searchQuery }: {user: any, searchQuery: Parse
               ReadyBooking
             </Typography>
           </Box>
-          <MainFilter searchQuery={searchQuery}/>
+          <MainFilter searchQuery={searchQuery} />
           <Box
             sx={{
               display: 'flex',
@@ -70,6 +75,7 @@ export const AuthHeader = ({ user, searchQuery }: {user: any, searchQuery: Parse
             <DefaultButton
               color='primary'
               sx={{ borderRadius: borderRadiusLarge }}
+              onClick={() => router.push(process.env.NEXT_PUCLIC_HOST || '/')}
             >
               Đăng chỗ nghỉ
             </DefaultButton>

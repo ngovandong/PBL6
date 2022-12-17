@@ -124,7 +124,6 @@ const SignIn = () => {
         email: email,
         password: password,
         redirect: false,
-        callbackUrl: '/',
       })
 
       if (res?.status === 401) {
