@@ -16,6 +16,7 @@ import { uniqueId } from 'lodash'
 import Image from 'next/image'
 import { toastError, toastSuccess } from '@utils/notifications'
 import styled from '@emotion/styled'
+import { CircleLoading } from '@components/atoms/Loading'
 
 const TableCustom = styled('table')({
   marginRight: 24,
@@ -126,11 +127,10 @@ const OrderManagement = ({ userId }: { userId: string }) => {
   const handleClose = () => setOpen(false)
 
   const handleCancel = async (value: string) => {
-    setIsDeleting((isDeleting) => !isDeleting)
     try {
       const res = await orderApi.postCancelBooking(value)
-      console.log(res)
       toastSuccess(INFOR_MESSAGE.UPDATED_SUCCESSFULLY)
+      setIsDeleting((isDeleting) => !isDeleting)
     } catch (error) {
       toastError(ERROR_MESSAGE.COMMON_ERROR)
     }
@@ -214,17 +214,22 @@ const OrderManagement = ({ userId }: { userId: string }) => {
           <Tab value='three' label='Chỗ nghỉ đã hủy' />
         </Tabs>
       </Box>
-      <Box>
-        <TabPanel value={value} index='one'>
-          <DefaultTable rows={rows} columns={columns} />
-        </TabPanel>
-        <TabPanel value={value} index='two'>
-          <DefaultTable rows={rows} columns={columns} />
-        </TabPanel>
-        <TabPanel value={value} index='three'>
-          <DefaultTable rows={rows} columns={columns} />
-        </TabPanel>
-      </Box>
+      {loading ? (
+        <CircleLoading />
+      ) : (
+        <Box>
+          <TabPanel value={value} index='one'>
+            <DefaultTable rows={rows} columns={columns} />
+          </TabPanel>
+          <TabPanel value={value} index='two'>
+            <DefaultTable rows={rows} columns={columns} />
+          </TabPanel>
+          <TabPanel value={value} index='three'>
+            <DefaultTable rows={rows} columns={columns} />
+          </TabPanel>
+        </Box>
+      )}
+
       <DefaultDialog
         open={open}
         handleClose={handleClose}

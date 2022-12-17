@@ -111,9 +111,7 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
     axios
       .post('/api/auth/signout', { csrfToken: csrfToken })
       .then((res) => {
-        if (res.status === 200) {
-          reloadSession()
-        }
+        reloadSession()
       })
       .catch((err) => {
         console.log(err)
