@@ -1,18 +1,11 @@
 import { NextPageContext } from 'next'
 import { getSession } from 'next-auth/react'
-import Head from 'next/head'
+import { Box } from '@mui/material'
 import { OrderManagementTemplate } from '@components/templates/order-management'
+import { orderApi } from '@utils/api'
 
 const OrderManagementPage = (props: any) => {
-  return (
-    <div>
-      <Head>
-        <title>Ready Booking | Danh sách đặt phòng</title>
-        <meta name='description' content='Ready Booking' />
-      </Head>
-      <OrderManagementTemplate userId={props.user?.id || ''} />
-    </div>
-  )
+  return <OrderManagementTemplate userId={props.user?.id || ''} />
 }
 
 OrderManagementPage.getInitialProps = async (context: NextPageContext) => {

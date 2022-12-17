@@ -1,5 +1,4 @@
 import { memo } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { isEmpty } from 'lodash'
 import { ParsedUrlQuery } from 'querystring'
@@ -10,8 +9,6 @@ import { AppBar, Container, Toolbar, Typography, Box } from '@mui/material'
 import { DefaultButton } from '../Button/DefaultButton'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { borderRadiusLarge } from '@constants/styles'
-
-const url = process.env.NEXT_PUCLIC_HOST || '/'
 
 export const AuthHeader = ({
   user,
@@ -75,16 +72,13 @@ export const AuthHeader = ({
               marginLeft: 'auto',
             }}
           >
-            <Link href={url} target='_blank'>
-              <a href={url} target='_blank'>
-                <DefaultButton
-                  color='primary'
-                  sx={{ borderRadius: borderRadiusLarge }}
-                >
-                  Đăng chỗ nghỉ
-                </DefaultButton>
-              </a>
-            </Link>
+            <DefaultButton
+              color='primary'
+              sx={{ borderRadius: borderRadiusLarge }}
+              onClick={() => router.push(process.env.NEXT_PUCLIC_HOST || '/')}
+            >
+              Đăng chỗ nghỉ
+            </DefaultButton>
             {!isEmpty(user) ? (
               <UserMenu
                 userName={user?.givenName || user?.email || ''}

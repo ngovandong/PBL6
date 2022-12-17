@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import { uniqueId } from 'lodash'
-import Image from 'next/image'
 
 import TabPanel from '@components/atoms/TabPanel'
 import { DefaultTable } from '@components/molecules/table'
@@ -8,14 +6,16 @@ import { primaryColor } from '@constants/styles'
 import { Tabs, Box, Tab, IconButton, Typography, Grid } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import { CircleLoading } from '@components/atoms/Loading'
-import DefaultDialog from '@components/atoms/Dialog'
-import styled from '@emotion/styled'
-import { toastError, toastSuccess } from '@utils/notifications'
 
 import { BookingDetailItem } from '@utils/types'
 import { orderApi } from '@utils/api'
+import { useSession } from 'next-auth/react'
+import DefaultDialog from '@components/atoms/Dialog'
 import { BED_TYPE, ERROR_MESSAGE, INFOR_MESSAGE } from '@constants/constant'
+import { uniqueId } from 'lodash'
+import Image from 'next/image'
+import { toastError, toastSuccess } from '@utils/notifications'
+import styled from '@emotion/styled'
 
 const TableCustom = styled('table')({
   marginRight: 24,
@@ -126,11 +126,11 @@ const OrderManagement = ({ userId }: { userId: string }) => {
   const handleClose = () => setOpen(false)
 
   const handleCancel = async (value: string) => {
+    setIsDeleting((isDeleting) => !isDeleting)
     try {
       const res = await orderApi.postCancelBooking(value)
       console.log(res)
       toastSuccess(INFOR_MESSAGE.UPDATED_SUCCESSFULLY)
-      setIsDeleting((isDeleting) => !isDeleting)
     } catch (error) {
       toastError(ERROR_MESSAGE.COMMON_ERROR)
     }
@@ -214,21 +214,17 @@ const OrderManagement = ({ userId }: { userId: string }) => {
           <Tab value='three' label='Chỗ nghỉ đã hủy' />
         </Tabs>
       </Box>
-      {loading ? (
-        <CircleLoading />
-      ) : (
-        <Box>
-          <TabPanel value={value} index='one'>
-            <DefaultTable rows={rows} columns={columns} />
-          </TabPanel>
-          <TabPanel value={value} index='two'>
-            <DefaultTable rows={rows} columns={columns} />
-          </TabPanel>
-          <TabPanel value={value} index='three'>
-            <DefaultTable rows={rows} columns={columns} />
-          </TabPanel>
-        </Box>
-      )}
+      <Box>
+        <TabPanel value={value} index='one'>
+          <DefaultTable rows={rows} columns={columns} />
+        </TabPanel>
+        <TabPanel value={value} index='two'>
+          <DefaultTable rows={rows} columns={columns} />
+        </TabPanel>
+        <TabPanel value={value} index='three'>
+          <DefaultTable rows={rows} columns={columns} />
+        </TabPanel>
+      </Box>
       <DefaultDialog
         open={open}
         handleClose={handleClose}

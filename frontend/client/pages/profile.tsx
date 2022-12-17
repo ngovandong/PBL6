@@ -1,7 +1,6 @@
 import { Suspense, useEffect, useState } from 'react'
 import { NextPage, NextPageContext } from 'next'
 import { getSession, useSession } from 'next-auth/react'
-import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import { Box } from '@mui/system'
 import { IUserProfile } from '@utils/types'
@@ -30,10 +29,6 @@ const ProfilePage = ({ profile }: { profile: IUserProfile }) => {
   return (
     <Suspense fallback={<CircleLoading />}>
       <Box>
-        <Head>
-          <title>{`Ready Booking | Thông tin cá nhân`}</title>
-          <meta name='description' content='Ready Booking' />
-        </Head>
         <ProfileTemplate
           profile={user}
           havePassword={profile.havePassword as boolean}
