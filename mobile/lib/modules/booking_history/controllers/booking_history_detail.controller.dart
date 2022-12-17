@@ -31,7 +31,7 @@ class BookingHistoryDetailController extends GetxController {
       Get.back();
     } catch (err) {
       DialogUtil.hideLoading();
-      log('Error in cancelBooking');
+      log('Error in cancelBooking: $err');
       SnackbarUtil.showError();
     }
   }
