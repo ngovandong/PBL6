@@ -57,6 +57,7 @@ export const NotAuthHeader = () => {
             <DefaultButton
               color='primary'
               sx={{ borderRadius: borderRadiusLarge }}
+              onClick={() => router.push(process.env.NEXT_PUCLIC_HOST || '/')}
             >
               Đăng chỗ nghỉ
             </DefaultButton>

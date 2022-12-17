@@ -11,4 +11,17 @@ class FavoriteHostRepository {
   Future<List<FavoriteHostModel>> getFavoriteHosts(String userId) {
     return dataSource.getFavoriteHosts(userId);
   }
+
+  Future<String> addFavoriteHost({
+    required String userId,
+    required String hostId,
+  }) {
+    return dataSource.addFavoriteHost(userId: userId, hostId: hostId);
+  }
+
+  Future<void> deleteFavoriteHost({
+    required String favoriteId,
+  }) {
+    return dataSource.deleteFavoriteHost(favoriteId: favoriteId);
+  }
 }

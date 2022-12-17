@@ -16,7 +16,7 @@
             }
 
             .code-column {
-                width: 20%;
+                width: 15%;
 
                 * {
                     padding: 2px 0;
@@ -29,7 +29,7 @@
             }
 
             .customer-column {
-                width: 35%;
+                width: 30%;
 
                 * {
                     padding: 5px 0;
@@ -37,7 +37,7 @@
             }
 
             .time-column {
-                width: 20%;
+                width: 15%;
 
                 * {
                     padding: 5px 0;
@@ -50,6 +50,13 @@
                 * {
                     padding: 5px 0;
                 }
+            }
+
+            .button-column {
+                width: 15%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
 

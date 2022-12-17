@@ -22,32 +22,7 @@ import { userApi } from '@utils/api'
 import { toastError, toastSuccess } from '@utils/notifications'
 import { reloadSession, validatePassword } from '@utils/helpers'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-
-interface TabPanelProps {
-  children?: React.ReactNode
-  index: number
-  value: number
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props
-
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  )
-}
+import TabPanel from '@components/atoms/TabPanel'
 
 const ChangePassword = ({
   value,
@@ -107,13 +82,7 @@ const ChangePassword = ({
   }
 
   return (
-    <Box
-      component={TabPanel}
-      value={value}
-      index={1}
-      //   ml={2}
-      sx={{ width: '100%' }}
-    >
+    <Box component={TabPanel} value={value} index={1} sx={{ width: '100%' }}>
       <TitlePost sx={{ mb: 2 }}>Mật khẩu</TitlePost>
       <Grid
         name='change-password'

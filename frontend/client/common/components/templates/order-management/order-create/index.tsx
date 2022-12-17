@@ -19,15 +19,13 @@ import { Box } from '@mui/system'
 import { orderApi } from '@utils/api'
 import { trimDataObject, validateEmail } from '@utils/helpers'
 import { toastError, toastSuccess } from '@utils/notifications'
-import { IDataCreateOrder } from '@utils/types'
-import { isNumber, uniqueId } from 'lodash'
+import { isEmpty, isNumber, uniqueId } from 'lodash'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { ParsedUrlQuery } from 'querystring'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
-export default function OrderTemplate({
+export default function CreateOrderTemplate({
   searchQuery,
   user,
 }: {
@@ -44,11 +42,10 @@ export default function OrderTemplate({
     setError,
   } = useForm()
 
-  useEffect(() => {
-    console.log(session)
-  }, [session])
-
   const onCreateOrder = (value: any) => {
+    if (!session) {
+      return router.push('/sign-in')
+    }
     setLoading(true)
     const formData = {
       ...trimDataObject(value),

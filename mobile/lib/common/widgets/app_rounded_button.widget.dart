@@ -47,47 +47,59 @@ class AppRoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: (isLoading || isDisable) ? null : onPressed,
-      style: ElevatedButton.styleFrom(
-        fixedSize: Size(width, height),
-        minimumSize: Size(width, height),
-        maximumSize: Size(width, height),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          side: showBorder ? BorderSide(color: borderColor) : BorderSide.none,
-        ),
-        shadowColor: showShadow ? Colors.black : null,
-        elevation: showShadow ? 5 : 0,
-        backgroundColor: isDisable ? disableBackgroundColor : backgroundColor,
-        splashFactory: NoSplash.splashFactory,
-        foregroundColor: isDisable ? disableBackgroundColor : backgroundColor,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        disabledBackgroundColor: disableBackgroundColor,
-        disabledForegroundColor: disableBackgroundColor,
-      ),
-      child: isLoading
-          ? const LoadingDot()
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (prefixIcon != null) prefixIcon!,
-                if (prefixIcon != null)
-                  const SizedBox(
-                    width: 15,
-                  ),
-                Text(
-                  content,
-                  style: TextStyles.boldText
-                      .copyWith(fontSize: fontSize, color: textColor),
-                ),
-                if (suffixIcon != null)
-                  const SizedBox(
-                    width: 15,
-                  ),
-                if (suffixIcon != null) suffixIcon!,
-              ],
+    return Theme(
+      data: ThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all<Color>(
+              isDisable ? disableBackgroundColor : backgroundColor,
             ),
+          ),
+        ),
+      ),
+      child: ElevatedButton(
+        onPressed: (isLoading || isDisable) ? null : onPressed,
+        style: ElevatedButton.styleFrom(
+          fixedSize: Size(width, height),
+          minimumSize: Size(width, height),
+          maximumSize: Size(width, height),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+            side: showBorder ? BorderSide(color: borderColor) : BorderSide.none,
+          ),
+          shadowColor: showShadow ? Colors.black : Colors.transparent,
+          elevation: showShadow ? 5 : 0,
+          backgroundColor: isDisable ? disableBackgroundColor : backgroundColor,
+          splashFactory: NoSplash.splashFactory,
+          foregroundColor: isDisable ? disableBackgroundColor : backgroundColor,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          disabledBackgroundColor: disableBackgroundColor,
+          disabledForegroundColor: disableBackgroundColor,
+          enableFeedback: false,
+        ),
+        child: isLoading
+            ? const LoadingDot()
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (prefixIcon != null) prefixIcon!,
+                  if (prefixIcon != null)
+                    const SizedBox(
+                      width: 15,
+                    ),
+                  Text(
+                    content,
+                    style: TextStyles.boldText
+                        .copyWith(fontSize: fontSize, color: textColor),
+                  ),
+                  if (suffixIcon != null)
+                    const SizedBox(
+                      width: 15,
+                    ),
+                  if (suffixIcon != null) suffixIcon!,
+                ],
+              ),
+      ),
     );
   }
 }

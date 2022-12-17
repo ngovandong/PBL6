@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/widgets/hotel_info_card.widget.dart';
-import 'package:mobile/generated/assets.gen.dart';
-import 'package:mobile/modules/hotel_detail/data/models/dtos/booking.dto.dart';
+import 'package:mobile/common/widgets/search_empty.widget.dart';
+import 'package:mobile/modules/booking_history/data/models/booking.dto.dart';
 
 class ListBookingHistory extends StatelessWidget {
   final List<BookingDTO> historyBookings;
@@ -18,11 +17,8 @@ class ListBookingHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (historyBookings.isEmpty) {
-      return Center(
-        child: Lottie.asset(
-          Assets.lotties.searchEmpty,
-          width: Get.width * 0.8,
-        ),
+      return SearchEmpty(
+        width: Get.width * 0.8,
       );
     } else {
       return ListView.separated(

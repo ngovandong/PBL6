@@ -10,22 +10,20 @@ class ListRoom extends GetView<ChooseRoomController> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.separated(
-        padding: const EdgeInsets.all(UIConfigs.horizontalPadding),
-        itemCount: controller.rooms.length,
-        physics: const ClampingScrollPhysics(),
-        separatorBuilder: ((context, index) {
-          return const SizedBox(
-            height: 10,
-          );
-        }),
-        itemBuilder: (context, index) {
-          final AccommodationModel currentRoom = controller.rooms[index];
+    return ListView.separated(
+      padding: const EdgeInsets.all(UIConfigs.horizontalPadding),
+      itemCount: controller.rooms.length,
+      physics: const ClampingScrollPhysics(),
+      separatorBuilder: ((context, index) {
+        return const SizedBox(
+          height: 10,
+        );
+      }),
+      itemBuilder: (context, index) {
+        final AccommodationModel currentRoom = controller.rooms[index];
 
-          return RoomItem(currentRoom: currentRoom);
-        },
-      ),
+        return RoomItem(currentRoom: currentRoom);
+      },
     );
   }
 }
