@@ -68,7 +68,7 @@ export const provinces = [
   },
   {
     name: 'TP Hồ Chí Minh',
-    id: 'TP Hồ Chí Minh',
+    id: 'Hồ Chí Minh',
   },
   {
     name: 'Đà Nẵng',
