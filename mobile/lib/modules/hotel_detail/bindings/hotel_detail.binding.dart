@@ -9,6 +9,7 @@ import 'package:mobile/modules/hotel_detail/controllers/choose_room.controller.d
 import 'package:mobile/modules/hotel_detail/controllers/confirm_booking.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/fill_profile_info.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/hotel_detail.controller.dart';
+import 'package:mobile/modules/hotel_detail/data/repositories/booking.repository.dart';
 import 'package:mobile/modules/search_hotel/data/repositories/host.repository.dart';
 
 class HotelDetailBinding extends Bindings {

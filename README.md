@@ -1,4 +1,4 @@
-# 19N12 - Team 8 - Ecommerce: Apartment Building Online Market - Team 8
+# PBL6 - ReadyBooking
 
 ## 👨🏽‍💻 Members
 
@@ -6,8 +6,6 @@
 - Nguyễn Minh Đức
 - Nguyễn Đình Quốc Đạt
 - Lê Ngọc Khánh Thy
-- Trần Thanh Nhật
-- Tô Bá Thành
 
 ## Demo
 
