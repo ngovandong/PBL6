@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class Palette {
   static const Color blue100 = Color(0xFFCCCCFF);
@@ -37,5 +37,6 @@ class Palette {
   static const Color metallicViolet = Color(0xFF610094);
   static const Color background = Color(0xFFF9F9F9);
   static const Color antiFlashWhite = Color(0xFFEFF4F7);
+  static Color scaffoldBackgroundColor = Colors.grey[50]!;
   // static const Color lavenderSilver = Color(0xFFFDEFEF);
 }

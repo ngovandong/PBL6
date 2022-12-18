@@ -37,9 +37,6 @@ class SearchHotelController extends GetxController {
   final GlobalKey<FilterOptionsSheetState> filterOptionKey =
       GlobalKey<FilterOptionsSheetState>();
 
-  final GlobalKey<FilterOptionsSheetState> filterOptionKey =
-      GlobalKey<FilterOptionsSheetState>();
-
   @override
   void onInit() async {
     await _getData();

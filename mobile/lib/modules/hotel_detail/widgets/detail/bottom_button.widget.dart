@@ -15,7 +15,7 @@ class BottomButton extends GetView<HotelDetailController> {
       () => Visibility(
         visible: controller.getDataStatus.value == HandleStatus.HAS_DATA,
         child: Container(
-          color: Colors.white,
+          color: Palette.scaffoldBackgroundColor,
           padding: const EdgeInsets.only(left: 12, top: 12, right: 12),
           child: SafeArea(
             top: false,

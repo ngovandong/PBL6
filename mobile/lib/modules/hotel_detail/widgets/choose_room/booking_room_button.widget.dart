@@ -15,7 +15,7 @@ class BookingRoomButton extends GetView<ChooseRoomController> {
         return Visibility(
           visible: controller.rooms.where((p0) => p0.isSelected).isNotEmpty,
           child: Container(
-            color: Colors.white,
+            color: Palette.scaffoldBackgroundColor,
             padding: const EdgeInsets.only(left: 12, top: 12, right: 12),
             child: SafeArea(
               top: false,

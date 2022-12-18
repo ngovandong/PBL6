@@ -98,7 +98,7 @@ class FillProfileInfoView extends GetView<FillProfileInfoController> {
           ),
         ),
         bottomNavigationBar: Container(
-          color: Colors.white,
+          color: Palette.scaffoldBackgroundColor,
           padding: const EdgeInsets.only(left: 12, top: 12, right: 12),
           child: SafeArea(
             top: false,
