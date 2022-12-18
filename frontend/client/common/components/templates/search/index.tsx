@@ -26,14 +26,11 @@ const SearchTemplate = (props: any) => {
         <Grid item sm={4}>
           <LeftFilter />
         </Grid>
-        {data?.map(
-          (item: any) =>
-            item?.accommodationSearches && (
-              <Grid item sm={8} key={item.id}>
-                <CardSearch data={item} />
-              </Grid>
-            )
-        )}
+        <Grid item sm={8}>
+          {data?.map((item: any) => (
+            <CardSearch data={item} key={item.id} />
+          ))}
+        </Grid>
       </Grid>
     </Box>
   )
