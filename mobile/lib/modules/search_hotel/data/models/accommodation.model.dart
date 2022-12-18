@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile/modules/hotel_detail/data/models/dtos/booking.dto.dart';
+import 'package:mobile/modules/booking_history/data/models/booking.dto.dart';
 
 part 'accommodation.model.g.dart';
 

@@ -10,6 +10,8 @@ import 'package:mobile/modules/base/data/model/user_auth.model.dart';
 import 'package:mobile/modules/base/data/repository/verify_auth.repository.dart';
 import 'package:mobile/modules/booking_history/booking_history.enum.dart';
 import 'package:mobile/modules/booking_history/booking_history.eventbus.dart';
+import 'package:mobile/modules/favorite_host/favorite_host.enum.dart';
+import 'package:mobile/modules/favorite_host/favorite_host.eventbus.dart';
 import 'package:mobile/modules/profile/profile.enum.dart';
 import 'package:mobile/modules/profile/profile.eventbus.dart';
 
@@ -73,6 +75,10 @@ class VerifyAuthController extends GetxController {
       user == null ? null : UserAuthModel.fromUserModel(user),
     );
 
+    _fireEventBus();
+  }
+
+  void _fireEventBus() {
     EventBusUtil.fireEvent(
       ProfileInternalEvent(
         ProfileInternalEventEnum.updateSettingProfile,
@@ -86,6 +92,13 @@ class VerifyAuthController extends GetxController {
         null,
       ),
     );
+
+    EventBusUtil.fireEvent(
+      FavoriteHostInternalEvent(
+        FavoriteInternalEventEnum.refreshData,
+        null,
+      ),
+    );
   }
 
   Future<void> signOut() async {
@@ -94,20 +107,6 @@ class VerifyAuthController extends GetxController {
 
       await proccessUpdateCurrentUser(null);
       await GoogleAuthUtil.signOut();
-
-      EventBusUtil.fireEvent(
-        ProfileInternalEvent(
-          ProfileInternalEventEnum.updateSettingProfile,
-          null,
-        ),
-      );
-
-      EventBusUtil.fireEvent(
-        BookingHistoryInternalEvent(
-          BookingHistoryInternalEventEnum.refreshBookingHistory,
-          null,
-        ),
-      );
 
       DialogUtil.hideLoading();
     } catch (err) {

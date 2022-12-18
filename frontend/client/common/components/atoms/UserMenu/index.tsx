@@ -15,11 +15,13 @@ import PersonIcon from '@mui/icons-material/Person'
 import CardTravelIcon from '@mui/icons-material/CardTravel'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { borderRadiusLarge } from '@constants/styles'
-import { signOut, useSession } from 'next-auth/react'
+import { getCsrfToken, signOut, useSession } from 'next-auth/react'
 import { MainContext, useUser } from 'common/context'
 import Link from 'next/link'
 import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
+import axios from 'axios'
+import { reloadSession } from '@utils/helpers'
 
 const NavLink = styled.a`
   display: flex;
@@ -103,10 +105,17 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
     setAnchorEl(null)
   }
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     setState({ ...state, user: {} })
-    localStorage.clear()
-    signOut()
+    const csrfToken = await getCsrfToken()
+    axios
+      .post('/api/auth/signout', { csrfToken: csrfToken })
+      .then((res) => {
+        reloadSession()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     router.replace('/')
   }
 

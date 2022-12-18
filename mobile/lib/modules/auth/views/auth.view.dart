@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/router/route_manager.dart';
@@ -63,19 +65,22 @@ class AuthView extends GetView<AuthController> {
                   prefixIcon: Assets.icons.auth.google.svg(),
                   textColor: Palette.zodiacBlue,
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                AppRoundedButton(
-                  onPressed: () {},
-                  content: 'Đăng nhập bằng Apple',
-                  fontSize: 15,
-                  isLoading: controller.isLoading.value,
-                  borderRadius: 6,
-                  backgroundColor: Colors.black,
-                  showShadow: false,
-                  prefixIcon: Assets.icons.auth.apple.svg(color: Colors.white),
-                ),
+                if (Platform.isIOS)
+                  const SizedBox(
+                    height: 15,
+                  ),
+                if (Platform.isIOS)
+                  AppRoundedButton(
+                    onPressed: () {},
+                    content: 'Đăng nhập bằng Apple',
+                    fontSize: 15,
+                    isLoading: controller.isLoading.value,
+                    borderRadius: 6,
+                    backgroundColor: Colors.black,
+                    showShadow: false,
+                    prefixIcon:
+                        Assets.icons.auth.apple.svg(color: Colors.white),
+                  ),
                 const SizedBox(
                   height: 15,
                 ),

@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { isEmpty } from 'lodash'
 import { ParsedUrlQuery } from 'querystring'
@@ -10,8 +11,15 @@ import { DefaultButton } from '../Button/DefaultButton'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import { borderRadiusLarge } from '@constants/styles'
 
+const url = process.env.NEXT_PUCLIC_HOST || '/'
 
-export const AuthHeader = ({ user, searchQuery }: {user: any, searchQuery: ParsedUrlQuery}) => {
+export const AuthHeader = ({
+  user,
+  searchQuery,
+}: {
+  user: any
+  searchQuery: ParsedUrlQuery
+}) => {
   const router = useRouter()
 
   return (
@@ -58,7 +66,7 @@ export const AuthHeader = ({ user, searchQuery }: {user: any, searchQuery: Parse
               ReadyBooking
             </Typography>
           </Box>
-          <MainFilter searchQuery={searchQuery}/>
+          <MainFilter searchQuery={searchQuery} />
           <Box
             sx={{
               display: 'flex',
@@ -67,12 +75,16 @@ export const AuthHeader = ({ user, searchQuery }: {user: any, searchQuery: Parse
               marginLeft: 'auto',
             }}
           >
-            <DefaultButton
-              color='primary'
-              sx={{ borderRadius: borderRadiusLarge }}
-            >
-              Đăng chỗ nghỉ
-            </DefaultButton>
+            <Link href={url} target='_blank'>
+              <a href={url} target='_blank'>
+                <DefaultButton
+                  color='primary'
+                  sx={{ borderRadius: borderRadiusLarge }}
+                >
+                  Đăng chỗ nghỉ
+                </DefaultButton>
+              </a>
+            </Link>
             {!isEmpty(user) ? (
               <UserMenu
                 userName={user?.givenName || user?.email || ''}

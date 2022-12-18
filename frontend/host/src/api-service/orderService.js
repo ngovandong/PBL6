@@ -12,6 +12,15 @@ const getCancelBooking = async (id) => {
   return await request.get(`partner/booking/cancel-booking/${id}`);
 };
 
-const orderService = { getCurrentBooking, getHistoryBooking, getCancelBooking };
+const completeBooking = async (id) => {
+  return await request.post(`partner/booking/complete-booking/${id}`);
+};
+
+const orderService = {
+  getCurrentBooking,
+  getHistoryBooking,
+  getCancelBooking,
+  completeBooking,
+};
 
 export default orderService;

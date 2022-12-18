@@ -8,7 +8,7 @@ import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 import 'package:mobile/modules/booking_history/booking_history.enum.dart';
 import 'package:mobile/modules/booking_history/booking_history.eventbus.dart';
 import 'package:mobile/modules/booking_history/data/repositories/booking_history.repository.dart';
-import 'package:mobile/modules/hotel_detail/data/models/dtos/booking.dto.dart';
+import 'package:mobile/modules/booking_history/data/models/booking.dto.dart';
 
 class BookingHistoryController extends GetxController {
   final BookingHistoryRepository bookingHistoryRepository;

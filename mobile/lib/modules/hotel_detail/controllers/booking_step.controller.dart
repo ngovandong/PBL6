@@ -8,15 +8,15 @@ import 'package:mobile/common/utils/snackbar.util.dart';
 import 'package:mobile/modules/auth/data/model/user.model.dart';
 import 'package:mobile/modules/booking_history/booking_history.enum.dart';
 import 'package:mobile/modules/booking_history/booking_history.eventbus.dart';
+import 'package:mobile/modules/booking_history/data/repositories/booking_history.repository.dart';
 import 'package:mobile/modules/hotel_detail/controllers/choose_room.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/fill_profile_info.controller.dart';
 import 'package:mobile/modules/hotel_detail/controllers/hotel_detail.controller.dart';
-import 'package:mobile/modules/hotel_detail/data/models/dtos/booking.dto.dart';
-import 'package:mobile/modules/hotel_detail/data/repositories/booking.repository.dart';
+import 'package:mobile/modules/booking_history/data/models/booking.dto.dart';
 import 'package:mobile/modules/search_hotel/data/models/dtos/host_detail.dto.dart';
 
 class BookingStepController extends GetxController {
-  final BookingRepository bookingRepository;
+  final BookingHistoryRepository bookingRepository;
   final FillProfileInfoController fillProfileInfoController;
   final HotelDetailController hotelDetailController;
   final ChooseRoomController chooseRoomController;
@@ -57,7 +57,7 @@ class BookingStepController extends GetxController {
       EventBusUtil.fireEvent(
         BookingHistoryInternalEvent<BookingDTO>(
           BookingHistoryInternalEventEnum.addBookingHistory,
-          result,
+          result..type = BookingHistoryType.CURRENT,
         ),
       );
 

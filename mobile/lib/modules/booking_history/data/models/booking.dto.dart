@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mobile/common/extensions/datetime.extension.dart';
+import 'package:mobile/modules/booking_history/booking_history.enum.dart';
 
 part 'booking.dto.g.dart';
 
@@ -31,6 +32,9 @@ class BookingDTO {
   @JsonKey(name: 'bookingDetailDtos')
   final List<BookingDetailDTO> bookingDetails;
 
+  @JsonKey(ignore: true)
+  BookingHistoryType? type;
+
   String get displayDate =>
       '${dateCheckin.toDisplayDate} - ${dateCheckout.toDisplayDate}';
 
@@ -52,6 +56,7 @@ class BookingDTO {
     required this.note,
     required this.isPrePayment,
     required this.bookingDetails,
+    this.type,
   });
 
   Map<String, dynamic> toJson() {

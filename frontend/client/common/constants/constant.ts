@@ -1,4 +1,4 @@
-import { validateEmail } from "@utils/helpers"
+import { validateEmail } from '@utils/helpers'
 
 export const LOCAL_STORAGE = {
   idUser: 'idUser',
@@ -92,7 +92,7 @@ export const ORDER_FORM = [
     required: true,
     message: 'Trường bắt buộc nhập.',
     type: 'text',
-    defaultValue: 'familyName'
+    defaultValue: 'familyName',
   },
   {
     label: 'Tên',
@@ -100,7 +100,7 @@ export const ORDER_FORM = [
     required: true,
     message: 'Trường bắt buộc nhập.',
     type: 'text',
-    defaultValue: 'givenName'
+    defaultValue: 'givenName',
   },
   {
     label: 'Email',
@@ -113,7 +113,7 @@ export const ORDER_FORM = [
       //   checkEmail: (v: string) => validateEmail(v) || ERROR_MESSAGE.INVALID_EMAIL_ERROR
       // },
     },
-    defaultValue: 'email'
+    defaultValue: 'email',
   },
   {
     label: 'Ghi chú',
