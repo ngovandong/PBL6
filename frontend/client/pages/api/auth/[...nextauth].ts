@@ -104,6 +104,9 @@ export default NextAuth({
       if (token?.idToken) {
         session.idToken = token?.idToken
       }
+      if (token.user?.accessToken) {
+        session.accessToken = token?.user?.accessToken
+      }
       if (token.user?.id) {
         const idUser = token.user?.id
         const res = await axios.get(

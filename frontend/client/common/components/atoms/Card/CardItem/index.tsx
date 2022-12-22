@@ -12,6 +12,8 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
 import { isNumber } from 'lodash'
 import { StarPurple500Outlined } from '@mui/icons-material'
 import moment from 'moment'
+import { userApi } from '@utils/api'
+import { useSession } from 'next-auth/react'
 
 interface ICard {
   id: string
@@ -81,9 +83,27 @@ const CardItem = ({
   ratingStar,
   ratingFeedback,
 }: ICard) => {
+  const { data: session }: any = useSession()
+
+  const handleFavoriteHost = async () => {
+    if (session) {
+      try {
+        const respons = await userApi.postFavoriteHost({
+          userId: session?.user?.id,
+          hostId: id,
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
   return (
     <Grid item xs={3}>
       <CardContainer>
+        <ButtonFavorite onClick={(event) => handleFavoriteHost()}>
+          <FavoriteIcon />
+        </ButtonFavorite>
         <Link
           href={`/post/${id}?SearchText=${province}&DateCheckin=${
             moment().toISOString().split('T')[0]
@@ -93,10 +113,6 @@ const CardItem = ({
         >
           <a>
             <div>
-              <ButtonFavorite>
-                <FavoriteIcon />
-              </ButtonFavorite>
-
               <CardImage
                 src={src ?? '/images/no-image-available.png'}
                 alt={title}

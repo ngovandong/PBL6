@@ -1,5 +1,13 @@
-import { createContext, useContext, useCallback, useReducer, memo, useEffect } from 'react'
+import {
+  createContext,
+  useContext,
+  useCallback,
+  useReducer,
+  memo,
+  useEffect,
+} from 'react'
 import { Session } from 'next-auth'
+import { LOCAL_STORAGE } from '@constants/constant'
 
 interface IMainState {
   user: any
@@ -35,7 +43,7 @@ const MainProvider = ({
   session,
 }: {
   children: any
-  session: Session
+  session: any
 }) => {
   const [state, setState] = useReducer(
     (prev: IMainState, current: IMainState) => ({ ...prev, ...current }),
@@ -44,7 +52,13 @@ const MainProvider = ({
     }
   )
   useEffect(() => {
-    setState({ ...state, user: session?.user || {}})
+    setState({ ...state, user: session?.user || {} })
+    console.log(session)
+    session?.accessToken &&
+      localStorage.setItem(
+        LOCAL_STORAGE.accessToken,
+        session?.accessToken || ''
+      )
   }, [session])
 
   return (
