@@ -141,7 +141,7 @@ const OrderManagement = ({ userId }: { userId: string }) => {
       switch (value) {
         case 'one':
           try {
-            const res = await orderApi.getCurrentBooking(userId)
+            const res = await orderApi.getPendingBooking(userId)
             const newRows =
               res.data?.map((item: BookingDetailItem, index: number) =>
                 createData(index + 1, item, handleOpen, handleCancel, true)
@@ -152,6 +152,17 @@ const OrderManagement = ({ userId }: { userId: string }) => {
 
         case 'two':
           try {
+            const res = await orderApi.getCurrentBooking(userId)
+            const newRows =
+              res.data?.map((item: BookingDetailItem, index: number) =>
+                createData(index + 1, item, handleOpen, handleCancel, true)
+              ) || []
+            setRows(newRows)
+          } catch (error) {}
+          break
+
+        case 'one':
+          try {
             const res = await orderApi.getHistoryBooking(userId)
             const newRows =
               res.data?.map((item: BookingDetailItem, index: number) =>
@@ -161,7 +172,7 @@ const OrderManagement = ({ userId }: { userId: string }) => {
           } catch (error) {}
           break
 
-        case 'three':
+        case 'four':
           try {
             const res = await orderApi.getCancelBooking(userId)
             const newRows =
@@ -209,9 +220,10 @@ const OrderManagement = ({ userId }: { userId: string }) => {
           }}
           aria-label='secondary tabs example'
         >
-          <Tab value='one' label='Chỗ nghỉ vừa đặt' />
-          <Tab value='two' label='Chỗ nghỉ đã đặt' />
-          <Tab value='three' label='Chỗ nghỉ đã hủy' />
+          <Tab value='one' label='Chỗ nghỉ chờ xác nhận' />
+          <Tab value='two' label='Chỗ nghỉ đã xác nhận' />
+          <Tab value='three' label='Chỗ nghỉ đã đặt' />
+          <Tab value='four' label='Chỗ nghỉ đã hủy' />
         </Tabs>
       </Box>
       {loading ? (
