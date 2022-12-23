@@ -7,7 +7,7 @@ import 'package:mobile/modules/favorite_host/view/favorite_host.view.dart';
 import 'package:mobile/modules/home/views/home.view.dart';
 import 'package:mobile/modules/profile/presentation/views/profile.view.dart';
 import 'package:mobile/modules/root/controllers/root.controller.dart';
-import 'package:mobile/modules/root/widgets/lazy_indexed_stack.widget.dart';
+import 'package:mobile/modules/root/widgets/slide_indexed_stack.widget.dart';
 
 class RootScreen extends GetWidget<RootController> {
   const RootScreen({super.key});
@@ -16,7 +16,7 @@ class RootScreen extends GetWidget<RootController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
-        () => LazyIndexedStack(
+        () => SlideIndexedStack(
           index: controller.currentTabIndex.value,
           children: [
             const HomeScreen(),

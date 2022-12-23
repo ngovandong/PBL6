@@ -8,10 +8,8 @@ abstract class GoogleAuthUtil {
   static final GoogleSignIn _googleSignIn = GoogleSignIn(
     clientId: Platform.isIOS
         ? dotenv.env[EnvKeys.clientIdIos]
-        : '929048173695-b6s5ah4lddubqd1los4611itmbo1d6g2.apps.googleusercontent.com',
-    serverClientId: Platform.isIOS
-        ? null
-        : '929048173695-b6s5ah4lddubqd1los4611itmbo1d6g2.apps.googleusercontent.com',
+        : dotenv.env[EnvKeys.clientIdAndroid],
+    serverClientId: Platform.isIOS ? null : dotenv.env[EnvKeys.clientIdAndroid],
   );
 
   static Future<GoogleSignInAccount?> signIn() {

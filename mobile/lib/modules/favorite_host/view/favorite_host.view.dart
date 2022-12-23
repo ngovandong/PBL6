@@ -41,6 +41,9 @@ class FavoriteView extends GetView<FavoriteLookupController> {
               return SearchEmpty(
                 width: Get.width * 0.8,
                 content: 'Danh sách khách sạn yêu thích trống',
+                onPressed: () async {
+                  await controller.getFavoriteHosts();
+                },
               );
             } else {
               return ListView.separated(
@@ -74,7 +77,7 @@ class FavoriteView extends GetView<FavoriteLookupController> {
                 await controller.getFavoriteHosts();
               },
             );
-          case HandleStatus.NORMAL:
+          default:
             return LoginViewData(
               lottiePath: Assets.lotties.favoriteHost,
               title: 'Lưu giữ các chỗ nghỉ yêu thích của bạn',

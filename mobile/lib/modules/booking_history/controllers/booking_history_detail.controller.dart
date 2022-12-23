@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:mobile/common/utils/dialog.util.dart';
 import 'package:mobile/common/utils/snackbar.util.dart';
+import 'package:mobile/modules/booking_history/booking_history.enum.dart';
 import 'package:mobile/modules/booking_history/controllers/booking_history.controller.dart';
 import 'package:mobile/modules/booking_history/data/models/booking.dto.dart';
 import 'package:mobile/modules/booking_history/data/repositories/booking_history.repository.dart';
@@ -23,9 +24,11 @@ class BookingHistoryDetailController extends GetxController {
 
       await bookingHistoryRepository.cancelBooking(bookingParams.id!);
 
-      bookingHistoryController.cancelBookings.add(bookingParams);
+      bookingHistoryController.cancelBookings?.add(bookingParams);
+      bookingHistoryController.update([BookingHistoryType.CANCEL.toString()]);
       bookingHistoryController.currentBookings
-          .removeWhere((element) => element.id! == bookingParams.id!);
+          ?.removeWhere((element) => element.id! == bookingParams.id!);
+      bookingHistoryController.update([BookingHistoryType.CURRENT.toString()]);
 
       DialogUtil.hideLoading();
       Get.back();

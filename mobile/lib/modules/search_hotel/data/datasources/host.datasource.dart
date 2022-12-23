@@ -4,11 +4,14 @@ import 'package:mobile/common/extensions/map.extension.dart';
 import 'package:mobile/common/utils/dio/dio_provider.dart';
 import 'package:mobile/modules/home/data/models/dtos/search_hotels.dto.dart';
 import 'package:mobile/modules/search_hotel/data/models/dtos/host_detail.dto.dart';
+import 'package:mobile/modules/search_hotel/data/models/dtos/host_search_response.dto.dart';
 import 'package:mobile/modules/search_hotel/data/models/host.model.dart';
 
 @lazySingleton
 class HostDataSource {
-  Future<List<HostModel>> searchHosts(SearchHotelsDTO searchHotelsDTO) async {
+  Future<HostSearchResponseDTO> searchHosts(
+    SearchHotelsDTO searchHotelsDTO,
+  ) async {
     final Map<String, dynamic> response = (await DioProvider.get(
       Endpoints.searchHosts,
       queryParams:
@@ -16,15 +19,16 @@ class HostDataSource {
     ))
         .data;
 
-    final List<HostModel> result = (response['hostSearches'] as List<dynamic>)
-        .map((e) => HostModel.fromJson(e))
-        .toList();
+    // final List<HostModel> result =
+    // (response['hostSearches'] as List<dynamic>)
+    //     .map((e) => HostModel.fromJson(e))
+    //     .toList();
 
-    for (var element in result) {
-      element.accommodationSearches.sort((a, b) => a.price.compareTo(b.price));
-    }
+    // for (var element in result) {
+    //   element.accommodationSearches.sort((a, b) => a.price.compareTo(b.price));
+    // }
 
-    return result;
+    return HostSearchResponseDTO.fromJson(response);
   }
 
   Future<HostModel> getHostDetail(HostDetailDTO hostDetailDTO) async {

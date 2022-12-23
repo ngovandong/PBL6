@@ -24,7 +24,7 @@ class HotelDetailBody extends GetView<HotelDetailController> {
           );
         case HandleStatus.HAS_ERROR:
           return const ErrorBanner();
-        case HandleStatus.NORMAL:
+        default:
           return const SizedBox();
       }
     });
