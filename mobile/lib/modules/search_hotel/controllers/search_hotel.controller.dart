@@ -9,11 +9,13 @@ import 'package:mobile/modules/favorite_host/controller/favorite_lookup.controll
 import 'package:mobile/modules/favorite_host/favorite_host.enum.dart';
 import 'package:mobile/modules/favorite_host/favorite_host.eventbus.dart';
 import 'package:mobile/modules/home/controllers/home.controller.dart';
+import 'package:mobile/modules/search_hotel/data/models/dtos/host_search_response.dto.dart';
 import 'package:mobile/modules/search_hotel/data/models/host.model.dart';
 import 'package:mobile/modules/search_hotel/data/repositories/host.repository.dart';
 import 'package:mobile/modules/search_hotel/search_hotel.enum.dart';
 import 'package:mobile/modules/search_hotel/search_hotel.eventbus.dart';
 import 'package:mobile/modules/search_hotel/widgets/search/filter_options_sheet.widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SearchHotelController extends GetxController {
   final HostRepository hostRepository;
@@ -37,9 +39,14 @@ class SearchHotelController extends GetxController {
   final GlobalKey<FilterOptionsSheetState> filterOptionKey =
       GlobalKey<FilterOptionsSheetState>();
 
+  final RefreshController refreshController = RefreshController();
+
+  int totalResult = 0;
+  bool get canLoadMore => totalResult != searchedHosts.length;
+
   @override
   void onInit() async {
-    await _getData();
+    await getData();
     _openEventBus();
     super.onInit();
   }
@@ -57,7 +64,7 @@ class SearchHotelController extends GetxController {
       switch (action) {
         case SearchHotelInternalEventEnum.refreshData:
           onTapSearchBox();
-          await _getData();
+          await getData();
           break;
       }
     });
@@ -90,12 +97,16 @@ class SearchHotelController extends GetxController {
     _favoriteEventBusSubscription?.cancel();
   }
 
-  Future<void> _getData() async {
+  Future<void> getData({bool isLoadMore = false}) async {
     try {
-      getDataStatus.value = HandleStatus.LOADING;
+      if (!isLoadMore) {
+        getDataStatus.value = HandleStatus.LOADING;
+      }
 
-      searchedHosts.value = await hostRepository
+      final HostSearchResponseDTO response = await hostRepository
           .searchHosts(homeController.searchHotelsParams.value);
+
+      totalResult = response.totalResult;
 
       for (var favoriteHost in favoriteLookupController.favoriteHosts) {
         HostModel? hostModel = searchedHosts
@@ -104,10 +115,27 @@ class SearchHotelController extends GetxController {
           hostModel.isFavorite = true;
         }
       }
-      getDataStatus.value = HandleStatus.HAS_DATA;
+
+      if (isLoadMore) {
+        searchedHosts.addAll(response.hostSearches);
+        refreshController.loadComplete();
+      } else {
+        searchedHosts.value = response.hostSearches;
+        refreshController.refreshCompleted();
+      }
+
+      if (!isLoadMore) {
+        getDataStatus.value = HandleStatus.HAS_DATA;
+      }
     } catch (err) {
       log('Error in _getData from $runtimeType: $err');
-      getDataStatus.value = HandleStatus.HAS_ERROR;
+
+      if (isLoadMore) {
+        refreshController.loadFailed();
+      } else {
+        refreshController.refreshFailed();
+        getDataStatus.value = HandleStatus.HAS_ERROR;
+      }
     }
   }
 
@@ -124,7 +152,7 @@ class SearchHotelController extends GetxController {
       utilities: filterOptionKey.currentState!.selectedUtilities,
     );
 
-    await _getData();
+    await getData();
   }
 
   // Future<void> addFavoriteHost(int searchIndex) async {

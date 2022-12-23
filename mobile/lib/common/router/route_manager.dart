@@ -70,21 +70,25 @@ abstract class RouteManager {
     GetPage(
       name: findBookingHistory,
       page: () => const FindBookingHistoryView(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: searchHotel,
       page: () => const SearchHotelView(),
       binding: SearchHotelBinding(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: searchLocation,
       page: () => const SearchDestinationView(),
       binding: HomeBinding(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: hotelDetail,
       page: () => HotelDetailScreen(),
       binding: HotelDetailBinding(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: chooseRoom,
@@ -113,8 +117,8 @@ abstract class RouteManager {
     GetPage(
       name: detailBookingHistory,
       page: () => const BookingHistoryDetailView(),
-      transition: Transition.rightToLeft,
       binding: BookingHistoryBinding(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: profile,
@@ -123,8 +127,8 @@ abstract class RouteManager {
     GetPage(
       name: userSetting,
       page: () => const UserSettingView(),
-      transition: Transition.rightToLeft,
       binding: ProfileBinding(),
+      transition: Transition.rightToLeft,
     )
   ];
 }

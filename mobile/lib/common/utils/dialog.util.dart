@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
@@ -84,7 +83,7 @@ abstract class DialogUtil {
         actions: [
           if (isConfirmDialog)
             AppRoundedButton(
-              width: 100.w,
+              width: 100,
               height: 40,
               borderRadius: 6,
               onPressed: () async {
@@ -101,7 +100,7 @@ abstract class DialogUtil {
               showBorder: true,
             ),
           AppRoundedButton(
-            width: isConfirmDialog ? 100.w : double.infinity,
+            width: isConfirmDialog ? 100 : double.infinity,
             height: 40,
             borderRadius: 6,
             onPressed: () async {

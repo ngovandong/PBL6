@@ -52,6 +52,7 @@ class LocaleKeys {
   static const booking_history_ordered = 'booking_history_ordered';
   static const booking_history_cancel = 'booking_history_cancel';
   static const booking_history_ongoing = 'booking_history_ongoing';
+  static const booking_history_current = 'booking_history_current';
   static const booking_history_title = 'booking_history_title';
   static const share_error_message = 'share_error_message';
   static const share_error_find = 'share_error_find';
@@ -105,6 +106,7 @@ class Locales {
     'booking_history_ordered': 'Đã đặt',
     'booking_history_cancel': 'Đã huỷ',
     'booking_history_ongoing': 'Đang đợi',
+    'booking_history_current': 'Phê duyệt',
     'booking_history_title': 'Lịch sử đặt phòng',
     'share_error_message': 'Đã có lỗi xảy ra. Vui lòng thử lại sau',
     'share_error_find': 'Chọn địa điểm cần tìm khách sạn',

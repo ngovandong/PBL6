@@ -14,6 +14,10 @@ class BookingHistoryRepository {
     return bookingHistoryDataSource.createBooking(createBookingParams);
   }
 
+  Future<List<BookingDTO>> getPendingBookings(String userId) {
+    return bookingHistoryDataSource.getPendingBookings(userId);
+  }
+
   Future<List<BookingDTO>> getCurrentBookings(String userId) {
     return bookingHistoryDataSource.getCurrentBookings(userId);
   }

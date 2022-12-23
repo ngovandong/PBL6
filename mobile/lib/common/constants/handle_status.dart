@@ -3,4 +3,6 @@ enum HandleStatus {
   HAS_DATA,
   HAS_ERROR,
   NORMAL,
+  NOT_YET_LOGIN,
+  HAS_LOGIN
 }

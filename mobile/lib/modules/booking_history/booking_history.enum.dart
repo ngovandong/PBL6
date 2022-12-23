@@ -4,6 +4,7 @@ abstract class BookingHistoryInternalEventEnum {
 }
 
 enum BookingHistoryType {
+  PENDING,
   CURRENT,
   COMPLETED,
   CANCEL,

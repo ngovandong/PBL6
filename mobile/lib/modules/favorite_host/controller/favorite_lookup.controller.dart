@@ -58,7 +58,7 @@ class FavoriteLookupController extends GetxController {
 
   Future<void> getFavoriteHosts() async {
     if (verifyAuthController.currentUser == null) {
-      getDataStatus.value = HandleStatus.NORMAL;
+      getDataStatus.value = HandleStatus.NOT_YET_LOGIN;
       favoriteHosts.value = [];
       return;
     }

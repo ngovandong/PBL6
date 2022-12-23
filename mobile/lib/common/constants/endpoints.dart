@@ -30,6 +30,8 @@ abstract class Endpoints {
   // Booking
   static final String createBooking =
       '${AppFlavor.apiUrl}/customer/booking/create-booking';
+  static final String pendingBooking =
+      '${AppFlavor.apiUrl}/customer/booking/pending-booking';
   static final String getCurrentBooking =
       '${AppFlavor.apiUrl}/customer/booking/current-booking';
   static final String getCompletedBooking =

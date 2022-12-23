@@ -38,6 +38,9 @@ class BookingDTO {
   String get displayDate =>
       '${dateCheckin.toDisplayDate} - ${dateCheckout.toDisplayDate}';
 
+  bool get canCancel => (type == BookingHistoryType.PENDING ||
+      type == BookingHistoryType.CURRENT);
+
   BookingDTO({
     this.id,
     this.bookingCode,

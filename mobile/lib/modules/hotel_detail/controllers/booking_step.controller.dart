@@ -57,7 +57,7 @@ class BookingStepController extends GetxController {
       EventBusUtil.fireEvent(
         BookingHistoryInternalEvent<BookingDTO>(
           BookingHistoryInternalEventEnum.addBookingHistory,
-          result..type = BookingHistoryType.CURRENT,
+          result..type = BookingHistoryType.PENDING,
         ),
       );
 
