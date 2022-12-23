@@ -31,6 +31,8 @@ import NotificationTab from "../pages/Detail/notificationTab";
 import HostCurrentBooking from "../pages/Detail/notificationTab/HostCurrentBooking";
 import HostCanceledBooking from "../pages/Detail/notificationTab/HostCanceledBooking";
 import HostHistoryBooking from "../pages/Detail/notificationTab/HostHistoryBooking";
+import HostPendingBooking from "../pages/Detail/notificationTab/HostPendingBooking";
+import PendingBooking from "../pages/notification/BookingPending";
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -45,7 +47,8 @@ function App() {
               <Route path="deactivated" element={<DeactivatedPage />} />
             </Route>
             <Route path="notification" element={<Notification />}>
-              <Route index element={<Navigate to="current" replace />} />
+              <Route index element={<Navigate to="pending" replace />} />
+              <Route path="pending" element={<PendingBooking />} />
               <Route path="current" element={<CurrentBooking />} />
               <Route path="canceled" element={<CanceledBooking />} />
               <Route path="history" element={<BookingHistory />} />
@@ -56,7 +59,8 @@ function App() {
           <Route path="detail/:id" element={<Detail />}>
             <Route index element={<Navigate to="notification" replace />} />
             <Route path="notification" element={<NotificationTab />}>
-              <Route index element={<Navigate to="current" replace />} />
+              <Route index element={<Navigate to="pending" replace />} />
+              <Route path="pending" element={<HostPendingBooking />} />
               <Route path="current" element={<HostCurrentBooking />} />
               <Route path="canceled" element={<HostCanceledBooking />} />
               <Route path="history" element={<HostHistoryBooking />} />
