@@ -97,6 +97,7 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
   const router = useRouter()
   const { state, setState } = useContext(MainContext)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -106,7 +107,7 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
   }
 
   const handleSignOut = async () => {
-    setState({ ...state, user: {} })
+    setState({ ...state, user: {}, favoriteHosts: [] })
     const csrfToken = await getCsrfToken()
     axios
       .post('/api/auth/signout', { csrfToken: csrfToken })
