@@ -115,6 +115,7 @@ function AddRoom() {
       bathRooms,
       originalPrice,
       images,
+      quantityPersonFit,
     } = newRoom;
     if (
       name &&
@@ -124,7 +125,8 @@ function AddRoom() {
       area &&
       bathRooms &&
       originalPrice &&
-      images.length
+      images.length &&
+      quantityPersonFit
     ) {
       accommodationService.createAccommodation(newRoom).then(() => {
         toast.success("Tạo phòng thành công");
@@ -145,6 +147,7 @@ function AddRoom() {
       bathRooms,
       originalPrice,
       images,
+      quantityPersonFit,
     } = newRoom;
     if (
       name &&
@@ -154,7 +157,8 @@ function AddRoom() {
       area &&
       bathRooms &&
       originalPrice &&
-      images.length
+      images.length &&
+      quantityPersonFit
     ) {
       accommodationService.UpdateAccommodation(newRoom).then(() => {
         toast.success("Cập nhật thành công");
@@ -195,12 +199,14 @@ function AddRoom() {
             style={{ width: "30%", marginRight: "5%" }}
             onChange={(e) => handleUpdate("name", e.target.value)}
             defaultValue={newRoom.name}
+            value={newRoom.name}
           />
           <TextField
             placeholder="Nhập loại phòng"
             style={{ width: "30%", marginRight: "5%" }}
             onChange={(e) => handleUpdate("accommodationType", e.target.value)}
             defaultValue={newRoom.accommodationType}
+            value={newRoom.accommodationType}
           />
           <p className="row-title">Số lượng</p>
           <OutlinedInput
@@ -213,6 +219,7 @@ function AddRoom() {
             onChange={(e) => handleUpdate("quantity", Number(e.target.value))}
             defaultValue={newRoom.quantity}
             style={{ width: "30%", marginRight: "5%" }}
+            value={newRoom.quantity}
           />
           <OutlinedInput
             endAdornment={<InputAdornment position="end">người</InputAdornment>}
@@ -221,8 +228,11 @@ function AddRoom() {
               min: "1",
             }}
             type="number"
-            onChange={(e) => handleUpdate("quantityPersonFit", Number(e.target.value))}
+            onChange={(e) =>
+              handleUpdate("quantityPersonFit", Number(e.target.value))
+            }
             defaultValue={newRoom.quantityPersonFit}
+            value={newRoom.quantityPersonFit}
             style={{ width: "30%", marginRight: "5%" }}
           />
           <p className="row-title">Mô tả phòng</p>
@@ -233,6 +243,7 @@ function AddRoom() {
             onChange={(e) => handleUpdate("description", e.target.value)}
             defaultValue={newRoom.description}
             fullWidth
+            value={newRoom.description}
           />
           <p className="row-title">Giường</p>
           {BED_TYPE.map((t) => (
@@ -260,6 +271,7 @@ function AddRoom() {
               style={{ width: "30%", marginRight: "5%" }}
               onChange={(e) => handleUpdate("area", Number(e.target.value))}
               defaultValue={newRoom.area}
+              value={newRoom.area}
             />
             <OutlinedInput
               endAdornment={
@@ -275,6 +287,7 @@ function AddRoom() {
                 handleUpdate("bathRooms", Number(e.target.value))
               }
               defaultValue={newRoom.bathRooms}
+              value={newRoom.bathRooms}
             />
           </div>
           <TextField
@@ -282,6 +295,7 @@ function AddRoom() {
             style={{ width: "30%", marginRight: "5%" }}
             onChange={(e) => handleUpdate("view", e.target.value)}
             defaultValue={newRoom.view}
+            value={newRoom.view}
           />
           <FormControlLabel
             control={
@@ -322,6 +336,7 @@ function AddRoom() {
               handleUpdate("originalPrice", parseInt(e.target.value))
             }
             defaultValue={newRoom.originalPrice}
+            value={newRoom.originalPrice}
           />
           <FormControlLabel
             control={
