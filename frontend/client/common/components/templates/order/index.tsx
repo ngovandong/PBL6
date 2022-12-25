@@ -44,10 +44,6 @@ export default function OrderTemplate({
     setError,
   } = useForm()
 
-  useEffect(() => {
-    console.log(session)
-  }, [session])
-
   const onCreateOrder = (value: any) => {
     setLoading(true)
     const formData = {

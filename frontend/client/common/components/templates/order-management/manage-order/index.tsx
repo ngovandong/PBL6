@@ -5,7 +5,15 @@ import Image from 'next/image'
 import TabPanel from '@components/atoms/TabPanel'
 import { DefaultTable } from '@components/molecules/table'
 import { primaryColor } from '@constants/styles'
-import { Tabs, Box, Tab, IconButton, Typography, Grid } from '@mui/material'
+import {
+  Tabs,
+  Box,
+  Tab,
+  IconButton,
+  Typography,
+  Grid,
+  Chip,
+} from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { CircleLoading } from '@components/atoms/Loading'
@@ -13,7 +21,7 @@ import DefaultDialog from '@components/atoms/Dialog'
 import styled from '@emotion/styled'
 import { toastError, toastSuccess } from '@utils/notifications'
 
-import { BookingDetailItem } from '@utils/types'
+import { BOOKING_STATUS, BookingDetailItem } from '@utils/types'
 import { orderApi } from '@utils/api'
 import { BED_TYPE, ERROR_MESSAGE, INFOR_MESSAGE } from '@constants/constant'
 
@@ -29,8 +37,8 @@ function createData(
   index: number,
   data: BookingDetailItem,
   handleOpen: (value: BookingDetailItem) => void,
-  handleCancel: (id: string) => void,
-  isCancel: boolean
+  handleCancel: (value: BookingDetailItem) => void,
+  hide?: string[]
 ) {
   return {
     no: index,
@@ -65,8 +73,18 @@ function createData(
         }) ?? '0'}
       </Box>
     ),
+
     isPrePayment: (
       <Box>{data?.isPrePayment ? 'Thanh toán trước' : 'Thanh toán sau'}</Box>
+    ),
+    status: !hide?.includes('status') && (
+      <Box>
+        {data?.isPrePayment ? (
+          <Chip color='error' label='Chờ thanh toán' />
+        ) : (
+          <Chip color='warning' label='Chờ xác nhận' />
+        )}
+      </Box>
     ),
     action: (
       <Box display='flex'>
@@ -78,12 +96,12 @@ function createData(
         >
           <VisibilityIcon fontSize='small' />
         </IconButton>
-        {isCancel && (
+        {!hide?.includes('cancel') && (
           <IconButton
             aria-label='delete'
             size='small'
             title='Hủy đặt phòng'
-            onClick={(event) => handleCancel(data.id || '')}
+            onClick={(event) => handleCancel(data)}
           >
             <CancelIcon fontSize='small' />
           </IconButton>
@@ -104,19 +122,21 @@ const columns: { label: string }[] = [
   { label: 'Ngày check-out' },
   { label: 'Tổng tiền' },
   { label: 'Loại thanh toán' },
-  { label: '' },
 ]
 
 const OrderManagement = ({ userId }: { userId: string }) => {
   const [open, setOpen] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const [loading, setLoading] = useState(true)
   const [isDeleting, setIsDeleting] = useState(false)
-  const [value, setValue] = useState('one')
+  const [value, setValue] = useState<BOOKING_STATUS>(BOOKING_STATUS.PENDING)
   const [rows, setRows] = useState<BookingDetailItem[]>([])
-  const [detail, setDetail] = useState<BookingDetailItem>()
+  const [detail, setDetail] = useState<BookingDetailItem | null>()
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) =>
-    setValue(newValue)
+  const handleChange = (
+    event: React.SyntheticEvent,
+    newValue: BOOKING_STATUS
+  ) => setValue(newValue)
 
   const handleOpen = (value: BookingDetailItem) => {
     setDetail(value)
@@ -125,13 +145,17 @@ const OrderManagement = ({ userId }: { userId: string }) => {
 
   const handleClose = () => setOpen(false)
 
-  const handleCancel = async (value: string) => {
-    try {
-      const res = await orderApi.postCancelBooking(value)
-      console.log(res)
-      toastSuccess(INFOR_MESSAGE.UPDATED_SUCCESSFULLY)
-      setIsDeleting((isDeleting) => !isDeleting)
-    } catch (error) {
+  const handleCancel = async () => {
+    if (detail?.id) {
+      try {
+        const res = await orderApi.postCancelBooking(detail?.id || '')
+        toastSuccess(INFOR_MESSAGE.UPDATED_SUCCESSFULLY)
+        setIsDeleting((isDeleting) => !isDeleting)
+      } catch (error) {
+        toastError(ERROR_MESSAGE.COMMON_ERROR)
+        setDetail(null)
+      }
+    } else {
       toastError(ERROR_MESSAGE.COMMON_ERROR)
     }
   }
@@ -139,45 +163,68 @@ const OrderManagement = ({ userId }: { userId: string }) => {
   const handleChangeBookingList = async () => {
     if (userId) {
       switch (value) {
-        case 'one':
+        case BOOKING_STATUS.PENDING:
           try {
             const res = await orderApi.getPendingBooking(userId)
             const newRows =
               res.data?.map((item: BookingDetailItem, index: number) =>
-                createData(index + 1, item, handleOpen, handleCancel, true)
+                createData(
+                  index + 1,
+                  item,
+                  handleOpen,
+                  (value: BookingDetailItem) => {
+                    setDetail(value)
+                    setConfirmDelete(true)
+                  }
+                )
               ) || []
             setRows(newRows)
           } catch (error) {}
           break
 
-        case 'two':
+        case BOOKING_STATUS.CONFIRMED:
           try {
             const res = await orderApi.getCurrentBooking(userId)
             const newRows =
               res.data?.map((item: BookingDetailItem, index: number) =>
-                createData(index + 1, item, handleOpen, handleCancel, true)
+                createData(
+                  index + 1,
+                  item,
+                  handleOpen,
+                  (value: BookingDetailItem) => {
+                    setDetail(value)
+                    setConfirmDelete(true)
+                  },
+                  ['status']
+                )
               ) || []
             setRows(newRows)
           } catch (error) {}
           break
 
-        case 'one':
+        case BOOKING_STATUS.COMPLETED:
           try {
             const res = await orderApi.getHistoryBooking(userId)
             const newRows =
               res.data?.map((item: BookingDetailItem, index: number) =>
-                createData(index + 1, item, handleOpen, handleCancel, false)
+                createData(index + 1, item, handleOpen, () => {}, [
+                  'status',
+                  'action',
+                ])
               ) || []
             setRows(newRows)
           } catch (error) {}
           break
 
-        case 'four':
+        case BOOKING_STATUS.CANCELED:
           try {
             const res = await orderApi.getCancelBooking(userId)
             const newRows =
               res.data?.map((item: BookingDetailItem, index: number) =>
-                createData(index + 1, item, handleOpen, handleCancel, false)
+                createData(index + 1, item, handleOpen, () => {}, [
+                  'status',
+                  'cancel',
+                ])
               ) || []
             setRows(newRows)
           } catch (error) {}
@@ -220,27 +267,46 @@ const OrderManagement = ({ userId }: { userId: string }) => {
           }}
           aria-label='secondary tabs example'
         >
-          <Tab value='one' label='Chỗ nghỉ chờ xác nhận' />
-          <Tab value='two' label='Chỗ nghỉ đã xác nhận' />
-          <Tab value='three' label='Chỗ nghỉ đã đặt' />
-          <Tab value='four' label='Chỗ nghỉ đã hủy' />
+          <Tab value={BOOKING_STATUS.PENDING} label='Chỗ nghỉ đang chờ' />
+          <Tab value={BOOKING_STATUS.CONFIRMED} label='Chỗ nghỉ đã xác nhận' />
+          <Tab value={BOOKING_STATUS.COMPLETED} label='Chỗ nghỉ đã đặt' />
+          <Tab value={BOOKING_STATUS.CANCELED} label='Chỗ nghỉ đã hủy' />
         </Tabs>
       </Box>
       {loading ? (
         <CircleLoading />
       ) : (
         <Box>
-          <TabPanel value={value} index='one'>
-            <DefaultTable rows={rows} columns={columns} />
-          </TabPanel>
-          <TabPanel value={value} index='two'>
-            <DefaultTable rows={rows} columns={columns} />
-          </TabPanel>
-          <TabPanel value={value} index='three'>
-            <DefaultTable rows={rows} columns={columns} />
-          </TabPanel>
+          {Object.keys(BOOKING_STATUS).map((key) => {
+            const newColumns =
+              key === BOOKING_STATUS.PENDING
+                ? [...columns, { label: 'Trạng thái' }]
+                : [...columns]
+            return (
+              <TabPanel
+                value={value}
+                index={BOOKING_STATUS[key as keyof typeof BOOKING_STATUS]}
+              >
+                <DefaultTable rows={rows} columns={newColumns} />
+              </TabPanel>
+            )
+          })}
         </Box>
       )}
+
+      <DefaultDialog
+        open={confirmDelete}
+        handleClose={() => setConfirmDelete(false)}
+        title='Xác nhận xóa'
+        width='200px'
+        isConfirm
+        onConfirm={handleCancel}
+      >
+        <Box my={2} mx={1}>
+          Bạn có chắc chắn muốn xóa đơn đặt phòng này không?
+        </Box>
+      </DefaultDialog>
+
       <DefaultDialog
         open={open}
         handleClose={handleClose}

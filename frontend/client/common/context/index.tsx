@@ -53,7 +53,6 @@ const MainProvider = ({
   )
   useEffect(() => {
     setState({ ...state, user: session?.user || {} })
-    console.log(session)
     session?.accessToken &&
       localStorage.setItem(
         LOCAL_STORAGE.accessToken,
