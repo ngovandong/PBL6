@@ -1,10 +1,17 @@
 import { CardSearch } from '@components/atoms/Card'
 import { LeftFilter } from '@components/molecules/filter'
 import { Box, Divider, Grid, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { userApi } from '@utils/api'
+import { MainContext, updateFavoriteHost } from 'common/context'
+import { isArray } from 'lodash'
+import { useSession } from 'next-auth/react'
+import { useContext, useEffect, useState } from 'react'
 
 const SearchTemplate = (props: any) => {
   const [data, setData] = useState([])
+  const { state, setState } = useContext(MainContext)
+  const [favorites, setFavorites] = useState<any[]>([])
+  const { data: session }: any = useSession()
 
   useEffect(() => {
     let filteredData: any = []
@@ -13,6 +20,27 @@ const SearchTemplate = (props: any) => {
     })
     setData(filteredData)
   }, [props?.data])
+
+  const handleFavoriteHost = async (id: string, favoritedId: any) => {
+    if (session) {
+      try {
+        if (!favoritedId) {
+          await userApi.postFavoriteHost({
+            userId: session?.user?.id,
+            hostId: id,
+          })
+        } else {
+          await userApi.deleteFavoriteHost(favoritedId)
+        }
+        const newArr = await updateFavoriteHost(session?.user?.id as string)
+        setState({
+          ...state,
+          favoriteHosts: newArr,
+        })
+        setFavorites(newArr)
+      } catch (error) {}
+    }
+  }
 
   return (
     <Box>
@@ -28,7 +56,17 @@ const SearchTemplate = (props: any) => {
         </Grid>
         <Grid item sm={8}>
           {data?.map((item: any) => (
-            <CardSearch data={item} key={item.id} />
+            <CardSearch
+              data={item}
+              key={item.id}
+              favorited={favorites?.some((t) => t.hostId === item.id)}
+              favoritedId={
+                isArray(favorites)
+                  ? favorites.find((i: any) => i.hostId === item.id)?.id
+                  : null
+              }
+              handleFavoriteHost={handleFavoriteHost}
+            />
           ))}
         </Grid>
       </Grid>

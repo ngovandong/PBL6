@@ -1,13 +1,19 @@
-import { useForm, Resolver, Controller } from 'react-hook-form';
+import { useForm, Resolver, Controller } from 'react-hook-form'
 
-import { Box, Button, Divider, FormControlLabel, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Divider,
+  FormControlLabel,
+  Typography,
+} from '@mui/material'
 import styled from '@emotion/styled'
 import RangeSlider from '@components/atoms/Slider'
 import CheckBoxGroup from '../checkboxGroup'
 import { activeLinkColor } from '@constants/styles'
 
 import { policyFilter, scoreFilter, startFilter } from '@constants/data'
-import { TitleFilter, TitlePost } from '@components/atoms/Heading';
+import { TitleFilter, TitlePost } from '@components/atoms/Heading'
 
 const ButtonDelete = styled(Typography)`
   font-size: 18px;
@@ -20,43 +26,56 @@ const ButtonDelete = styled(Typography)`
 `
 
 type FormValues = {
-  price: number[];
-  stars: string[];
-};
+  price: number[]
+  stars: string[]
+}
 
 const LeftFilter = (props: any) => {
-
-  const { register, handleSubmit, formState: { errors } , control} = useForm<FormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<FormValues>({
     defaultValues: {
       price: [100000, 6000000],
       stars: [],
     },
-  });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  })
+  const onSubmit = handleSubmit((data) => console.log(data))
 
   return (
     <Box sx={{ borderRadius: 2, mr: 3, my: 2, p: 2, bgcolor: '#F0F2F5' }}>
       <form onSubmit={onSubmit}>
         <Box display='flex'>
           <TitlePost>Bộ lọc</TitlePost>
-          <ButtonDelete ml='auto' onClick={(event) => {onSubmit()}}>Áp dụng</ButtonDelete>
+          <ButtonDelete
+            ml='auto'
+            onClick={(event) => {
+              onSubmit()
+            }}
+          >
+            Áp dụng
+          </ButtonDelete>
         </Box>
         <Divider sx={{ my: 1 }} />
         <Box mt={1}>
           <TitleFilter>Mức giá</TitleFilter>
           <Controller
-            name="price"
+            name='price'
             control={control}
-            render={({ field }) => <RangeSlider {...field}/>}
+            render={({ field }) => <RangeSlider {...field} />}
           />
         </Box>
         <Divider sx={{ my: 1 }} />
         <Box>
           <TitleFilter>Xếp hạng sao</TitleFilter>
           <Controller
-            name="stars"
+            name='stars'
             control={control}
-            render={({ field }) => <CheckBoxGroup options={startFilter} {...field}/>}
+            render={({ field }) => (
+              <CheckBoxGroup options={startFilter} {...field} />
+            )}
           />
         </Box>
         <Divider sx={{ mt: 1 }} />

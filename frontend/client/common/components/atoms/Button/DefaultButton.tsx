@@ -42,9 +42,7 @@ const ButtonContainer = styled(Button)(({ color }) => ({
   },
 
   '&:disabled': {
-    backgroundColor: `${
-      lightColor
-    }`,
+    backgroundColor: `${lightColor}`,
     outline: '1px solid rgba(0,0,0,0.8)',
     color: `${
       color === 'primary'
@@ -55,10 +53,9 @@ const ButtonContainer = styled(Button)(({ color }) => ({
     }`,
     opacity: 0.5,
   },
-  
 }))
 
-export const DefaultButton = (props: ButtonProps & {loading?: boolean}) => {
+export const DefaultButton = (props: ButtonProps & { loading?: boolean }) => {
   return (
     <ButtonContainer
       color={props.color}
@@ -66,7 +63,9 @@ export const DefaultButton = (props: ButtonProps & {loading?: boolean}) => {
       disabled={props.disabled}
       onClick={props.onClick}
       type={props.type}
-      endIcon={props.loading ? <CircularProgress color="inherit" size='12px' /> : <></>}
+      endIcon={
+        props.loading && <CircularProgress color='inherit' size='12px' />
+      }
     >
       {props.children}
     </ButtonContainer>

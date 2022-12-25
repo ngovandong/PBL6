@@ -16,3 +16,9 @@ export const changePassword = (havePassword: boolean, body: any) => {
 
 export const postFavoriteHost = (body: any) =>
   api.post('/favorite-host/add-favorite-host', JSON.stringify(body))
+
+export const getFavoriteHosts = (userId: string) =>
+  api.get(`/favorite-host/user/${userId}`)
+
+export const deleteFavoriteHost = (favoriteHostId: string) =>
+  api.delete(`/favorite-host/${favoriteHostId}`)

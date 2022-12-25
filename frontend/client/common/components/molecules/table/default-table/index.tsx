@@ -17,7 +17,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import LastPageIcon from '@mui/icons-material/LastPage'
 import { useState } from 'react'
-import { isEmpty, isObject, uniqueId } from 'lodash'
+import { isArray, isEmpty, isObject, uniqueId } from 'lodash'
 
 interface TablePaginationActionsProps {
   count: number
@@ -134,15 +134,16 @@ export default function DefaultTable({
       <Table sx={{ minWidth: 500 }} aria-label='custom pagination table'>
         <TableHead>
           <TableRow>
-            {columns?.map((column) => (
-              <TableCell
-                key={uniqueId()}
-                align={column?.align ?? 'left'}
-                style={{ minWidth: column?.minWidth || 'auto' }}
-              >
-                {column.label}
-              </TableCell>
-            ))}
+            {isArray(columns) &&
+              columns?.map((column) => (
+                <TableCell
+                  key={uniqueId()}
+                  align={column?.align ?? 'left'}
+                  style={{ minWidth: column?.minWidth || 'auto' }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
           </TableRow>
         </TableHead>
         <TableBody>

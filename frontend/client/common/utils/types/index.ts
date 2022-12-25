@@ -85,3 +85,10 @@ export interface BookingDetailItem {
   note: string
   bookingDetailDtos: []
 }
+
+export enum BOOKING_STATUS {
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED',
+}
