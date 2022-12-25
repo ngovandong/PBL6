@@ -28,19 +28,6 @@ export const MainContext = createContext<IMainContext>({
   setState: (value: any) => {},
 })
 
-export const useUser = () => {
-  const { state, setState } = useContext(MainContext)
-
-  const setUser = useCallback(
-    (user: any) => {
-      setState({ ...state, user: user })
-    },
-    [setState]
-  )
-
-  return [state.user, setUser]
-}
-
 export const updateFavoriteHost = (id: string): any => {
   return new Promise((resolve) => {
     userApi
@@ -67,7 +54,6 @@ const MainProvider = ({
       userApi
         .getFavoriteHosts(session?.user?.id as string)
         .then((response) => {
-          setState({ ...state, favoriteHosts: response.data ?? [] })
           resolve(response.data ?? [])
         })
         .catch((error) => {
@@ -85,14 +71,14 @@ const MainProvider = ({
     }
   )
   useEffect(() => {
-    setState({ ...state, user: session?.user || {} })
-    session?.accessToken &&
-      localStorage.setItem(
-        LOCAL_STORAGE.accessToken,
-        session?.accessToken || ''
-      )
     if (session?.user?.id) {
-      getFavoriteHost()
+      const arr = getFavoriteHost()
+      setState({ ...state, user: session?.user, favoriteHosts: arr })
+      session?.accessToken &&
+        localStorage.setItem(
+          LOCAL_STORAGE.accessToken,
+          session?.accessToken || ''
+        )
     }
   }, [])
 
