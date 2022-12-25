@@ -84,7 +84,7 @@ const SignIn = () => {
             LOCAL_STORAGE.accessToken,
             user?.accessToken || ''
           )
-        setState({ user: user })
+        setState({ ...state, user: user })
         router.replace('/')
       } else {
         const user: any = session?.user
@@ -94,7 +94,7 @@ const SignIn = () => {
             LOCAL_STORAGE.accessToken,
             user?.accessToken || ''
           )
-        setState({ user: user })
+        setState({ ...state, user: user })
         router.replace('/')
       }
     }
