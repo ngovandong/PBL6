@@ -110,9 +110,7 @@ const CardItem = ({
           ...state,
           favoriteHosts: newArr,
         })
-      } catch (error) {
-        console.log(error)
-      }
+      } catch (error) {}
     }
   }
 
