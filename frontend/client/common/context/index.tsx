@@ -8,9 +8,11 @@ import {
 } from 'react'
 import { Session } from 'next-auth'
 import { LOCAL_STORAGE } from '@constants/constant'
+import { userApi } from '@utils/api'
 
 interface IMainState {
   user: any
+  favoriteHosts: any[]
 }
 
 interface IMainContext {
@@ -21,6 +23,7 @@ interface IMainContext {
 export const MainContext = createContext<IMainContext>({
   state: {
     user: {},
+    favoriteHosts: [],
   },
   setState: (value: any) => {},
 })
@@ -38,6 +41,20 @@ export const useUser = () => {
   return [state.user, setUser]
 }
 
+export const updateFavoriteHost = (id: string): any => {
+  return new Promise((resolve) => {
+    userApi
+      .getFavoriteHosts(id)
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+        resolve([])
+      })
+  })
+}
+
 const MainProvider = ({
   children,
   session,
@@ -45,10 +62,26 @@ const MainProvider = ({
   children: any
   session: any
 }) => {
+  const getFavoriteHost = (): any => {
+    return new Promise((resolve) => {
+      userApi
+        .getFavoriteHosts(session?.user?.id as string)
+        .then((response) => {
+          setState({ ...state, favoriteHosts: response.data ?? [] })
+          resolve(response.data ?? [])
+        })
+        .catch((error) => {
+          console.log(error)
+          resolve([])
+        })
+    })
+  }
+
   const [state, setState] = useReducer(
     (prev: IMainState, current: IMainState) => ({ ...prev, ...current }),
     {
       user: session?.user || {},
+      favoriteHosts: [],
     }
   )
   useEffect(() => {
@@ -58,7 +91,10 @@ const MainProvider = ({
         LOCAL_STORAGE.accessToken,
         session?.accessToken || ''
       )
-  }, [session])
+    if (session?.user?.id) {
+      getFavoriteHost()
+    }
+  }, [])
 
   return (
     <MainContext.Provider value={{ state, setState }}>

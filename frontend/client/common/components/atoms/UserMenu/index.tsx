@@ -78,13 +78,13 @@ const MenuContainer = ({ anchorEl, open, handleClose, signOut }: any) => (
         </NavLink>
       </Link>
     </MenuItem>
-    {/* <MenuItem>
-      <Link href='/my-favorite'>
+    <MenuItem>
+      <Link href='/favorite'>
         <NavLink>
           <FavoriteBorderIcon sx={{ mr: 2 }} /> Danh sách đã lưu
         </NavLink>
       </Link>
-    </MenuItem> */}
+    </MenuItem>
     <Divider />
     <MenuItem onClick={signOut}>
       <Logout sx={{ mr: 2 }} />
