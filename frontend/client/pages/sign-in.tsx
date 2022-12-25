@@ -20,7 +20,7 @@ import { authApi } from '@utils/api'
 import { Session } from 'next-auth'
 import { LOCAL_STORAGE } from '@constants/constant'
 import { useRouter } from 'next/router'
-import { MainContext, useUser } from 'common/context'
+import { MainContext } from 'common/context'
 import { toastError } from '@utils/notifications'
 import { validateEmail, validatePassword } from '@utils/helpers'
 import { isEmpty } from 'lodash'
@@ -74,29 +74,6 @@ const SignIn = () => {
   useEffect(() => {
     if (!isEmpty(state.user)) {
       router.replace('/')
-    }
-    if (session) {
-      if (session?.idToken) {
-        const user: any = session?.user
-        user?.id && localStorage.setItem(LOCAL_STORAGE.idUser, user?.id)
-        user?.accessToken &&
-          localStorage.setItem(
-            LOCAL_STORAGE.accessToken,
-            user?.accessToken || ''
-          )
-        setState({ ...state, user: user })
-        router.replace('/')
-      } else {
-        const user: any = session?.user
-        user?.id && localStorage.setItem(LOCAL_STORAGE.idUser, user?.id)
-        user?.accessToken &&
-          localStorage.setItem(
-            LOCAL_STORAGE.accessToken,
-            user?.accessToken || ''
-          )
-        setState({ ...state, user: user })
-        router.replace('/')
-      }
     }
   }, [session])
 
