@@ -84,6 +84,8 @@ export interface BookingDetailItem {
   isPrePayment: boolean
   note: string
   bookingDetailDtos: []
+  hasPayment: boolean
+  requirePayment: boolean
 }
 
 export enum BOOKING_STATUS {

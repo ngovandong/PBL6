@@ -24,6 +24,7 @@ import { toastError, toastSuccess } from '@utils/notifications'
 import { BOOKING_STATUS, BookingDetailItem } from '@utils/types'
 import { orderApi } from '@utils/api'
 import { BED_TYPE, ERROR_MESSAGE, INFOR_MESSAGE } from '@constants/constant'
+import { PaymentRounded } from '@mui/icons-material'
 
 const TableCustom = styled('table')({
   marginRight: 24,
@@ -38,7 +39,8 @@ function createData(
   data: BookingDetailItem,
   handleOpen: (value: BookingDetailItem) => void,
   handleCancel: (value: BookingDetailItem) => void,
-  hide?: string[]
+  hide?: string[],
+  currentTab?: string
 ) {
   return {
     no: index,
@@ -77,25 +79,44 @@ function createData(
     isPrePayment: (
       <Box>{data?.isPrePayment ? 'Thanh toán trước' : 'Thanh toán sau'}</Box>
     ),
-    status: !hide?.includes('status') && (
-      <Box>
-        {data?.isPrePayment ? (
-          <Chip color='error' label='Chờ thanh toán' />
-        ) : (
-          <Chip color='warning' label='Chờ xác nhận' />
-        )}
-      </Box>
-    ),
+    ...(!hide?.includes('status') && {
+      status: (
+        <Box>
+          {currentTab === BOOKING_STATUS.PENDING ? (
+            data?.requirePayment ? (
+              <Chip color='error' label='Chờ thanh toán' />
+            ) : (
+              <Chip color='warning' label='Chờ xác nhận' />
+            )
+          ) : data?.hasPayment ? (
+            <Chip color='success' label='Đã thanh toán' />
+          ) : (
+            <Chip color='default' label='Chưa thanh toán' />
+          )}
+        </Box>
+      ),
+    }),
     action: (
       <Box display='flex'>
+        {!hide?.includes('payment') && (
+          <IconButton
+            aria-label='payment'
+            size='small'
+            title='Thanh toán'
+            onClick={(event) => {}}
+          >
+            <PaymentRounded fontSize='small' />
+          </IconButton>
+        )}
         <IconButton
-          aria-label='delete'
+          aria-label='detail'
           size='small'
           title='Xem chi tiết'
           onClick={(event) => handleOpen(data)}
         >
           <VisibilityIcon fontSize='small' />
         </IconButton>
+
         {!hide?.includes('cancel') && (
           <IconButton
             aria-label='delete'
@@ -122,6 +143,8 @@ const columns: { label: string }[] = [
   { label: 'Ngày check-out' },
   { label: 'Tổng tiền' },
   { label: 'Loại thanh toán' },
+  { label: 'Trạng thái' },
+  { label: 'Hành động' },
 ]
 
 const OrderManagement = ({ userId }: { userId: string }) => {
@@ -175,7 +198,9 @@ const OrderManagement = ({ userId }: { userId: string }) => {
                   (value: BookingDetailItem) => {
                     setDetail(value)
                     setConfirmDelete(true)
-                  }
+                  },
+                  [],
+                  BOOKING_STATUS.PENDING
                 )
               ) || []
             setRows(newRows)
@@ -195,7 +220,7 @@ const OrderManagement = ({ userId }: { userId: string }) => {
                     setDetail(value)
                     setConfirmDelete(true)
                   },
-                  ['status']
+                  ['payment']
                 )
               ) || []
             setRows(newRows)
@@ -209,7 +234,7 @@ const OrderManagement = ({ userId }: { userId: string }) => {
               res.data?.map((item: BookingDetailItem, index: number) =>
                 createData(index + 1, item, handleOpen, () => {}, [
                   'status',
-                  'action',
+                  'payment',
                 ])
               ) || []
             setRows(newRows)
@@ -224,6 +249,7 @@ const OrderManagement = ({ userId }: { userId: string }) => {
                 createData(index + 1, item, handleOpen, () => {}, [
                   'status',
                   'cancel',
+                  'payment',
                 ])
               ) || []
             setRows(newRows)
@@ -279,9 +305,9 @@ const OrderManagement = ({ userId }: { userId: string }) => {
         <Box>
           {Object.keys(BOOKING_STATUS).map((key) => {
             const newColumns =
-              key === BOOKING_STATUS.PENDING
-                ? [...columns, { label: 'Trạng thái' }]
-                : [...columns]
+              key === BOOKING_STATUS.PENDING || key === BOOKING_STATUS.CONFIRMED
+                ? [...columns]
+                : [...columns.filter((column) => column.label !== 'Trạng thái')]
             return (
               <TabPanel
                 value={value}
