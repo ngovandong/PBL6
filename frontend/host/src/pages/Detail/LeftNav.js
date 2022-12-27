@@ -28,14 +28,14 @@ function LeftNav() {
         Quản lý phòng
       </NavLink>
 
-      <NavLink
+      {/* <NavLink
         className={({ isActive }) =>
           isActive ? "left-link active" : "left-link"
         }
         to="revenue"
       >
         Đặt phòng & Thu nhập
-      </NavLink>
+      </NavLink> */}
     </div>
   );
 }

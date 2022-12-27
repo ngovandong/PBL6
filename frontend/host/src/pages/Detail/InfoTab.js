@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getAddingHost, selectAddingHost } from "../../app/store/hostSlice";
+import LoadingWrapper from "../../components/LoadingWrapper";
 import StepLeftPanel from "../newAccommodation/StepLeffPanel";
 import StepRightPanel from "../newAccommodation/StepRightPanel";
 
@@ -27,7 +28,7 @@ function InfoTab() {
       </div>
     </div>
   ) : (
-    <div></div>
+    <LoadingWrapper />
   );
 }
 

@@ -39,6 +39,7 @@ function StepLeftPanel({ isInfoTab }) {
   const handleDone = () => {
     window.close();
   };
+  console.log(123);
   return (
     <Box sx={{ maxWidth: 300 }}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -81,7 +82,7 @@ function StepLeftPanel({ isInfoTab }) {
         <Paper square elevation={0} sx={{ p: 3 }}>
           <Typography>Tất cả các bước hoàn tất!</Typography>
           <Button onClick={handleDone} sx={{ mt: 1, mr: 1 }}>
-            Đăng ký
+            Thoát 
           </Button>
         </Paper>
       )}
