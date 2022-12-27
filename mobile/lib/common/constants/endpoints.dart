@@ -38,4 +38,9 @@ abstract class Endpoints {
       '${AppFlavor.apiUrl}/customer/booking/history-booking';
   static final String getCancelBooking =
       '${AppFlavor.apiUrl}/customer/booking/cancel-booking';
+  static final String paymentBooking =
+      '${AppFlavor.apiUrl}/customer/booking/payment-booking';
+
+  // User hub
+  static final String userHub = '${AppFlavor.socketUrl}/Hub/UserHub';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/theme/palette.dart';
+import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/common/widgets/image_slider.widget.dart';
 import 'package:mobile/modules/hotel_detail/controllers/choose_room.controller.dart';
@@ -46,6 +47,12 @@ class RoomItem extends GetView<ChooseRoomController> {
             images: currentRoom.images,
           ),
           FeaturePrice(currentRoom: currentRoom),
+          Text(
+            currentRoom.isPrePayment
+                ? 'Thanh toán trước'
+                : 'Không cần thanh toán trước',
+            style: TextStyles.s14BoldText.copyWith(color: Palette.red500),
+          ),
           const Divider(
             height: 0,
           ),

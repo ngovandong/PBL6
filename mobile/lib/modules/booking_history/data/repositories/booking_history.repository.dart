@@ -30,7 +30,11 @@ class BookingHistoryRepository {
     return bookingHistoryDataSource.getCancelBookings(userId);
   }
 
-  Future<void> cancelBooking(String bookingId) async {
+  Future<void> cancelBooking(String bookingId) {
     return bookingHistoryDataSource.cancelBooking(bookingId);
+  }
+
+  Future<String> paymentBooking(String bookingId) {
+    return bookingHistoryDataSource.paymentBooking(bookingId);
   }
 }

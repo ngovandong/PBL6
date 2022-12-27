@@ -22,7 +22,8 @@ BookingDTO _$BookingDTOFromJson(Map<String, dynamic> json) => BookingDTO(
       vatFee: (json['vatFee'] as num?)?.toDouble(),
       totalPrice: (json['totalPrice'] as num?)?.toDouble(),
       note: json['note'] as String,
-      isPrePayment: json['isPrePayment'] as bool,
+      requirePayment: json['requirePayment'] as bool?,
+      hasPayment: json['hasPayment'] as bool?,
       bookingDetails: (json['bookingDetailDtos'] as List<dynamic>)
           .map((e) => BookingDetailDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -57,3 +58,13 @@ Map<String, dynamic> _$BookingDetailDTOToJson(BookingDetailDTO instance) {
   writeNotNull('bookingId', instance.bookingId);
   return val;
 }
+
+PaymentSuccessDTO _$PaymentSuccessDTOFromJson(Map<String, dynamic> json) =>
+    PaymentSuccessDTO(
+      userId: json['userId'] as String,
+      userName: json['userName'] as String,
+      hostId: json['hostId'] as String,
+      hostName: json['hostName'] as String,
+      bookingId: json['bookingId'] as String,
+      bookingCode: json['bookingCode'] as String,
+    );

@@ -32,4 +32,15 @@ class AppFlavor {
         return '';
     }
   }
+
+  static String get socketUrl {
+    switch (appFlavor) {
+      case Flavor.PROD:
+        return dotenv.env[EnvKeys.socketUrl]!;
+      case Flavor.DEV:
+        return dotenv.env[EnvKeys.socketUrl]!;
+      default:
+        return '';
+    }
+  }
 }

@@ -113,9 +113,13 @@ class SearchedHotelItem extends GetView<SearchHotelController> {
                   const SizedBox(
                     width: 3,
                   ),
-                  Text(
-                    host.fullAddress,
-                    style: TextStyles.s14RegularText,
+                  Expanded(
+                    child: Text(
+                      host.fullAddress,
+                      style: TextStyles.s14RegularText
+                          .copyWith(overflow: TextOverflow.ellipsis),
+                      maxLines: 1,
+                    ),
                   )
                 ],
               ),

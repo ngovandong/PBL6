@@ -45,7 +45,6 @@ class BookingStepController extends GetxController {
         userLastName: userModel.givenName ?? '',
         userId: userModel.id,
         note: '',
-        isPrePayment: false,
         bookingDetails: chooseRoomController.bookingRooms
             .map((e) => e.toBookingDetailDTO())
             .toList(),
