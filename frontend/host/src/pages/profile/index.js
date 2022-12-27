@@ -3,6 +3,8 @@ import { matchIsValidTel, MuiTelInput } from "mui-tel-input";
 import { useEffect, useState } from "react";
 import profileService from "../../api-service/profileService";
 import { toast } from "react-toastify";
+import LoadingIcon from "../../components/LoadingWrapper";
+import LoadingWrapper from "../../components/LoadingWrapper";
 
 function Profile() {
   const [vender, setVender] = useState();
@@ -82,12 +84,7 @@ function Profile() {
       </div>
     </div>
   ) : (
-    <Backdrop
-      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      open={true}
-    >
-      <CircularProgress color="inherit" />
-    </Backdrop>
+    <LoadingWrapper />
   );
 }
 

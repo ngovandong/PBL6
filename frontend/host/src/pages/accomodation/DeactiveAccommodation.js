@@ -10,23 +10,25 @@ function DeactiveAccommodation() {
   return (
     <div className="accommodation-container">
       <h2>Các chỗ nghỉ đã nhưng hoạt động</h2>
-      <div className="accommodation-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Tên</th>
-              <th>Địa chỉ</th>
-              <th>Tin nhắn từ Booking.com</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {listHost.map((h) => (
-              <TableRow key={h.id} host={h} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {listHost.length !== 0 && (
+        <div className="accommodation-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Tên</th>
+                <th>Địa chỉ</th>
+                <th>Tin nhắn từ Booking.com</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {listHost.map((h) => (
+                <TableRow key={h.id} host={h} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
@@ -49,7 +51,10 @@ function TableRow({ host }) {
       </td>
       <td style={{ width: "20%" }}>
         <td style={{ width: "10%" }}>
-          <Button variant="outlined" onClick={handleActive}> Kích hoạt lại</Button>
+          <Button variant="outlined" onClick={handleActive}>
+            {" "}
+            Kích hoạt lại
+          </Button>
         </td>
       </td>
     </tr>

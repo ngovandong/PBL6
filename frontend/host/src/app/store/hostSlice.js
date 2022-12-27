@@ -194,12 +194,16 @@ const initialState = {
   addingHost: null,
   activeStep: 0,
   listHost: [],
+  isLoading: false,
 };
 
 const hostSlice = createSlice({
   name: "host",
   initialState,
   reducers: {
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
     setAddingHost: (state, action) => {
       state.addingHost = action.payload;
     },
@@ -220,14 +224,14 @@ const hostSlice = createSlice({
       })
       .addCase(updateHost.fulfilled, (state, action) => {
         state.addingHost = action.payload;
-        if (state.activeStep === 3) {
-          state.activeStep = 0;
-        } else {
-          state.activeStep += 1;
-        }
+        state.activeStep += 1;
       })
       .addCase(getListHost.fulfilled, (state, action) => {
         state.listHost = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(getListHost.pending, (state) => {
+        state.isLoading = true;
       })
       .addCase(deleteHost.fulfilled, (state, action) => {
         state.listHost = state.listHost.filter((h) => h.id !== action.payload);
@@ -252,12 +256,18 @@ const hostSlice = createSlice({
       })
       .addCase(getAddingHost.fulfilled, (state, action) => {
         state.addingHost = action.payload;
+        const { ratingStar, address, utilities, avatarImage } = action.payload;
+        if (ratingStar) state.activeStep += 1;
+        if (address) state.activeStep += 1;
+        if (utilities?.length) state.activeStep += 1;
+        if (avatarImage) state.activeStep = 0;
       });
   },
 });
 
 export const selectAddingHost = (state) => state.host.addingHost;
 export const selectActiveStep = (state) => state.host.activeStep;
+export const selectIsLoading = (state) => state.host.isLoading;
 export const selectUnfinishHost = (state) =>
   state.host.listHost.filter((h) => h.isApproved === false);
 export const selectActiveHost = (state) =>

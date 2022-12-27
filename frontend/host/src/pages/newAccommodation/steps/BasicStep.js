@@ -50,7 +50,7 @@ function BasicStep() {
           min: "0",
         }}
         type="number"
-        onChange={(e) => handleUpdateAddingHost("area", Number(e.target.value))}
+        onChange={(e) => handleUpdateAddingHost("area", parseInt(e.target.value))}
         defaultValue={addingHost.area ? addingHost.area : 0}
       />
       <p className="section-tile">Xếp hạng sao</p>

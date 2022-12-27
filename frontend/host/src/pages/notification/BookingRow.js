@@ -55,7 +55,16 @@ export function PendingBookingRow({ booking, handleReload }) {
           <p>
             Tên khách hàng: {booking.userFirstName} {booking.userLastName}
           </p>
-          <p>Phương thức thanh toán: Thanh toán tiền mặt</p>
+          <p>
+            Phương thức thanh toán:{" "}
+            {booking.requirePayment
+              ? "Thanh toán trước"
+              : "Thanh toán tiền mặt"}
+          </p>
+          <p>
+            Đã thanh toán:{" "}
+            {booking.hasPayment ? "Hoàn thành" : "Chưa hoàn thành"}
+          </p>
           <p>Email: {booking.userEmail}</p>
         </div>
         <div className="time-column">
@@ -64,7 +73,7 @@ export function PendingBookingRow({ booking, handleReload }) {
             Từ <strong>{booking.dateCheckin.slice(0, 10)}</strong>
           </p>
           <p>
-            Đến <strong>{booking.dateCheckin.slice(0, 10)}</strong>
+            Đến <strong>{booking.dateCheckout.slice(0, 10)}</strong>
           </p>
         </div>
         <div className="room-column">
@@ -135,7 +144,16 @@ export function CurrentBookingRow({ booking, handleReload }) {
           <p>
             Tên khách hàng: {booking.userFirstName} {booking.userLastName}
           </p>
-          <p>Phương thức thanh toán: Thanh toán tiền mặt</p>
+          <p>
+            Phương thức thanh toán:{" "}
+            {booking.requirePayment
+              ? "Thanh toán trước"
+              : "Thanh toán tiền mặt"}
+          </p>
+          <p>
+            Đã thanh toán:{" "}
+            {booking.hasPayment ? "Hoàn thành" : "Chưa hoàn thành"}
+          </p>
           <p>Email: {booking.userEmail}</p>
         </div>
         <div className="time-column">
@@ -144,7 +162,7 @@ export function CurrentBookingRow({ booking, handleReload }) {
             Từ <strong>{booking.dateCheckin.slice(0, 10)}</strong>
           </p>
           <p>
-            Đến <strong>{booking.dateCheckin.slice(0, 10)}</strong>
+            Đến <strong>{booking.dateCheckout.slice(0, 10)}</strong>
           </p>
         </div>
         <div className="room-column">
@@ -193,7 +211,16 @@ export function HistoryBookingRow({ booking }) {
           <p>
             Tên khách hàng: {booking.userFirstName} {booking.userLastName}
           </p>
-          <p>Phương thức thanh toán: Thanh toán tiền mặt</p>
+          <p>
+            Phương thức thanh toán:{" "}
+            {booking.requirePayment
+              ? "Thanh toán trước"
+              : "Thanh toán tiền mặt"}
+          </p>
+          <p>
+            Đã thanh toán:{" "}
+            {booking.hasPayment ? "Hoàn thành" : "Chưa hoàn thành"}
+          </p>
           <p>Email: {booking.userEmail}</p>
         </div>
         <div className="time-column">
@@ -202,7 +229,7 @@ export function HistoryBookingRow({ booking }) {
             Từ <strong>{booking.dateCheckin.slice(0, 10)}</strong>
           </p>
           <p>
-            Đến <strong>{booking.dateCheckin.slice(0, 10)}</strong>
+            Đến <strong>{booking.dateCheckout.slice(0, 10)}</strong>
           </p>
         </div>
         <div className="room-column">
