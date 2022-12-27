@@ -25,6 +25,7 @@ import { BOOKING_STATUS, BookingDetailItem } from '@utils/types'
 import { orderApi } from '@utils/api'
 import { BED_TYPE, ERROR_MESSAGE, INFOR_MESSAGE } from '@constants/constant'
 import { PaymentRounded } from '@mui/icons-material'
+import { useSocket } from 'common/context'
 
 const TableCustom = styled('table')({
   marginRight: 24,
@@ -40,7 +41,8 @@ function createData(
   handleOpen: (value: BookingDetailItem) => void,
   handleCancel: (value: BookingDetailItem) => void,
   hide?: string[],
-  currentTab?: string
+  currentTab?: string,
+  handlePayment?: (value: string) => void
 ) {
   return {
     no: index,
@@ -50,7 +52,7 @@ function createData(
     userLastName: <Box>{data?.userLastName ?? ''}</Box>,
     userEmail: <Box>{data?.userEmail ?? ''}</Box>,
     dateCheckin: (
-      <Box>
+      <Box key={uniqueId()}>
         {typeof data.dateCheckin === 'string'
           ? new Intl.DateTimeFormat('vi-VN', {
               dateStyle: 'full',
@@ -59,7 +61,7 @@ function createData(
       </Box>
     ),
     dateCheckout: (
-      <Box>
+      <Box key={uniqueId()}>
         {typeof data.dateCheckout === 'string'
           ? new Intl.DateTimeFormat('vi-VN', {
               dateStyle: 'full',
@@ -68,7 +70,7 @@ function createData(
       </Box>
     ),
     totalPrice: (
-      <Box>
+      <Box key={uniqueId()}>
         {data?.totalPrice?.toLocaleString('it-IT', {
           style: 'currency',
           currency: 'VND',
@@ -77,11 +79,13 @@ function createData(
     ),
 
     isPrePayment: (
-      <Box>{data?.isPrePayment ? 'Thanh toán trước' : 'Thanh toán sau'}</Box>
+      <Box key={uniqueId()}>
+        {data?.requirePayment ? 'Thanh toán trước' : 'Thanh toán sau'}
+      </Box>
     ),
     ...(!hide?.includes('status') && {
       status: (
-        <Box>
+        <Box key={uniqueId()}>
           {currentTab === BOOKING_STATUS.PENDING ? (
             data?.requirePayment ? (
               <Chip color='error' label='Chờ thanh toán' />
@@ -97,13 +101,13 @@ function createData(
       ),
     }),
     action: (
-      <Box display='flex'>
-        {!hide?.includes('payment') && (
+      <Box display='flex' key={uniqueId()}>
+        {!data?.hasPayment && (
           <IconButton
             aria-label='payment'
             size='small'
             title='Thanh toán'
-            onClick={(event) => {}}
+            onClick={(event) => handlePayment && handlePayment(data?.id || '')}
           >
             <PaymentRounded fontSize='small' />
           </IconButton>
@@ -149,12 +153,30 @@ const columns: { label: string }[] = [
 
 const OrderManagement = ({ userId }: { userId: string }) => {
   const [open, setOpen] = useState(false)
+  const [isPayment, setIsPayment] = useState(false)
+  const [urlPayment, setUrlPayment] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [loading, setLoading] = useState(true)
   const [isDeleting, setIsDeleting] = useState(false)
   const [value, setValue] = useState<BOOKING_STATUS>(BOOKING_STATUS.PENDING)
   const [rows, setRows] = useState<BookingDetailItem[]>([])
   const [detail, setDetail] = useState<BookingDetailItem | null>()
+  const { connection } = useSocket()
+
+  const handlePayment = (bookingId: string) => {
+    orderApi
+      .getPaymentBooking(bookingId)
+      .then((data) => {
+        // setIsPayment(true)
+        setUrlPayment(data?.data?.url)
+        console.log(data?.data?.url)
+        if (typeof window !== 'undefined')
+          window.open(data?.data?.url, '_blank')?.focus()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   const handleChange = (
     event: React.SyntheticEvent,
@@ -200,7 +222,8 @@ const OrderManagement = ({ userId }: { userId: string }) => {
                     setConfirmDelete(true)
                   },
                   [],
-                  BOOKING_STATUS.PENDING
+                  BOOKING_STATUS.PENDING,
+                  handlePayment
                 )
               ) || []
             setRows(newRows)
@@ -220,7 +243,9 @@ const OrderManagement = ({ userId }: { userId: string }) => {
                     setDetail(value)
                     setConfirmDelete(true)
                   },
-                  ['payment']
+                  ['payment'],
+                  BOOKING_STATUS.CONFIRMED,
+                  handlePayment
                 )
               ) || []
             setRows(newRows)
@@ -330,6 +355,17 @@ const OrderManagement = ({ userId }: { userId: string }) => {
       >
         <Box my={2} mx={1}>
           Bạn có chắc chắn muốn xóa đơn đặt phòng này không?
+        </Box>
+      </DefaultDialog>
+
+      <DefaultDialog
+        open={isPayment}
+        handleClose={() => setIsPayment(true)}
+        title='Thanh toán'
+        width='200px'
+      >
+        <Box my={2} mx={1}>
+          <iframe src={urlPayment} height='100%' width='100%'></iframe>
         </Box>
       </DefaultDialog>
 

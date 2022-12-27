@@ -1,13 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useCallback,
-  useReducer,
-  memo,
-  useEffect,
-  useState,
-} from 'react'
-import * as signalR from '@microsoft/signalr'
+import { createContext, useReducer, memo, useEffect } from 'react'
 import { LOCAL_STORAGE } from '@constants/constant'
 import { userApi } from '@utils/api'
 
@@ -50,9 +41,6 @@ const MainProvider = ({
   children: any
   session: any
 }) => {
-  const [connection, setConnection] = useState<signalR.HubConnection | null>(
-    null
-  )
   const getFavoriteHost = (): any => {
     return new Promise((resolve) => {
       userApi
@@ -87,31 +75,6 @@ const MainProvider = ({
     }
   }, [])
 
-  useEffect(() => {
-    if (session) {
-      const newConnection = new signalR.HubConnectionBuilder()
-        .withUrl(
-          `${process.env.NEXT_PUBLIC_SOCKET}/Hub/UserHub?userId=${session.user.id}`,
-          {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets,
-          }
-        )
-        .configureLogging(signalR.LogLevel.Information)
-        .build()
-
-      setConnection(newConnection)
-      newConnection
-        .start()
-        .then((res) => {
-          console.log('Connection started')
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
-  }, [session])
-
   return (
     <MainContext.Provider value={{ state, setState }}>
       {children}
@@ -121,3 +84,9 @@ const MainProvider = ({
 
 export const MainConsumer = MainContext.Consumer
 export default memo(MainProvider)
+export {
+  default as NotificationContext,
+  NotificationProvider,
+  useNotificationContext,
+  useSocket,
+} from './NotificationContext'

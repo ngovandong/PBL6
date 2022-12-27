@@ -59,7 +59,7 @@ export default function CreateOrderTemplate({
     orderApi
       .createBooking(formData)
       .then((res: any) => {
-        console.log(res.data)
+        // console.log(res.data)
         toastSuccess(INFOR_MESSAGE.BOOKING_SUCCESSFULLY)
         router.push('/order-management')
       })

@@ -191,9 +191,9 @@ const createData = (
               )
             : ''}
         </Typography>
-        {/* <Typography fontSize={14} fontWeight='500' mt={1}>
-          {data?.isPrePayment ? 'Thanh toán trước' : 'Thanh toán tại khách sạn'}
-        </Typography> */}
+        <Typography fontSize={14} fontWeight='500' mt={1}>
+          {data?.isPrePayment ? 'Thanh toán trước' : 'Thanh toán sau'}
+        </Typography>
       </Box>
     ),
     room: (
@@ -471,10 +471,10 @@ export default function TableRoom({ data, hostId }: any) {
                                       <ul>
                                         <li>Chỉ mất có 2 phút</li>
                                         <li>Xác nhận tức thời</li>
-                                        {/* <li>
-                                          Không mất phí đặt phòng hay phí thẻ
-                                          tín dụng!
-                                        </li> */}
+                                        <li>
+                                          Đối với loại thanh toán sau, quý khách
+                                          có thể thanh toán tại khách sạn.
+                                        </li>
                                       </ul>
                                     </Box>
                                   </Box>
