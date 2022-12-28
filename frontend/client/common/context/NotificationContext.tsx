@@ -39,36 +39,44 @@ export const NotificationProvider = ({
 
   useEffect(() => {
     if (session) {
-      const newConnection = new signalR.HubConnectionBuilder()
-        .withUrl(
-          `${process.env.NEXT_PUBLIC_SOCKET}/Hub/UserHub?userId=${session.user.id}`,
-          {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets,
-          }
-        )
-        .configureLogging(signalR.LogLevel.Information)
-        .build()
-
-      setConnection(newConnection)
-      newConnection
-        .start()
-        .then((res) => {
-          // console.log('Connection started')
+      if (!connection) {
+        console.log(session.user.id)
+        const newConnection = new signalR.HubConnectionBuilder()
+          .withUrl(
+            `${process.env.NEXT_PUBLIC_SOCKET}/Hub/UserHub?userId=${session.user.id}`,
+            {
+              skipNegotiation: true,
+              transport: signalR.HttpTransportType.WebSockets,
+            }
+          )
+          .configureLogging(signalR.LogLevel.Information)
+          .build()
+        newConnection
+          .start()
+          .then((res) => {
+            console.log('Connection started')
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        newConnection?.on('payment-success', (data: any) => {
+          console.log('listening')
+          console.log(data)
+          toastSuccess(
+            'Đã thanh toán thành công cho đơn hàng mã ' + data?.bookingCode ??
+              ''
+          )
         })
-        .catch((error) => {
-          console.log(error)
-        })
+        setConnection(newConnection)
+      }
     }
-    // const listenMessage = setInterval(() => receiveMessage(), 5000)
-    receiveMessage()
+
     return () => {
-      // clearInterval(listenMessage)
       if (connection) {
         connection.stop()
       }
     }
-  }, [session])
+  }, [])
 
   const receiveMessage = () => {
     connection?.on('payment-success', (data: any) => {
