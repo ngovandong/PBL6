@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:mobile/common/utils/dialog.util.dart';
 import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
 import 'package:mobile/common/utils/google_auth.util.dart';
 import 'package:mobile/common/utils/snackbar.util.dart';
 import 'package:mobile/modules/auth/data/model/user.model.dart';
+import 'package:mobile/modules/base/base.enum.dart';
+import 'package:mobile/modules/base/base.eventbus.dart';
 import 'package:mobile/modules/base/data/model/user_auth.model.dart';
 import 'package:mobile/modules/base/data/repository/verify_auth.repository.dart';
 import 'package:mobile/modules/booking_history/booking_history.enum.dart';
@@ -99,16 +100,18 @@ class VerifyAuthController extends GetxController {
         null,
       ),
     );
+
+    if (currentUser != null) {
+      EventBusUtil.fireEvent(
+        BaseInternalEvent(BaseInternalEventEnum.connectToSocket, null),
+      );
+    }
   }
 
   Future<void> signOut() async {
     try {
-      DialogUtil.showLoading();
-
       await proccessUpdateCurrentUser(null);
       await GoogleAuthUtil.signOut();
-
-      DialogUtil.hideLoading();
     } catch (err) {
       SnackbarUtil.showError();
       log('Error in signOut');

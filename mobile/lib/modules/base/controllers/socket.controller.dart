@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:logging/logging.dart';
 import 'package:mobile/common/constants/endpoints.dart';
 import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
+import 'package:mobile/modules/base/base.enum.dart';
+import 'package:mobile/modules/base/base.eventbus.dart';
 import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 import 'package:mobile/modules/booking_history/booking_history.enum.dart';
 import 'package:mobile/modules/booking_history/booking_history.eventbus.dart';
@@ -22,11 +24,39 @@ class SocketController extends GetxController {
   Logger? _logger;
   StreamSubscription<LogRecord>? _logMessagesSub;
 
+  StreamSubscription? _baseEventBusSubcription;
+
+  @override
+  void onInit() {
+    _openEventBus();
+    super.onInit();
+  }
+
   @override
   Future<void> dispose() async {
     await _logMessagesSub?.cancel();
     stopHub();
+    _closeEventBus();
     super.dispose();
+  }
+
+  void _openEventBus() {
+    _baseEventBusSubcription =
+        EventBusUtil.listenEvent<BaseInternalEvent>((event) {
+      switch (event.action) {
+        case BaseInternalEventEnum.connectToSocket:
+          if (verifyAuthController.currentUser != null &&
+              _hubConnection != null) {
+            connectToHub();
+          }
+          break;
+        default:
+      }
+    });
+  }
+
+  void _closeEventBus() {
+    _baseEventBusSubcription?.cancel();
   }
 
   void _setUpLogger() {
@@ -96,11 +126,13 @@ class SocketController extends GetxController {
     });
   }
 
-  void stopHub() {
-    _hubConnection?.stop().then((value) {
+  Future<void> stopHub() async {
+    try {
+      await _hubConnection?.stop();
+
       log('SocketHub: stop connect to user hub');
-    }).onError((_, stackTrace) {
-      log('SocketHub: cannot stop connect to user hub: $stackTrace');
-    });
+    } catch (err) {
+      log('Error in stopHub: $err');
+    }
   }
 }

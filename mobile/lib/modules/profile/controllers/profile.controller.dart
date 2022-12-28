@@ -5,6 +5,7 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
+import 'package:mobile/common/utils/dialog.util.dart';
 import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
 import 'package:mobile/generated/locales.g.dart';
 import 'package:mobile/modules/base/controllers/socket.controller.dart';
@@ -125,7 +126,11 @@ class ProfileController extends GetxController {
   }
 
   Future<void> signOut() async {
+    DialogUtil.showLoading();
+
+    await socketController.stopHub();
     await verifyAuthController.signOut();
-    socketController.stopHub();
+
+    DialogUtil.hideLoading();
   }
 }

@@ -23,9 +23,11 @@ class WelcomeController extends GetxController {
 
   Future<void> initSplash() async {
     await Future.delayed(const Duration(milliseconds: 400));
+
     await verifyAuthController.verifyUserAuth();
     socketController.connectToHub();
     favoriteLookupController.getFavoriteHosts();
+
     Get.offAllNamed(RouteManager.root);
   }
 }
