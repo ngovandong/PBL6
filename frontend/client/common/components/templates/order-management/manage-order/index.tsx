@@ -25,7 +25,7 @@ import { BOOKING_STATUS, BookingDetailItem } from '@utils/types'
 import { orderApi } from '@utils/api'
 import { BED_TYPE, ERROR_MESSAGE, INFOR_MESSAGE } from '@constants/constant'
 import { PaymentRounded } from '@mui/icons-material'
-import { useSocket } from 'common/context'
+import { useNotificationContext, useSocket } from 'common/context'
 
 const TableCustom = styled('table')({
   marginRight: 24,
@@ -46,6 +46,7 @@ function createData(
 ) {
   return {
     no: index,
+    code: data?.bookingCode,
     hostName: <Box>{data?.hostName ?? ''}</Box>,
     province: <Box>{data?.province ?? ''}</Box>,
     userFirstName: <Box>{data?.userFirstName ?? ''}</Box>,
@@ -138,6 +139,7 @@ function createData(
 
 const columns: { label: string }[] = [
   { label: 'STT' },
+  { label: 'Code' },
   { label: 'Chỗ nghỉ' },
   { label: 'Địa điểm' },
   { label: 'Tên' },
@@ -162,6 +164,13 @@ const OrderManagement = ({ userId }: { userId: string }) => {
   const [rows, setRows] = useState<BookingDetailItem[]>([])
   const [detail, setDetail] = useState<BookingDetailItem | null>()
   const { connection } = useSocket()
+  const { notificationData, setNotificationData } = useNotificationContext()
+
+  useEffect(() => {
+    if (value === BOOKING_STATUS.PENDING || BOOKING_STATUS.CONFIRMED) {
+      handleChangeBookingList()
+    }
+  }, [notificationData])
 
   const handlePayment = (bookingId: string) => {
     orderApi
