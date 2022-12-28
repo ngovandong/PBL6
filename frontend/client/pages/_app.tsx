@@ -9,7 +9,7 @@ import createEmotionCache from 'common/utils/createEmotionCache'
 import { Session } from 'next-auth'
 import { getSession, SessionProvider } from 'next-auth/react'
 
-import MainProvider from 'common/context'
+import MainProvider, { NotificationProvider } from 'common/context'
 import { ToastContainer } from 'react-toastify'
 import { registerLicense } from '@syncfusion/ej2-base'
 
@@ -53,22 +53,24 @@ export default function MyApp(props: MyAppProps) {
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <MainProvider session={session}>
-            <DefaultLayout searchQuery={searchQuery}>
-              <Script
-                src='https://upload-widget.cloudinary.com/global/all.js'
-                type='text/javascript'
+            <NotificationProvider session={session}>
+              <DefaultLayout searchQuery={searchQuery}>
+                <Script
+                  src='https://upload-widget.cloudinary.com/global/all.js'
+                  type='text/javascript'
+                />
+                <Component {...pageProps} />
+              </DefaultLayout>
+              <ToastContainer
+                position='top-right'
+                autoClose={8000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                draggable={false}
+                closeOnClick
+                pauseOnHover
               />
-              <Component {...pageProps} />
-            </DefaultLayout>
-            <ToastContainer
-              position='top-right'
-              autoClose={8000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              draggable={false}
-              closeOnClick
-              pauseOnHover
-            />
+            </NotificationProvider>
           </MainProvider>
         </ThemeProvider>
       </CacheProvider>

@@ -24,6 +24,8 @@ import { toastError, toastSuccess } from '@utils/notifications'
 import { BOOKING_STATUS, BookingDetailItem } from '@utils/types'
 import { orderApi } from '@utils/api'
 import { BED_TYPE, ERROR_MESSAGE, INFOR_MESSAGE } from '@constants/constant'
+import { PaymentRounded } from '@mui/icons-material'
+import { useSocket } from 'common/context'
 
 const TableCustom = styled('table')({
   marginRight: 24,
@@ -38,7 +40,9 @@ function createData(
   data: BookingDetailItem,
   handleOpen: (value: BookingDetailItem) => void,
   handleCancel: (value: BookingDetailItem) => void,
-  hide?: string[]
+  hide?: string[],
+  currentTab?: string,
+  handlePayment?: (value: string) => void
 ) {
   return {
     no: index,
@@ -48,7 +52,7 @@ function createData(
     userLastName: <Box>{data?.userLastName ?? ''}</Box>,
     userEmail: <Box>{data?.userEmail ?? ''}</Box>,
     dateCheckin: (
-      <Box>
+      <Box key={uniqueId()}>
         {typeof data.dateCheckin === 'string'
           ? new Intl.DateTimeFormat('vi-VN', {
               dateStyle: 'full',
@@ -57,7 +61,7 @@ function createData(
       </Box>
     ),
     dateCheckout: (
-      <Box>
+      <Box key={uniqueId()}>
         {typeof data.dateCheckout === 'string'
           ? new Intl.DateTimeFormat('vi-VN', {
               dateStyle: 'full',
@@ -66,7 +70,7 @@ function createData(
       </Box>
     ),
     totalPrice: (
-      <Box>
+      <Box key={uniqueId()}>
         {data?.totalPrice?.toLocaleString('it-IT', {
           style: 'currency',
           currency: 'VND',
@@ -75,27 +79,48 @@ function createData(
     ),
 
     isPrePayment: (
-      <Box>{data?.isPrePayment ? 'Thanh toán trước' : 'Thanh toán sau'}</Box>
-    ),
-    status: !hide?.includes('status') && (
-      <Box>
-        {data?.isPrePayment ? (
-          <Chip color='error' label='Chờ thanh toán' />
-        ) : (
-          <Chip color='warning' label='Chờ xác nhận' />
-        )}
+      <Box key={uniqueId()}>
+        {data?.requirePayment ? 'Thanh toán trước' : 'Thanh toán sau'}
       </Box>
     ),
+    ...(!hide?.includes('status') && {
+      status: (
+        <Box key={uniqueId()}>
+          {currentTab === BOOKING_STATUS.PENDING ? (
+            data?.requirePayment ? (
+              <Chip color='error' label='Chờ thanh toán' />
+            ) : (
+              <Chip color='warning' label='Chờ xác nhận' />
+            )
+          ) : data?.hasPayment ? (
+            <Chip color='success' label='Đã thanh toán' />
+          ) : (
+            <Chip color='default' label='Chưa thanh toán' />
+          )}
+        </Box>
+      ),
+    }),
     action: (
-      <Box display='flex'>
+      <Box display='flex' key={uniqueId()}>
+        {!data?.hasPayment && (
+          <IconButton
+            aria-label='payment'
+            size='small'
+            title='Thanh toán'
+            onClick={(event) => handlePayment && handlePayment(data?.id || '')}
+          >
+            <PaymentRounded fontSize='small' />
+          </IconButton>
+        )}
         <IconButton
-          aria-label='delete'
+          aria-label='detail'
           size='small'
           title='Xem chi tiết'
           onClick={(event) => handleOpen(data)}
         >
           <VisibilityIcon fontSize='small' />
         </IconButton>
+
         {!hide?.includes('cancel') && (
           <IconButton
             aria-label='delete'
@@ -122,16 +147,36 @@ const columns: { label: string }[] = [
   { label: 'Ngày check-out' },
   { label: 'Tổng tiền' },
   { label: 'Loại thanh toán' },
+  { label: 'Trạng thái' },
+  { label: 'Hành động' },
 ]
 
 const OrderManagement = ({ userId }: { userId: string }) => {
   const [open, setOpen] = useState(false)
+  const [isPayment, setIsPayment] = useState(false)
+  const [urlPayment, setUrlPayment] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [loading, setLoading] = useState(true)
   const [isDeleting, setIsDeleting] = useState(false)
   const [value, setValue] = useState<BOOKING_STATUS>(BOOKING_STATUS.PENDING)
   const [rows, setRows] = useState<BookingDetailItem[]>([])
   const [detail, setDetail] = useState<BookingDetailItem | null>()
+  const { connection } = useSocket()
+
+  const handlePayment = (bookingId: string) => {
+    orderApi
+      .getPaymentBooking(bookingId)
+      .then((data) => {
+        // setIsPayment(true)
+        setUrlPayment(data?.data?.url)
+        console.log(data?.data?.url)
+        if (typeof window !== 'undefined')
+          window.open(data?.data?.url, '_blank')?.focus()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   const handleChange = (
     event: React.SyntheticEvent,
@@ -175,7 +220,10 @@ const OrderManagement = ({ userId }: { userId: string }) => {
                   (value: BookingDetailItem) => {
                     setDetail(value)
                     setConfirmDelete(true)
-                  }
+                  },
+                  [],
+                  BOOKING_STATUS.PENDING,
+                  handlePayment
                 )
               ) || []
             setRows(newRows)
@@ -195,7 +243,9 @@ const OrderManagement = ({ userId }: { userId: string }) => {
                     setDetail(value)
                     setConfirmDelete(true)
                   },
-                  ['status']
+                  ['payment'],
+                  BOOKING_STATUS.CONFIRMED,
+                  handlePayment
                 )
               ) || []
             setRows(newRows)
@@ -209,7 +259,7 @@ const OrderManagement = ({ userId }: { userId: string }) => {
               res.data?.map((item: BookingDetailItem, index: number) =>
                 createData(index + 1, item, handleOpen, () => {}, [
                   'status',
-                  'action',
+                  'payment',
                 ])
               ) || []
             setRows(newRows)
@@ -224,6 +274,7 @@ const OrderManagement = ({ userId }: { userId: string }) => {
                 createData(index + 1, item, handleOpen, () => {}, [
                   'status',
                   'cancel',
+                  'payment',
                 ])
               ) || []
             setRows(newRows)
@@ -279,9 +330,9 @@ const OrderManagement = ({ userId }: { userId: string }) => {
         <Box>
           {Object.keys(BOOKING_STATUS).map((key) => {
             const newColumns =
-              key === BOOKING_STATUS.PENDING
-                ? [...columns, { label: 'Trạng thái' }]
-                : [...columns]
+              key === BOOKING_STATUS.PENDING || key === BOOKING_STATUS.CONFIRMED
+                ? [...columns]
+                : [...columns.filter((column) => column.label !== 'Trạng thái')]
             return (
               <TabPanel
                 value={value}
@@ -304,6 +355,17 @@ const OrderManagement = ({ userId }: { userId: string }) => {
       >
         <Box my={2} mx={1}>
           Bạn có chắc chắn muốn xóa đơn đặt phòng này không?
+        </Box>
+      </DefaultDialog>
+
+      <DefaultDialog
+        open={isPayment}
+        handleClose={() => setIsPayment(true)}
+        title='Thanh toán'
+        width='200px'
+      >
+        <Box my={2} mx={1}>
+          <iframe src={urlPayment} height='100%' width='100%'></iframe>
         </Box>
       </DefaultDialog>
 

@@ -1,12 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useCallback,
-  useReducer,
-  memo,
-  useEffect,
-} from 'react'
-import { Session } from 'next-auth'
+import { createContext, useReducer, memo, useEffect } from 'react'
 import { LOCAL_STORAGE } from '@constants/constant'
 import { userApi } from '@utils/api'
 
@@ -54,6 +46,7 @@ const MainProvider = ({
       userApi
         .getFavoriteHosts(session?.user?.id as string)
         .then((response) => {
+          setState({ ...state, favoriteHosts: response.data ?? [] })
           resolve(response.data ?? [])
         })
         .catch((error) => {
@@ -71,14 +64,14 @@ const MainProvider = ({
     }
   )
   useEffect(() => {
+    setState({ ...state, user: session?.user })
+    session?.accessToken &&
+      localStorage.setItem(
+        LOCAL_STORAGE.accessToken,
+        session?.accessToken || ''
+      )
     if (session?.user?.id) {
-      const arr = getFavoriteHost()
-      setState({ ...state, user: session?.user, favoriteHosts: arr })
-      session?.accessToken &&
-        localStorage.setItem(
-          LOCAL_STORAGE.accessToken,
-          session?.accessToken || ''
-        )
+      getFavoriteHost()
     }
   }, [])
 
@@ -91,3 +84,9 @@ const MainProvider = ({
 
 export const MainConsumer = MainContext.Consumer
 export default memo(MainProvider)
+export {
+  default as NotificationContext,
+  NotificationProvider,
+  useNotificationContext,
+  useSocket,
+} from './NotificationContext'

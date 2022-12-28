@@ -17,3 +17,6 @@ export const getCancelBooking = (userId: string) =>
 
 export const postCancelBooking = (bookingId: string) =>
   api.post(`/booking/cancel-booking/${bookingId}`)
+
+export const getPaymentBooking = (bookingId: string) =>
+  api.get(`/booking/payment-booking/${bookingId}`)
