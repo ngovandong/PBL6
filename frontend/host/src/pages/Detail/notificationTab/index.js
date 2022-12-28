@@ -1,27 +1,41 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import SignalRService from "../../../api-service/signalRService";
-import { selectAccount, selectUser } from "../../../app/store/authSlice";
-import NotificationNavbar from "../../../components/NotìicationNavbar";
+import NotificationNavbar from "../../../components/NotificationNavbar";
+import NotificationSound from "../../../sound/notification-sound.mp3";
 
 function NotificationTab() {
-  // const { id } = useParams();
-  const account = useSelector(selectAccount);
-  const { newMessage, events } = new SignalRService(account.id);
-  const [message, setMessage] = useState("initial value");
+  const audioPlayer = useRef(null);
+  const { id } = useParams();
+  const { events, stop } = new SignalRService(id);
+  const [reload, setReload] = useState(false);
+
+  function playAudio() {
+    audioPlayer.current.play();
+  }
+
   useEffect(() => {
-    events((_, message) => setMessage(message));
+    events((data) => {
+      playAudio();
+      setReload((pre) => !pre);
+    });
+
+    return stop;
   }, []);
   useEffect(() => {
     document.title = "Thông báo";
   }, []);
   return (
     <div className="notification-page">
+      <audio
+        ref={audioPlayer}
+        src={NotificationSound}
+        style={{ display: "none" }}
+      />
       <div style={{ paddingTop: "20px", paddingLeft: "20px" }}>
         <NotificationNavbar />
       </div>
-      <Outlet />
+      <Outlet context={[reload]} />
     </div>
   );
 }

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import orderService from "../../../api-service/orderService";
 import {
-  CurrentBookingRow,
   PendingBookingRow,
 } from "../../notification/BookingRow";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import LoadingWrapper from "../../../components/LoadingWrapper";
 
 function HostPendingBooking() {
+  const [reload] = useOutletContext();
   const [bookings, setBookings] = useState([]);
   const { id } = useParams();
   const [forceUpdate, setForceUpdate] = useState(false);
@@ -25,7 +25,7 @@ function HostPendingBooking() {
   };
   useEffect(() => {
     fetchData();
-  }, [forceUpdate]);
+  }, [forceUpdate,reload]);
   return (
     <div className="booking-table">
       {bookings.map((b) => (
