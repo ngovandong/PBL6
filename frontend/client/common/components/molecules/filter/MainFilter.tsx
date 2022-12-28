@@ -71,6 +71,7 @@ export default function MainFilter({
       DateCheckin: data.time[0]?.toISOString().split('T')[0] || '',
       DateCheckout: data.time[1]?.toISOString().split('T')[0] || '',
       QuantityPerson: data.number[0] || 1,
+      PlaceId: data.address.placeId ?? searchQuery?.placeId?.toString(),
     }
 
     if (!form.SearchText) {
