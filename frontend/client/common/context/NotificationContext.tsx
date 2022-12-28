@@ -9,15 +9,15 @@ import * as signalR from '@microsoft/signalr'
 import { toastSuccess } from '@utils/notifications'
 
 interface INotification {
-  notificationData: string[]
-  setNotificationData: React.Dispatch<string[]>
+  notificationData: string
+  setNotificationData: React.Dispatch<string>
   connection: signalR.HubConnection | null
   setConnection: React.Dispatch<signalR.HubConnection | null>
 }
 
 const NotificationContext = createContext<INotification>({
-  notificationData: [],
-  setNotificationData: (value: string[]) => {},
+  notificationData: '',
+  setNotificationData: (value: string) => {},
   connection: null,
   setConnection: (connection: signalR.HubConnection | null) => {},
 })
@@ -32,7 +32,7 @@ export const NotificationProvider = ({
   children: any
   session: any
 }) => {
-  const [notificationData, setNotificationData] = useState<string[]>([])
+  const [notificationData, setNotificationData] = useState<string>('')
   const [connection, setConnection] = useState<signalR.HubConnection | null>(
     null
   )
@@ -60,8 +60,9 @@ export const NotificationProvider = ({
             console.log(error)
           })
         newConnection?.on('payment-success', (data: any) => {
-          console.log('listening')
-          console.log(data)
+          console.log('received')
+          if (data?.bookingCode !== notificationData)
+            setNotificationData(data?.bookingCode ?? '')
           toastSuccess(
             'Đã thanh toán thành công cho đơn hàng mã ' + data?.bookingCode ??
               ''
