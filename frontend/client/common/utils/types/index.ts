@@ -24,6 +24,7 @@ export interface IAddress {
   placeName: string
   placeType: string
   address: string
+  placeId: string | null
 }
 
 export interface ISearchForm {

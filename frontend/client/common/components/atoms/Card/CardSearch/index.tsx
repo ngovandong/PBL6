@@ -42,7 +42,7 @@ const CardSearch = (props: any) => {
   return (
     <Box
       maxWidth='100%'
-      maxHeight='250px'
+      // maxHeight='250px'
       display='flex'
       width='880px'
       gap={2}
@@ -58,7 +58,7 @@ const CardSearch = (props: any) => {
         },
       }}
     >
-      <Box position='relative'>
+      <Box position='relative' my='auto'>
         <ButtonFavorite
           onClick={(event) =>
             props.handleFavoriteHost(data.id, props.favoritedId)
@@ -79,7 +79,7 @@ const CardSearch = (props: any) => {
           flex: 1,
           mx: 1,
           position: 'relative',
-          maxHeight: '100%',
+          // maxHeight: '100%',
         }}
       >
         <Box display='flex'>
