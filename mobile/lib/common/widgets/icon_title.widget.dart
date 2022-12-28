@@ -6,12 +6,14 @@ class IconTitle extends StatelessWidget {
   final IconData icon;
   final String? title;
   final Widget? child;
+  final TextStyle? textStyle;
 
   const IconTitle({
     super.key,
     required this.icon,
     this.title,
     this.child,
+    this.textStyle,
   });
 
   @override
@@ -35,8 +37,9 @@ class IconTitle extends StatelessWidget {
             ? Expanded(
                 child: Text(
                   title!,
-                  style: TextStyles.s14MediumText
-                      .copyWith(overflow: TextOverflow.ellipsis),
+                  style: textStyle ??
+                      TextStyles.s14MediumText
+                          .copyWith(overflow: TextOverflow.ellipsis),
                   maxLines: 1,
                 ),
               )

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mobile/di/di.dart';
+import 'package:mobile/modules/base/controllers/socket.controller.dart';
 import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 import 'package:mobile/modules/base/data/repository/verify_auth.repository.dart';
 import 'package:mobile/modules/favorite_host/controller/favorite_lookup.controller.dart';
@@ -18,6 +19,12 @@ class BaseBinding implements Bindings {
     Get.put(
       FavoriteLookupController(
         favoriteHostRepository: getIt.get<FavoriteHostRepository>(),
+        verifyAuthController: Get.find<VerifyAuthController>(),
+      ),
+      permanent: true,
+    );
+    Get.put(
+      SocketController(
         verifyAuthController: Get.find<VerifyAuthController>(),
       ),
       permanent: true,

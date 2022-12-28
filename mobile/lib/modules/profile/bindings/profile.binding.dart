@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mobile/di/di.dart';
+import 'package:mobile/modules/base/controllers/socket.controller.dart';
 import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 import 'package:mobile/modules/profile/controllers/profile.controller.dart';
 import 'package:mobile/modules/profile/controllers/user_setting.controller.dart';
@@ -11,6 +12,7 @@ class ProfileBinding implements Bindings {
     Get.lazyPut(
       () => ProfileController(
         verifyAuthController: Get.find<VerifyAuthController>(),
+        socketController: Get.find<SocketController>(),
       ),
     );
     Get.lazyPut(

@@ -54,7 +54,12 @@
     "cancel": "Đã huỷ",
     "ongoing": "Đang đợi",
     "current": "Phê duyệt",
-    "title": "Lịch sử đặt phòng"
+    "title": "Lịch sử đặt phòng",
+    "waiting_payment": "Đặt chỗ của bạn đang chờ thanh toán",
+    "has_payment": "Đặt chỗ của bạn đã được thanh toán",
+    "confirmed": "Đặt chỗ của bạn đã được xác nhận",
+    "wating_confirm": "Đặt chỗ của bạn đang chờ xác nhận",
+    "payment_success": "Đơn hàng của bạn đã được thanh toán thành công"
   },
   "share": {
     "error_message": "Đã có lỗi xảy ra. Vui lòng thử lại sau",

@@ -77,8 +77,64 @@ class BookingHistoryController extends GetxController {
         case BookingHistoryInternalEventEnum.refreshBookingHistory:
           await _verifyGetData();
           break;
+        case BookingHistoryInternalEventEnum.paymentSuccess:
+          _onEventPaymentSucces(event.data);
+          break;
+        case BookingHistoryInternalEventEnum.cancelBooking:
+          _onEventCancelBooking(event.data);
+          break;
       }
     });
+  }
+
+  void _onEventCancelBooking(BookingDTO cancelledBooking) {
+    cancelBookings?.add(cancelledBooking);
+    update([BookingHistoryType.CANCEL.toString()]);
+
+    currentBookings?.removeWhere(
+      (element) => element.id! == cancelledBooking.id!,
+    );
+    update([BookingHistoryType.CURRENT.toString()]);
+
+    pendingBookings?.removeWhere(
+      (element) => element.id! == cancelledBooking.id!,
+    );
+    update([BookingHistoryType.PENDING.toString()]);
+  }
+
+  void _onEventPaymentSucces(PaymentSuccessDTO paymentSuccessDTO) {
+    final BookingDTO? paymentBooking = pendingBookings!.firstWhereOrNull(
+      (element) => element.id == paymentSuccessDTO.bookingId,
+    );
+
+    if (paymentBooking != null) {
+      currentBookings?.add(
+        paymentBooking.copyWith()
+          ..hasPayment = true
+          ..type = BookingHistoryType.CURRENT,
+      );
+      update([BookingHistoryType.CURRENT.toString()]);
+
+      pendingBookings?.removeWhere(
+        (element) => element.id! == paymentSuccessDTO.bookingId,
+      );
+      update([BookingHistoryType.PENDING.toString()]);
+
+      return;
+    }
+
+    if (currentBookings == null) {
+      return;
+    } else {
+      final int paymentBookingIndex = currentBookings!.indexWhere(
+        (element) => element.id == paymentSuccessDTO.bookingId,
+      );
+
+      if (paymentBookingIndex != -1) {
+        currentBookings![paymentBookingIndex].hasPayment = true;
+        update([BookingHistoryType.CURRENT.toString()]);
+      }
+    }
   }
 
   Future<void> _cancelEventBus() async {

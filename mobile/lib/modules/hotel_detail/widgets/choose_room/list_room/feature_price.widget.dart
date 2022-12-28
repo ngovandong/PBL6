@@ -46,6 +46,17 @@ class FeaturePrice extends GetView<ChooseRoomController> {
                   icon: PhosphorIcons.user,
                   title: 'Phù hợp cho ${currentRoom.quantityPersonFit} người',
                 ),
+                const SizedBox(
+                  height: 6,
+                ),
+                IconTitle(
+                  icon: Icons.sell_outlined,
+                  title: currentRoom.isPrePayment
+                      ? 'Thanh toán trước'
+                      : 'Không cần thanh toán trước',
+                  textStyle:
+                      TextStyles.s14BoldText.copyWith(color: Palette.red500),
+                ),
                 if (currentRoom.bedTypes.length == 1)
                   Padding(
                     padding: const EdgeInsets.only(top: 6),

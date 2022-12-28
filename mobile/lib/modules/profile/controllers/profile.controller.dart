@@ -5,8 +5,10 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
+import 'package:mobile/common/utils/dialog.util.dart';
 import 'package:mobile/common/utils/event_bus/event_bus.util.dart';
 import 'package:mobile/generated/locales.g.dart';
+import 'package:mobile/modules/base/controllers/socket.controller.dart';
 import 'package:mobile/modules/base/controllers/verify_auth.controller.dart';
 import 'package:mobile/modules/profile/presentation/ui_items/setting_item.ui.dart';
 import 'package:mobile/modules/profile/profile.enum.dart';
@@ -14,9 +16,11 @@ import 'package:mobile/modules/profile/profile.eventbus.dart';
 
 class ProfileController extends GetxController {
   final VerifyAuthController verifyAuthController;
+  final SocketController socketController;
 
   ProfileController({
     required this.verifyAuthController,
+    required this.socketController,
   });
 
   StreamSubscription? _profileEventBusSubscription;
@@ -119,5 +123,14 @@ class ProfileController extends GetxController {
 
   Future<void> _closeProfileEventBus() async {
     await _profileEventBusSubscription?.cancel();
+  }
+
+  Future<void> signOut() async {
+    DialogUtil.showLoading();
+
+    await socketController.stopHub();
+    await verifyAuthController.signOut();
+
+    DialogUtil.hideLoading();
   }
 }
