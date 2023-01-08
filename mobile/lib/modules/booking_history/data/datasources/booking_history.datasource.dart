@@ -15,7 +15,18 @@ class BookingHistoryDataSource {
     ))
         .data;
 
-    return BookingDTO.fromJson(response);
+    return BookingDTO.fromJson(response)..type = BookingHistoryType.PENDING;
+  }
+
+  Future<List<BookingDTO>> getPendingBookings(String userId) async {
+    final HttpRequestResponse response =
+        await DioProvider.get('${Endpoints.pendingBooking}/$userId');
+
+    final List<BookingDTO> result = (response.data as List<dynamic>)
+        .map((e) => BookingDTO.fromJson(e)..type = BookingHistoryType.PENDING)
+        .toList();
+
+    return result;
   }
 
   Future<List<BookingDTO>> getCurrentBookings(String userId) async {
@@ -53,5 +64,12 @@ class BookingHistoryDataSource {
 
   Future<void> cancelBooking(String bookingId) async {
     await DioProvider.post('${Endpoints.getCancelBooking}/$bookingId');
+  }
+
+  Future<String> paymentBooking(String bookingId) async {
+    final HttpRequestResponse response =
+        await DioProvider.get('${Endpoints.paymentBooking}/$bookingId');
+
+    return response.data['url'];
   }
 }

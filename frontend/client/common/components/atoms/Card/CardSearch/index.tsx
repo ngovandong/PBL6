@@ -2,18 +2,37 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import styled from '@emotion/styled'
-import { Box, Tooltip, Typography } from '@mui/material'
-import { StarPurple500Outlined } from '@mui/icons-material'
-import {
-  activeLinkColor,
-  boxShadowCard,
-  lightColor,
-  primaryColor,
-} from '@constants/styles'
+import { Box, IconButton, Tooltip, Typography } from '@mui/material'
+import { StarPurple500Outlined, FavoriteOutlined } from '@mui/icons-material'
+import { activeLinkColor, boxShadowCard, lightColor } from '@constants/styles'
 import { DefaultButton } from '@components/atoms/Button/DefaultButton'
 import { useRouter } from 'next/router'
 import { ContentLink, TitleLink } from '@components/atoms/Heading'
 import { isNumber, uniqueId } from 'lodash'
+import { useSession } from 'next-auth/react'
+import { userApi } from '@utils/api'
+import { updateFavoriteHost } from 'common/context'
+
+const FavoriteIcon = styled(FavoriteOutlined)(
+  (props: { favorited?: boolean }) => `
+  display: block;
+  stroke: #ffffff;
+  overflow: visible;
+  fill: ${props.favorited ? '#FF385C' : 'rgba(0, 0, 0, 0.5);'}
+`
+)
+
+const ButtonFavorite = styled(IconButton)`
+  border-width: 1px;
+  border-style: solid;
+  border: none;
+  transition: transform 0.25s ease;
+  position: absolute;
+  z-index: 10;
+  left: 1px;
+  top: 1px;
+  background: transparent;
+`
 
 const CardSearch = (props: any) => {
   const router = useRouter()
@@ -23,7 +42,7 @@ const CardSearch = (props: any) => {
   return (
     <Box
       maxWidth='100%'
-      maxHeight='250px'
+      // maxHeight='250px'
       display='flex'
       width='880px'
       gap={2}
@@ -39,19 +58,28 @@ const CardSearch = (props: any) => {
         },
       }}
     >
-      <Image
-        src={data?.avatarImage ?? '/images/no-image-available.png'}
-        width={200}
-        height={200}
-        style={{ margin: 'auto' }}
-        alt='Booking'
-      />
+      <Box position='relative' my='auto'>
+        <ButtonFavorite
+          onClick={(event) =>
+            props.handleFavoriteHost(data.id, props.favoritedId)
+          }
+        >
+          <FavoriteIcon favorited={props.favorited} />
+        </ButtonFavorite>
+        <Image
+          src={data?.avatarImage ?? '/images/no-image-available.png'}
+          width={200}
+          height={200}
+          style={{ margin: 'auto' }}
+          alt='Booking'
+        />
+      </Box>
       <Box
         sx={{
           flex: 1,
           mx: 1,
           position: 'relative',
-          maxHeight: '100%',
+          // maxHeight: '100%',
         }}
       >
         <Box display='flex'>

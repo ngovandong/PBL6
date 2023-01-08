@@ -23,9 +23,11 @@ import {
 } from "../../newAccommodation/steps/PhotosStep";
 
 import accommodationService from "../../../api-service/accommodationService";
+import LoadingWrapper from "../../../components/LoadingWrapper";
 
 function AddRoom() {
   const { id, roomId } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
   const initialRoom = {
     hostPartnerId: id,
     name: "",
@@ -59,6 +61,7 @@ function AddRoom() {
     if (roomId) {
       const res = await accommodationService.getAccommodation(roomId);
       setNewRoom(res.data);
+      setIsLoading(false);
     }
   };
 
@@ -115,6 +118,7 @@ function AddRoom() {
       bathRooms,
       originalPrice,
       images,
+      quantityPersonFit,
     } = newRoom;
     if (
       name &&
@@ -124,7 +128,8 @@ function AddRoom() {
       area &&
       bathRooms &&
       originalPrice &&
-      images.length
+      images.length &&
+      quantityPersonFit
     ) {
       accommodationService.createAccommodation(newRoom).then(() => {
         toast.success("Tạo phòng thành công");
@@ -145,6 +150,7 @@ function AddRoom() {
       bathRooms,
       originalPrice,
       images,
+      quantityPersonFit,
     } = newRoom;
     if (
       name &&
@@ -154,7 +160,8 @@ function AddRoom() {
       area &&
       bathRooms &&
       originalPrice &&
-      images.length
+      images.length &&
+      quantityPersonFit
     ) {
       accommodationService.UpdateAccommodation(newRoom).then(() => {
         toast.success("Cập nhật thành công");
@@ -187,170 +194,195 @@ function AddRoom() {
           </Fab>
         )}
       </div>
-      <div className="add-room">
-        <div>
-          <p className="row-title">Tên phòng</p>
-          <TextField
-            placeholder="Nhập tên phòng"
-            style={{ width: "30%", marginRight: "5%" }}
-            onChange={(e) => handleUpdate("name", e.target.value)}
-            defaultValue={newRoom.name}
-          />
-          <TextField
-            placeholder="Nhập loại phòng"
-            style={{ width: "30%", marginRight: "5%" }}
-            onChange={(e) => handleUpdate("accommodationType", e.target.value)}
-            defaultValue={newRoom.accommodationType}
-          />
-          <p className="row-title">Số lượng</p>
-          <OutlinedInput
-            endAdornment={<InputAdornment position="end">phòng</InputAdornment>}
-            inputProps={{
-              placeholder: "Số lượng",
-              min: "1",
-            }}
-            type="number"
-            onChange={(e) => handleUpdate("quantity", Number(e.target.value))}
-            defaultValue={newRoom.quantity}
-            style={{ width: "30%", marginRight: "5%" }}
-          />
-          <OutlinedInput
-            endAdornment={<InputAdornment position="end">người</InputAdornment>}
-            inputProps={{
-              placeholder: "Số người",
-              min: "1",
-            }}
-            type="number"
-            onChange={(e) => handleUpdate("quantityPersonFit", Number(e.target.value))}
-            defaultValue={newRoom.quantityPersonFit}
-            style={{ width: "30%", marginRight: "5%" }}
-          />
-          <p className="row-title">Mô tả phòng</p>
-          <TextField
-            placeholder="Mô tả về phòng"
-            multiline
-            rows={4}
-            onChange={(e) => handleUpdate("description", e.target.value)}
-            defaultValue={newRoom.description}
-            fullWidth
-          />
-          <p className="row-title">Giường</p>
-          {BED_TYPE.map((t) => (
-            <FormControlLabel
-              style={{ width: "45%" }}
-              key={t.code}
-              control={
-                <Checkbox
-                  checked={newRoom.bedTypes.includes(t.code)}
-                  onChange={() => handleChangeBedType(t.code)}
-                />
-              }
-              label={t.label}
-            />
-          ))}
-          <p className="row-title">Tiện nghi</p>
-          <div style={{ marginBottom: "20px" }}>
-            <OutlinedInput
-              endAdornment={<InputAdornment position="end">m2</InputAdornment>}
-              inputProps={{
-                placeholder: "Diện tích",
-                min: "1",
-              }}
-              type="number"
+      {isLoading ? (
+        <LoadingWrapper />
+      ) : (
+        <div className="add-room">
+          <div>
+            <p className="row-title">Tên phòng</p>
+            <TextField
+              placeholder="Nhập tên phòng"
               style={{ width: "30%", marginRight: "5%" }}
-              onChange={(e) => handleUpdate("area", Number(e.target.value))}
-              defaultValue={newRoom.area}
+              onChange={(e) => handleUpdate("name", e.target.value)}
+              defaultValue={newRoom.name}
+              value={newRoom.name}
             />
+            <TextField
+              placeholder="Nhập loại phòng"
+              style={{ width: "30%", marginRight: "5%" }}
+              onChange={(e) =>
+                handleUpdate("accommodationType", e.target.value)
+              }
+              defaultValue={newRoom.accommodationType}
+              value={newRoom.accommodationType}
+            />
+            <p className="row-title">Số lượng</p>
             <OutlinedInput
               endAdornment={
-                <InputAdornment position="end">phòng tắm</InputAdornment>
+                <InputAdornment position="end">phòng</InputAdornment>
               }
               inputProps={{
                 placeholder: "Số lượng",
                 min: "1",
               }}
               type="number"
-              style={{ width: "30%" }}
-              onChange={(e) =>
-                handleUpdate("bathRooms", Number(e.target.value))
-              }
-              defaultValue={newRoom.bathRooms}
+              onChange={(e) => handleUpdate("quantity", Number(e.target.value))}
+              defaultValue={newRoom.quantity}
+              style={{ width: "30%", marginRight: "5%" }}
+              value={newRoom.quantity}
             />
-          </div>
-          <TextField
-            placeholder="View phòng"
-            style={{ width: "30%", marginRight: "5%" }}
-            onChange={(e) => handleUpdate("view", e.target.value)}
-            defaultValue={newRoom.view}
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={newRoom.smoking}
-                onChange={(e) => handleUpdate("smoking", e.target.checked)}
-              />
-            }
-            label="Được hút thuốc"
-            style={{ marginTop: "8px" }}
-          />
-          <p className="row-title">Tiện nghi thêm</p>
-          <div className="amenities-container">
-            {AMENITIES.map((a) => (
+            <OutlinedInput
+              endAdornment={
+                <InputAdornment position="end">người</InputAdornment>
+              }
+              inputProps={{
+                placeholder: "Số người",
+                min: "1",
+              }}
+              type="number"
+              onChange={(e) =>
+                handleUpdate("quantityPersonFit", Number(e.target.value))
+              }
+              defaultValue={newRoom.quantityPersonFit}
+              value={newRoom.quantityPersonFit}
+              style={{ width: "30%", marginRight: "5%" }}
+            />
+            <p className="row-title">Mô tả phòng</p>
+            <TextField
+              placeholder="Mô tả về phòng"
+              multiline
+              rows={4}
+              onChange={(e) => handleUpdate("description", e.target.value)}
+              defaultValue={newRoom.description}
+              fullWidth
+              value={newRoom.description}
+            />
+            <p className="row-title">Giường</p>
+            {BED_TYPE.map((t) => (
               <FormControlLabel
                 style={{ width: "45%" }}
-                key={a.code}
+                key={t.code}
                 control={
                   <Checkbox
-                    checked={newRoom.utilities.includes(a.code)}
-                    onChange={() => handleChangeUltilities(a.code)}
+                    checked={newRoom.bedTypes.includes(t.code)}
+                    onChange={() => handleChangeBedType(t.code)}
                   />
                 }
-                label={a.label}
+                label={t.label}
               />
             ))}
-          </div>
-          <p className="row-title">Giá phòng</p>
-          <OutlinedInput
-            endAdornment={<InputAdornment position="end">đ</InputAdornment>}
-            inputProps={{
-              placeholder: "Giá thường ngày",
-              min: "1",
-            }}
-            type="number"
-            style={{ width: "40%", marginRight: "5%" }}
-            onChange={(e) =>
-              handleUpdate("originalPrice", parseInt(e.target.value))
-            }
-            defaultValue={newRoom.originalPrice}
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={newRoom.isPrePayment}
-                onChange={(e) => handleUpdate("isPrePayment", e.target.checked)}
+            <p className="row-title">Tiện nghi</p>
+            <div style={{ marginBottom: "20px" }}>
+              <OutlinedInput
+                endAdornment={
+                  <InputAdornment position="end">m2</InputAdornment>
+                }
+                inputProps={{
+                  placeholder: "Diện tích",
+                  min: "1",
+                }}
+                type="number"
+                style={{ width: "30%", marginRight: "5%" }}
+                onChange={(e) => handleUpdate("area", Number(e.target.value))}
+                defaultValue={newRoom.area}
+                value={newRoom.area}
               />
-            }
-            label="Trả tiền trước"
-          />
-          <p className="row-title">Hình ảnh</p>
-          <div className="image-upload-container">
-            {newRoom.images.map((i) => (
-              <ImageCard src={i} key={i} />
-            ))}
-            {loading && <LoadingImg />}
-            <AddImageBT disabled={loading} onClick={(e) => handleAddImg(e)} />
+              <OutlinedInput
+                endAdornment={
+                  <InputAdornment position="end">phòng tắm</InputAdornment>
+                }
+                inputProps={{
+                  placeholder: "Số lượng",
+                  min: "1",
+                }}
+                type="number"
+                style={{ width: "30%" }}
+                onChange={(e) =>
+                  handleUpdate("bathRooms", Number(e.target.value))
+                }
+                defaultValue={newRoom.bathRooms}
+                value={newRoom.bathRooms}
+              />
+            </div>
+            <TextField
+              placeholder="View phòng"
+              style={{ width: "30%", marginRight: "5%" }}
+              onChange={(e) => handleUpdate("view", e.target.value)}
+              defaultValue={newRoom.view}
+              value={newRoom.view}
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={newRoom.smoking}
+                  onChange={(e) => handleUpdate("smoking", e.target.checked)}
+                />
+              }
+              label="Được hút thuốc"
+              style={{ marginTop: "8px" }}
+            />
+            <p className="row-title">Tiện nghi thêm</p>
+            <div className="amenities-container">
+              {AMENITIES.map((a) => (
+                <FormControlLabel
+                  style={{ width: "45%" }}
+                  key={a.code}
+                  control={
+                    <Checkbox
+                      checked={newRoom.utilities.includes(a.code)}
+                      onChange={() => handleChangeUltilities(a.code)}
+                    />
+                  }
+                  label={a.label}
+                />
+              ))}
+            </div>
+            <p className="row-title">Giá phòng</p>
+            <OutlinedInput
+              endAdornment={<InputAdornment position="end">đ</InputAdornment>}
+              inputProps={{
+                placeholder: "Giá thường ngày",
+                min: "1",
+              }}
+              type="number"
+              style={{ width: "40%", marginRight: "5%" }}
+              onChange={(e) =>
+                handleUpdate("originalPrice", parseInt(e.target.value))
+              }
+              defaultValue={newRoom.originalPrice}
+              value={newRoom.originalPrice}
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={newRoom.isPrePayment}
+                  onChange={(e) =>
+                    handleUpdate("isPrePayment", e.target.checked)
+                  }
+                />
+              }
+              label="Trả tiền trước"
+            />
+            <p className="row-title">Hình ảnh</p>
+            <div className="image-upload-container">
+              {newRoom.images.map((i) => (
+                <ImageCard src={i} key={i} />
+              ))}
+              {loading && <LoadingImg />}
+              <AddImageBT disabled={loading} onClick={(e) => handleAddImg(e)} />
+            </div>
+            <Snackbar
+              open={openSnackbar}
+              autoHideDuration={2000}
+              onClose={() => setOpenSnackbar(false)}
+            >
+              <Alert sx={{ width: "100%" }} severity="error">
+                Hình ảnh đã tồn tại
+              </Alert>
+            </Snackbar>
           </div>
-          <Snackbar
-            open={openSnackbar}
-            autoHideDuration={2000}
-            onClose={() => setOpenSnackbar(false)}
-          >
-            <Alert sx={{ width: "100%" }} severity="error">
-              Hình ảnh đã tồn tại
-            </Alert>
-          </Snackbar>
         </div>
-      </div>
+      )}
     </div>
   );
 }

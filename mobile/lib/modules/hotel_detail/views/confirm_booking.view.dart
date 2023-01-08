@@ -4,6 +4,7 @@ import 'package:mobile/common/constants/ui_configs.dart';
 import 'package:mobile/common/router/route_manager.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
+import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/common/widgets/confirm_and_pin_code.widget.dart';
 import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 import 'package:mobile/common/widgets/hotel_info_card.widget.dart';
@@ -31,23 +32,46 @@ class ConfirmBookingView extends GetView<ConfirmBookingController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Đặt chỗ của bạn đã được xác nhận!',
-              style: TextStyles.s17BoldText.copyWith(color: Palette.green700),
+            Obx(
+              () => Text(
+                // controller.createBookingParams.value.requirePayment!
+                //     ? LocaleKeys.booking_history_waiting_payment.tr
+                //     : LocaleKeys.booking_history_wating_confirm.tr,
+                controller.bookingInfo.value.statusTitle,
+                style: TextStyles.s17BoldText.copyWith(color: Palette.green700),
+              ),
             ),
             const SizedBox(
               height: 10,
             ),
             ConfirmAndPinCode(
-              confirmCode: controller.createBookingParams.bookingCode!,
+              confirmCode: controller.bookingInfo.value.bookingCode!,
               pinCode: '2181',
             ),
             const SizedBox(
               height: 10,
             ),
             HotelInfoCard(
-              bookingParams: controller.createBookingParams,
+              bookingParams: controller.bookingInfo.value,
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            Obx(
+              () => Visibility(
+                visible: controller.bookingInfo.value.hasShowPaymentButton,
+                child: AppRoundedButton(
+                  onPressed: controller.submitPaymentBooking,
+                  showShadow: false,
+                  showBorder: true,
+                  backgroundColor: Colors.white,
+                  borderColor: Palette.red500,
+                  textColor: Palette.red500,
+                  borderRadius: 0,
+                  content: 'Thanh toán ngay',
+                ),
+              ),
+            )
           ],
         ),
       ),

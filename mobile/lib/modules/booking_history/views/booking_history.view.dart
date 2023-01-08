@@ -6,8 +6,6 @@ import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/app_icon_button.widget.dart';
 import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
-import 'package:mobile/common/widgets/error_view.widget.dart';
-import 'package:mobile/common/widgets/loading_dot.widget.dart';
 import 'package:mobile/common/widgets/login_view_data.widget.dart';
 import 'package:mobile/generated/assets.gen.dart';
 import 'package:mobile/generated/locales.g.dart';
@@ -30,7 +28,8 @@ class _BookingHistoryViewState extends State<BookingHistoryView>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
+
     super.initState();
   }
 
@@ -39,7 +38,7 @@ class _BookingHistoryViewState extends State<BookingHistoryView>
     return Obx(() {
       return Scaffold(
         appBar: _bookingHistoryController.getDataStatus.value ==
-                HandleStatus.HAS_DATA
+                HandleStatus.HAS_LOGIN
             ? CustomAppBar(
                 backgroundColor: Colors.white,
                 toolbarHeight: 80,
@@ -53,9 +52,13 @@ class _BookingHistoryViewState extends State<BookingHistoryView>
                   indicatorColor: Palette.blue400,
                   unselectedLabelColor: Palette.gray300,
                   labelColor: Palette.blue400,
+                  onTap: _bookingHistoryController.onChangedTab,
                   tabs: [
                     Tab(
                       text: LocaleKeys.booking_history_ongoing.tr,
+                    ),
+                    Tab(
+                      text: LocaleKeys.booking_history_current.tr,
                     ),
                     Tab(
                       text: LocaleKeys.booking_history_ordered.tr,
@@ -84,25 +87,15 @@ class _BookingHistoryViewState extends State<BookingHistoryView>
         body: Obx(
           () {
             switch (_bookingHistoryController.getDataStatus.value) {
-              case HandleStatus.HAS_DATA:
-                return BookingHistoryData(
-                  tabController: _tabController,
-                );
-              case HandleStatus.LOADING:
-                return const Center(
-                  child: LoadingDot(
-                    dotColor: Palette.blue400,
-                  ),
-                );
-              case HandleStatus.HAS_ERROR:
-                return const ErrorBanner(
-                  showAction: false,
-                );
-              case HandleStatus.NORMAL:
+              case HandleStatus.NOT_YET_LOGIN:
                 return LoginViewData(
                   lottiePath: Assets.lotties.loadingTravel,
                   title: 'Hiện bạn đang không có đơn đặt nào',
                   content: 'Đăng nhập để xem tất cả đơn đặt đang có hiệu lực',
+                );
+              default:
+                return BookingHistoryData(
+                  tabController: _tabController,
                 );
             }
           },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile/modules/booking_history/booking_history.enum.dart';
 import 'package:mobile/modules/booking_history/controllers/booking_history.controller.dart';
 import 'package:mobile/modules/booking_history/widgets/list_booking_history.widget.dart';
 
@@ -15,17 +16,26 @@ class BookingHistoryData extends GetView<BookingHistoryController> {
       children: [
         Obx(
           () => ListBookingHistory(
-            historyBookings: controller.currentBookings.value,
+            bookingHistoryType: BookingHistoryType.PENDING,
+            handleStatus: controller.getPendingStatus.value,
           ),
         ),
         Obx(
           () => ListBookingHistory(
-            historyBookings: controller.completedBookings.value,
+            bookingHistoryType: BookingHistoryType.CURRENT,
+            handleStatus: controller.getCurrentStatus.value,
           ),
         ),
         Obx(
           () => ListBookingHistory(
-            historyBookings: controller.cancelBookings.value,
+            bookingHistoryType: BookingHistoryType.COMPLETED,
+            handleStatus: controller.getCompletedStatus.value,
+          ),
+        ),
+        Obx(
+          () => ListBookingHistory(
+            bookingHistoryType: BookingHistoryType.CANCEL,
+            handleStatus: controller.getCancelStatus.value,
           ),
         )
       ],

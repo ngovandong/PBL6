@@ -1,31 +1,32 @@
 import CircleProgress from "../../components/CircleProgress";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteHost, selectUnfinishHost } from "../../app/store/hostSlice";
-import hostService from "../../api-service/hostService";
-import { toast } from "react-toastify";
 
 function InprogressAccommodation() {
   const listHost = useSelector(selectUnfinishHost);
+
   return (
     <div className="accommodation-container">
       <h2>Chỗ nghỉ đang trong quá trình đăng ký</h2>
-      <div className="accommodation-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Tên</th>
-              <th>Địa chỉ</th>
-              <th>Tiến trình</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {listHost.map((h) => (
-              <TableRow host={h} key={h.id} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {listHost.length !== 0 && (
+        <div className="accommodation-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Tên</th>
+                <th>Địa chỉ</th>
+                <th>Tiến trình</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {listHost.map((h) => (
+                <TableRow host={h} key={h.id} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
@@ -59,7 +60,8 @@ function TableRow({ host }) {
         <a
           href={`/newaccommodation/${host.id}`}
           className="btn-link"
-          target="blank"
+          target="_blank"
+          rel="noreferrer"
         >
           {progress === 100 ? "Chỉnh sửa" : "Hoàn thành"}
         </a>

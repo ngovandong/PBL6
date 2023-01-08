@@ -14,6 +14,10 @@ class BookingHistoryRepository {
     return bookingHistoryDataSource.createBooking(createBookingParams);
   }
 
+  Future<List<BookingDTO>> getPendingBookings(String userId) {
+    return bookingHistoryDataSource.getPendingBookings(userId);
+  }
+
   Future<List<BookingDTO>> getCurrentBookings(String userId) {
     return bookingHistoryDataSource.getCurrentBookings(userId);
   }
@@ -26,7 +30,11 @@ class BookingHistoryRepository {
     return bookingHistoryDataSource.getCancelBookings(userId);
   }
 
-  Future<void> cancelBooking(String bookingId) async {
+  Future<void> cancelBooking(String bookingId) {
     return bookingHistoryDataSource.cancelBooking(bookingId);
+  }
+
+  Future<String> paymentBooking(String bookingId) {
+    return bookingHistoryDataSource.paymentBooking(bookingId);
   }
 }

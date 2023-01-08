@@ -14,7 +14,6 @@ function getDaysInMonthUTC(month, year) {
   return days;
 }
 const today = new Date();
-console.log(today);
 const prices = getDaysInMonthUTC(11, 2022).map((d) => {
   if (d < today) {
     return {
@@ -62,15 +61,15 @@ function PriceCalendar() {
           value={price}
           onChange={(e) => setprice(e.target.value)}
         />
-        <br/>
-        <br/>
-        <br/>
+        <br />
+        <br />
+        <br />
         <Button variant="contained" href="#contained-buttons">
           Khôi phục giá bình thường
         </Button>
-        <br/>
-        <br/>
-        <br/>
+        <br />
+        <br />
+        <br />
         <Button variant="contained" href="#contained-buttons">
           Ngưng hoạt động ngày này
         </Button>

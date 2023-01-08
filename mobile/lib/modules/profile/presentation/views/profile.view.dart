@@ -170,11 +170,10 @@ class ProfileScreen extends GetView<ProfileController> {
             ),
             const Spacer(),
             Obx(() {
-              if (verifyAuthController.currentUser != null) {
-                return GestureDetector(
-                  onTap: () async {
-                    await verifyAuthController.signOut();
-                  },
+              return Visibility(
+                visible: verifyAuthController.currentUser != null,
+                child: GestureDetector(
+                  onTap: controller.signOut,
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     height: 50,
@@ -202,9 +201,8 @@ class ProfileScreen extends GetView<ProfileController> {
                       ],
                     ),
                   ),
-                );
-              }
-              return const SizedBox();
+                ),
+              );
             })
           ],
         ),

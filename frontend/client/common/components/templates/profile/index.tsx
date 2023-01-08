@@ -1,41 +1,9 @@
 import * as React from 'react'
-import {
-  Tab,
-  Tabs,
-  Box,
-  Typography,
-  Avatar,
-  InputLabel,
-  Input,
-  Grid,
-  Badge,
-  IconButton,
-  Divider,
-} from '@mui/material'
-import { CameraAltRounded } from '@mui/icons-material'
+import { Tab, Tabs, Box } from '@mui/material'
 import { IUserProfile } from '@utils/types'
-import { boxShadowCard, primaryColor } from '@constants/styles'
+import { primaryColor } from '@constants/styles'
 import { styled } from '@mui/system'
 import { grey } from '@mui/material/colors'
-import { Title, TitlePost } from '@components/atoms/Heading'
-import { Controller, useForm } from 'react-hook-form'
-import { DefaultButton } from '@components/atoms/Button/DefaultButton'
-import {
-  reloadSession,
-  renderDefaultValuesForHook,
-  trimDataObject,
-} from '@utils/helpers'
-import {
-  EDIT_PASSWORD_FORM,
-  EDIT_USER_FORM,
-  EDIT_USER_LABEL,
-  ERROR_MESSAGE,
-  INFOR_MESSAGE,
-} from '@constants/constant'
-import { uploadImageCloudinary, userApi } from '@utils/api'
-import { toastError, toastSuccess } from '@utils/notifications'
-import { InputField } from '@components/atoms/Input/InputField'
-import { editUser } from '@utils/api/user'
 import {
   ChangePasswordForm,
   ChangeProfileForm,

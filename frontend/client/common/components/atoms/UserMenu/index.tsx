@@ -15,8 +15,8 @@ import PersonIcon from '@mui/icons-material/Person'
 import CardTravelIcon from '@mui/icons-material/CardTravel'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { borderRadiusLarge } from '@constants/styles'
-import { getCsrfToken, signOut, useSession } from 'next-auth/react'
-import { MainContext, useUser } from 'common/context'
+import { getCsrfToken } from 'next-auth/react'
+import { MainContext } from 'common/context'
 import Link from 'next/link'
 import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
@@ -78,13 +78,13 @@ const MenuContainer = ({ anchorEl, open, handleClose, signOut }: any) => (
         </NavLink>
       </Link>
     </MenuItem>
-    {/* <MenuItem>
-      <Link href='/my-favorite'>
+    <MenuItem>
+      <Link href='/favorite'>
         <NavLink>
           <FavoriteBorderIcon sx={{ mr: 2 }} /> Danh sách đã lưu
         </NavLink>
       </Link>
-    </MenuItem> */}
+    </MenuItem>
     <Divider />
     <MenuItem onClick={signOut}>
       <Logout sx={{ mr: 2 }} />
@@ -97,6 +97,7 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
   const router = useRouter()
   const { state, setState } = useContext(MainContext)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -106,11 +107,12 @@ const UserMenu = ({ userName, src }: { userName: string; src: string }) => {
   }
 
   const handleSignOut = async () => {
-    setState({ ...state, user: {} })
+    setState({ ...state, user: {}, favoriteHosts: [] })
     const csrfToken = await getCsrfToken()
     axios
       .post('/api/auth/signout', { csrfToken: csrfToken })
       .then((res) => {
+        localStorage.clear()
         reloadSession()
       })
       .catch((err) => {

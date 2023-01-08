@@ -41,7 +41,9 @@ class HotelDetailBinding extends Bindings {
       ),
     );
     Get.lazyPut(
-      () => ConfirmBookingController(),
+      () => ConfirmBookingController(
+        bookingHistoryRepository: getIt.get<BookingHistoryRepository>(),
+      ),
     );
   }
 }

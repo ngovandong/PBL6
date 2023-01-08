@@ -24,6 +24,7 @@ export interface IAddress {
   placeName: string
   placeType: string
   address: string
+  placeId: string | null
 }
 
 export interface ISearchForm {
@@ -84,4 +85,13 @@ export interface BookingDetailItem {
   isPrePayment: boolean
   note: string
   bookingDetailDtos: []
+  hasPayment: boolean
+  requirePayment: boolean
+}
+
+export enum BOOKING_STATUS {
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED',
 }

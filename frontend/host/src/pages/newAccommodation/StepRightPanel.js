@@ -26,6 +26,9 @@ export default function StepRightPanel() {
         <TabPanel value="3">
           <PhotosStep />
         </TabPanel>
+        <TabPanel value="4">
+          <div />
+        </TabPanel>
       </TabContext>
     </Box>
   );

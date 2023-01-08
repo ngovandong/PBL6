@@ -45,7 +45,6 @@ class BookingStepController extends GetxController {
         userLastName: userModel.givenName ?? '',
         userId: userModel.id,
         note: '',
-        isPrePayment: false,
         bookingDetails: chooseRoomController.bookingRooms
             .map((e) => e.toBookingDetailDTO())
             .toList(),
@@ -57,7 +56,7 @@ class BookingStepController extends GetxController {
       EventBusUtil.fireEvent(
         BookingHistoryInternalEvent<BookingDTO>(
           BookingHistoryInternalEventEnum.addBookingHistory,
-          result..type = BookingHistoryType.CURRENT,
+          result..type = BookingHistoryType.PENDING,
         ),
       );
 

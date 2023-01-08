@@ -55,6 +55,9 @@ export default function DefaultDialog(props: {
   handleClose: () => void
   title?: string
   children?: React.ReactNode
+  isConfirm?: boolean
+  width?: number | string
+  onConfirm?: (value: any) => void
 }) {
   return (
     <div>
@@ -63,7 +66,7 @@ export default function DefaultDialog(props: {
         open={props.open}
         sx={{
           '.mui-style-14xq91u-MuiPaper-root-MuiDialog-paper': {
-            minWidth: 900,
+            minWidth: props?.width ?? 800,
           },
         }}
       >
@@ -78,10 +81,16 @@ export default function DefaultDialog(props: {
         </DialogContent>
         <DialogActions>
           <Box my={1} mr={1}>
-            <DefaultButton color='primary' onClick={props.handleClose}>
-              Thoát
-            </DefaultButton>
+            <DefaultButton onClick={props.handleClose}>Thoát</DefaultButton>
           </Box>
+
+          {props?.isConfirm && (
+            <Box my={1} mr={1}>
+              <DefaultButton color='primary' onClick={props.onConfirm}>
+                Xác nhận
+              </DefaultButton>
+            </Box>
+          )}
         </DialogActions>
       </BootstrapDialog>
     </div>

@@ -8,9 +8,15 @@ function NotificationNavbar() {
       <div className="link-container">
         <NavLink
           className={({ isActive }) => (isActive ? "link active" : "link")}
+          to="pending"
+        >
+          Chờ xác nhận
+        </NavLink>
+        <NavLink
+          className={({ isActive }) => (isActive ? "link active" : "link")}
           to="current"
         >
-          Đơn đặt mới
+          Đã xác nhận
         </NavLink>
         <NavLink
           className={({ isActive }) => (isActive ? "link active" : "link")}

@@ -52,7 +52,16 @@ class LocaleKeys {
   static const booking_history_ordered = 'booking_history_ordered';
   static const booking_history_cancel = 'booking_history_cancel';
   static const booking_history_ongoing = 'booking_history_ongoing';
+  static const booking_history_current = 'booking_history_current';
   static const booking_history_title = 'booking_history_title';
+  static const booking_history_waiting_payment =
+      'booking_history_waiting_payment';
+  static const booking_history_has_payment = 'booking_history_has_payment';
+  static const booking_history_confirmed = 'booking_history_confirmed';
+  static const booking_history_wating_confirm =
+      'booking_history_wating_confirm';
+  static const booking_history_payment_success =
+      'booking_history_payment_success';
   static const share_error_message = 'share_error_message';
   static const share_error_find = 'share_error_find';
   static const share_success_message = 'share_success_message';
@@ -105,7 +114,14 @@ class Locales {
     'booking_history_ordered': 'Đã đặt',
     'booking_history_cancel': 'Đã huỷ',
     'booking_history_ongoing': 'Đang đợi',
+    'booking_history_current': 'Phê duyệt',
     'booking_history_title': 'Lịch sử đặt phòng',
+    'booking_history_waiting_payment': 'Đặt chỗ của bạn đang chờ thanh toán',
+    'booking_history_has_payment': 'Đặt chỗ của bạn đã được thanh toán',
+    'booking_history_confirmed': 'Đặt chỗ của bạn đã được xác nhận',
+    'booking_history_wating_confirm': 'Đặt chỗ của bạn đang chờ xác nhận',
+    'booking_history_payment_success':
+        'Đơn hàng của bạn đã được thanh toán thành công',
     'share_error_message': 'Đã có lỗi xảy ra. Vui lòng thử lại sau',
     'share_error_find': 'Chọn địa điểm cần tìm khách sạn',
     'share_success_message': 'Thành công',

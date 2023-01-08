@@ -2,23 +2,29 @@ import { useEffect, useState } from "react";
 import orderService from "../../../api-service/orderService";
 import { HistoryBookingRow } from "../../notification/BookingRow";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
+import LoadingWrapper from "../../../components/LoadingWrapper";
 function HostCanceledBooking() {
   const [bookings, setBookings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [reload] = useOutletContext();
   const { id } = useParams();
   const fetchData = async () => {
     const res = await orderService
       .getCancelBooking(id)
       .catch((error) => toast.error(error));
     setBookings(res.data);
+    setIsLoading(false);
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [reload]);
   return (
     <div className="booking-table">
-      {bookings.length !== 0 &&
-        bookings.map((b) => <HistoryBookingRow key={b.id} booking={b} />)}
+      {bookings.map((b) => (
+        <HistoryBookingRow key={b.id} booking={b} />
+      ))}
+      <LoadingWrapper open={isLoading} />
     </div>
   );
 }

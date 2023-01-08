@@ -10,6 +10,10 @@ export default class MyDocument extends Document {
       <Html lang='en'>
         <Head>
           <meta name='theme-color' content={theme.palette.primary.main} />
+          <meta
+            name='google-site-verification'
+            content='w6OKi-a4drGiGdsBIjJ9p6RTOkKCl-sOjvcc1mw8VdI'
+          />
           <link rel='shortcut icon' href='/favicon.ico' />
           <link
             rel='stylesheet'

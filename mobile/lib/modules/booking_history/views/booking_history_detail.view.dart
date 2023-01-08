@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:mobile/common/constants/ui_configs.dart';
-import 'package:mobile/common/extensions/number.extension.dart';
 import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
-import 'package:mobile/common/utils/bed_content.util.dart';
-import 'package:mobile/common/widgets/app_rounded_button.widget.dart';
 import 'package:mobile/common/widgets/confirm_and_pin_code.widget.dart';
 import 'package:mobile/common/widgets/custom_app_bar.widget.dart';
 import 'package:mobile/common/widgets/icon_title.widget.dart';
-import 'package:mobile/modules/booking_history/booking_history.enum.dart';
 import 'package:mobile/modules/booking_history/controllers/booking_history_detail.controller.dart';
-import 'package:mobile/modules/booking_history/data/models/booking.dto.dart';
+import 'package:mobile/modules/booking_history/widgets/detail/list_booking_history_room.widget.dart';
+import 'package:mobile/modules/booking_history/widgets/detail/payment_cancel_booking.widget.dart';
 
 class BookingHistoryDetailView extends GetView<BookingHistoryDetailController> {
   const BookingHistoryDetailView({super.key});
@@ -34,40 +31,44 @@ class BookingHistoryDetailView extends GetView<BookingHistoryDetailController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Đặt chỗ của bạn đã được xác nhận!',
-                style: TextStyles.s17BoldText.copyWith(color: Palette.green700),
+              Obx(
+                () => Visibility(
+                  visible:
+                      controller.bookingParams.value.statusTitle.isNotEmpty,
+                  child: Text(
+                    controller.bookingParams.value.statusTitle,
+                    style: TextStyles.s17BoldText
+                        .copyWith(color: Palette.green700),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 10,
               ),
               ConfirmAndPinCode(
-                confirmCode: controller.bookingParams.bookingCode!,
+                confirmCode: controller.bookingParams.value.bookingCode!,
                 pinCode: '2181',
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                controller.bookingParams.hostName!,
+                controller.bookingParams.value.hostName!,
                 style: TextStyles.s17BoldText,
-              ),
-              const SizedBox(
-                height: 10,
               ),
               const SizedBox(
                 height: 10,
               ),
               IconTitle(
                 icon: PhosphorIcons.calendar_check,
-                title: controller.bookingParams.displayDate,
+                title: controller.bookingParams.value.displayDate,
               ),
               const SizedBox(
                 height: 10,
               ),
               IconTitle(
                 icon: PhosphorIcons.map_pin,
-                title: controller.bookingParams.province,
+                title: controller.bookingParams.value.province,
               ),
               const SizedBox(
                 height: 10,
@@ -79,75 +80,13 @@ class BookingHistoryDetailView extends GetView<BookingHistoryDetailController> {
                 height: 10,
               ),
               Text(
-                'Bạn đã đặt ${controller.bookingParams.bookingDetails.length} phòng',
+                'Bạn đã đặt ${controller.bookingParams.value.bookingDetails.length} phòng',
                 style: TextStyles.s17BoldText,
               ),
               const SizedBox(
                 height: 10,
               ),
-              ListView.separated(
-                itemCount: controller.bookingParams.bookingDetails.length,
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 6,
-                  );
-                },
-                itemBuilder: (context, index) {
-                  final BookingDetailDTO bookingDetail =
-                      controller.bookingParams.bookingDetails[index];
-
-                  return Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Palette.blue400),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                bookingDetail.accommodationName!,
-                                style: TextStyles.s14BoldText,
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              IconTitle(
-                                icon: Icons.bed_rounded,
-                                child: Text(
-                                  BedContentUtil.getLabel(
-                                    bookingDetail.bedInfo,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              IconTitle(
-                                icon: Icons.confirmation_number_outlined,
-                                title: 'Số lượng: ${bookingDetail.quantity}',
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          bookingDetail.priceUnit!.toMoneyFormat,
-                          style: TextStyles.s17BoldText
-                              .copyWith(color: Palette.red400),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
+              const ListBookingHistoryRoom(),
               const SizedBox(
                 height: 10,
               ),
@@ -157,41 +96,7 @@ class BookingHistoryDetailView extends GetView<BookingHistoryDetailController> {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Tổng cộng',
-                    style: TextStyles.s17BoldText,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        controller.bookingParams.totalPrice!.toMoneyFormat,
-                        style: TextStyles.s17BoldText
-                            .copyWith(color: Palette.red400),
-                      ),
-                      const Text('(Đã bao gồm thuế và phí)')
-                    ],
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              if (controller.bookingParams.type == BookingHistoryType.CURRENT)
-                AppRoundedButton(
-                  onPressed: controller.cancelBooking,
-                  showShadow: false,
-                  showBorder: true,
-                  backgroundColor: Colors.white,
-                  borderColor: Palette.red500,
-                  textColor: Palette.red500,
-                  borderRadius: 0,
-                  content: 'Huỷ đặt phòng',
-                )
+              const PaymentAndCancelBooking(),
             ],
           ),
         ),

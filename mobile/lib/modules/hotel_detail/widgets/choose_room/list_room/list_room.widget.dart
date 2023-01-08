@@ -13,7 +13,6 @@ class ListRoom extends GetView<ChooseRoomController> {
     return ListView.separated(
       padding: const EdgeInsets.all(UIConfigs.horizontalPadding),
       itemCount: controller.rooms.length,
-      physics: const ClampingScrollPhysics(),
       separatorBuilder: ((context, index) {
         return const SizedBox(
           height: 10,

@@ -3,7 +3,7 @@ import 'package:mobile/common/theme/palette.dart';
 import 'package:mobile/common/theme/text_styles.dart';
 import 'package:mobile/common/widgets/loading_dot.widget.dart';
 
-class AppRoundedButton extends StatelessWidget {
+class AppRoundedButton extends StatefulWidget {
   final VoidCallback onPressed;
   final double width;
   final double height;
@@ -21,6 +21,7 @@ class AppRoundedButton extends StatelessWidget {
   final bool isDisable;
   final bool showShadow;
   final bool showBorder;
+  final bool isFitBox;
 
   final Widget? prefixIcon;
   final Widget? suffixIcon;
@@ -41,9 +42,60 @@ class AppRoundedButton extends StatelessWidget {
     this.isLoading = false,
     this.showShadow = true,
     this.showBorder = false,
+    this.isFitBox = false,
     this.prefixIcon,
     this.suffixIcon,
   }) : super(key: key);
+
+  @override
+  State<AppRoundedButton> createState() => _AppRoundedButtonState();
+}
+
+class _AppRoundedButtonState extends State<AppRoundedButton> {
+  late Widget child;
+
+  @override
+  void initState() {
+    _setChild(true);
+    super.initState();
+  }
+
+  void _setChild(bool isInit) {
+    final Widget childInButton = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (widget.prefixIcon != null) widget.prefixIcon!,
+        if (widget.prefixIcon != null)
+          const SizedBox(
+            width: 15,
+          ),
+        Text(
+          widget.content,
+          style: TextStyles.boldText
+              .copyWith(fontSize: widget.fontSize, color: widget.textColor),
+        ),
+        if (widget.suffixIcon != null)
+          const SizedBox(
+            width: 15,
+          ),
+        if (widget.suffixIcon != null) widget.suffixIcon!,
+      ],
+    );
+
+    if (isInit) {
+      child = childInButton;
+    } else {
+      setState(() {
+        child = childInButton;
+      });
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant AppRoundedButton oldWidget) {
+    _setChild(false);
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,53 +104,50 @@ class AppRoundedButton extends StatelessWidget {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             overlayColor: MaterialStateProperty.all<Color>(
-              isDisable ? disableBackgroundColor : backgroundColor,
+              widget.isDisable
+                  ? widget.disableBackgroundColor
+                  : widget.backgroundColor,
             ),
           ),
         ),
       ),
       child: ElevatedButton(
-        onPressed: (isLoading || isDisable) ? null : onPressed,
+        onPressed:
+            (widget.isLoading || widget.isDisable) ? null : widget.onPressed,
         style: ElevatedButton.styleFrom(
-          fixedSize: Size(width, height),
-          minimumSize: Size(width, height),
-          maximumSize: Size(width, height),
+          fixedSize: widget.isFitBox ? null : Size(widget.width, widget.height),
+          minimumSize:
+              widget.isFitBox ? null : Size(widget.width, widget.height),
+          maximumSize: widget.isFitBox == true
+              ? null
+              : Size(widget.width, widget.height),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-            side: showBorder ? BorderSide(color: borderColor) : BorderSide.none,
+            borderRadius: BorderRadius.circular(widget.borderRadius),
+            side: widget.showBorder
+                ? BorderSide(color: widget.borderColor)
+                : BorderSide.none,
           ),
-          shadowColor: showShadow ? Colors.black : Colors.transparent,
-          elevation: showShadow ? 5 : 0,
-          backgroundColor: isDisable ? disableBackgroundColor : backgroundColor,
+          shadowColor: widget.showShadow ? Colors.black : Colors.transparent,
+          elevation: widget.showShadow ? 5 : 0,
+          backgroundColor: widget.isDisable
+              ? widget.disableBackgroundColor
+              : widget.backgroundColor,
           splashFactory: NoSplash.splashFactory,
-          foregroundColor: isDisable ? disableBackgroundColor : backgroundColor,
+          foregroundColor: widget.isDisable
+              ? widget.disableBackgroundColor
+              : widget.backgroundColor,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          disabledBackgroundColor: disableBackgroundColor,
-          disabledForegroundColor: disableBackgroundColor,
+          disabledBackgroundColor: widget.disableBackgroundColor,
+          disabledForegroundColor: widget.disableBackgroundColor,
           enableFeedback: false,
         ),
-        child: isLoading
+        child: widget.isLoading
             ? const LoadingDot()
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (prefixIcon != null) prefixIcon!,
-                  if (prefixIcon != null)
-                    const SizedBox(
-                      width: 15,
-                    ),
-                  Text(
-                    content,
-                    style: TextStyles.boldText
-                        .copyWith(fontSize: fontSize, color: textColor),
-                  ),
-                  if (suffixIcon != null)
-                    const SizedBox(
-                      width: 15,
-                    ),
-                  if (suffixIcon != null) suffixIcon!,
-                ],
-              ),
+            : (widget.isFitBox
+                ? FittedBox(
+                    child: child,
+                  )
+                : child),
       ),
     );
   }

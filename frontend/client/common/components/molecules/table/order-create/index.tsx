@@ -17,6 +17,8 @@ import { useForm } from 'react-hook-form'
 import { useSession } from 'next-auth/react'
 import { toastError } from '@utils/notifications'
 import { useRouter } from 'next/router'
+import styled from '@emotion/styled'
+import { primaryColor } from '@constants/styles'
 
 interface Column {
   id: 'name' | 'price' | 'room' | 'number' | 'people'
@@ -56,6 +58,47 @@ interface rows {
   price: string
   room: any
 }
+
+const CustomSelect = styled('select')`
+  /* styling */
+  background-color: white;
+  border: thin solid blue;
+  border-radius: 4px;
+  display: inline-block;
+  font: inherit;
+  line-height: 1.5em;
+  padding: 0.5em 3.5em 0.5em 1em;
+
+  /* reset */
+
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.4em;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+  &:focus {
+    outline: none;
+    border-color: ${primaryColor};
+    box-shadow: 0 0 0 2px rgba(${primaryColor}, 0.2);
+    background-image: linear-gradient(45deg, green 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, green 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: green;
+  }
+`
 
 const createData = (
   data: any,
@@ -148,9 +191,9 @@ const createData = (
               )
             : ''}
         </Typography>
-        {/* <Typography fontSize={14} fontWeight='500' mt={1}>
-          {data?.isPrePayment ? 'Thanh toán trước' : 'Thanh toán tại khách sạn'}
-        </Typography> */}
+        <Typography fontSize={14} fontWeight='500' mt={1}>
+          {data?.isPrePayment ? 'Thanh toán trước' : 'Thanh toán sau'}
+        </Typography>
       </Box>
     ),
     room: (
@@ -200,7 +243,7 @@ const createData = (
       </Box>
     ),
     number: (
-      <select
+      <CustomSelect
         id={`quantity_${data.id}`}
         {...register(`quantity_${data.id}`, {
           defaultValue: `quantity_${data.id}_0`,
@@ -217,7 +260,7 @@ const createData = (
             </option>
           )
         )}
-      </select>
+      </CustomSelect>
     ),
   }
 }
@@ -428,10 +471,10 @@ export default function TableRoom({ data, hostId }: any) {
                                       <ul>
                                         <li>Chỉ mất có 2 phút</li>
                                         <li>Xác nhận tức thời</li>
-                                        {/* <li>
-                                          Không mất phí đặt phòng hay phí thẻ
-                                          tín dụng!
-                                        </li> */}
+                                        <li>
+                                          Đối với loại thanh toán sau, quý khách
+                                          có thể thanh toán tại khách sạn.
+                                        </li>
                                       </ul>
                                     </Box>
                                   </Box>

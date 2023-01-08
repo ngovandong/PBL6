@@ -1,8 +1,10 @@
-import { createContext, useContext, useCallback, useReducer, memo, useEffect } from 'react'
-import { Session } from 'next-auth'
+import { createContext, useReducer, memo, useEffect } from 'react'
+import { LOCAL_STORAGE } from '@constants/constant'
+import { userApi } from '@utils/api'
 
 interface IMainState {
   user: any
+  favoriteHosts: any[]
 }
 
 interface IMainContext {
@@ -13,21 +15,23 @@ interface IMainContext {
 export const MainContext = createContext<IMainContext>({
   state: {
     user: {},
+    favoriteHosts: [],
   },
   setState: (value: any) => {},
 })
 
-export const useUser = () => {
-  const { state, setState } = useContext(MainContext)
-
-  const setUser = useCallback(
-    (user: any) => {
-      setState({ ...state, user: user })
-    },
-    [setState]
-  )
-
-  return [state.user, setUser]
+export const updateFavoriteHost = (id: string): any => {
+  return new Promise((resolve) => {
+    userApi
+      .getFavoriteHosts(id)
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+        resolve([])
+      })
+  })
 }
 
 const MainProvider = ({
@@ -35,17 +39,41 @@ const MainProvider = ({
   session,
 }: {
   children: any
-  session: Session
+  session: any
 }) => {
+  const getFavoriteHost = (): any => {
+    return new Promise((resolve) => {
+      userApi
+        .getFavoriteHosts(session?.user?.id as string)
+        .then((response) => {
+          setState({ ...state, favoriteHosts: response.data ?? [] })
+          resolve(response.data ?? [])
+        })
+        .catch((error) => {
+          console.log(error)
+          resolve([])
+        })
+    })
+  }
+
   const [state, setState] = useReducer(
     (prev: IMainState, current: IMainState) => ({ ...prev, ...current }),
     {
       user: session?.user || {},
+      favoriteHosts: [],
     }
   )
   useEffect(() => {
-    setState({ ...state, user: session?.user || {}})
-  }, [session])
+    setState({ ...state, user: session?.user })
+    session?.accessToken &&
+      localStorage.setItem(
+        LOCAL_STORAGE.accessToken,
+        session?.accessToken || ''
+      )
+    if (session?.user?.id) {
+      getFavoriteHost()
+    }
+  }, [])
 
   return (
     <MainContext.Provider value={{ state, setState }}>
@@ -56,3 +84,9 @@ const MainProvider = ({
 
 export const MainConsumer = MainContext.Consumer
 export default memo(MainProvider)
+export {
+  default as NotificationContext,
+  NotificationProvider,
+  useNotificationContext,
+  useSocket,
+} from './NotificationContext'

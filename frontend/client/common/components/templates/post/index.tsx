@@ -1,15 +1,90 @@
-import { ContentLink, TitleLink } from '@components/atoms/Heading'
-import { Divider, Grid, Tooltip, Typography } from '@mui/material'
+import { useContext } from 'react'
+import {
+  Button,
+  Divider,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@mui/material'
 import { Box } from '@mui/system'
-import { StarPurple500Outlined, LocationOn, Remove } from '@mui/icons-material'
+import {
+  StarPurple500Outlined,
+  LocationOn,
+  Remove,
+  FavoriteOutlined,
+} from '@mui/icons-material'
+import styled from '@emotion/styled'
 import ImageContainer from '@components/molecules/image'
 import TableRoom from '@components/molecules/table/order-create'
-import { activeLinkColor, lightColor } from '@constants/styles'
+import {
+  activeLinkColor,
+  borderRadiusButton,
+  lightColor,
+  primaryColor,
+} from '@constants/styles'
+import { ContentLink, TitleLink } from '@components/atoms/Heading'
 import { ProgressBarHorizontal } from '@components/atoms/Progress'
 import { isNumber, uniqueId } from 'lodash'
 import { AMENITIES } from '@constants/constant'
+import { MainContext, updateFavoriteHost } from 'common/context'
+import { userApi } from '@utils/api'
+import { useSession } from 'next-auth/react'
+
+const FavoriteIcon = styled(FavoriteOutlined)(
+  (props: { favorited?: boolean }) => `
+  display: block;
+  stroke: #ffffff;
+  overflow: visible;
+  fill: ${props.favorited ? '#FF385C' : 'rgba(0, 0, 0, 0.5);'}
+`
+)
+
+const ButtonFavorite = styled(IconButton)`
+  border-width: 1px;
+  border-style: solid;
+  border: none;
+  transition: transform 0.25s ease;
+  position: relative;
+  z-index: 10;
+  top: -2px;
+  background: transparent;
+`
 
 const PostDetailTemplate = ({ data }: any) => {
+  const { state, setState } = useContext(MainContext)
+  const { data: session }: any = useSession()
+
+  const idFavorites =
+    (Array.isArray(state.favoriteHosts) &&
+      state.favoriteHosts.map((item) => item.hostId)) ||
+    []
+
+  const handleFavoriteHost = async (
+    favorited: boolean,
+    favoritedId: string
+  ) => {
+    if (session) {
+      try {
+        if (!favorited) {
+          const response = await userApi.postFavoriteHost({
+            userId: session?.user?.id,
+            hostId: data?.id,
+          })
+        } else {
+          if (favoritedId) {
+            const response = await userApi.deleteFavoriteHost(favoritedId)
+          }
+        }
+        const newArr = await updateFavoriteHost(session?.user?.id as string)
+        setState({
+          ...state,
+          favoriteHosts: newArr,
+        })
+      } catch (error) {}
+    }
+  }
+
   return (
     <Box>
       <Box display='flex' flexDirection='column'>
@@ -26,11 +101,31 @@ const PostDetailTemplate = ({ data }: any) => {
             </Tooltip>
           </Box>
         </Box>
-        <Box display='flex' alignItems='center'>
-          <ContentLink>
-            <LocationOn sx={{ my: 'auto', mr: 1 }} />
-          </ContentLink>
-          <ContentLink>{`${data.address}, ${data.province}, ${data.country}`}</ContentLink>
+        <Box display='flex' alignItems='center' justifyContent='space-between'>
+          <Box display='flex' alignItems='center'>
+            <ContentLink>
+              <LocationOn sx={{ my: 'auto', mr: 1 }} />
+            </ContentLink>
+            <ContentLink>{`${data.address}, ${data.province}, ${data.country}`}</ContentLink>
+          </Box>
+          <Button
+            startIcon={
+              <FavoriteIcon favorited={idFavorites.includes(data.id)} />
+            }
+            sx={{
+              color: primaryColor,
+              textTransform: 'capitalize',
+              borderRadius: borderRadiusButton,
+            }}
+            onClick={(event) => {
+              const favoriteId =
+                state.favoriteHosts.find((host) => host.hostId === data.id)
+                  ?.id || null
+              handleFavoriteHost(idFavorites.includes(data.id), favoriteId)
+            }}
+          >
+            Lưu
+          </Button>
         </Box>
         <ImageContainer images={data.images} alt={data.name} />
       </Box>

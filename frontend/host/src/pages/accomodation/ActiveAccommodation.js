@@ -9,24 +9,26 @@ function ActiveAccommodation() {
   return (
     <div className="accommodation-container">
       <h2>Các chỗ nghỉ đang hoạt động</h2>
-      <div className="accommodation-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Tên</th>
-              <th>Địa chỉ</th>
-              <th>Khách đến/đi trong hôm nay & ngày mai</th>
-              <th>Tin nhắn của khách</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {listHost.map((h) => (
-              <TableRow host={h} key={h.id} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {listHost.length !== 0 && (
+        <div className="accommodation-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Tên</th>
+                <th>Địa chỉ</th>
+                <th>Khách đến/đi trong hôm nay & ngày mai</th>
+                <th>Tin nhắn của khách</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {listHost.map((h) => (
+                <TableRow host={h} key={h.id} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
@@ -63,8 +65,9 @@ function TableRow({ host }) {
         <a
           href={`/detail/${host.id}`}
           alt=""
-          target="blank"
+          target="_blank"
           className="btn-link"
+          rel="noreferrer"
         >
           Xem
         </a>
